@@ -1,10 +1,14 @@
-## This function will take in the JD and return the Sun position in ECI coordinates
-# This is using the equations given in Motenbruck and Gill's Satellite Orbits book
+
 import math
 import numpy as np
 
 def sun_position(JD):
-    "Given the Julian Date, the Sun position will be returned"
+    """
+    Inputs: Julian Day (J2000) as a Real Number
+    Outputs: numpy array with x, y, z of Sun position in ECI at input time
+    This is using the equations given in Motenbruck and Gill's Satellite Orbits book
+    """
+
     OplusW = 282.94
     T = (JD - 2451545.0) / 36525
 
