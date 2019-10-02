@@ -1,2 +1,0 @@
-# GNC
-GNC Subteam Repository
