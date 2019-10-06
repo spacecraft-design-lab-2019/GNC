@@ -1,6 +1,7 @@
 import sys, math, numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
+from numpy import linalg as LA
 
 pi = math.pi
 
@@ -19,6 +20,8 @@ wz0 = pi/180
 Mx0 = 0
 My0 = 0
 Mz0 = 0
+
+# initial quaternion: {0,0,0,1} scalar last
 
 x = []
 x = np.array([[wx0],[wy0],[wz0],[Mx0],[My0],[Mz0],[0],[0],[0],[1]])
@@ -40,14 +43,16 @@ def x_dot(x,I):
     q3_dot = x[1]*x[6]/2-x[0]*x[7]/2+x[2]*x[9]/2
     q4_dot = -x[0]*x[6]/2-x[1]*x[7]/2-x[2]*x[8]/2
     x_dot = np.array([wx_dot,wy_dot,wz_dot,Mx_dot,My_dot,Mz_dot,q1_dot,q2_dot,q3_dot,q4_dot])
-
     return x_dot
 
 def euler_integrate(x,dt,tf):
     n = int(tf/dt)
     t = np.array([0])
     for i in range(n):
+        # euler integrator
         y = np.reshape(x[:,-1],(10,1)) + np.reshape(dt*x_dot(x[:,-1],I),(10,1))
+        # normalize the quaternion
+        y[6:10] = y[6:10]/LA.norm(y[6:10])
         x = np.append(x,y,axis=1)
         t = np.append(t,dt*i)
     return t,x
@@ -55,6 +60,26 @@ def euler_integrate(x,dt,tf):
 tf = 10000
 dt = 1
 n = int(tf/dt)
+
 [t,y] = euler_integrate(x, dt, tf)
+# y = [w, M, q]
+
+w_out = y[0:3,:]
+M_out = y[3:6,:]
+q_out = y[6:10,:]
+
+def quat2DCM(quat):
+    q1 = quat[0]
+    q2 = quat[1]
+    q3 = quat[2]
+    q4 = quat[3]
+    q_vec = np.array([[q1],[q2],[q3]])
+    # calculate skew symmetric matrix Q
+    Q = np.array([[0,-q3,q2],[q3,0,-q1],[-q2,q1,0]])
+    # calculate DCM
+    DCM = (q4**2-np.transpose(q_vec)*q_vec)*np.eye(3)-2*q4*Q+2*q_vec*np.transpose(q_vec)
+    return DCM
+
+DCM_out = quat2DCM(q_out[:,0])
 
 #plt.plot(t,y[0,:])
