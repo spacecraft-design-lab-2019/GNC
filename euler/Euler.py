@@ -1,7 +1,5 @@
 import sys, math, numpy as np
-from scipy.integrate import odeint
 import matplotlib.pyplot as plt
-from numpy import linalg as LA
 
 pi = math.pi
 
@@ -52,7 +50,7 @@ def euler_integrate(x,dt,tf):
         # euler integrator
         y = np.reshape(x[:,-1],(10,1)) + np.reshape(dt*x_dot(x[:,-1],I),(10,1))
         # normalize the quaternion
-        y[6:10] = y[6:10]/LA.norm(y[6:10])
+        y[6:10] = y[6:10]/np.linalg.norm(y[6:10])
         x = np.append(x,y,axis=1)
         t = np.append(t,dt*i)
     return t,x
