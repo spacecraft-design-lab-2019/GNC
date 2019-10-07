@@ -20,7 +20,6 @@ My0 = 0
 Mz0 = 0
 
 # initial quaternion: {0,0,0,1} scalar last
-
 x = []
 x = np.array([[wx0],[wy0],[wz0],[Mx0],[My0],[Mz0],[0],[0],[0],[1]])
 
