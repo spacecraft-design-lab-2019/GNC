@@ -1,12 +1,11 @@
 import sys, math, numpy as np
-import matplotlib.pyplot as plt
 import scipy.integrate as integrate
 
 '''
 TODO:
     - write quaternion multiplication function
     - write quaternion difference function
-    - enforce quaternion normalization --> enforced now in q_dot function-Paul
+    - enforce quaternion normalization --> enforced now in q_dot function -Paul
 '''
 
 # rate of change of angular rate
