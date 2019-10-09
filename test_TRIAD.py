@@ -1,5 +1,5 @@
-from GNC.util_funcs import frame_conversions, time_functions, sun_utils
-from GNC.TRIAD import deterministic_ad
+from util_funcs import frame_conversions, time_functions, sun_utils
+from TRIAD import deterministic_ad
 import numpy as np
 import pyIGRF
 from scipy.spatial.transform import Rotation as R
