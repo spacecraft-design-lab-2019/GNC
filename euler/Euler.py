@@ -2,24 +2,6 @@ import sys, math, numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate as integrate
 
-pi = math.pi
-
-# inertia properties (add real later)
-Ixx = 75
-Iyy = 100
-Izz = 125
-I = np.array([[Ixx, 0.0, 0.0],[0.0, Iyy, 0.0], [0.0, 0.0, Izz]])
-
-# initial conditions, radians & rad/s
-q_0 = np.array([[0.0],[0.0],[0.0],[1.0]])                     # initial quaternion, scalar last
-w_0 = np.array([[0.1*pi/180.],[0.1*pi/180.],[pi/180.]])  # initial rotation rate
-
-# moments, Nm
-M_0 = np.array([[0.0],[0.0],[0.0]])
-
-# initial state: quaternion, rotation rate
-x_0 = np.squeeze(np.concatenate((q_0,w_0)))
-
 # rate of change of angular rate
 def get_w_dot(w,M,I):
     '''
@@ -75,37 +57,6 @@ def get_attitude_derivative(t,x,M,I):
 
     return np.concatenate((q_dot,w_dot))
 
-
-
-    
-    
-
-#def euler_integrate(x,dt,tf):
-#    n = int(tf/dt)
-#    t = np.array([0])
-#    for i in range(n):
-#        # euler integrator
-#        y = np.reshape(x[:,-1],(10,1)) + np.reshape(dt*x_dot(x[:,-1],I),(10,1))
-#        # normalize the quaternion
-#        y[6:10] = y[6:10]/np.linalg.norm(y[6:10])
-#        x = np.append(x,y,axis=1)
-#        t = np.append(t,dt*i)
-#    return t,x
-t0 = 0
-tf = 10000
-dt = 1
-n = int(tf/dt)
-times = np.linspace(t0,tf,n)
-
-#[t,y] = euler_integrate(x, dt, tf)
-# y = [w, M, q]
-
-integrated_solution = integrate.odeint(get_attitude_derivative,x_0,times,(M_0,I),tfirst=True)
-
-w_out = y[0:3,:]
-M_out = y[3:6,:]
-q_out = y[6:10,:]
-
 def quat2DCM(quat):
     q1 = quat[0]
     q2 = quat[1]
@@ -118,6 +69,3 @@ def quat2DCM(quat):
     DCM = (q4**2-np.transpose(q_vec)*q_vec)*np.eye(3)-2*q4*Q+2*q_vec*np.transpose(q_vec)
     return DCM
 
-DCM_out = quat2DCM(q_out[:,0])
-
-#plt.plot(t,y[0,:])
