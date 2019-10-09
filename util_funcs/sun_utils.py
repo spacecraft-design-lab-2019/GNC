@@ -28,12 +28,12 @@ def sat_sun_vect(r, MJD):
     Returns the unit vector from the satellite to the Sun in ECI coordinates
     Inputs:
     r - ECI position of the satellite
-    JD - Julian Day (J2000) as a Real Number
+    MJD - Julian Day (J2000) as a Real Number
     Outputs:
     r_sat_sun - numpy array giving the unit direction to the Sun from the satellite
     """
 
-    r_sun = sun_position(JD)
+    r_sun = sun_position(MJD)
     r_sat_sun = r_sun - r
 
     r_sat_sun = r_sat_sun / np.linalg.norm(r_sat_sun)

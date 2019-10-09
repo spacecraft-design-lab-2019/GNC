@@ -1,6 +1,5 @@
 import numpy as np
-
-def deterministic_ad(M, V):
+def triad_ad(M, V):
     """
     Computes rotation matrix from inertial to body frame using measurement vectors and modelled measurement vectors
     Inputs:
