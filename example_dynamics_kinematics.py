@@ -40,11 +40,11 @@ times = np.linspace(t0,tf,n)
 # need tfirst = true for t,y ordered inputs. Include parameters/extra arguments as tuple.
 y = integrate.odeint(get_attitude_derivative,x_0,times,(M_0,I),tfirst=True)
 
-
+# Plot angular velocity
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 ax.plot3D(y[:,4],y[:,5],y[:,6])
-ax.set_title('herpolode')
+ax.set_title('angular velocity')
 ax.set_xlabel('omega_x')
 ax.set_ylabel('omega_y')
 ax.set_zlabel('omega_z')
