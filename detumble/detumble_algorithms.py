@@ -10,7 +10,7 @@ import numpy as np
 
 def detumble_avanzini(omega,B,k=1):
     '''
-    Takes in the angular rate and magnetic field vectors
+    Takes in the angular rate and magnetic field vectors (in principal frame)
     (as 3x1 np arrays) and returns a 3x1 vector of control torque to detumble.
 
     TODO: find optimal k for our system
@@ -21,8 +21,10 @@ def detumble_avanzini(omega,B,k=1):
     
 def detumble_B_dot(B,B_dot,k=1):
     '''
-    Takes in magnetic field, magnetic field rate (as 3x1 vectors), and control gain (scalar)
+    Takes in magnetic field, magnetic field rate (as 3x1 vectors, in principal frame), and control gain (scalar)
     and returns a 3x1 control moment
+    
+    TODO: find optimal k for our system
     '''
     m = -k*B_dot/np.linalg.norm(B)
     return m

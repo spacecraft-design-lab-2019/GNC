@@ -15,4 +15,4 @@ date = 2019.0   # Year
 
 
 (D,I,H,Bx,By,Bz,F) = pyIGRF.igrf_variation(lat, lon, alt, date)
-# Declination, Inclination, Horizontal intensity, North, East, Vertical, total intensity (nT)
+# Declination, Inclination, Horizontal intensity, North, East, Down, total intensity (nT)
