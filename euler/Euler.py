@@ -2,6 +2,13 @@ import sys, math, numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate as integrate
 
+'''
+TODO:
+    - write quaternion multiplication function
+    - write quaternion difference function
+    - enforce quaternion normalization --> enforced now in q_dot function-Paul
+'''
+
 # rate of change of angular rate
 def get_w_dot(w,M,I):
     '''
@@ -30,10 +37,14 @@ def get_q_dot(q,w):
     Outputs:
         q_dot - 4x1, scalar last, 1/sec
     '''
-    q1_dot =  w[0]*q[3]/2-w[1]*q[2]/2+w[2]*q[1]/2
-    q2_dot =  w[0]*q[2]/2+w[1]*q[3]/2-w[2]*q[0]/2
-    q3_dot =  w[1]*q[0]/2-w[0]*q[1]/2+w[2]*q[3]/2
-    q4_dot = -w[0]*q[0]/2-w[1]*q[1]/2-w[2]*q[2]/2
+    
+    # Enforce normalized quaternion before finding derivative
+    q_hat = q/np.linalg.norm(q)
+    
+    q1_dot =  w[0]*q_hat[3]/2-w[1]*q_hat[2]/2+w[2]*q_hat[1]/2
+    q2_dot =  w[0]*q_hat[2]/2+w[1]*q_hat[3]/2-w[2]*q_hat[0]/2
+    q3_dot =  w[1]*q_hat[0]/2-w[0]*q_hat[1]/2+w[2]*q_hat[3]/2
+    q4_dot = -w[0]*q_hat[0]/2-w[1]*q_hat[1]/2-w[2]*q_hat[2]/2
     return np.squeeze(np.array([[q1_dot],[q2_dot],[q3_dot],[q4_dot]]))
     
 # state dot equations
@@ -58,6 +69,18 @@ def get_attitude_derivative(t,x,M,I):
     return np.concatenate((q_dot,w_dot))
 
 def quat2DCM(quat):
+    '''
+    Takes in a quaternion converts to a direction cosine matrix
+    Inputs:
+        q - quaternion, scalar first, (4x1)
+        !!!!!!!! Why is this scalar first, but q_dot function uses scalar last!!!!!!-Paul
+    Outputs:
+        DCM - 3x3 direction cosine matrix
+    TODO:
+        - clarify quaternion convention
+        - clarify quaternion rotation direction convention (eci2attitude, attitude2eci?)
+        - clarify DCM rotation direction convention
+    '''
     q1 = quat[0]
     q2 = quat[1]
     q3 = quat[2]
