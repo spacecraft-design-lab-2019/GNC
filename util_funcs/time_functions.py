@@ -2,7 +2,7 @@ import numpy as np
 import math
 def date2MJD(M, D, Y, HH, MM, SS):
     """
-    Gives the Modified Julian Date from the date and time
+    Gives the Modified Julian Date from the date and time using Vallado algorithm
     Inputs:
     M - Month number (January = 1, December = 12)
     D - Day number
@@ -23,12 +23,13 @@ def date2MJD(M, D, Y, HH, MM, SS):
     if Y <= 1582 and M <= 10 and D <= 4:
         B = -2 + ((y + 4716) / 4) - 1179
     else:
-        B = y / 400 - y / 100 + y / 4
+        # B = y / 400 - y / 100 + y / 4
+        B = 2 - np.floor(y/100) + np.floor(np.floor(y/100) / 4)
 
     day_frac = HH / 24 + MM / 60 / 24 + SS / 60 / 60 / 24
 
-    MJD = 365 * y - 679004 + np.floor(B) + np.floor(30.6001 * (m + 1)) + D + day_frac;
-
+    # MJD = 365 * y - 679004 + np.floor(B) + np.floor(30.6001 * (m + 1)) + D + day_frac;
+    MJD = np.floor(365.25*(y + 4716)) + np.floor(30.6001*(m+1))+ D + B + day_frac - 2401525.0
     return MJD
 
 def MJD2GMST(MJD):
