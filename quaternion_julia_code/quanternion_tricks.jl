@@ -88,3 +88,15 @@ function rot_quaternion(ROT)
     return q
 
 end
+
+function qrot(q,r)
+    # q = [w;x;y;z]
+    # this function rotates a vector r by a quaternion q
+      (r + 2*cross(q[2:4],cross(q[2:4],r) + q[1]*r))
+end
+
+function qmult(q1,q2)
+    # q = [w;x;y;z]
+    # this function multiplies two quaternions together
+      [q1[1]*q2[1] - q1[2:4]'*q2[2:4]; q1[1]*q2[2:4] + q2[1]*q1[2:4] + cross(q1[2:4],q2[2:4])]
+end
