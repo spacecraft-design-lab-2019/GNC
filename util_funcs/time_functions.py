@@ -13,6 +13,7 @@ def date2MJD(M, D, Y, HH, MM, SS):
     Outputs:
     MJD - Modified Julian Date
     """
+    assert valid_date(M, D, Y, HH, MM, SS)
     if M <= 2:
         y = Y - 1
         m = M + 12
@@ -47,3 +48,32 @@ def MJD2GMST(MJD):
         GMST = GMST - 2 * math.pi * diff;
 
     return GMST
+
+def valid_date(M, D, Y, HH, MM, SS):
+    """
+    Ensures the calendar date is valid
+    Inputs:
+    M - Month
+    Y - Year
+    D - Day
+    HH - Hours
+    MM - Minutes
+    SS - Seconds
+    Outputs:
+    check - true/false
+    """
+    check1 = False
+    check2 = False
+    check3 = False
+    if isinstance(M, int) and isinstance(Y, int) and isinstance(D, int):
+        check1 = True
+    if M <= 12 and D <= 31 and HH <= 24 and MM <= 60 and SS <= 60:
+        check2 = True
+    if M >= 0 and D >= 0:
+        check3 = True
+    if check1 and check2 and check3:
+        check = True
+    else:
+        check = False
+
+    return check
