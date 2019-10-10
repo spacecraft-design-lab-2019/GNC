@@ -48,3 +48,11 @@ ax.set_title('angular velocity')
 ax.set_xlabel('omega_x')
 ax.set_ylabel('omega_y')
 ax.set_zlabel('omega_z')
+
+# Plot quaternion components
+fig = plt.figure()
+plt.plot(y[:,0])
+plt.plot(y[:,1])
+plt.plot(y[:,2])
+plt.plot(y[:,3])
+
