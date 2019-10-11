@@ -1,0 +1,3 @@
+C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/GNC.dir
+C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.cpp
+time_functions.h
+C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.h
+iostream
+-
+math.h
+-
+cassert
+-
+
+C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.h
+
