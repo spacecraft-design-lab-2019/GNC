@@ -1,1 +1,9 @@
 euler/__pycache__/Euler.cpython-37.pyc
+util_funcs/test/__pycache__/test_time_functions.cpython-37-pytest-5.0.1.pyc
+util_funcs/__pycache__/time_functions.cpython-37.pyc
+util_funcs/__pycache__/sun_utils.cpython-37.pyc
+util_funcs/__pycache__/frame_conversions.cpython-37.pyc
+util_funcs/__pycache__/__init__.cpython-37.pyc
+__pycache__/test_TRIAD.cpython-37-pytest-5.0.1.pyc
+TRIAD/__pycache__/deterministic_ad.cpython-37.pyc
+TRIAD/__pycache__/__init__.cpython-37.pyc
