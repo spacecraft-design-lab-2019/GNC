@@ -1,4 +1,4 @@
-Replace ~ with whatever directory you prefer to work in)
+(Replace ~ with whatever directory you prefer to work in)
 
 $ cd ~
 $ git clone https://github.com/eigenteam/eigen-git-mirror
@@ -6,7 +6,8 @@ $ sudo ln -s /usr/local/include ~/eigen-git-mirror/Eigen
 
 Open c++ file in CLion
 
-Basic format to use Euler:
+example c++ script using Euler module:
+
 #include <iostream>
 #include "eigen-git-mirror/Eigen/Dense"
 
