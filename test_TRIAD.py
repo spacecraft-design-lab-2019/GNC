@@ -16,7 +16,6 @@ if __name__ == '__main__':
     HH = 8
     MM = 10
     SS = 0
-
     # Converting Date to Times
     MJD = time_functions.date2MJD(mon, Y, D, HH, MM, SS)
     GMST = time_functions.MJD2GMST(MJD)
