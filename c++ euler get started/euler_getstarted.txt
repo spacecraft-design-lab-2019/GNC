@@ -1,12 +1,14 @@
 (Replace ~ with whatever directory you prefer to work in)
 
+Linux terminal commands:
+
 $ cd ~
 $ git clone https://github.com/eigenteam/eigen-git-mirror
 $ sudo ln -s /usr/local/include ~/eigen-git-mirror/Eigen
 
-Open c++ file in CLion
+Create a c++ file in CLion (in same directory as Eigen folder)
 
-example c++ script using Euler module:
+Example c++ script using Euler module:
 
 #include <iostream>
 #include "eigen-git-mirror/Eigen/Dense"
