@@ -124,6 +124,33 @@ GNC\fast:
 	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\build
 .PHONY : GNC\fast
 
+util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
+
+.PHONY : util_funcs\cpp\sun_utils.obj
+
+# target to build an object file
+util_funcs\cpp\sun_utils.cpp.obj:
+	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj
+.PHONY : util_funcs\cpp\sun_utils.cpp.obj
+
+util_funcs\cpp\sun_utils.i: util_funcs\cpp\sun_utils.cpp.i
+
+.PHONY : util_funcs\cpp\sun_utils.i
+
+# target to preprocess a source file
+util_funcs\cpp\sun_utils.cpp.i:
+	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.i
+.PHONY : util_funcs\cpp\sun_utils.cpp.i
+
+util_funcs\cpp\sun_utils.s: util_funcs\cpp\sun_utils.cpp.s
+
+.PHONY : util_funcs\cpp\sun_utils.s
+
+# target to generate assembly for a file
+util_funcs\cpp\sun_utils.cpp.s:
+	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.s
+.PHONY : util_funcs\cpp\sun_utils.cpp.s
+
 util_funcs\cpp\time_functions.obj: util_funcs\cpp\time_functions.cpp.obj
 
 .PHONY : util_funcs\cpp\time_functions.obj
@@ -160,6 +187,9 @@ help:
 	@echo ... GNC
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... util_funcs/cpp/sun_utils.obj
+	@echo ... util_funcs/cpp/sun_utils.i
+	@echo ... util_funcs/cpp/sun_utils.s
 	@echo ... util_funcs/cpp/time_functions.obj
 	@echo ... util_funcs/cpp/time_functions.i
 	@echo ... util_funcs/cpp/time_functions.s

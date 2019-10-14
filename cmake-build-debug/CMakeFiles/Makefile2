@@ -75,12 +75,12 @@ preinstall:
 CMakeFiles\GNC.dir\all:
 	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\depend
 	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target GNC"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target GNC"
 .PHONY : CMakeFiles\GNC.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\GNC.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 3
 	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles\GNC.dir\rule
