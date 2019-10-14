@@ -1,4 +1,4 @@
-from GNC.util_funcs import time_functions as tf
+from util_funcs import time_functions as tf
 import numpy as np
 import sys
 import pytest
