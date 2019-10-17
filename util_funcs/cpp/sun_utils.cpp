@@ -6,10 +6,10 @@
 #include <iostream>
 #include <math.h>
 #include "../../eigen-git-mirror/Eigen/Dense"
-//#include <../../pybind11/include/pybind11/pybind11.h>
+#include <../../pybind11/include/pybind11/pybind11.h>
 using namespace Eigen;
 using namespace std;
-//namespace py = pybind11;
+namespace py = pybind11;
 VectorXd sun_position(double MJD);
 
 int main(){
@@ -45,8 +45,8 @@ VectorXd sun_position(double MJD) {
     return r_vec;
 }
 
-//PYBIND11_MODULE(sun_utils_cpp, m) {
-//    m.doc() = "pybind11 example plugin"; // optional module docstring
-//
-//    m.def("sun_position", &sun_position, "A function which returns the sun position");
-//}
+PYBIND11_MODULE(sun_utils_cpp, m) {
+    m.doc() = "pybind11 example plugin"; // optional module docstring
+
+    m.def("sun_position", &sun_position, "A function which returns the sun position");
+}

@@ -300,6 +300,12 @@ pybind11_BINARY_DIR:STATIC=C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_d
 //Value Computed by CMake
 pybind11_SOURCE_DIR:STATIC=C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src
 
+//Dependencies for the target
+sun_utils_LIB_DEPENDS:STATIC=general;C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/libs/Python37.lib;
+
+//Dependencies for the target
+sun_utils_cpp_LIB_DEPENDS:STATIC=general;C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/libs/Python37.lib;
+
 
 ########################
 # INTERNAL cache entries
@@ -427,7 +433,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_COMPILER

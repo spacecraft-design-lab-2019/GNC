@@ -54,104 +54,66 @@ CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles\time_functions.dir\all
-all: CMakeFiles\sun_utils.dir\all
-all: CMakeFiles\TRIAD.dir\all
+all: CMakeFiles\sun_utils_cpp.dir\all
+all: _deps\pybind11-build\all
 
 .PHONY : all
 
 # The main recursive "clean" target.
-clean: CMakeFiles\time_functions.dir\clean
-clean: CMakeFiles\sun_utils.dir\clean
-clean: CMakeFiles\TRIAD.dir\clean
+clean: CMakeFiles\sun_utils_cpp.dir\clean
+clean: _deps\pybind11-build\clean
 
 .PHONY : clean
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: _deps\pybind11-build\preinstall
 
 .PHONY : preinstall
 
 #=============================================================================
-# Target rules for target CMakeFiles/time_functions.dir
+# Target rules for target CMakeFiles/sun_utils_cpp.dir
 
 # All Build rule for target.
-CMakeFiles\time_functions.dir\all:
-	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\depend
-	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=5,6 "Built target time_functions"
-.PHONY : CMakeFiles\time_functions.dir\all
+CMakeFiles\sun_utils_cpp.dir\all:
+	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\depend
+	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target sun_utils_cpp"
+.PHONY : CMakeFiles\sun_utils_cpp.dir\all
 
 # Build rule for subdir invocation for target.
-CMakeFiles\time_functions.dir\rule: cmake_check_build_system
+CMakeFiles\sun_utils_cpp.dir\rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
-	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\all
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles\time_functions.dir\rule
+.PHONY : CMakeFiles\sun_utils_cpp.dir\rule
 
 # Convenience name for target.
-time_functions: CMakeFiles\time_functions.dir\rule
+sun_utils_cpp: CMakeFiles\sun_utils_cpp.dir\rule
 
-.PHONY : time_functions
+.PHONY : sun_utils_cpp
 
 # clean rule for target.
-CMakeFiles\time_functions.dir\clean:
-	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\clean
-.PHONY : CMakeFiles\time_functions.dir\clean
+CMakeFiles\sun_utils_cpp.dir\clean:
+	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\clean
+.PHONY : CMakeFiles\sun_utils_cpp.dir\clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/sun_utils.dir
+# Directory level rules for directory _deps\pybind11-build
 
-# All Build rule for target.
-CMakeFiles\sun_utils.dir\all:
-	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\depend
-	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=3,4 "Built target sun_utils"
-.PHONY : CMakeFiles\sun_utils.dir\all
+# Recursive "all" directory target.
+_deps\pybind11-build\all:
 
-# Build rule for subdir invocation for target.
-CMakeFiles\sun_utils.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
-	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles\sun_utils.dir\rule
+.PHONY : _deps\pybind11-build\all
 
-# Convenience name for target.
-sun_utils: CMakeFiles\sun_utils.dir\rule
+# Recursive "clean" directory target.
+_deps\pybind11-build\clean:
 
-.PHONY : sun_utils
+.PHONY : _deps\pybind11-build\clean
 
-# clean rule for target.
-CMakeFiles\sun_utils.dir\clean:
-	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\clean
-.PHONY : CMakeFiles\sun_utils.dir\clean
+# Recursive "preinstall" directory target.
+_deps\pybind11-build\preinstall:
 
-#=============================================================================
-# Target rules for target CMakeFiles/TRIAD.dir
-
-# All Build rule for target.
-CMakeFiles\TRIAD.dir\all:
-	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\depend
-	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target TRIAD"
-.PHONY : CMakeFiles\TRIAD.dir\all
-
-# Build rule for subdir invocation for target.
-CMakeFiles\TRIAD.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
-	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles\TRIAD.dir\rule
-
-# Convenience name for target.
-TRIAD: CMakeFiles\TRIAD.dir\rule
-
-.PHONY : TRIAD
-
-# clean rule for target.
-CMakeFiles\TRIAD.dir\clean:
-	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\clean
-.PHONY : CMakeFiles\TRIAD.dir\clean
+.PHONY : _deps\pybind11-build\preinstall
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -5,7 +5,7 @@
 		<Option title="GNC"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="msvc8"/>
-		<Option virtualFolders="CMake Files\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\_deps\;CMake Files\cmake-build-debug\_deps\pybind11-src\;CMake Files\cmake-build-debug\_deps\pybind11-src\tools\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
@@ -17,16 +17,18 @@
 					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="time_functions">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/time_functions.exe" prefix_auto="0" extension_auto="0"/>
+			<Target title="sun_utils_cpp">
+				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="1"/>
+				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
@@ -36,22 +38,24 @@
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 time_functions"/>
+					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 sun_utils_cpp"/>
 					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
 					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="time_functions/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/time_functions.exe" prefix_auto="0" extension_auto="0"/>
+			<Target title="sun_utils_cpp/fast">
+				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="1"/>
+				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
 					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
@@ -61,107 +65,7 @@
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 time_functions/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="sun_utils">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/sun_utils.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 sun_utils"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="sun_utils/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/sun_utils.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 sun_utils/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="TRIAD">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/TRIAD.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 TRIAD"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="TRIAD/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/TRIAD.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 TRIAD/fast"/>
+					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 sun_utils_cpp/fast"/>
 					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
 					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\Makefile VERBOSE=1 clean"/>
@@ -188,26 +92,23 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/TRIAD/deterministic_ad.cpp">
-			<Option target="TRIAD"/>
-		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/TRIAD/deterministic_ad.h">
-			<Option target="TRIAD"/>
-		</Unit>
 		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.cpp">
-			<Option target="sun_utils"/>
+			<Option target="sun_utils_cpp"/>
 		</Unit>
 		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.h">
-			<Option target="sun_utils"/>
-		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.cpp">
-			<Option target="time_functions"/>
-		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.h">
-			<Option target="time_functions"/>
+			<Option target="sun_utils_cpp"/>
 		</Unit>
 		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pybind11-src\"/>
+		</Unit>
+		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src/tools/FindPythonLibsNew.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pybind11-src\tools\"/>
+		</Unit>
+		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/_deps/pybind11-src/tools/pybind11Tools.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pybind11-src\tools\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
