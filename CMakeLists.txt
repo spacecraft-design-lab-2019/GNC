@@ -21,7 +21,7 @@ include_directories(util_funcs/cpp)
 include_directories(eigen-git-mirror)
 
 pybind11_add_module(sun_utils_cpp util_funcs/cpp/sun_utils.cpp)
-
+pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
 #        util_funcs/cpp/time_functions.h)

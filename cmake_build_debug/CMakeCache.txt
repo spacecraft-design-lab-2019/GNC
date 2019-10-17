@@ -300,6 +300,9 @@ pybind11_SOURCE_DIR:STATIC=C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_d
 //Dependencies for the target
 sun_utils_cpp_LIB_DEPENDS:STATIC=general;C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/libs/Python37.lib;
 
+//Dependencies for the target
+time_functions_cpp_LIB_DEPENDS:STATIC=general;C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/libs/Python37.lib;
+
 
 ########################
 # INTERNAL cache entries

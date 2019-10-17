@@ -7,6 +7,7 @@
 #include <iostream>
 #include <math.h>
 #include <cassert>
+#include <../../pybind11/include/pybind11/pybind11.h>
 
 using namespace std;
 
@@ -135,4 +136,10 @@ bool valid_date(int M, int D, int Y, int HH, int MM, double SS) {
         check = false;
     }
     return check;
+}
+
+PYBIND11_MODULE(sun_utils_cpp, m) {
+    m.doc() = "pybind11 example plugin"; // optional module docstring
+
+    m.def("date2MJD", &date2MJD, "A function which returns the sun position");
 }

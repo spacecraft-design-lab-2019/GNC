@@ -55,12 +55,14 @@ CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug
 
 # The main recursive "all" target.
 all: CMakeFiles\sun_utils_cpp.dir\all
+all: CMakeFiles\time_functions_cpp.dir\all
 all: _deps\pybind11-build\all
 
 .PHONY : all
 
 # The main recursive "clean" target.
 clean: CMakeFiles\sun_utils_cpp.dir\clean
+clean: CMakeFiles\time_functions_cpp.dir\clean
 clean: _deps\pybind11-build\clean
 
 .PHONY : clean
@@ -96,6 +98,33 @@ sun_utils_cpp: CMakeFiles\sun_utils_cpp.dir\rule
 CMakeFiles\sun_utils_cpp.dir\clean:
 	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\clean
 .PHONY : CMakeFiles\sun_utils_cpp.dir\clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/time_functions_cpp.dir
+
+# All Build rule for target.
+CMakeFiles\time_functions_cpp.dir\all:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\depend
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles --progress-num=3,4 "Built target time_functions_cpp"
+.PHONY : CMakeFiles\time_functions_cpp.dir\all
+
+# Build rule for subdir invocation for target.
+CMakeFiles\time_functions_cpp.dir\rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles 2
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles 0
+.PHONY : CMakeFiles\time_functions_cpp.dir\rule
+
+# Convenience name for target.
+time_functions_cpp: CMakeFiles\time_functions_cpp.dir\rule
+
+.PHONY : time_functions_cpp
+
+# clean rule for target.
+CMakeFiles\time_functions_cpp.dir\clean:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\clean
+.PHONY : CMakeFiles\time_functions_cpp.dir\clean
 
 #=============================================================================
 # Directory level rules for directory _deps\pybind11-build
