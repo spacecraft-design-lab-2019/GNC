@@ -49,5 +49,5 @@ VectorXd sun_position(double MJD) {
 PYBIND11_MODULE(sun_utils_cpp, m) {
     m.doc() = "pybind11 example plugin"; // optional module docstring
 
-    m.def("sun_position_test", &sun_position, "A function which returns the sun position");
+    m.def("sun_position", &sun_position, "A function which returns the sun position");
 }

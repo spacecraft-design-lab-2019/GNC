@@ -14,8 +14,8 @@ namespace py = pybind11;
 
 // function declaration
 double MJD2GMST(double MJD);
-double date2MJD(double M, double D, double Y, double HH, double MM, double SS);
-bool valid_date(double M, double D, double Y, double HH, double MM, double SS);
+double date2MJD(int M, int D, int Y, int HH, int MM, double SS);
+bool valid_date(int M, int D, int Y, int HH, int MM, double SS);
 
 int main() {
     // local variable declaration:
@@ -58,7 +58,7 @@ double MJD2GMST(double MJD) {
     return GMST;
 }
 
-double date2MJD(double M, double D, double Y, double HH, double MM, double SS) {
+double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
     /*
      Gives the Modified Julian Date from the date and time using Vallado algorithm
         Inputs:
@@ -101,7 +101,7 @@ double date2MJD(double M, double D, double Y, double HH, double MM, double SS) {
     return MJD;
 }
 
-bool valid_date(double M, double D, double Y, double HH, double MM, double SS) {
+bool valid_date(int M, int D, int Y, int HH, int MM, double SS) {
     /*
     Ensures the calendar date is valid
     Inputs:
@@ -142,5 +142,5 @@ bool valid_date(double M, double D, double Y, double HH, double MM, double SS) {
 PYBIND11_MODULE(time_functions_cpp, m) {
     m.doc() = "pybind11 example plugin"; // optional module docstring
     m.def("valid_date", &valid_date, "A function which returns the sun position");
-    m.def("date2MJD_double", &date2MJD, "A function which returns the sun position");
+    m.def("date2MJD", &date2MJD, "A function which returns the sun position");
 }
