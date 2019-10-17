@@ -1,1 +1,1 @@
-from .deterministic_ad import triad_ad
+import GNC.util_funcs.py_funcs

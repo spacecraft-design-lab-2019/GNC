@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+2 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/CMakeFiles/time_functions_cpp.dir/embed.manifest"
