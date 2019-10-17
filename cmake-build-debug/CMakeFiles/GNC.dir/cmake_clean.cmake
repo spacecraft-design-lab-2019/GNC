@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/GNC.dir/util_funcs/cpp/sun_utils.cpp.obj"
   "CMakeFiles/GNC.dir/util_funcs/cpp/time_functions.cpp.obj"
   "GNC.exe"
   "GNC.exe.manifest"

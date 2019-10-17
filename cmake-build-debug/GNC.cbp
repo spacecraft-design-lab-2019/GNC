@@ -86,6 +86,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.cpp">
+			<Option target="GNC"/>
+		</Unit>
+		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.h">
+			<Option target="GNC"/>
+		</Unit>
 		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.cpp">
 			<Option target="GNC"/>
 		</Unit>

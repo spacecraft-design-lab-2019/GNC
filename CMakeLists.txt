@@ -8,4 +8,4 @@ include_directories(util_funcs/cpp)
 
 add_executable(GNC
         util_funcs/cpp/time_functions.cpp
-        util_funcs/cpp/time_functions.h)
+        util_funcs/cpp/time_functions.h util_funcs/cpp/sun_utils.cpp util_funcs/cpp/sun_utils.h)
