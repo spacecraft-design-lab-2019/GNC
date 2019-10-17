@@ -138,7 +138,7 @@ bool valid_date(int M, int D, int Y, int HH, int MM, double SS) {
     return check;
 }
 
-PYBIND11_MODULE(sun_utils_cpp, m) {
+PYBIND11_MODULE(time_functions_cpp, m) {
     m.doc() = "pybind11 example plugin"; // optional module docstring
 
     m.def("date2MJD", &date2MJD, "A function which returns the sun position");
