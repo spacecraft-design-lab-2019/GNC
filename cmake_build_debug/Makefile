@@ -124,6 +124,19 @@ sun_utils_cpp\fast:
 	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\build
 .PHONY : sun_utils_cpp\fast
 
+#=============================================================================
+# Target rules for targets named time_functions_cpp
+
+# Build rule for target.
+time_functions_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) time_functions_cpp
+.PHONY : time_functions_cpp
+
+# fast build rule for target.
+time_functions_cpp\fast:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\build
+.PHONY : time_functions_cpp\fast
+
 util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
 .PHONY : util_funcs\cpp\sun_utils.obj
@@ -151,6 +164,33 @@ util_funcs\cpp\sun_utils.cpp.s:
 	$(MAKE) -f CMakeFiles\sun_utils_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils_cpp.dir\util_funcs\cpp\sun_utils.cpp.s
 .PHONY : util_funcs\cpp\sun_utils.cpp.s
 
+util_funcs\cpp\time_functions.obj: util_funcs\cpp\time_functions.cpp.obj
+
+.PHONY : util_funcs\cpp\time_functions.obj
+
+# target to build an object file
+util_funcs\cpp\time_functions.cpp.obj:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\util_funcs\cpp\time_functions.cpp.obj
+.PHONY : util_funcs\cpp\time_functions.cpp.obj
+
+util_funcs\cpp\time_functions.i: util_funcs\cpp\time_functions.cpp.i
+
+.PHONY : util_funcs\cpp\time_functions.i
+
+# target to preprocess a source file
+util_funcs\cpp\time_functions.cpp.i:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\util_funcs\cpp\time_functions.cpp.i
+.PHONY : util_funcs\cpp\time_functions.cpp.i
+
+util_funcs\cpp\time_functions.s: util_funcs\cpp\time_functions.cpp.s
+
+.PHONY : util_funcs\cpp\time_functions.s
+
+# target to generate assembly for a file
+util_funcs\cpp\time_functions.cpp.s:
+	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\util_funcs\cpp\time_functions.cpp.s
+.PHONY : util_funcs\cpp\time_functions.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -158,11 +198,15 @@ help:
 	@echo ... clean
 	@echo ... depend
 	@echo ... sun_utils_cpp
+	@echo ... time_functions_cpp
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... util_funcs/cpp/sun_utils.obj
 	@echo ... util_funcs/cpp/sun_utils.i
 	@echo ... util_funcs/cpp/sun_utils.s
+	@echo ... util_funcs/cpp/time_functions.obj
+	@echo ... util_funcs/cpp/time_functions.i
+	@echo ... util_funcs/cpp/time_functions.s
 .PHONY : help
 
 
