@@ -7,6 +7,7 @@
 #include <math.h>
 #include "../../eigen-git-mirror/Eigen/Dense"
 #include <../../pybind11/include/pybind11/pybind11.h>
+#include <../../pybind11/include/pybind11/eigen.h>
 using namespace Eigen;
 using namespace std;
 namespace py = pybind11;
