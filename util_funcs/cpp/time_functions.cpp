@@ -89,14 +89,14 @@ double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
 
     if (Y <= 1582 && M <= 10 && D <= 4)
     {
-        B = -2 + ((y + 4716) / 4) - 1179;
+        B = -2 + ((y + 4716.0) / 4.0) - 1179.0;
     }
     else
     {
-        B = 2 - floor(y / 100) + floor(floor(y/100)/4);
+        B = 2 - floor(y / 100.0) + floor(floor(y/100.0)/4.0);
     }
 
-    day_frac = HH / 24 + MM / 60 / 24 + SS / 60 / 60 / 24;
+    day_frac = HH / 24.0 + MM / 60.0 / 24.0 + SS / 60.0 / 60.0 / 24.0;
     double MJD = floor(365.25 * (y + 4716)) + floor(30.6001 * (m + 1)) + D + B + day_frac - 2401525.0;
     return MJD;
 }
@@ -140,7 +140,8 @@ bool valid_date(int M, int D, int Y, int HH, int MM, double SS) {
 }
 
 PYBIND11_MODULE(time_functions_cpp, m) {
-    m.doc() = "pybind11 example plugin"; // optional module docstring
-    m.def("valid_date", &valid_date, "A function which returns the sun position");
-    m.def("date2MJD", &date2MJD, "A function which returns the sun position");
+    m.doc() = "Time Functions"; // optional module docstring
+    m.def("valid_date", &valid_date, "Returns whether the date is valid or not");
+    m.def("date2MJD", &date2MJD, "Converts the date to MJD");
+    m.def("MJD2GMST", &MJD2GMST, "Converts MJD to GMST");
 }
