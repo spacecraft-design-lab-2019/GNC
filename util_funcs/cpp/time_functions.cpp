@@ -10,11 +10,12 @@
 #include <../../pybind11/include/pybind11/pybind11.h>
 
 using namespace std;
+namespace py = pybind11;
 
 // function declaration
 double MJD2GMST(double MJD);
-double date2MJD(int M, int D, int Y, int HH, int MM, double SS);
-bool valid_date(int M, int D, int Y, int HH, int MM, double SS);
+double date2MJD(double M, double D, double Y, double HH, double MM, double SS);
+bool valid_date(double M, double D, double Y, double HH, double MM, double SS);
 
 int main() {
     // local variable declaration:
@@ -26,12 +27,12 @@ int main() {
     cout << "GMST is : " << ret << endl;
     int M, D, Y, HH, MM;
     double SS;
-    M = 1;
-    D = 1;
-    Y = 2000;
-    HH = 12;
-    MM = 0;
-    SS = 0;
+    M = 5;
+    D = 10;
+    Y = 2020;
+    HH = 8;
+    MM = 5;
+    SS = 3;
     double ret2 = date2MJD(M, D, Y, HH, MM, SS);
     cout << "MJD is : " << ret2 << endl;
     return 0;
@@ -57,7 +58,7 @@ double MJD2GMST(double MJD) {
     return GMST;
 }
 
-double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
+double date2MJD(double M, double D, double Y, double HH, double MM, double SS) {
     /*
      Gives the Modified Julian Date from the date and time using Vallado algorithm
         Inputs:
@@ -70,7 +71,7 @@ double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
         Outputs:
         MJD - Modified Julian Date
      */
-    int y, m;
+    double y, m;
     double B, day_frac;
 
     assert(valid_date(M, D, Y, HH, MM, SS));
@@ -100,7 +101,7 @@ double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
     return MJD;
 }
 
-bool valid_date(int M, int D, int Y, int HH, int MM, double SS) {
+bool valid_date(double M, double D, double Y, double HH, double MM, double SS) {
     /*
     Ensures the calendar date is valid
     Inputs:
