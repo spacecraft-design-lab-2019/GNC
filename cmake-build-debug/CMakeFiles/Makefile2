@@ -54,12 +54,16 @@ CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles\GNC.dir\all
+all: CMakeFiles\time_functions.dir\all
+all: CMakeFiles\sun_utils.dir\all
+all: CMakeFiles\TRIAD.dir\all
 
 .PHONY : all
 
 # The main recursive "clean" target.
-clean: CMakeFiles\GNC.dir\clean
+clean: CMakeFiles\time_functions.dir\clean
+clean: CMakeFiles\sun_utils.dir\clean
+clean: CMakeFiles\TRIAD.dir\clean
 
 .PHONY : clean
 
@@ -69,31 +73,85 @@ preinstall:
 .PHONY : preinstall
 
 #=============================================================================
-# Target rules for target CMakeFiles/GNC.dir
+# Target rules for target CMakeFiles/time_functions.dir
 
 # All Build rule for target.
-CMakeFiles\GNC.dir\all:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\depend
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target GNC"
-.PHONY : CMakeFiles\GNC.dir\all
+CMakeFiles\time_functions.dir\all:
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\depend
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=5,6 "Built target time_functions"
+.PHONY : CMakeFiles\time_functions.dir\all
 
 # Build rule for subdir invocation for target.
-CMakeFiles\GNC.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 3
-	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\all
+CMakeFiles\time_functions.dir\rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
-.PHONY : CMakeFiles\GNC.dir\rule
+.PHONY : CMakeFiles\time_functions.dir\rule
 
 # Convenience name for target.
-GNC: CMakeFiles\GNC.dir\rule
+time_functions: CMakeFiles\time_functions.dir\rule
 
-.PHONY : GNC
+.PHONY : time_functions
 
 # clean rule for target.
-CMakeFiles\GNC.dir\clean:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\clean
-.PHONY : CMakeFiles\GNC.dir\clean
+CMakeFiles\time_functions.dir\clean:
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\clean
+.PHONY : CMakeFiles\time_functions.dir\clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/sun_utils.dir
+
+# All Build rule for target.
+CMakeFiles\sun_utils.dir\all:
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\depend
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=3,4 "Built target sun_utils"
+.PHONY : CMakeFiles\sun_utils.dir\all
+
+# Build rule for subdir invocation for target.
+CMakeFiles\sun_utils.dir\rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles\sun_utils.dir\rule
+
+# Convenience name for target.
+sun_utils: CMakeFiles\sun_utils.dir\rule
+
+.PHONY : sun_utils
+
+# clean rule for target.
+CMakeFiles\sun_utils.dir\clean:
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\clean
+.PHONY : CMakeFiles\sun_utils.dir\clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/TRIAD.dir
+
+# All Build rule for target.
+CMakeFiles\TRIAD.dir\all:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\depend
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target TRIAD"
+.PHONY : CMakeFiles\TRIAD.dir\all
+
+# Build rule for subdir invocation for target.
+CMakeFiles\TRIAD.dir\rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 2
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles\TRIAD.dir\rule
+
+# Convenience name for target.
+TRIAD: CMakeFiles\TRIAD.dir\rule
+
+.PHONY : TRIAD
+
+# clean rule for target.
+CMakeFiles\TRIAD.dir\clean:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\clean
+.PHONY : CMakeFiles\TRIAD.dir\clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

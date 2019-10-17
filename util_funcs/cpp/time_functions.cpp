@@ -23,7 +23,6 @@ int main() {
     // calling a function to get max value.
     ret = MJD2GMST(MJD);
     cout << "GMST is : " << ret << endl;
-
     int M, D, Y, HH, MM;
     double SS;
     M = 1;

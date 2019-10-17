@@ -77,38 +77,17 @@ CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.s /c C:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp\time_functions.cpp
 <<
 
-CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj: CMakeFiles\GNC.dir\flags.make
-CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj: ..\util_funcs\cpp\sun_utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/GNC.dir/util_funcs/cpp/sun_utils.cpp.obj"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj /FdCMakeFiles\GNC.dir\ /FS -c C:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp\sun_utils.cpp
-<<
-
-CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GNC.dir/util_funcs/cpp/sun_utils.cpp.i"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe > CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp\sun_utils.cpp
-<<
-
-CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GNC.dir/util_funcs/cpp/sun_utils.cpp.s"
-	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.s /c C:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp\sun_utils.cpp
-<<
-
 # Object files for target GNC
 GNC_OBJECTS = \
-"CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.obj" \
-"CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj"
+"CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.obj"
 
 # External object files for target GNC
 GNC_EXTERNAL_OBJECTS =
 
 GNC.exe: CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.obj
-GNC.exe: CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj
 GNC.exe: CMakeFiles\GNC.dir\build.make
 GNC.exe: CMakeFiles\GNC.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable GNC.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable GNC.exe"
 	"C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\GNC.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\GNC.dir\objects1.rsp @<<
  /out:GNC.exe /implib:GNC.lib /pdb:C:\Users\Ethan\CLionProjects\GNC\cmake-build-debug\GNC.pdb /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<

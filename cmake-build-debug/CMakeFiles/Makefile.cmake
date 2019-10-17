@@ -47,5 +47,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/GNC.dir/DependInfo.cmake"
+  "CMakeFiles/time_functions.dir/DependInfo.cmake"
+  "CMakeFiles/sun_utils.dir/DependInfo.cmake"
+  "CMakeFiles/TRIAD.dir/DependInfo.cmake"
   )

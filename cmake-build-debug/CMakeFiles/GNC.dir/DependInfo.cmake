@@ -4,7 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.cpp" "C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/GNC.dir/util_funcs/cpp/sun_utils.cpp.obj"
   "C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.cpp" "C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/GNC.dir/util_funcs/cpp/time_functions.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
@@ -13,6 +12,7 @@ set(CMAKE_CXX_COMPILER_ID "MSVC")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../orbit_propagation/cpp"
   "../util_funcs/cpp"
+  "../eigen-git-mirror"
   )
 
 # Targets to which this target links.

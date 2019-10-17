@@ -112,17 +112,70 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named GNC
+# Target rules for targets named time_functions
 
 # Build rule for target.
-GNC: cmake_check_build_system
-	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) GNC
-.PHONY : GNC
+time_functions: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) time_functions
+.PHONY : time_functions
 
 # fast build rule for target.
-GNC\fast:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\build
-.PHONY : GNC\fast
+time_functions\fast:
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\build
+.PHONY : time_functions\fast
+
+#=============================================================================
+# Target rules for targets named sun_utils
+
+# Build rule for target.
+sun_utils: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) sun_utils
+.PHONY : sun_utils
+
+# fast build rule for target.
+sun_utils\fast:
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\build
+.PHONY : sun_utils\fast
+
+#=============================================================================
+# Target rules for targets named TRIAD
+
+# Build rule for target.
+TRIAD: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) TRIAD
+.PHONY : TRIAD
+
+# fast build rule for target.
+TRIAD\fast:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\build
+.PHONY : TRIAD\fast
+
+TRIAD\deterministic_ad.obj: TRIAD\deterministic_ad.cpp.obj
+
+.PHONY : TRIAD\deterministic_ad.obj
+
+# target to build an object file
+TRIAD\deterministic_ad.cpp.obj:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\TRIAD\deterministic_ad.cpp.obj
+.PHONY : TRIAD\deterministic_ad.cpp.obj
+
+TRIAD\deterministic_ad.i: TRIAD\deterministic_ad.cpp.i
+
+.PHONY : TRIAD\deterministic_ad.i
+
+# target to preprocess a source file
+TRIAD\deterministic_ad.cpp.i:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\TRIAD\deterministic_ad.cpp.i
+.PHONY : TRIAD\deterministic_ad.cpp.i
+
+TRIAD\deterministic_ad.s: TRIAD\deterministic_ad.cpp.s
+
+.PHONY : TRIAD\deterministic_ad.s
+
+# target to generate assembly for a file
+TRIAD\deterministic_ad.cpp.s:
+	$(MAKE) -f CMakeFiles\TRIAD.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\TRIAD.dir\TRIAD\deterministic_ad.cpp.s
+.PHONY : TRIAD\deterministic_ad.cpp.s
 
 util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
@@ -130,7 +183,7 @@ util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
 # target to build an object file
 util_funcs\cpp\sun_utils.cpp.obj:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.obj
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\util_funcs\cpp\sun_utils.cpp.obj
 .PHONY : util_funcs\cpp\sun_utils.cpp.obj
 
 util_funcs\cpp\sun_utils.i: util_funcs\cpp\sun_utils.cpp.i
@@ -139,7 +192,7 @@ util_funcs\cpp\sun_utils.i: util_funcs\cpp\sun_utils.cpp.i
 
 # target to preprocess a source file
 util_funcs\cpp\sun_utils.cpp.i:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.i
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\util_funcs\cpp\sun_utils.cpp.i
 .PHONY : util_funcs\cpp\sun_utils.cpp.i
 
 util_funcs\cpp\sun_utils.s: util_funcs\cpp\sun_utils.cpp.s
@@ -148,7 +201,7 @@ util_funcs\cpp\sun_utils.s: util_funcs\cpp\sun_utils.cpp.s
 
 # target to generate assembly for a file
 util_funcs\cpp\sun_utils.cpp.s:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\sun_utils.cpp.s
+	$(MAKE) -f CMakeFiles\sun_utils.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\sun_utils.dir\util_funcs\cpp\sun_utils.cpp.s
 .PHONY : util_funcs\cpp\sun_utils.cpp.s
 
 util_funcs\cpp\time_functions.obj: util_funcs\cpp\time_functions.cpp.obj
@@ -157,7 +210,7 @@ util_funcs\cpp\time_functions.obj: util_funcs\cpp\time_functions.cpp.obj
 
 # target to build an object file
 util_funcs\cpp\time_functions.cpp.obj:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.obj
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\util_funcs\cpp\time_functions.cpp.obj
 .PHONY : util_funcs\cpp\time_functions.cpp.obj
 
 util_funcs\cpp\time_functions.i: util_funcs\cpp\time_functions.cpp.i
@@ -166,7 +219,7 @@ util_funcs\cpp\time_functions.i: util_funcs\cpp\time_functions.cpp.i
 
 # target to preprocess a source file
 util_funcs\cpp\time_functions.cpp.i:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.i
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\util_funcs\cpp\time_functions.cpp.i
 .PHONY : util_funcs\cpp\time_functions.cpp.i
 
 util_funcs\cpp\time_functions.s: util_funcs\cpp\time_functions.cpp.s
@@ -175,7 +228,7 @@ util_funcs\cpp\time_functions.s: util_funcs\cpp\time_functions.cpp.s
 
 # target to generate assembly for a file
 util_funcs\cpp\time_functions.cpp.s:
-	$(MAKE) -f CMakeFiles\GNC.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\GNC.dir\util_funcs\cpp\time_functions.cpp.s
+	$(MAKE) -f CMakeFiles\time_functions.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions.dir\util_funcs\cpp\time_functions.cpp.s
 .PHONY : util_funcs\cpp\time_functions.cpp.s
 
 # Help Target
@@ -184,9 +237,14 @@ help:
 	@echo ... all (the default if no target is provided)
 	@echo ... clean
 	@echo ... depend
-	@echo ... GNC
+	@echo ... time_functions
+	@echo ... sun_utils
+	@echo ... TRIAD
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... TRIAD/deterministic_ad.obj
+	@echo ... TRIAD/deterministic_ad.i
+	@echo ... TRIAD/deterministic_ad.s
 	@echo ... util_funcs/cpp/sun_utils.obj
 	@echo ... util_funcs/cpp/sun_utils.i
 	@echo ... util_funcs/cpp/sun_utils.s

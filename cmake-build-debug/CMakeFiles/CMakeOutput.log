@@ -95,3 +95,22 @@ Linking CXX executable cmTC_7d8d5.exe
 
 
 
+Performing C++ SOURCE FILE Test HAS_MSVC_GL_LTCG succeeded with the following output:
+Change Dir: C:/Users/Ethan/CLionProjects/GNC/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):nmake /nologo cmTC_758ef\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_758ef.dir\build.make /nologo -L                  CMakeFiles\cmTC_758ef.dir\build
+Building CXX object CMakeFiles/cmTC_758ef.dir/src.cxx.obj
+	C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @C:\Users\Ethan\AppData\Local\Temp\nmD0DE.tmp
+src.cxx
+Linking CXX executable cmTC_758ef.exe
+	"C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_758ef.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~3\2019\COMMUN~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_758ef.dir\objects1.rsp @C:\Users\Ethan\AppData\Local\Temp\nmD285.tmp
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+Generating code
+Finished generating code
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+Generating code
+Finished generating code
+
+
+Source file was:
+int main() { return 0; }

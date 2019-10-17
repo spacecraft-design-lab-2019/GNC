@@ -6,5 +6,5 @@ CXX_FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   -std:c++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -IC:\Users\Ethan\CLionProjects\GNC\orbit_propagation\cpp -IC:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp 
+CXX_INCLUDES = -IC:\Users\Ethan\CLionProjects\GNC\orbit_propagation\cpp -IC:\Users\Ethan\CLionProjects\GNC\util_funcs\cpp -IC:\Users\Ethan\CLionProjects\GNC\eigen-git-mirror 
 
