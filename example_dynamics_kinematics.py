@@ -10,6 +10,10 @@ Created on Wed Oct  9 11:53:17 2019
 from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
+import math
+import numpy as np
+import scipy.integrate as integrate
+
 
 # clear figures
 plt.close('all')
