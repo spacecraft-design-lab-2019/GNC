@@ -66,4 +66,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/sun_utils_cpp.dir/DependInfo.cmake"
   "CMakeFiles/time_functions_cpp.dir/DependInfo.cmake"
+  "CMakeFiles/triad_cpp.dir/DependInfo.cmake"
   )

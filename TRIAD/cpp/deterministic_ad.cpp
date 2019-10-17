@@ -5,6 +5,9 @@
 #include "deterministic_ad.h"
 #include <iostream>
 #include "../../eigen-git-mirror/Eigen/Dense"
+#include <../../pybind11/include/pybind11/pybind11.h>
+#include <../../pybind11/include/pybind11/eigen.h>
+namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
 
@@ -58,5 +61,11 @@ MatrixXd triad_ad(MatrixXd M, MatrixXd V) {
         R = M * V.completeOrthogonalDecomposition().pseudoInverse();
     }
     return R;
+}
+
+PYBIND11_MODULE(triad_cpp, m) {
+    m.doc() = "AD Methods"; // optional module docstring
+
+    m.def("triad_ad", &triad_ad, "Performs TRIAD algorithm");
 }
 
