@@ -57,17 +57,6 @@ CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	echo >nul && "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache\fast: edit_cache
-
-.PHONY : edit_cache\fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -78,6 +67,17 @@ rebuild_cache:
 rebuild_cache\fast: rebuild_cache
 
 .PHONY : rebuild_cache\fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	echo >nul && "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache\fast: edit_cache
+
+.PHONY : edit_cache\fast
 
 # The main all target
 all: cmake_check_build_system
@@ -136,6 +136,46 @@ time_functions_cpp: cmake_check_build_system
 time_functions_cpp\fast:
 	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\build
 .PHONY : time_functions_cpp\fast
+
+#=============================================================================
+# Target rules for targets named triad_cpp
+
+# Build rule for target.
+triad_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) triad_cpp
+.PHONY : triad_cpp
+
+# fast build rule for target.
+triad_cpp\fast:
+	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\build
+.PHONY : triad_cpp\fast
+
+TRIAD\cpp\deterministic_ad.obj: TRIAD\cpp\deterministic_ad.cpp.obj
+
+.PHONY : TRIAD\cpp\deterministic_ad.obj
+
+# target to build an object file
+TRIAD\cpp\deterministic_ad.cpp.obj:
+	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\TRIAD\cpp\deterministic_ad.cpp.obj
+.PHONY : TRIAD\cpp\deterministic_ad.cpp.obj
+
+TRIAD\cpp\deterministic_ad.i: TRIAD\cpp\deterministic_ad.cpp.i
+
+.PHONY : TRIAD\cpp\deterministic_ad.i
+
+# target to preprocess a source file
+TRIAD\cpp\deterministic_ad.cpp.i:
+	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\TRIAD\cpp\deterministic_ad.cpp.i
+.PHONY : TRIAD\cpp\deterministic_ad.cpp.i
+
+TRIAD\cpp\deterministic_ad.s: TRIAD\cpp\deterministic_ad.cpp.s
+
+.PHONY : TRIAD\cpp\deterministic_ad.s
+
+# target to generate assembly for a file
+TRIAD\cpp\deterministic_ad.cpp.s:
+	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\TRIAD\cpp\deterministic_ad.cpp.s
+.PHONY : TRIAD\cpp\deterministic_ad.cpp.s
 
 util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
@@ -199,8 +239,12 @@ help:
 	@echo ... depend
 	@echo ... sun_utils_cpp
 	@echo ... time_functions_cpp
-	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... triad_cpp
+	@echo ... edit_cache
+	@echo ... TRIAD/cpp/deterministic_ad.obj
+	@echo ... TRIAD/cpp/deterministic_ad.i
+	@echo ... TRIAD/cpp/deterministic_ad.s
 	@echo ... util_funcs/cpp/sun_utils.obj
 	@echo ... util_funcs/cpp/sun_utils.i
 	@echo ... util_funcs/cpp/sun_utils.s
