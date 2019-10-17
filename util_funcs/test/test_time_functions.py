@@ -12,8 +12,8 @@ def test_date2MJD_1():
     MM = int(5)
     SS = float(3)
     frac = 8 / 24 + 5 / 24 / 60 + 3 / 24 / 3600
-    np.testing.assert_allclose(tf.date2MJD(M, D, Y, HH, MM, SS), (58979+frac), atol=1e-6)
-    np.testing.assert_allclose(tfcpp.date2MJD_double(M, D, Y, HH, MM, SS), (58979+frac), atol=1e-6)
+    # np.testing.assert_allclose(tf.date2MJD(M, D, Y, HH, MM, SS), (58979+frac), atol=1e-6)
+    np.testing.assert_allclose(tfcpp.date2MJD(M, D, Y, HH, MM, SS), (58979+frac), atol=1e-6)
 
 # Test 2: Check function works when month is before March
 def test_date2MJD_2():
