@@ -12,7 +12,7 @@ from sgp4.io import twoline2rv
 import pyIGRF
 import pyproj
 
-def get_orbit_pos(TLE, epoch, wgs=wgs84):
+def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
     '''
     determine position in ecef from orbital elements (TLE) and time (epoch)
     '''
@@ -29,17 +29,17 @@ def get_orbit_pos(TLE, epoch, wgs=wgs84):
     second = int(time[2].split('.')[0])
     # load in spacecraft object
     satellite = twoline2rv(line1, line2, wgs)
-    # propagate epoch
-    r, v = satellite.propagate(year, month, day, hour, minute, second)
+    # propagate epoch + time
+    r, v = satellite.propagate(year, month, day, hour, minute, second + sec_since_epoch)
 
     return r
 
 
-def get_orbit_magnetic(TLE, epoch, wgs=wgs84):
+def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
     '''
     determine magnetic field properties from orbit state
     '''
-    r = get_orbit_pos(TLE, epoch, wgs)
+    r = get_orbit_pos(TLE, epoch, sec_past_epoch, wgs)
     # parse orbit state
     x = r[0]
     y = r[1]
