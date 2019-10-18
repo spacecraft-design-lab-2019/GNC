@@ -14,7 +14,8 @@ import pyproj
 
 def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
     '''
-    determine position in ecef from orbital elements (TLE) and time (epoch)
+    determine position in ecef from TLE, epoch (as a string), and seconds past epoch 
+    (as a float)
     '''
     # parse TLE
     line1 = TLE['line1']
@@ -33,6 +34,29 @@ def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
     r, v = satellite.propagate(year, month, day, hour, minute, second + sec_since_epoch)
 
     return r
+
+def get_orbit_state(TLE, epoch, sec_since_epoch, wgs=wgs84):
+    '''
+    determine position in ecef from TLE, epoch (as a string), and seconds past epoch 
+    (as a float)
+    '''
+    # parse TLE
+    line1 = TLE['line1']
+    line2 = TLE['line2']
+    # parse epoch
+    epoch = epoch.split('-')
+    year, month = int(epoch[0]), int(epoch[1])
+    day_time = epoch[2].split('T')
+    day = int(day_time[0])
+    time = day_time[1].split(':')
+    hour, minute = int(time[0]), int(time[1])
+    second = int(time[2].split('.')[0])
+    # load in spacecraft object
+    satellite = twoline2rv(line1, line2, wgs)
+    # propagate epoch + time
+    r, v = satellite.propagate(year, month, day, hour, minute, second + sec_since_epoch)
+    state = np.concatenate([np.array(r),np.array(v)])
+    return state
 
 
 def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
