@@ -32,11 +32,17 @@ line2 = ('2 25635 096.4421 173.2395 0141189 010.0389 029.8678 14.46831495780970'
 TLE = {'line1': line1, 'line2': line2}
 
 mean_motion = 14.46/(24*3600)*2*math.pi # mean motion, radians/second
-T = 2*pi/mean_motion                      # Period, seconds
+period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0
-tf = 0
-times = np.linspace(t0,tf,n)
+tf = period
+n = 1000
+times = np.linspace(t0,period,n)
 
+# preallocate position storage matrix
+positions = np
+
+for i in range(len(times)):
+    
 
