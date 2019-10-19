@@ -6,6 +6,8 @@ def predict(xk,w,dt):
     Predict step of MEKF - state x = [q, Beta]
     qk*[cos(theta),rsin(theta)] uses Hamilton's quaternion mult.
     ** scalar first quaternion ** 
+
+
     '''
     q = xk[0:4]
     b = xk[4:7]
@@ -24,12 +26,11 @@ def predict(xk,w,dt):
     xn[3] = q[0]*r[2]*math.sin(theta)+q[1]*r[1]*math.sin(theta)\
             -q[2]*r[0]*math.sin(theta)+q[3]*math.cos(theta)
     
-    xn[4:7] = b[4:7]
+    xn[4:7] = b[0:3]
     
-    A = np.zeros(6,6)
+    A = np.zeros([6,6])
     # fill out A matrix
     for ii in range(3):
-        print(ii)
         A[ii,ii] = math.exp(-r[ii]*dt)
         A[ii,ii+3] = -dt
         A[ii+3,ii+3] = 1
