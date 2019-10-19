@@ -26,7 +26,14 @@ def predict(xk,w,dt):
     
     xn[4:7] = b[4:7]
     
-    
+    A = np.zeros(6,6)
+    # fill out A matrix
+    for ii in range(3):
+        print(ii)
+        A[ii,ii] = math.exp(-r[ii]*dt)
+        A[ii,ii+3] = -dt
+        A[ii+3,ii+3] = 1
+        
     return xn, A
 
 
