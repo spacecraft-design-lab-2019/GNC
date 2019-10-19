@@ -6,11 +6,11 @@ import Euler
 
 def measurement(q,rN):
     ''' 
-    Q = Rotation from N frame to B frame
+    R = Rotation from N frame to B frame
     '''
-    Q = Euler.quat2DCM(q)
-    rB = (Q@rN)
-    y = rB
-    C = np.array([rB,np.zeros(len(rB))]).T
-    return C,y
+    R = Euler.quat2DCM(q)
+    rB1 = (R@rN[0:3])
+    rB2 = (R@rN[3:6])
+    y = np.append(rB1,rB2)
+    return y,R
 
