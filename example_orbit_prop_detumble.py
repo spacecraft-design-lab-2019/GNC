@@ -8,7 +8,7 @@ from mpl_toolkits import mplot3d
 import math
 import numpy as np
 import scipy.integrate as integrate
-
+from orbit_propagation import get_orbit_pos
 
 # clear figures
 plt.close('all')
@@ -41,8 +41,8 @@ n = 1000
 times = np.linspace(t0,period,n)
 
 # preallocate position storage matrix
-positions = np
+positions = np.zeros((n,3))
 
 for i in range(len(times)):
-    
+    positions[i,:] = get_orbit_pos(TLE, epoch, times[i])
 
