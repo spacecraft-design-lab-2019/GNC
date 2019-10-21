@@ -28,7 +28,7 @@ w_0 = np.array([[0.1*pi/180.],[0.1*pi/180.],[pi/180.]])  # initial rotation rate
 # initial orbit state conditions, TLE+epoch
 epoch = '2013-12-14T14:18:37.00'
 line1 = ('1 25635U 99008B   13348.59627062  .00000650  00000-0  16622-3 0  9860')
-line2 = ('2 25635 096.4421 173.2395 0141189 010.0389 029.8678 14.46831495780970')
+line2 = ('2 25635  96.4421 173.2395 0141189  10.0389  29.8678 14.46831495780970')
 TLE = {'line1': line1, 'line2': line2}
 
 mean_motion = 14.46/(24*3600)*2*math.pi # mean motion, radians/second
@@ -36,13 +36,20 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0
-tf = period
+tf = 6000
 n = 1000
 times = np.linspace(t0,period,n)
 
 # preallocate position storage matrix
 positions = np.zeros((n,3))
 
+# extract position info at all times
 for i in range(len(times)):
     positions[i,:] = get_orbit_pos(TLE, epoch, times[i])
 
+# plot trajectory
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+ax.plot3D(positions[:,0],positions[:,1],positions[:,2])
+ax.set_title('Orsted orbit')
+ax.axis('equal')
