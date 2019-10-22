@@ -3,6 +3,7 @@ function [xhist, Phist] = mekf(x0, P0, W, V, rN, whist, yhist, dt)
 xhist = zeros(7,size(yhist,2));
 xhist(:,1) = x0;
 
+
 Phist = zeros(6,6,size(yhist,2));
 Phist(:,:,1) = P0;
 
