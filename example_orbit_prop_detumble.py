@@ -37,8 +37,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 # feed in a vector of times and plot orbit
 t0 = 0
 tf = 6000
-n = 1000
-times = np.linspace(t0,period,n)
+n = 101
+times = np.linspace(t0,tf,n)
 
 # preallocate position storage matrix
 positions = np.zeros((n,3))
@@ -52,4 +52,5 @@ fig = plt.figure()
 ax = plt.axes(projection='3d')
 ax.plot3D(positions[:,0],positions[:,1],positions[:,2])
 ax.set_title('Orsted orbit')
-ax.axis('equal')
+
+# Let's 
