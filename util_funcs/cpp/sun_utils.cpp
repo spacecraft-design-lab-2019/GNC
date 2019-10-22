@@ -34,14 +34,12 @@ VectorXd sun_position(double MJD) {
     const double rad2deg = 180.0 / M_PI;
     double JD = MJD + 2400000.5;
     double OplusW = 282.94;
-    double T = (JD - 2451545.0) / 36525;
+    double T = (JD - 2451545.0) / 36525.0;
 
     double M = (357.5256 + 35999.049 * T) * deg2rad;
 
-    double lon = (OplusW + rad2deg * M + 6892 / 3600 * sin(M) + 72 / 3600 * sin(2*M)) * deg2rad;
+    double lon = (OplusW + rad2deg * M + 6892.0 / 3600.0 * sin(M) + 72.0 / 3600.0 * sin(2*M)) * deg2rad;
     double r_mag = (149.619 - 2.499 * cos(M) - 0.021 * cos(2*M)) * pow(10, 6);
-    cout << lon << endl;
-    cout << r_mag << endl;
     double epsilon = deg2rad * 23.43929111;
     VectorXd r_vec(3);
     r_vec(0) = r_mag * cos(lon);
