@@ -12,7 +12,7 @@ using namespace Eigen;
 using namespace std;
 namespace py = pybind11;
 VectorXd sun_position(double MJD);
-
+VectorXd sat_sun_vect(VectorXd r, double MJD);
 int main(){
 
     double MJD = 58827.53750000009;
@@ -46,8 +46,26 @@ VectorXd sun_position(double MJD) {
     return r_vec;
 }
 
+VectorXd sat_sun_vect(VectorXd r, double MJD){
+    /*
+    Returns the unit vector from the satellite to the Sun in ECI coordinates
+    Inputs:
+    r - ECI position of the satellite
+    MJD - Julian Day (J2000) as a Real Number
+    Outputs:
+    r_sat_sun - numpy array giving the unit direction to the Sun from the satellite
+     */
+    VectorXd r_sun = sun_position(MJD);
+    VectorXd r_sat_sun = r_sun - r;
+    VectorXd r_sat_sun_unit = r_sat_sun / r_sat_sun.norm();
+
+    return r_sat_sun_unit;
+}
+
+
 PYBIND11_MODULE(sun_utils_cpp, m) {
-    m.doc() = "pybind11 example plugin"; // optional module docstring
+    m.doc() = "Sun utilities"; // optional module docstring
 
     m.def("sun_position", &sun_position, "A function which returns the sun position");
+    m.def("sat_sun_vect", &sat_sun_vect, "Returns the unit vector to the Sun from the satellite position in the inertial frame");
 }
