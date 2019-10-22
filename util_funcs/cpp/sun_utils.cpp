@@ -16,9 +16,10 @@ VectorXd sun_position(double MJD);
 VectorXd sat_sun_vect(VectorXd r, double MJD);
 int main(){
 
-    double MJD = 58827.53750000009;
+    double MJD = 51622.0;
     VectorXd ret = sun_position(MJD);
     cout << ret << endl;
+
     return 0;
 }
 VectorXd sun_position(double MJD) {
@@ -29,8 +30,8 @@ VectorXd sun_position(double MJD) {
     Outputs :
     GMST - Greenwich Mean Sidereal Time
     */
-    double deg2rad = M_PI / 180.0;
-    double rad2deg = 180.0 / M_PI;
+    const double deg2rad = M_PI / 180.0;
+    const double rad2deg = 180.0 / M_PI;
     double JD = MJD + 2400000.5;
     double OplusW = 282.94;
     double T = (JD - 2451545.0) / 36525;
@@ -39,7 +40,8 @@ VectorXd sun_position(double MJD) {
 
     double lon = (OplusW + rad2deg * M + 6892 / 3600 * sin(M) + 72 / 3600 * sin(2*M)) * deg2rad;
     double r_mag = (149.619 - 2.499 * cos(M) - 0.021 * cos(2*M)) * pow(10, 6);
-
+    cout << lon;
+    cout << r_mag;
     double epsilon = deg2rad * 23.43929111;
     VectorXd r_vec(3);
     r_vec(0) = r_mag * cos(lon);
