@@ -40,7 +40,7 @@ VectorXd sun_position(double MJD) {
     double lon = (OplusW + rad2deg * M + 6892 / 3600 * sin(M) + 72 / 3600 * sin(2*M)) * deg2rad;
     double r_mag = (149.619 - 2.499 * cos(M) - 0.021 * cos(2*M)) * pow(10, 6);
 
-    double epsilon = rad2deg * 23.43929111;
+    double epsilon = deg2rad * 23.43929111;
     VectorXd r_vec(3);
     r_vec(0) = r_mag * cos(lon);
     r_vec(1) = r_mag * sin(lon);
