@@ -3,6 +3,7 @@
 //
 
 #include "sun_utils.h"
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include <math.h>
 #include "../../eigen-git-mirror/Eigen/Dense"
@@ -28,16 +29,18 @@ VectorXd sun_position(double MJD) {
     Outputs :
     GMST - Greenwich Mean Sidereal Time
     */
+    double deg2rad = M_PI / 180.0;
+    double rad2deg = 180.0 / M_PI;
     double JD = MJD + 2400000.5;
     double OplusW = 282.94;
     double T = (JD - 2451545.0) / 36525;
 
-    double M = 357.5256 + 35999.049 * T;
+    double M = (357.5256 + 35999.049 * T) * deg2rad;
 
-    double lon = OplusW + M + 6892 / 3600 * sin(M) + 72 / 3600 * sin(2*M);
+    double lon = (OplusW + rad2deg * M + 6892 / 3600 * sin(M) + 72 / 3600 * sin(2*M)) * deg2rad;
     double r_mag = (149.619 - 2.499 * cos(M) - 0.021 * cos(2*M)) * pow(10, 6);
 
-    double epsilon = 23.43929111;
+    double epsilon = rad2deg * 23.43929111;
     VectorXd r_vec(3);
     r_vec(0) = r_mag * cos(lon);
     r_vec(1) = r_mag * sin(lon);
