@@ -287,6 +287,9 @@ PYBIND11_TEST:BOOL=OFF
 //Path to a program.
 PYTHON_EXECUTABLE:FILEPATH=C:/ProgramData/Anaconda3/python.exe
 
+//Dependencies for the target
+SGP4_cpp_LIB_DEPENDS:STATIC=general;C:/ProgramData/Anaconda3/libs/Python37.lib;
+
 //Install pybind11 headers in Python include directory instead
 // of default installation prefix
 USE_PYTHON_INCLUDE_DIR:BOOL=OFF
@@ -298,7 +301,13 @@ pybind11_BINARY_DIR:STATIC=C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/
 pybind11_SOURCE_DIR:STATIC=C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src
 
 //Dependencies for the target
+sun_utils_cpp_LIB_DEPENDS:STATIC=general;C:/ProgramData/Anaconda3/libs/Python37.lib;
+
+//Dependencies for the target
 time_functions_cpp_LIB_DEPENDS:STATIC=general;C:/ProgramData/Anaconda3/libs/Python37.lib;
+
+//Dependencies for the target
+triad_cpp_LIB_DEPENDS:STATIC=general;C:/ProgramData/Anaconda3/libs/Python37.lib;
 
 
 ########################

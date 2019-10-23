@@ -9,6 +9,7 @@ import math
 import numpy as np
 import scipy.integrate as integrate
 from orbit_propagation import get_orbit_pos
+from GNC.cmake_build_debug import SGP4_cpp as SGP4
 
 # clear figures
 plt.close('all')
@@ -43,9 +44,19 @@ times = np.linspace(t0,tf,n)
 # preallocate position storage matrix
 positions = np.zeros((n,3))
 
-# extract position info at all times
+# extract position info at all times (from Python)
 for i in range(len(times)):
     positions[i,:] = get_orbit_pos(TLE, epoch, times[i])
+
+# extract position info from C++
+# typerun     - type of run                    verification 'v', catalog 'c', manual 'm'                         
+# typeinput   - type of manual input           mfe 'm', epoch 'e', dayofyr 'd'
+# opsmode     - mode of operation afspc or improved 'a', 'i'
+#	whichconst  - which set of constants to use  72, 84
+
+# get gravity constants first
+gravconst = SGP4.getgravconst()
+satrec = SGP4.twoline2rv(line1, line2, 'm', 'e', 'a', 72)
 
 # plot trajectory
 fig = plt.figure()
