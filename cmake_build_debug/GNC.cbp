@@ -8,226 +8,294 @@
 		<Option virtualFolders="CMake Files\;CMake Files\cmake_build_debug\;CMake Files\cmake_build_debug\_deps\;CMake Files\cmake_build_debug\_deps\pybind11-src\;CMake Files\cmake_build_debug\_deps\pybind11-src\tools\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 all"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="sun_utils_cpp">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 sun_utils_cpp"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 sun_utils_cpp"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="sun_utils_cpp/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/sun_utils_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 sun_utils_cpp/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 sun_utils_cpp/fast"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="time_functions_cpp">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/time_functions_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/time_functions_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 time_functions_cpp"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 time_functions_cpp"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="time_functions_cpp/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/time_functions_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/time_functions_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 time_functions_cpp/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 time_functions_cpp/fast"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SGP4_cpp">
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/SGP4_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 SGP4_cpp"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SGP4_cpp/fast">
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/SGP4_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 SGP4_cpp/fast"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="triad_cpp">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/triad_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/triad_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 triad_cpp"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 triad_cpp"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="triad_cpp/fast">
-				<Option output="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/triad_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option output="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/triad_cpp.cp37-win32.pyd" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/orbit_propagation/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/eigen-git-mirror"/>
-					<Add directory="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
-					<Add directory="C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/eigen-git-mirror"/>
+					<Add directory="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/include"/>
+					<Add directory="C:/ProgramData/Anaconda3/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 triad_cpp/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 triad_cpp/fast"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug"/>
+				<Option working_dir="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 edit_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\Makefile VERBOSE=1 clean"/>
+					<Build command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f &quot;C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\Makefile&quot; VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/TRIAD/cpp/deterministic_ad.cpp">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/TRIAD/cpp/deterministic_ad.cpp">
 			<Option target="triad_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/TRIAD/cpp/deterministic_ad.h">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/TRIAD/cpp/deterministic_ad.h">
 			<Option target="triad_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.cpp">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/orbit_prop_cpp/SGP4.cpp">
+			<Option target="SGP4_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/orbit_propagation/orbit_prop_cpp/SGP4.h">
+			<Option target="SGP4_cpp"/>
+		</Unit>
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp/sun_utils.cpp">
 			<Option target="sun_utils_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/sun_utils.h">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp/sun_utils.h">
 			<Option target="sun_utils_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.cpp">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp/time_functions.cpp">
 			<Option target="time_functions_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/util_funcs/cpp/time_functions.h">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/util_funcs/cpp/time_functions.h">
 			<Option target="time_functions_cpp"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/CMakeLists.txt">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/CMakeLists.txt">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\cmake_build_debug\_deps\pybind11-src\"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/tools/FindPythonLibsNew.cmake">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/tools/FindPythonLibsNew.cmake">
 			<Option virtualFolder="CMake Files\cmake_build_debug\_deps\pybind11-src\tools\"/>
 		</Unit>
-		<Unit filename="C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-src/tools/pybind11Tools.cmake">
+		<Unit filename="C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/_deps/pybind11-src/tools/pybind11Tools.cmake">
 			<Option virtualFolder="CMake Files\cmake_build_debug\_deps\pybind11-src\tools\"/>
 		</Unit>
 	</Project>

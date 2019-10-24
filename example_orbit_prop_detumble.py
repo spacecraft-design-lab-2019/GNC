@@ -55,7 +55,7 @@ for i in range(len(times)):
 #	whichconst  - which set of constants to use  72, 84
 
 # get gravity constants first
-gravconst = SGP4.getgravconst()
+wgs72 = SGP4.get_gravconsttype(72)
 satrec = SGP4.twoline2rv(line1, line2, 'm', 'e', 'a', 72)
 
 # plot trajectory

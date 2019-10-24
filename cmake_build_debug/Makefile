@@ -49,10 +49,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Ethan\CLionProjects\GNC
+CMAKE_SOURCE_DIR = "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug
+CMAKE_BINARY_DIR = "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -81,9 +81,9 @@ edit_cache\fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles" "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -138,6 +138,19 @@ time_functions_cpp\fast:
 .PHONY : time_functions_cpp\fast
 
 #=============================================================================
+# Target rules for targets named SGP4_cpp
+
+# Build rule for target.
+SGP4_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) SGP4_cpp
+.PHONY : SGP4_cpp
+
+# fast build rule for target.
+SGP4_cpp\fast:
+	$(MAKE) -f CMakeFiles\SGP4_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\SGP4_cpp.dir\build
+.PHONY : SGP4_cpp\fast
+
+#=============================================================================
 # Target rules for targets named triad_cpp
 
 # Build rule for target.
@@ -176,6 +189,33 @@ TRIAD\cpp\deterministic_ad.s: TRIAD\cpp\deterministic_ad.cpp.s
 TRIAD\cpp\deterministic_ad.cpp.s:
 	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\TRIAD\cpp\deterministic_ad.cpp.s
 .PHONY : TRIAD\cpp\deterministic_ad.cpp.s
+
+orbit_propagation\orbit_prop_cpp\SGP4.obj: orbit_propagation\orbit_prop_cpp\SGP4.cpp.obj
+
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.obj
+
+# target to build an object file
+orbit_propagation\orbit_prop_cpp\SGP4.cpp.obj:
+	$(MAKE) -f CMakeFiles\SGP4_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\SGP4_cpp.dir\orbit_propagation\orbit_prop_cpp\SGP4.cpp.obj
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.cpp.obj
+
+orbit_propagation\orbit_prop_cpp\SGP4.i: orbit_propagation\orbit_prop_cpp\SGP4.cpp.i
+
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.i
+
+# target to preprocess a source file
+orbit_propagation\orbit_prop_cpp\SGP4.cpp.i:
+	$(MAKE) -f CMakeFiles\SGP4_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\SGP4_cpp.dir\orbit_propagation\orbit_prop_cpp\SGP4.cpp.i
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.cpp.i
+
+orbit_propagation\orbit_prop_cpp\SGP4.s: orbit_propagation\orbit_prop_cpp\SGP4.cpp.s
+
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.s
+
+# target to generate assembly for a file
+orbit_propagation\orbit_prop_cpp\SGP4.cpp.s:
+	$(MAKE) -f CMakeFiles\SGP4_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\SGP4_cpp.dir\orbit_propagation\orbit_prop_cpp\SGP4.cpp.s
+.PHONY : orbit_propagation\orbit_prop_cpp\SGP4.cpp.s
 
 util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
@@ -240,11 +280,15 @@ help:
 	@echo ... sun_utils_cpp
 	@echo ... time_functions_cpp
 	@echo ... rebuild_cache
+	@echo ... SGP4_cpp
 	@echo ... triad_cpp
 	@echo ... edit_cache
 	@echo ... TRIAD/cpp/deterministic_ad.obj
 	@echo ... TRIAD/cpp/deterministic_ad.i
 	@echo ... TRIAD/cpp/deterministic_ad.s
+	@echo ... orbit_propagation/orbit_prop_cpp/SGP4.obj
+	@echo ... orbit_propagation/orbit_prop_cpp/SGP4.i
+	@echo ... orbit_propagation/orbit_prop_cpp/SGP4.s
 	@echo ... util_funcs/cpp/sun_utils.obj
 	@echo ... util_funcs/cpp/sun_utils.i
 	@echo ... util_funcs/cpp/sun_utils.s

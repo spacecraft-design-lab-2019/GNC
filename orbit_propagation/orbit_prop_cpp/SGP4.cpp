@@ -54,6 +54,7 @@
 *       ----------------------------------------------------------------      */
 
 #include "SGP4.h"
+#include <../../pybind11/include/pybind11/pybind11.h>
 
 #define pi 3.14159265358979323846
 
@@ -3232,7 +3233,42 @@ namespace SGP4Funcs
 		days2mdhms(year, days + jdfrac, mon, day, hr, minute, sec);
 	}  // invjday
 
+    /* -----------------------------------------------------------------------------
+    *
+    *                           procedure get_gravconsttype
+    *
+    *  this procedure takes in an int specifying the gravity constants to use and
+    *  returns the gravconsttype variable corresponding to the correct set of constants
+    *
+    *  algorithm     : based on example in testcpp.cpp
+    *
+    *  author        : Paul DeTrempe                 detrempe@stanford.edu 10/23/2019
+    *
+    *  inputs          description                                                  range / units
+    *    whichcon    - int describing gravity constants to use                      [721, 72, 84]
+    *
+    *  outputs       :
+    *    whichconst  - gravconsttype for use in SGP4
+    *
+    * --------------------------------------------------------------------------- */
 
+    gravconsttype get_gravconsttype(int whichcon) {
+        if (whichcon == 721) return wgs72old;
+        if (whichcon == 72)  return wgs72;
+        if (whichcon == 84)  return wgs84;
+    }
 } // namespace SGP4Funcs
+
+// Bind functions to Python using Pybind
+// Paul DeTrempe, detrempe@stanford.edu
+PYBIND11_MODULE(SGP4_cpp, m) {
+m.doc() = "SGP4 C++ implementation"; // optional module docstring
+
+m.def("twoline2rv", &SGP4Funcs::twoline2rv, "Function for converting TLE to SGP4 satellite struct");
+m.def("getgravconst", &SGP4Funcs::getgravconst, "Function for converting TLE to SGP4 satellite struct");
+m.def("sgp4", &SGP4Funcs::sgp4, "Function for propagating satellite struct set time (minutes) into future");
+m.def("get_gravconsttype", &SGP4Funcs::get_gravconsttype, "Function for converting int to gravconsttype data type");
+
+}
 
 

@@ -224,6 +224,11 @@ namespace SGP4Funcs
 		int& hr, int& minute, double& sec
 		);
 
+    gravconsttype get_gravconsttype
+        (
+        int whichcon
+        );
+
 
 }  // namespace
 
