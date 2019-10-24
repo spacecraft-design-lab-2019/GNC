@@ -8,7 +8,7 @@ import pyIGRF
 from scipy.spatial.transform import Rotation as R
 
 
-def test_triad_python():
+def test_triad():
     rot = R.from_quat([0, 0, np.sin(np.pi / 4), np.cos(np.pi / 4)])
     DCM_body2eci = rot.as_dcm()
     DCM_eci2body = np.transpose(DCM_body2eci)
