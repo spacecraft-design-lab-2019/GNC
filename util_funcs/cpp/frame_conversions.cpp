@@ -50,9 +50,10 @@ MatrixXd ecef2enu(double lat, double lon){
 
     MatrixXd R(3, 3);
     R << ehat, nhat, uhat;
-    R = R.transpose();
+    MatrixXd R_t(3, 3);
+    R_t = R.transpose();
 
-    return R;
+    return R_t;
 }
 
 std::tuple<double, double, double> ecef2lla(Vector3d r){
