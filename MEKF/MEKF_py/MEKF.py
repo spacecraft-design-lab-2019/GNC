@@ -37,10 +37,10 @@ P = A*P*np.transpose(A)+W
 # run measurement step
 '''
 '''
-y,R = measurement(q,rN)
+y,R,C = measurement(q,rN)
 
 # run innovation step to find z
-z,C,S = innovation(R, rN, rB, P, V)
+z,S = innovation(R, rN, rB, P, V, C)
 
 # Kalman Gain
 L = P @ C.T @ LA.inv(S)
