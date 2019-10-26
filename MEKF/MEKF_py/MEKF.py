@@ -7,6 +7,7 @@ from numpy import linalg as LA
 import sys
 sys.path.append('../TRIAD/py_funcs/')
 import deterministic_ad as triad
+from udpate import update
 
 # initial conditions for MEKF
 xk = np.array([0,0,0,1,0.1,0.1,0.1])
@@ -32,11 +33,9 @@ P  - predicted covariance (sigma_k+1|k)
 A  - linearized state transition matrix
 '''
 xn,A = predict(xk,w,dt)
-P = A*P*np.transpose(A)+W
+Pn = A*P*np.transpose(A)+W
 
 # run measurement step
-'''
-'''
 y,R,C = measurement(q,rN)
 
 # run innovation step to find z
@@ -44,6 +43,9 @@ z,S = innovation(R, rN, rB, P, V, C)
 
 # Kalman Gain
 L = P @ C.T @ LA.inv(S)
+
+# update step
+x, P = update(L, z, xn, Pn, V, C)
 
 
 
