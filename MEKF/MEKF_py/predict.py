@@ -14,8 +14,6 @@ def predict(xk,w,dt):
     Predict step of MEKF - state x = [q, Beta]
     qk*[cos(theta),rsin(theta)] uses Hamilton's quaternion mult.
     ** scalar first quaternion ** 
-
-
     '''
     q = np.reshape(xk[0:4],(4,1))
     b = np.reshape(xk[4:7],(3,1))
@@ -23,19 +21,19 @@ def predict(xk,w,dt):
     u = w + b
     theta = LA.norm(u-b)*dt
     r = (u-b)/LA.norm(u-b)
-    xn = np.reshape(np.zeros(7),(7,1))
+    xn =np.zeros(7)
     
     # q2 == s
     s_scalar = math.cos(theta/2)
-    s_vector = r*math.sin(theta)
+    s_vector = r*math.sin(theta/2)
     s_vector = np.reshape(s_vector,(3,1))
     s = np.vstack((s_scalar,s_vector))
-    
+
     # propagate dynamics forward
     xn[0] = q[0]*s[0]-np.matmul(q[1:4].T,s[1:4])
-    xn[1:4] = q[0]*s[1:4]+s[0]*q[1:4]+np.reshape(np.cross(q[1:4].T,s[1:4].T),(3,1))
-    xn[4:7] = b
-    
+    temp = q[0]*s[1:4]+s[0]*q[1:4]+np.reshape(np.cross(q[1:4].T,s[1:4].T),(3,1))
+    xn[1:4] = np.reshape(temp,3)
+    xn[4:7] = np.reshape(b,3)
     # isolate vector component of quaternion
     V = np.array([[0,1,0,0],[0,0,1,0],[0,0,0,1]])
     

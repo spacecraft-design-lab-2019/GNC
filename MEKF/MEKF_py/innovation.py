@@ -6,7 +6,6 @@ def innovation(R,rN, rB, P,V,C):
 
     
     z = rB - Q@rN
-    
 
     S = C@P@C.T+V
     
