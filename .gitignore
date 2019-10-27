@@ -17,3 +17,6 @@ orbit_propagation/test/__pycache__/
 util_funcs/.cache/
 util_funcs/test/__pycache__/
 
+MEKF/MEKF_py/__pycache__/
+TRIAD/py_funcs/__pycache__/
+util_funcs/py_funcs/__pycache__/
