@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import linalg as LA
 def innovation(R,rN, rB, P,V,C):
     Q = np.zeros([6,6])
     Q[0:3,0:3] = R

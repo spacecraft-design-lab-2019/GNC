@@ -56,8 +56,10 @@ def predict(xk,w,dt):
     # fill out A matrix
     
     A[0:3,0:3] = V@Ls.T@Rs@V.T
-    A[0:3,3:6] = -0.5*dt
-    A[3:6,3:6] = 1
+    A[0:3,3:6] = -0.5*dt*np.identity(3)
+    A[3:6,3:6] = np.identity(3)
+
+    
         
     return xn, A
 
