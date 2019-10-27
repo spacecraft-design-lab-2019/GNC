@@ -6,18 +6,18 @@ from numpy import linalg as LA
 def trace(A):
     trace = 0
     for ii in range(len(A)):
-        trace += A(ii,ii)
+        trace += A[ii,ii]
     return trace
 
-def DCM2q(A):
+def DCM2quat(A):
     ''' 
     A should be a 3x3 array
     output quaternion first
     '''
     B4 = math.sqrt(1/4*(1+trace(A)))
-    B1 = sqrt(1/4*(1+2*A[0,0]-trace(A)));
-    B2 = sqrt(1/4*(1+2*A[1,1]-trace(A)));
-    B3 = sqrt(1/4*(1+2*A[2,2]-trace(A)));
+    B1 = math.sqrt(1/4*(1+2*A[0,0]-trace(A)));
+    B2 = math.sqrt(1/4*(1+2*A[1,1]-trace(A)));
+    B3 = math.sqrt(1/4*(1+2*A[2,2]-trace(A)));
     B = np.array([B1,B2,B3,B4])
     if B1 == max(B):
         q1 = B1;
