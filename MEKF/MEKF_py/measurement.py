@@ -20,7 +20,7 @@ def measurement(q,rN):
     rB2 = (R@rN[3:6])
     y = np.append(rB1,rB2)
     
-    C = np.zeros(6,6)
+    C = np.zeros([6,6])
     C[0:3,0:3] = 2*SkewSymmetric(rB1)
     C[3:6,0:3] = 2*SkewSymmetric(rB2)
     
