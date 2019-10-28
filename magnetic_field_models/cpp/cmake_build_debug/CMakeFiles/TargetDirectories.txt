@@ -1,0 +1,3 @@
+/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/cmake_build_debug/CMakeFiles/rebuild_cache.dir
+/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/cmake_build_debug/CMakeFiles/cpp.dir
+/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/cmake_build_debug/CMakeFiles/edit_cache.dir
