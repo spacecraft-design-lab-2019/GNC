@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared  -o frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o -flto 

@@ -1,9 +1,18 @@
-from GNC.util_funcs.py_funcs import time_functions, frame_conversions, sun_utils
-from GNC.TRIAD.py_funcs import deterministic_ad
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+gncdir = os.path.dirname(parentdir)
+docdir = os.path.dirname(gncdir)
+sys.path.insert(0,parentdir)
+sys.path.insert(0, gncdir)
+sys.path.insert(0, docdir)
+
+from util_funcs.py_funcs import time_functions, frame_conversions, sun_utils
+from TRIAD.py_funcs import deterministic_ad
 import numpy as np
 import pytest
 import math
-from GNC.cmake_build_debug import sun_utils_cpp, time_functions_cpp, frame_conversions_cpp, triad_cpp
+import sun_utils_cpp, time_functions_cpp, frame_conversions_cpp, triad_cpp
 import pyIGRF
 from scipy.spatial.transform import Rotation as R
 
