@@ -57,6 +57,7 @@
 #include <../../pybind11/include/pybind11/pybind11.h>
 
 #define pi 3.14159265358979323846
+namespace py = pybind11;
 
 // define global variables here, not in .h
 // use extern in main
@@ -3253,10 +3254,50 @@ namespace SGP4Funcs
     * --------------------------------------------------------------------------- */
 
     gravconsttype get_gravconsttype(int whichcon) {
-        if (whichcon == 721) return wgs72old;
-        if (whichcon == 72)  return wgs72;
-        if (whichcon == 84)  return wgs84;
+        gravconsttype whichconst; // declare pointer
+//        whichconst = (gravconsttype*)malloc(sizeof(gravconsttype*)); // allocate pointer memory
+
+        // assign pointer
+        if (whichcon == 721) whichconst = wgs72old;
+        if (whichcon == 72)  whichconst = wgs72;
+        if (whichcon == 84)  whichconst = wgs84;
+        return whichconst;
     }
+
+    void twoline2rv_wrapper(char longstr1[130], char longstr2[130], int whichcon, elsetrec* satrec)
+    {
+        //declarations/allocation
+        char typerun;
+        char typeinput;
+        char opsmode;
+        gravconsttype whichconst;
+        double startmfe; // minute from epoch, start
+        double stopmfe;  // minutes from epoch, stop
+        double deltamin; //
+//        char opsmode;    // specify we're using improved SGP4
+
+        // initialize
+        typerun = 'm';      // manual input
+        typeinput = 'e';    // epoch time input
+        opsmode = 'i';      // improved SGP4
+        whichconst = get_gravconsttype(whichcon); //use user specified constants (usually wgs72)
+
+        twoline2rv(longstr1, longstr2, typerun, typeinput, opsmode, whichconst, startmfe, stopmfe, deltamin, *satrec);
+
+        // return pointer to satellite struct
+//        return &satrec;
+    }
+
+    elsetrec* get_new_satrec()
+    {
+        elsetrec* satrec;
+        return satrec;
+    }
+
+
+    
+
+
 } // namespace SGP4Funcs
 
 // Bind functions to Python using Pybind
@@ -3267,8 +3308,10 @@ m.doc() = "SGP4 C++ implementation"; // optional module docstring
 m.def("twoline2rv", &SGP4Funcs::twoline2rv, "Function for converting TLE to SGP4 satellite struct");
 m.def("getgravconst", &SGP4Funcs::getgravconst, "Function for converting TLE to SGP4 satellite struct");
 m.def("sgp4", &SGP4Funcs::sgp4, "Function for propagating satellite struct set time (minutes) into future");
-m.def("get_gravconsttype", &SGP4Funcs::get_gravconsttype, "Function for converting int to gravconsttype data type");
-
+//m.def("twoline2rv_wrapper", &SGP4Funcs::twoline2rv_wrapper, py::return_value_policy::reference,"Function for returning pointer to satellite struct pointer");
+m.def("get_new_satrec", &SGP4Funcs::get_new_satrec,py::return_value_policy::reference, "Function to allocate memory for satellite");
+//m.def("get_gravconsttype", &SGP4Funcs::get_gravconsttype, py::return_value_policy::reference_internal,  "Function for converting int to gravconsttype data type");
+//py::return_value_policy::reference,
 }
 
 

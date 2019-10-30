@@ -14,7 +14,7 @@ import pyproj
 
 def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
     '''
-    determine position in ecef from TLE, epoch (as a string), and seconds past epoch 
+    determine position in ECI from TLE, epoch (as a string), and seconds past epoch 
     (as a float)
     '''
     # parse TLE
@@ -37,7 +37,7 @@ def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
 
 def get_orbit_state(TLE, epoch, sec_since_epoch, wgs=wgs84):
     '''
-    determine position in ecef from TLE, epoch (as a string), and seconds past epoch 
+    determine state in ECI from TLE, epoch (as a string), and seconds past epoch 
     (as a float)
     '''
     # parse TLE
@@ -61,7 +61,7 @@ def get_orbit_state(TLE, epoch, sec_since_epoch, wgs=wgs84):
 
 def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
     '''
-    determine magnetic field properties from orbit state
+    determine magnetic field properties from orbit state, in ECEF!!!!
     '''
     r = get_orbit_pos(TLE, epoch, sec_past_epoch, wgs)
     # parse orbit state
@@ -79,5 +79,20 @@ def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
 
     return Bx, By, Bz
 
+def get_B_field_at_point(r,year=2019):
+    '''
+    Find the North-East-Down B-field (in nT) in ECEF coordinates 
+    '''
+    # parse position
+    x = r[0]
+    y = r[1]
+    z = r[2]
+    # Convert ECEF position to geodetic
+    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
+    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
+    lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
+    # Calculate magnetic field properties
+    D,I,H,Bx,By,Bz,F = pyIGRF.igrf_variation(lat, lon, alt, year)
 
+    return Bx, By, Bz
 

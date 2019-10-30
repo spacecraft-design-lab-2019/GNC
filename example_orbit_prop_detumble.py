@@ -8,8 +8,9 @@ from mpl_toolkits import mplot3d
 import math
 import numpy as np
 import scipy.integrate as integrate
-from orbit_propagation import get_orbit_pos
+from orbit_propagation import get_orbit_pos, get_B_field_at_point
 from GNC.cmake_build_debug import SGP4_cpp as SGP4
+from util_funcs.py_funcs.frame_conversions import eci2ecef
 
 # clear figures
 plt.close('all')
@@ -42,11 +43,17 @@ n = 101
 times = np.linspace(t0,tf,n)
 
 # preallocate position storage matrix
-positions = np.zeros((n,3))
+positions_ECI = np.zeros((n,3))
+positions_ECEF = np.zeros((n,3))
+B_fields = np.zeros((n,3))
 
 # extract position info at all times (from Python)
 for i in range(len(times)):
-    positions[i,:] = get_orbit_pos(TLE, epoch, times[i])
+    positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
+    # get magnetic field at all these positions
+    # convert to ECEF
+    B_fields[i,:] = get_B_field_at_point(positions[i,:])
+    # North, East, Down
 
 # extract position info from C++
 # typerun     - type of run                    verification 'v', catalog 'c', manual 'm'                         
@@ -55,13 +62,14 @@ for i in range(len(times)):
 #	whichconst  - which set of constants to use  72, 84
 
 # get gravity constants first
-wgs72 = SGP4.get_gravconsttype(72)
-satrec = SGP4.twoline2rv(line1, line2, 'm', 'e', 'a', 72)
+# wgs72 = SGP4.get_gravconsttype(72)
+#satrec = SGP4.twoline2rv_wrapper(line1, line2, 72)
+#satrec_ptr = SGP4.get_new_satrec()
 
 # plot trajectory
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.plot3D(positions[:,0],positions[:,1],positions[:,2])
+ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
 ax.set_title('Orsted orbit')
 
 # Let's 

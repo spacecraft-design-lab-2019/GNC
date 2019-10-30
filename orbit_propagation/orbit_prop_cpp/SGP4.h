@@ -229,6 +229,12 @@ namespace SGP4Funcs
         int whichcon
         );
 
+    void twoline2rv_wrapper
+            (
+            char longstr1[130], char longstr2[130], int whichcon, elsetrec* satrec
+            );
+
+    elsetrec* get_new_satrec();
 
 }  // namespace
 
