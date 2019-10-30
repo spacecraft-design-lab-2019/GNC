@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/_deps/pybind11-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/_deps/pybind11-src/tools/clang" vcs="Git" />
   </component>
 </project>

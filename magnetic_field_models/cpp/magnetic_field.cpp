@@ -5,7 +5,7 @@
 #include "magnetic_field.h"
 #include <math.h>
 #include <iostream>
-#include "eigen-git-mirror/Eigen/Dense"
+#include "../../eigen-git-mirror/Eigen/Dense"
 
 using namespace Eigen;
 
@@ -43,7 +43,7 @@ int main() {
     h(1,1) = -2845.6;
     h(1,2) = -641.9;
     h(1,3) = 0;
-    h(2,0) 0;
+    h(2,0) = 0;
     h(2,1) = -115.3;
     h(2,2) = 244.9;
     h(2,3) = -538.4;
@@ -60,7 +60,7 @@ VectorXd get_magnetic_field(double lat, double lon, double alt)
     B_vec(0) = 0;
     B_vec(1) = 0;
     B_vec(2) = 0;
-    return B_vec
+    return B_vec;
 }
 
 
