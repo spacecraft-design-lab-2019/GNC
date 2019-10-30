@@ -4,12 +4,12 @@ Script integrating detumble with orbit/magnetic field knowledge
 
 from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
 import math
 import numpy as np
 import scipy.integrate as integrate
 from orbit_propagation import get_orbit_pos, get_B_field_at_point
-from GNC.cmake_build_debug import SGP4_cpp as SGP4
+# from GNC.cmake_build_debug import SGP4_cpp as SGP4
 from util_funcs.py_funcs.frame_conversions import eci2ecef
 
 # clear figures
@@ -52,7 +52,7 @@ for i in range(len(times)):
     positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
     # get magnetic field at all these positions
     # convert to ECEF
-    B_fields[i,:] = get_B_field_at_point(positions[i,:])
+    B_fields[i,:] = get_B_field_at_point(positions_ECI[i,:])
     # North, East, Down
 
 # extract position info from C++

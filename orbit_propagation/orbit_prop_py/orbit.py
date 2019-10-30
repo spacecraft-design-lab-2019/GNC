@@ -79,7 +79,7 @@ def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
 
     return Bx, By, Bz
 
-def get_B_field_at_point(r,year=2019):
+def get_B_field_at_point(r, year=2019):
     '''
     Find the North-East-Down B-field (in nT) in ECEF coordinates 
     '''
@@ -92,7 +92,7 @@ def get_B_field_at_point(r,year=2019):
     lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
     lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
     # Calculate magnetic field properties
-    D,I,H,Bx,By,Bz,F = pyIGRF.igrf_variation(lat, lon, alt, year)
+    D, I, H, Bx, By, Bz, F = pyIGRF.igrf_variation(lat, lon, alt, year)
 
     return Bx, By, Bz
 
