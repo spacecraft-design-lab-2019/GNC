@@ -7,3 +7,13 @@ util_funcs/__pycache__/__init__.cpython-37.pyc
 __pycache__/test_TRIAD.cpython-37-pytest-5.0.1.pyc
 TRIAD/__pycache__/deterministic_ad.cpython-37.pyc
 TRIAD/__pycache__/__init__.cpython-37.pyc
+.cache/
+.idea/
+.vs/
+cmake-build-debug/
+documentation.wiki/
+orbit_propagation/orbit_prop_py/test/__pycache__/
+orbit_propagation/test/__pycache__/
+util_funcs/.cache/
+util_funcs/test/__pycache__/
+
