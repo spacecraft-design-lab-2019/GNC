@@ -49,10 +49,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.2.4\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Ethan\CLionProjects\GNC
+CMAKE_SOURCE_DIR = "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug
+CMAKE_BINARY_DIR = "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -81,9 +81,9 @@ edit_cache\fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles" "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Ethan\CLionProjects\GNC\cmake_build_debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\pdetr\Documents\Stanford\Year 2\AA 236A\GNC\cmake_build_debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -136,6 +136,19 @@ time_functions_cpp: cmake_check_build_system
 time_functions_cpp\fast:
 	$(MAKE) -f CMakeFiles\time_functions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\time_functions_cpp.dir\build
 .PHONY : time_functions_cpp\fast
+
+#=============================================================================
+# Target rules for targets named SGP4_cpp
+
+# Build rule for target.
+SGP4_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) SGP4_cpp
+.PHONY : SGP4_cpp
+
+# fast build rule for target.
+SGP4_cpp\fast:
+	$(MAKE) -f CMakeFiles\SGP4_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\SGP4_cpp.dir\build
+.PHONY : SGP4_cpp\fast
 
 #=============================================================================
 # Target rules for targets named triad_cpp
@@ -280,6 +293,7 @@ help:
 	@echo ... sun_utils_cpp
 	@echo ... time_functions_cpp
 	@echo ... rebuild_cache
+	@echo ... SGP4_cpp
 	@echo ... triad_cpp
 	@echo ... frame_conversions_cpp
 	@echo ... edit_cache

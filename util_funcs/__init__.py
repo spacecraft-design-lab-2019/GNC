@@ -1,1 +1,1 @@
-import GNC.util_funcs.py_funcs
+from .py_funcs import *

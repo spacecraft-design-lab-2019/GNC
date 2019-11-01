@@ -3,3 +3,13 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/eleboeuf/Documents/GNC
+
+CMake Error at C:/Program Files/JetBrains/CLion 2019.2.4/bin/cmake/win/share/cmake-3.15/Modules/FetchContent.cmake:903 (message):
+  CMake step for pybind11 failed: 1
+Call Stack (most recent call first):
+  C:/Program Files/JetBrains/CLion 2019.2.4/bin/cmake/win/share/cmake-3.15/Modules/FetchContent.cmake:1006 (__FetchContent_directPopulate)
+  CMakeLists.txt:15 (FetchContent_Populate)
+
+
+-- Configuring incomplete, errors occurred!
+See also "C:/Users/pdetr/Documents/Stanford/Year 2/AA 236A/GNC/cmake_build_debug/CMakeFiles/CMakeOutput.log".
