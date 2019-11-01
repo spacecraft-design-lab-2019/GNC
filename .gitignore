@@ -28,3 +28,7 @@ _deps/
 CMakeFiles/
 
 _deps/pybind11-subbuild/CMakeCache.txt
+
+util_funcs/__pycache__/
+
+TRIAD/test/__pycache__/
