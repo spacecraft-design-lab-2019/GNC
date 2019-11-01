@@ -10,7 +10,9 @@ import numpy as np
 import scipy.integrate as integrate
 from orbit_propagation import get_orbit_pos, get_B_field_at_point
 # from GNC.cmake_build_debug import SGP4_cpp as SGP4
-from util_funcs.py_funcs.frame_conversions import eci2ecef
+# from util_funcs.py_funcs.frame_conversions import eci2ecef
+import time_functions_cpp as tfcpp
+import frame_conversions_cpp as fccpp
 
 # clear figures
 plt.close('all')
@@ -33,6 +35,10 @@ line1 = ('1 25635U 99008B   13348.59627062  .00000650  00000-0  16622-3 0  9860'
 line2 = ('2 25635  96.4421 173.2395 0141189  10.0389  29.8678 14.46831495780970')
 TLE = {'line1': line1, 'line2': line2}
 
+# initial orbit time (fair warning, this is the time for PyCubed, not Orsted)
+MJD = 58827.53750000009
+GMST_0 = tfcpp.MJD2GMST(MJD)
+
 mean_motion = 14.46/(24*3600)*2*math.pi # mean motion, radians/second
 period = 2*pi/mean_motion                      # Period, seconds
 
@@ -50,9 +56,13 @@ B_fields = np.zeros((n,3))
 # extract position info at all times (from Python)
 for i in range(len(times)):
     positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
-    # get magnetic field at all these positions
+
     # convert to ECEF
-    B_fields[i,:] = get_B_field_at_point(positions_ECI[i,:])
+    R = fccpp.eci2ecef(GMST_0 + times[i])
+
+    positions_ECEF[i,:] = np.transpose(np.matmul(R, np.transpose(positions_ECI[i,:])))
+    # get magnetic field at all these positions
+    B_fields[i,:] = get_B_field_at_point(positions_ECEF[i,:])
     # North, East, Down
 
 # extract position info from C++
@@ -67,9 +77,13 @@ for i in range(len(times)):
 #satrec_ptr = SGP4.get_new_satrec()
 
 # plot trajectory
-fig = plt.figure()
+# fig = plt.figure()
 ax = plt.axes(projection='3d')
 ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
 ax.set_title('Orsted orbit')
+# Esoteric plotting function
+with plt.rc_context(rc={'interactive': False}):
+    plt.show()
+# plt.show(block = True)
 
 # Let's 
