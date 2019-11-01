@@ -20,3 +20,11 @@ util_funcs/test/__pycache__/
 MEKF/MEKF_py/__pycache__/
 TRIAD/py_funcs/__pycache__/
 util_funcs/py_funcs/__pycache__/
+
+_deps/pybind11-build/CMakeFiles/CMakeDirectoryInformation.cmake
+
+_deps/pybind11-build/Makefile
+_deps/
+CMakeFiles/
+
+_deps/pybind11-subbuild/CMakeCache.txt
