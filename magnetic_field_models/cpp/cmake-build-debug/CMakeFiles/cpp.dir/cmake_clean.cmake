@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/cpp.dir/magnetic_field.cpp.o"
   "CMakeFiles/cpp.dir/main.cpp.o"
   "cpp"
   "cpp.pdb"

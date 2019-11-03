@@ -10,8 +10,13 @@ sys.path.insert(0, docdir)
 from util_funcs.py_funcs import time_functions as tf
 import numpy as np
 import pytest
+<<<<<<< HEAD
 import time_functions_cpp as tfcpp
 
+=======
+import math
+from GNC.cmake_build_debug import time_functions_cpp as tfcpp
+>>>>>>> remotes/origin/HEAD
 # Test 1: Check function works when month is after March
 def test_date2MJD_1():
     M = int(5)
@@ -55,5 +60,14 @@ def test_date2MJD_2():
 
 # Test 1: Checks that MJD is successfully turned into GMST
 def test_MJD2GMST_1():
+    MJD = 48854.50972222211
 
+<<<<<<< HEAD
     assert True
+=======
+    gmst_check = 152.578787810 * math.pi / 180 # example is from Vallado
+    np.testing.assert_allclose(tf.MJD2GMST(MJD), gmst_check, atol=1e-6) # Python test
+    np.testing.assert_allclose(tfcpp.MJD2GMST(MJD), gmst_check, atol=1e-6) # cpp test
+    np.testing.assert_allclose(tfcpp.MJD2GMST(MJD), tf.MJD2GMST(MJD),
+                               atol=1e-6)  # compare test
+>>>>>>> remotes/origin/HEAD

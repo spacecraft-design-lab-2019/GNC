@@ -1,6 +1,6 @@
 import sys, math, numpy as np
 import scipy.integrate as integrate
-
+from numpy import linalg as LA
 '''
 TODO:
     - write quaternion multiplication function
@@ -80,6 +80,7 @@ def quat2DCM(quat):
         - clarify quaternion rotation direction convention (eci2attitude, attitude2eci?)
         - clarify DCM rotation direction convention
     '''
+    quat = np.reshape(quat,4)
     q1 = quat[0]
     q2 = quat[1]
     q3 = quat[2]
@@ -88,6 +89,7 @@ def quat2DCM(quat):
     # calculate skew symmetric matrix Q
     Q = np.array([[0,-q4,q3],[q4,0,-q2],[-q3,q2,0]])
     # calculate DCM
-    DCM = (q1**2-np.transpose(q_vec)*q_vec)*np.eye(3)-2*q1*Q+2*q_vec*np.transpose(q_vec)
+    DCM = (q1**2-np.transpose(q_vec)@q_vec)*np.identity(3)-2*q1*Q+2*q_vec@np.transpose(q_vec)
+
     return DCM
 

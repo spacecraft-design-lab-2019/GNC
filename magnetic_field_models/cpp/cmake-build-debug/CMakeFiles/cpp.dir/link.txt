@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/cpp.dir/main.cpp.o  -o cpp 
+/usr/bin/c++  -g   CMakeFiles/cpp.dir/main.cpp.o CMakeFiles/cpp.dir/magnetic_field.cpp.o  -o cpp 

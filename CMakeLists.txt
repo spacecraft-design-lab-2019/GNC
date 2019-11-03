@@ -23,6 +23,7 @@ include_directories(eigen-git-mirror)
 pybind11_add_module(sun_utils_cpp util_funcs/cpp/sun_utils.cpp)
 pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 pybind11_add_module(triad_cpp TRIAD/cpp/deterministic_ad.cpp)
+pybind11_add_module(frame_conversions_cpp util_funcs/cpp/frame_conversions.cpp)
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
 #        util_funcs/cpp/time_functions.h)

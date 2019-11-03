@@ -41,11 +41,17 @@ def MJD2GMST(MJD):
     Outputs:
     GMST - Greenwich Mean Sidereal Time
     """
-    GMST = 280.4606 + 360.9856473 * (MJD - 51544.5);
-    GMST = GMST * math.pi / 180;
-    if GMST >= 2*math.pi:
-        diff = np.ceil((GMST-2*math.pi) / (2*math.pi));
-        GMST = GMST - 2 * math.pi * diff;
+    # GMST = 280.4606 + 360.9856473 * (MJD - 51544.5);
+    # GMST = GMST * math.pi / 180;
+    # if GMST >= 2*math.pi:
+    #     diff = np.ceil((GMST-2*math.pi) / (2*math.pi));
+    #     GMST = GMST - 2 * math.pi * diff;
+
+    T = (MJD - 51544.5) / 36525
+    GMST = 67310.54841 + (876600*3600 + 8640184.812866) * T + 0.093104 * T**2 - 6.2 * 10**(-6)*T**3
+
+    GMST = GMST % 86400
+    GMST = GMST / 240 * math.pi / 180
 
     return GMST
 
