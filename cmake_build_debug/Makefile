@@ -150,6 +150,19 @@ triad_cpp\fast:
 	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\build
 .PHONY : triad_cpp\fast
 
+#=============================================================================
+# Target rules for targets named frame_conversions_cpp
+
+# Build rule for target.
+frame_conversions_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) frame_conversions_cpp
+.PHONY : frame_conversions_cpp
+
+# fast build rule for target.
+frame_conversions_cpp\fast:
+	$(MAKE) -f CMakeFiles\frame_conversions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\frame_conversions_cpp.dir\build
+.PHONY : frame_conversions_cpp\fast
+
 TRIAD\cpp\deterministic_ad.obj: TRIAD\cpp\deterministic_ad.cpp.obj
 
 .PHONY : TRIAD\cpp\deterministic_ad.obj
@@ -176,6 +189,33 @@ TRIAD\cpp\deterministic_ad.s: TRIAD\cpp\deterministic_ad.cpp.s
 TRIAD\cpp\deterministic_ad.cpp.s:
 	$(MAKE) -f CMakeFiles\triad_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\triad_cpp.dir\TRIAD\cpp\deterministic_ad.cpp.s
 .PHONY : TRIAD\cpp\deterministic_ad.cpp.s
+
+util_funcs\cpp\frame_conversions.obj: util_funcs\cpp\frame_conversions.cpp.obj
+
+.PHONY : util_funcs\cpp\frame_conversions.obj
+
+# target to build an object file
+util_funcs\cpp\frame_conversions.cpp.obj:
+	$(MAKE) -f CMakeFiles\frame_conversions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\frame_conversions_cpp.dir\util_funcs\cpp\frame_conversions.cpp.obj
+.PHONY : util_funcs\cpp\frame_conversions.cpp.obj
+
+util_funcs\cpp\frame_conversions.i: util_funcs\cpp\frame_conversions.cpp.i
+
+.PHONY : util_funcs\cpp\frame_conversions.i
+
+# target to preprocess a source file
+util_funcs\cpp\frame_conversions.cpp.i:
+	$(MAKE) -f CMakeFiles\frame_conversions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\frame_conversions_cpp.dir\util_funcs\cpp\frame_conversions.cpp.i
+.PHONY : util_funcs\cpp\frame_conversions.cpp.i
+
+util_funcs\cpp\frame_conversions.s: util_funcs\cpp\frame_conversions.cpp.s
+
+.PHONY : util_funcs\cpp\frame_conversions.s
+
+# target to generate assembly for a file
+util_funcs\cpp\frame_conversions.cpp.s:
+	$(MAKE) -f CMakeFiles\frame_conversions_cpp.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\frame_conversions_cpp.dir\util_funcs\cpp\frame_conversions.cpp.s
+.PHONY : util_funcs\cpp\frame_conversions.cpp.s
 
 util_funcs\cpp\sun_utils.obj: util_funcs\cpp\sun_utils.cpp.obj
 
@@ -241,10 +281,14 @@ help:
 	@echo ... time_functions_cpp
 	@echo ... rebuild_cache
 	@echo ... triad_cpp
+	@echo ... frame_conversions_cpp
 	@echo ... edit_cache
 	@echo ... TRIAD/cpp/deterministic_ad.obj
 	@echo ... TRIAD/cpp/deterministic_ad.i
 	@echo ... TRIAD/cpp/deterministic_ad.s
+	@echo ... util_funcs/cpp/frame_conversions.obj
+	@echo ... util_funcs/cpp/frame_conversions.i
+	@echo ... util_funcs/cpp/frame_conversions.s
 	@echo ... util_funcs/cpp/sun_utils.obj
 	@echo ... util_funcs/cpp/sun_utils.i
 	@echo ... util_funcs/cpp/sun_utils.s

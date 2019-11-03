@@ -47,15 +47,19 @@ double MJD2GMST(double MJD) {
     Outputs :
     GMST - Greenwich Mean Sidereal Time
     */
-    double GMST = 280.4606 + 360.9856473 * (MJD - 51544.5);
-    GMST = GMST * M_PI / 180;
-    if (GMST >= 2 * M_PI)
+    double T = (MJD - 51544.5) / 36525.0;
+    double gmst = (67310.54841 + (876600.0*3600.0 + 8640184.812866) * T
+            + 0.093104 * pow(T,2) - 6.2 * pow(10, -6) * pow(T, 3)) ;
+    gmst = fmod(gmst, 86400);
+    if (gmst < 0)
     {
-        double diff = ceil((GMST - 2 * M_PI) / (2 * M_PI));
-        GMST = GMST - 2 * M_PI * diff;
+        gmst += 86400;
     }
+    gmst = gmst * M_PI / 180 / 240;
 
-    return GMST;
+
+
+    return gmst;
 }
 
 double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
