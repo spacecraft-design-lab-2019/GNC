@@ -10,12 +10,8 @@
 using namespace Eigen;
 
 
-
-
-
-    int main() {
-
-        return 1;
+int main() {
+        return 0;
 }
 
 VectorXd get_magnetic_field(double lat, double lon, double alt, int year)

@@ -90,9 +90,6 @@
 		<Unit filename="/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/magnetic_field.h">
 			<Option target="cpp"/>
 		</Unit>
-		<Unit filename="/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/main.cpp">
-			<Option target="cpp"/>
-		</Unit>
 		<Unit filename="/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

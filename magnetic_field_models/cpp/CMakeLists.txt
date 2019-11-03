@@ -3,4 +3,4 @@ project(cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(cpp main.cpp magnetic_field.cpp magnetic_field.h)
+add_executable(cpp magnetic_field.cpp magnetic_field.h)
