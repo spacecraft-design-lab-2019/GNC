@@ -6,10 +6,11 @@ using Eigen::MatrixXd;
 
 MatrixXd SkewSymmetric(double a1, double a2, double a3);
 
-double predict(MatrixXd xk, MatrixXd w, double dt){
+MatrixXd predict(MatrixXd xk, MatrixXd w, double dt){
     MatrixXd q(4,1);
     q(:,0) = xk(0:4);
     b(:,0) = xk(4:7);
+
 
     MatrixXd u(3,1);
     u = w + b;
