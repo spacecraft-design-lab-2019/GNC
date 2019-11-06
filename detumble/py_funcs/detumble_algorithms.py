@@ -16,6 +16,8 @@ def detumble_B_cross(omega,B,k=1.0):
     - based on the paper by AVANZINI AND GIULIETTI
     TODO: find optimal k for our system
     '''
+    # try adjusting k to the velocity
+    # k = -2*omega
     b = B/np.linalg.norm(B) # normalize magnetic field vector
     L = -k*np.matmul((np.identity(3) - np.matmul(b,np.transpose(b))),omega)
     return L
