@@ -10,7 +10,7 @@ using namespace Eigen;
 using namespace std;
 
 #include <memory>
-
+#include <string>
 namespace py = pybind11;
 
 template <class T> class ptr_wrapper
@@ -28,52 +28,60 @@ template <class T> class ptr_wrapper
         T* ptr;
 };
 
-ptr_wrapper<float> get_ptr(void);
-
-int functest(float*);
-float* get_ptr(float x);
-
+// int functest(ptr_wrapper<float> z);
+int inttest(std::string x);
 int main(){
-	float x;
-	float * y = &x;
-	x = 5.0;
+	// float x;
+	// float * y = &x;
+	// x = 5.0;
 
-	float array[8];
-	for(int i = 0; i < 8; ++i) array[i] = i;
-	float * pa = array;
+	// float array[8];
+	// for(int i = 0; i < 8; ++i) array[i] = i;
+	// float * pa = array;
 	
-	cout << *pa << endl;
-	cout << array << endl;
-	functest(pa);
-	for (int n=0; n<8; n++)
-    	cout << array[n] << ", ";
+	// cout << *pa << endl;
+	// cout << array << endl;
+	// functest(pa);
+	// for (int n=0; n<8; n++)
+ //    	cout << array[n] << ", ";
 
     return 0;
 }
+int foo(int &i) { 
+	// i[0] +=1;
+	return 123; 
+}
 
-int functest(float* z){
 
-	Map<MatrixXf> mf(z, 2, 4);
-	MatrixXf R(4, 4);
-	R << 0, 1, 5, 10,
-		0, 1, 5, 10,
-		0, 1, 5, 10,
-		0, 1, 5, 10;
 
-	mf = mf * R;
-	// *z[0] = 100;
+// int functest(int &z){
+	
+	
+// 	Map<MatrixXf> mf(z, 2, 4);
+// 	MatrixXf R(4, 4);
+// 	R << 0, 1, 5, 10,
+// 		0, 1, 5, 10,
+// 		0, 1, 5, 10,
+// 		0, 1, 5, 10;
+
+// 	mf = mf * R;
+// 	// *z[0] = 100;
+// 	return 0;
+// }
+
+int inttest(std::string x){
+	int xi = std::stoi (x,nullptr,0);
+	cout << xi << endl;
+	int *z = (int*)xi;
+	cout << *z << endl;
 	return 0;
 }
 
 
-
-float* get_ptr(float x){
-	return &x;
-}
-
 PYBIND11_MODULE(pointer_t_cpp, m) {
     m.doc() = "Pointer testing"; // optional module docstring
-
-    m.def("functest", &functest, "");
-    m.def("get_ptr", &get_ptr, "");
+	py::class_<ptr_wrapper<float>>(m,"pfloat");
+    // m.def("functest", [](int i) { int rv = functest(i); return std::make_tuple(rv, i); });
+    m.def("inttest", &inttest, "");
+    m.def("foo", [](int i) { int rv = foo(i); return std::make_tuple(rv, i); });
 }
