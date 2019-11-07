@@ -19,7 +19,7 @@ def detumble_B_cross(omega,B,k):
     # try adjusting k to the velocity
     # k = -2*omega
     b = B/np.linalg.norm(B) # normalize magnetic field vector
-    L = -k*np.matmul((np.identity(3) - np.matmul(b,np.transpose(b))),omega)
+    L = -k* (np.identity(3) - b @ np.transpose(b)) @ omega
     return L
     
 def detumble_B_dot(B,B_dot,k=1.0):

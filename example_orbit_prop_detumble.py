@@ -49,7 +49,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = period/2
+tf = period
 tstep = .5
 times = np.arange(t0,tf,tstep)
 n = len(times)
@@ -80,7 +80,7 @@ for i in range(len(times)-1):
     # convert to ECEF
     R_ECI2ECEF = fccpp.eci2ecef(GMST)
 
-    positions_ECEF[i,:] = np.transpose(np.matmul(R_ECI2ECEF, np.transpose(positions_ECI[i,:])))
+    positions_ECEF[i,:] = np.transpose(R_ECI2ECEF @ np.transpose(positions_ECI[i,:]))
     lat, lon, alt = fccpp.ecef2lla(np.transpose(positions_ECEF[i,:]))
     R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
 
@@ -91,8 +91,8 @@ for i in range(len(times)-1):
 
     # get magnetic field in body frame (for detumble algorithm)
     R_body2ECI = quat2DCM(np.transpose(x[0:4]))
-    B_field_ECEF = np.matmul(np.transpose(R_ECEF2ENU),B_field_ENU)
-    B_field_ECI = np.matmul(np.transpose(R_ECI2ECEF),B_field_ECEF)
+    B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
+    B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
 
     # Correct to max expected value of Earth's magnetic field if pyIGRF throws a huge value
     if i > 0:
@@ -101,7 +101,7 @@ for i in range(len(times)-1):
 
 
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
-    B_field_body[i,:] = np.transpose(np.matmul(np.transpose(R_body2ECI),B_field_ECI))
+    B_field_body[i,:] = np.transpose( np.transpose(R_body2ECI) @ B_field_ECI)
 
     # Get B_dot based on previous measurement
     if i>0:
@@ -111,24 +111,19 @@ for i in range(len(times)-1):
         # # Validate B_dot algorithm
         # k_B_dot = -4.0*math.pi/period*(2)*Ixx*9.0e7
         # Moment = dcpp.detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k_B_dot)
-        # Torque on spacecraft
+        # # Torque on spacecraft
         # M = np.cross(Moment, np.transpose(B_field_body[i, :]))
 
-        # # Validate B_cross_c++
-        # k_B_cross = 4.0*math.pi/period*(2)*Ixx*1.0e-1
-        # M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
+        # Validate B_cross_c++
+        k_B_cross = 4.0*math.pi/period*(2)*Ixx*2.0e-1
+        M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
 
-        # Validate B_cross_python
-        k_B_cross = 4.0 * math.pi / period * (2) * Ixx * 1.0e1
-        M = detumble_B_cross(np.transpose(x[4:7]), np.transpose(B_field_body[i, :]), k_B_cross)
+        # # Validate B_cross_python
+        # k_B_cross = 4.0*math.pi/period*(2)*Ixx*1.0e-1
+        # M = detumble_B_cross(np.transpose(x[4:7]), np.transpose(B_field_body[i, :]), k_B_cross)
 
     else:
         M = np.zeros((3,1))
-
-    # # if moment more than 100, ignore
-    # # WARNING: ARBITRARILY CHOSEN BASED ON INITIAL CONDITIONS
-    # if np.linalg.norm(M) > .1:
-    #     M = np.zeros((3,1))
 
     # store for plotting
     M_vec[i,:] = np.transpose(M)
