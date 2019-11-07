@@ -29,7 +29,7 @@ Izz = 125
 I = np.array([[Ixx, 0.0, 0.0],[0.0, Iyy, 0.0], [0.0, 0.0, Izz]])
 
 # initial attitude conditions, radians & rad/s
-q_0 = np.array([[0.0],[0.0],[0.0],[1.0]])                     # initial quaternion, scalar last
+q_0 = np.array([[1.0],[0.0],[0.0],[0.0]])                     # initial quaternion, scalar last
 w_0 = np.array([[.05],[.05],[.05]])  # initial rotation rate, rad/s
 # initial state: quaternion, rotation rate
 x_0 = np.squeeze(np.concatenate((q_0,w_0)))
@@ -49,8 +49,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 60.0
-tstep = 1.0
+tf = period
+tstep = 2.0
 times = np.arange(t0,tf,tstep)
 n = len(times)
 
@@ -61,6 +61,8 @@ B_field_body = np.zeros((n-1,3))
 B_field_ECI_vec = np.zeros((n-1,3))
 B_dot_body = np.zeros((n-1,3))
 w_vec = np.zeros((n-1,3))
+q_vec = np.zeros((n-1,4))
+M_vec = np.zeros((n-1,3))
 
 
 # Define function for calculating full state derivative
@@ -82,39 +84,60 @@ for i in range(len(times)-1):
     R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
 
     # get magnetic field at position
-    B_field_END = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
-    B_field_ENU = np.array([[B_field_END[0]],[B_field_END[1]],[-B_field_END[2]]])    # convert last component from down to up
+    B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
+    B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
 
     # get magnetic field in body frame (for detumble algorithm)
     R_body2ECI = quat2DCM(np.transpose(x[0:4]))
     B_field_ECEF = np.matmul(np.transpose(R_ECEF2ENU),B_field_ENU)
     B_field_ECI = np.matmul(np.transpose(R_ECI2ECEF),B_field_ECEF)
+
+    # # Use previous
+    # if i > 0:
+    #     if np.linalg.norm(B_field_ECI) > 10*np.linalg.norm(B_field_ECI_vec[i-1,:]):
+    #         B_field_ECI_new = B_field_ECI_vec[i-1,:]/.99999
+    #     else:
+    #         B_field_ECI_new = B_field_ECI/.999999
+    # else:
+    #     B_field_ECI_new = B_field_ECI/.999999
+
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
     B_field_body[i,:] = np.transpose(np.matmul(np.transpose(R_body2ECI),B_field_ECI))
 
     # Get B_dot based on previous measurement
     if i>0:
-        B_dot = dcpp.get_B_dot(np.transpose(B_field_body[i-1,:]),np.transpose(B_field_body[i,:]),tstep)
+        B_dot = get_B_dot(np.transpose(B_field_body[i-1,:]),np.transpose(B_field_body[i,:]),tstep)
         B_dot_body[i,:] = np.transpose(B_dot)
-        Moment = dcpp.detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, 1.0)
-        # Normalize and scale Moment
-        k = -1
+
+        k = -4.0*math.pi/period*(2)*Ixx*9.0e7
+        Moment = detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k)
 
         # Saturate using an if statement
-        M = k * Moment / np.linalg.norm(Moment)
+
+        # Torque on spacecraft
+        M = np.cross(Moment,np.transpose(B_field_body[i,:])) #/ np.linalg.norm(Moment)
     else:
         M = np.zeros((3,1))
+
+    # if moment more than 100, ignore
+    # WARNING: ARBITRARILY CHOSEN BASED ON INITIAL CONDITIONS
+    if np.linalg.norm(M) > .1:
+        M = np.zeros((3,1))
+
+    # store for plotting
+    M_vec[i,:] = np.transpose(M)
 
 
 
     # Use magnetic field and angular rate to find commanded momentum
-    # M = detumble_B_cross(np.transpose(x[3:6]),np.transpose(B_field_body),k=1)
+    # M = detumble_B_cross(np.transpose(x[3:6]),np.transpose(B_field_body[i,:]),k=1)
 
     # Propagate dynamics/kinematics forward using commanded moment
     y = integrate.odeint(get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
 
     # Store angular velocity
     w_vec[i,:] = y[-1,4:7]
+    q_vec[i,:] = y[-1,0:4]
 
     # Update full attitude state
     x = y[-1,:]
@@ -136,14 +159,14 @@ print(elapsed)
 #satrec = SGP4.twoline2rv_wrapper(line1, line2, 72)
 #satrec_ptr = SGP4.get_new_satrec()
 
-# # plot trajectory
-# fig = plt.figure()
-# ax = plt.axes(projection='3d')
-# ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
-# ax.set_title('Orbit, ECI')
-# # # Esoteric plotting function
-# with plt.rc_context(rc={'interactive': False}):
-#     plt.show()
+# plot trajectory
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
+ax.set_title('Orbit, ECI')
+# # Esoteric plotting function
+with plt.rc_context(rc={'interactive': False}):
+    plt.show()
 #     plt.show(block = True)
 
 # plot angular velocity over time
@@ -154,11 +177,14 @@ plt.plot(w_vec[:,2])
 plt.title('Angular velocity components')
 
 
-# # Plot trajectory in ECEF
-# fig3 = plt.figure()
-# ax = plt.axes(projection='3d')
-# ax.plot3D(positions_ECEF[:,0],positions_ECEF[:,1],positions_ECEF[:,2])
-# ax.set_title('Orbit, ECEF')
+# Plot trajectory in ECEF
+fig3 = plt.figure()
+ax = plt.axes(projection='3d')
+ax.plot3D(positions_ECEF[:,0],positions_ECEF[:,1],positions_ECEF[:,2])
+ax.set_title('Orbit, ECEF')
+# # Esoteric plotting function
+with plt.rc_context(rc={'interactive': False}):
+    plt.show()
 
 # plot B field components as a function of time
 fig4 = plt.figure()
@@ -176,10 +202,30 @@ plt.plot(B_dot_body[:,2])
 plt.title('Magnetic field rate of change, B_dot')
 plt.show()
 
-# plot B dotcomponents as a function of time
+# plot B dot components as a function of time
 fig5 = plt.figure()
 plt.plot(B_field_ECI_vec[:,0])
 plt.plot(B_field_ECI_vec[:,1])
 plt.plot(B_field_ECI_vec[:,2])
 plt.title('Magnetic field ECI')
 plt.show()
+
+# plot quaternion over time
+fig6 = plt.figure()
+plt.plot(q_vec[:,0])
+plt.plot(q_vec[:,1])
+plt.plot(q_vec[:,2])
+plt.plot(q_vec[:,3])
+plt.title('quaternion components')
+
+# plot Moment over time
+fig7 = plt.figure()
+plt.plot(M_vec[:,0])
+plt.plot(M_vec[:,1])
+plt.plot(M_vec[:,2])
+plt.title('Moment components')
+
+# plot norm of velocity vector over time
+fig8 = plt.figure()
+plt.plot(np.linalg.norm(w_vec,axis=1))
+plt.title('Norm of angular rate, [rad/s]')
