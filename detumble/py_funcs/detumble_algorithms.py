@@ -8,7 +8,7 @@ Created on Tue Oct  8 19:36:55 2019
 """
 import numpy as np
 
-def detumble_B_cross(omega,B,k=1.0):
+def detumble_B_cross(omega,B,k):
     '''
     Takes in the angular rate and magnetic field vectors (in principal frame)
     (as 3x1 np arrays) and returns a 3x1 vector of control torque to detumble.

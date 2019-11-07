@@ -34,7 +34,7 @@ Vector3d detumble_B_cross(Vector3d omega, Vector3d B, double k){
     Vector3d b_hat, M;   // unit B field, control moment
 
     b_hat = B/B.norm();
-    M = -k*(MatrixXd::Identity(3, 3) - b_hat*b_hat.transpose());
+    M = -k*(MatrixXd::Identity(3, 3) - b_hat*b_hat.transpose())*omega;
 
     return M;
 }

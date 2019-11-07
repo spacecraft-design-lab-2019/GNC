@@ -54,20 +54,20 @@ int foo(int &i) {
 
 
 
-// int functest(int &z){
+int functest(int &z){
 	
 	
-// 	Map<MatrixXf> mf(z, 2, 4);
-// 	MatrixXf R(4, 4);
-// 	R << 0, 1, 5, 10,
-// 		0, 1, 5, 10,
-// 		0, 1, 5, 10,
-// 		0, 1, 5, 10;
+Map<MatrixXf> mf(z, 2, 4);
+MatrixXf R(4, 4);
+R << 0, 1, 5, 10,
+    0, 1, 5, 10,
+    0, 1, 5, 10,
+    0, 1, 5, 10;
 
-// 	mf = mf * R;
-// 	// *z[0] = 100;
-// 	return 0;
-// }
+mf = mf * R;
+// *z[0] = 100;
+return 0;
+}
 
 int inttest(std::string x){
 	int xi = std::stoi (x,nullptr,0);

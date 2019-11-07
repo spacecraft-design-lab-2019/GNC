@@ -49,8 +49,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = period
-tstep = 2.0
+tf = period/2
+tstep = .5
 times = np.arange(t0,tf,tstep)
 n = len(times)
 
@@ -59,6 +59,7 @@ positions_ECI = np.zeros((n-1,3))
 positions_ECEF = np.zeros((n-1,3))
 B_field_body = np.zeros((n-1,3))
 B_field_ECI_vec = np.zeros((n-1,3))
+B_field_NED_vec = np.zeros((n-1,3))
 B_dot_body = np.zeros((n-1,3))
 w_vec = np.zeros((n-1,3))
 q_vec = np.zeros((n-1,4))
@@ -85,6 +86,7 @@ for i in range(len(times)-1):
 
     # get magnetic field at position
     B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
+    B_field_NED_vec[i,:] = np.transpose(B_field_NED)        # store for later analysis
     B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
 
     # get magnetic field in body frame (for detumble algorithm)
@@ -92,14 +94,11 @@ for i in range(len(times)-1):
     B_field_ECEF = np.matmul(np.transpose(R_ECEF2ENU),B_field_ENU)
     B_field_ECI = np.matmul(np.transpose(R_ECI2ECEF),B_field_ECEF)
 
-    # # Use previous
-    # if i > 0:
-    #     if np.linalg.norm(B_field_ECI) > 10*np.linalg.norm(B_field_ECI_vec[i-1,:]):
-    #         B_field_ECI_new = B_field_ECI_vec[i-1,:]/.99999
-    #     else:
-    #         B_field_ECI_new = B_field_ECI/.999999
-    # else:
-    #     B_field_ECI_new = B_field_ECI/.999999
+    # Correct to max expected value of Earth's magnetic field if pyIGRF throws a huge value
+    if i > 0:
+        if np.linalg.norm(B_field_ECI) > 7e-08:
+            B_field_ECI = B_field_ECI/np.linalg.norm(B_field_ECI)*np.linalg.norm(B_field_ECI_vec[i-1,:])#* 7e-08
+
 
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
     B_field_body[i,:] = np.transpose(np.matmul(np.transpose(R_body2ECI),B_field_ECI))
@@ -109,28 +108,30 @@ for i in range(len(times)-1):
         B_dot = get_B_dot(np.transpose(B_field_body[i-1,:]),np.transpose(B_field_body[i,:]),tstep)
         B_dot_body[i,:] = np.transpose(B_dot)
 
-        k = -4.0*math.pi/period*(2)*Ixx*9.0e7
-        Moment = detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k)
-
-        # Saturate using an if statement
-
+        # # Validate B_dot algorithm
+        # k_B_dot = -4.0*math.pi/period*(2)*Ixx*9.0e7
+        # Moment = dcpp.detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k_B_dot)
         # Torque on spacecraft
-        M = np.cross(Moment,np.transpose(B_field_body[i,:])) #/ np.linalg.norm(Moment)
+        # M = np.cross(Moment, np.transpose(B_field_body[i, :]))
+
+        # # Validate B_cross_c++
+        # k_B_cross = 4.0*math.pi/period*(2)*Ixx*1.0e-1
+        # M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
+
+        # Validate B_cross_python
+        k_B_cross = 4.0 * math.pi / period * (2) * Ixx * 1.0e1
+        M = detumble_B_cross(np.transpose(x[4:7]), np.transpose(B_field_body[i, :]), k_B_cross)
+
     else:
         M = np.zeros((3,1))
 
-    # if moment more than 100, ignore
-    # WARNING: ARBITRARILY CHOSEN BASED ON INITIAL CONDITIONS
-    if np.linalg.norm(M) > .1:
-        M = np.zeros((3,1))
+    # # if moment more than 100, ignore
+    # # WARNING: ARBITRARILY CHOSEN BASED ON INITIAL CONDITIONS
+    # if np.linalg.norm(M) > .1:
+    #     M = np.zeros((3,1))
 
     # store for plotting
     M_vec[i,:] = np.transpose(M)
-
-
-
-    # Use magnetic field and angular rate to find commanded momentum
-    # M = detumble_B_cross(np.transpose(x[3:6]),np.transpose(B_field_body[i,:]),k=1)
 
     # Propagate dynamics/kinematics forward using commanded moment
     y = integrate.odeint(get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
@@ -229,3 +230,10 @@ plt.title('Moment components')
 fig8 = plt.figure()
 plt.plot(np.linalg.norm(w_vec,axis=1))
 plt.title('Norm of angular rate, [rad/s]')
+
+# Plot North, East, Down (directly from IGRF) to see if singularities coming from pyIGRF or a coordinate transformation
+fig9 = plt.figure()
+plt.plot(B_field_NED_vec[:,0])
+plt.plot(B_field_NED_vec[:,1])
+plt.plot(B_field_NED_vec[:,2])
+plt.title('Components of B field in NED (from pyIGRF)')
