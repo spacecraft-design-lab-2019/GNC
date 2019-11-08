@@ -6,12 +6,24 @@
 #include <math.h>
 #include <iostream>
 #include "../../eigen-git-mirror/Eigen/Dense"
+//#include "../../pybind11/include/pybind11/pybind11.h"
 
 using namespace Eigen;
+//namespace py = pybind11;
 
+//function declaration
+VectorXd get_magnetic_field(double lat, double lon, double alt, int year);
 
 int main() {
-        return 0;
+    double lat, lon, alt;
+    int year;
+    lat = 1;
+    lon = 1;
+    alt = 400;
+    year = 2015;
+    VectorXd B_field  = get_magnetic_field(lat, lon, alt, year);
+    std::cout << "B_field is : " << B_field << std::endl;
+    return 0;
 }
 
 VectorXd get_magnetic_field(double lat, double lon, double alt, int year)
@@ -39,6 +51,7 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year)
     h_sv(1,0) = 0; h_sv(1,1) = -27.4; h_sv(1,2) = -14.1; h_sv(1,3) = 0;
     h_sv(2,0) = 0; h_sv(2,1) = 8.2; h_sv(2,2) = -0.4; h_sv(2,3) = 1.8;
     const double deg2rad = M_PI / 180.0;
+    lat = 90 - lat;
     lat = lat*deg2rad;
     lon = lon*deg2rad;
     // radius of earth
@@ -102,6 +115,10 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year)
     return B_vec;
 }
 
+//PYBIND11_MODULE(magnetic_field_cpp, m) {
+//    m.doc() = "Magnetic Field Model"; // optional module docstring
+//    m.def("get_magnetic_field", &get_magnetic_field, "Get magnetic field (ENU) based on lla and year");
+//}
 
 
 

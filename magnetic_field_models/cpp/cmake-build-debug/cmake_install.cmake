@@ -1,4 +1,4 @@
-# Install script for directory: /home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp
+# Install script for directory: /home/eleboeuf/Documents/GNC/magnetic_field_models/cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ayotundedemuren/Documents/GNC/magnetic_field_models/cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
