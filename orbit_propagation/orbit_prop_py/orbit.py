@@ -19,6 +19,7 @@ import numpy as np
 from sgp4.earth_gravity import wgs72, wgs84
 from sgp4.io import twoline2rv
 import pyIGRF
+import math
 # import pyproj
 
 def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
@@ -85,7 +86,9 @@ def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
     # lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
     lat, lon, alt = fc.ecef2lla(r)
     # Calculate magnetic field properties
-    D,I,H,Bx,By,Bz,F = pyIGRF.igrf_variation(lat, lon, alt, year)
+    lat = lat * 180 / math.pi
+    lon = lon * 180 / math.pi
+    D,I,H,Bx,By,Bz,F = pyIGRF.igrf_value(lat, lon, alt, year)
 
     return Bx, By, Bz
 
@@ -102,8 +105,10 @@ def get_B_field_at_point(r, year=2019):
     # lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
     # lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
     lat, lon, alt = fc.ecef2lla(r)
+    lat = lat * 180 / math.pi
+    lon = lon * 180 / math.pi
     # Calculate magnetic field properties
-    D, I, H, Bx, By, Bz, F = pyIGRF.igrf_variation(lat, lon, alt, year)
+    D, I, H, Bx, By, Bz, F = pyIGRF.igrf_value(lat, lon, alt, year)
 
     return Bx, By, Bz
 

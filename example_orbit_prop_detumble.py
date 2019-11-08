@@ -49,8 +49,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = period
-tstep = .5
+tf = period * 2
+tstep = 2
 times = np.arange(t0,tf,tstep)
 n = len(times)
 
@@ -95,9 +95,9 @@ for i in range(len(times)-1):
     B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
 
     # Correct to max expected value of Earth's magnetic field if pyIGRF throws a huge value
-    if i > 0:
-        if np.linalg.norm(B_field_ECI) > 7e-08:
-            B_field_ECI = B_field_ECI/np.linalg.norm(B_field_ECI)*np.linalg.norm(B_field_ECI_vec[i-1,:])#* 7e-08
+    # if i > 0:
+        # if np.linalg.norm(B_field_ECI) > 7e-08:
+        #     B_field_ECI = B_field_ECI/np.linalg.norm(B_field_ECI)*np.linalg.norm(B_field_ECI_vec[i-1,:])#* 7e-08
 
 
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
@@ -115,7 +115,7 @@ for i in range(len(times)-1):
         # M = np.cross(Moment, np.transpose(B_field_body[i, :]))
 
         # Validate B_cross_c++
-        k_B_cross = 4.0*math.pi/period*(2)*Ixx*2.0e-1
+        k_B_cross = 4.0*math.pi/period*(2)*Ixx*2e-1
         M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
 
         # # Validate B_cross_python
@@ -155,15 +155,15 @@ print(elapsed)
 #satrec = SGP4.twoline2rv_wrapper(line1, line2, 72)
 #satrec_ptr = SGP4.get_new_satrec()
 
-# plot trajectory
-fig = plt.figure()
-ax = plt.axes(projection='3d')
-ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
-ax.set_title('Orbit, ECI')
-# # Esoteric plotting function
-with plt.rc_context(rc={'interactive': False}):
-    plt.show()
-#     plt.show(block = True)
+# # plot trajectory
+# fig = plt.figure()
+# ax = plt.axes(projection='3d')
+# ax.plot3D(positions_ECI[:,0],positions_ECI[:,1],positions_ECI[:,2])
+# ax.set_title('Orbit, ECI')
+# # # Esoteric plotting function
+# with plt.rc_context(rc={'interactive': False}):
+#     plt.show()
+# #     plt.show(block = True)
 
 # plot angular velocity over time
 fig2 = plt.figure()
@@ -173,14 +173,14 @@ plt.plot(w_vec[:,2])
 plt.title('Angular velocity components')
 
 
-# Plot trajectory in ECEF
-fig3 = plt.figure()
-ax = plt.axes(projection='3d')
-ax.plot3D(positions_ECEF[:,0],positions_ECEF[:,1],positions_ECEF[:,2])
-ax.set_title('Orbit, ECEF')
-# # Esoteric plotting function
-with plt.rc_context(rc={'interactive': False}):
-    plt.show()
+# # Plot trajectory in ECEF
+# fig3 = plt.figure()
+# ax = plt.axes(projection='3d')
+# ax.plot3D(positions_ECEF[:,0],positions_ECEF[:,1],positions_ECEF[:,2])
+# ax.set_title('Orbit, ECEF')
+# # # Esoteric plotting function
+# with plt.rc_context(rc={'interactive': False}):
+#     plt.show()
 
 # plot B field components as a function of time
 fig4 = plt.figure()
@@ -213,22 +213,23 @@ plt.plot(q_vec[:,1])
 plt.plot(q_vec[:,2])
 plt.plot(q_vec[:,3])
 plt.title('quaternion components')
-
+plt.show()
 # plot Moment over time
 fig7 = plt.figure()
 plt.plot(M_vec[:,0])
 plt.plot(M_vec[:,1])
 plt.plot(M_vec[:,2])
 plt.title('Moment components')
-
+plt.show()
 # plot norm of velocity vector over time
 fig8 = plt.figure()
 plt.plot(np.linalg.norm(w_vec,axis=1))
 plt.title('Norm of angular rate, [rad/s]')
-
+plt.show()
 # Plot North, East, Down (directly from IGRF) to see if singularities coming from pyIGRF or a coordinate transformation
 fig9 = plt.figure()
 plt.plot(B_field_NED_vec[:,0])
 plt.plot(B_field_NED_vec[:,1])
 plt.plot(B_field_NED_vec[:,2])
 plt.title('Components of B field in NED (from pyIGRF)')
+plt.show()

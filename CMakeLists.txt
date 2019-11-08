@@ -27,7 +27,7 @@ pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 pybind11_add_module(triad_cpp TRIAD/cpp/deterministic_ad.cpp)
 pybind11_add_module(frame_conversions_cpp util_funcs/cpp/frame_conversions.cpp)
 pybind11_add_module(detumble_cpp detumble/cpp/detumble_algorithms.cpp)
-pybind11_add_module(pointer_t_cpp util_funcs/cpp/pointer_t.cpp)
+#pybind11_add_module(pointer_t_cpp util_funcs/cpp/pointer_t.cpp)
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
 #        util_funcs/cpp/time_functions.h)
