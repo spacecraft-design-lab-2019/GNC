@@ -5,12 +5,21 @@ Date: 10-10-2019
 Description: Orbit propagation functions to derive orbit state (position and magnetic field)
 
 '''
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+gncdir = os.path.dirname(parentdir)
+docdir = os.path.dirname(gncdir)
+sys.path.insert(0,parentdir)
+sys.path.insert(0, gncdir)
+sys.path.insert(0, docdir)
 
+from util_funcs.py_funcs import frame_conversions as fc
 import numpy as np
 from sgp4.earth_gravity import wgs72, wgs84
 from sgp4.io import twoline2rv
 import pyIGRF
-import pyproj
+# import pyproj
 
 def get_orbit_pos(TLE, epoch, sec_since_epoch, wgs=wgs84):
     '''
@@ -71,9 +80,10 @@ def get_orbit_magnetic(TLE, epoch, sec_past_epoch, wgs=wgs84):
     epoch = epoch.split('-')
     year = int(epoch[0])
     # Convert ECEF position to geodetic
-    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
-    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
-    lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
+    # ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
+    # lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
+    # lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
+    lat, lon, alt = fc.ecef2lla(r)
     # Calculate magnetic field properties
     D,I,H,Bx,By,Bz,F = pyIGRF.igrf_variation(lat, lon, alt, year)
 
@@ -88,9 +98,10 @@ def get_B_field_at_point(r, year=2019):
     y = r[1]
     z = r[2]
     # Convert ECEF position to geodetic
-    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
-    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
-    lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
+    # ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
+    # lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
+    # lon, lat, alt = pyproj.transform(ecef, lla, x, y, z, radians=False)
+    lat, lon, alt = fc.ecef2lla(r)
     # Calculate magnetic field properties
     D, I, H, Bx, By, Bz, F = pyIGRF.igrf_variation(lat, lon, alt, year)
 
