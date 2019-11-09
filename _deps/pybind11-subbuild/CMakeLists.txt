@@ -12,8 +12,8 @@ project(pybind11-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(pybind11-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/pybind/pybind11" "GIT_TAG" "v2.2.3"
-                    SOURCE_DIR          "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
-                    BINARY_DIR          "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-build"
+                    SOURCE_DIR          "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
+                    BINARY_DIR          "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

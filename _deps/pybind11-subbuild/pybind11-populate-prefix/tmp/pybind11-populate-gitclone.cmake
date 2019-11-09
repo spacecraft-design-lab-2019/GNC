@@ -4,21 +4,21 @@ endif()
 
 set(run 0)
 
-if("/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitinfo.txt" IS_NEWER_THAN "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt")
+if("/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitinfo.txt" IS_NEWER_THAN "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt")
   set(run 1)
 endif()
 
 if(NOT run)
-  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt'")
+  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt'")
   return()
 endif()
 
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E remove_directory "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to remove directory: '/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src'")
+  message(FATAL_ERROR "Failed to remove directory: '/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src'")
 endif()
 
 set(git_options)
@@ -53,7 +53,7 @@ set(number_of_tries 0)
 while(error_code AND number_of_tries LESS 3)
   execute_process(
     COMMAND "/usr/bin/git" ${git_options} clone ${git_clone_options} --origin "origin" "https://github.com/pybind/pybind11" "pybind11-src"
-    WORKING_DIRECTORY "/home/ayotundedemuren/Documents/GNC/_deps"
+    WORKING_DIRECTORY "/home/eleboeuf/Documents/GNC_mag/GNC/_deps"
     RESULT_VARIABLE error_code
     )
   math(EXPR number_of_tries "${number_of_tries} + 1")
@@ -68,7 +68,7 @@ endif()
 
 execute_process(
   COMMAND "/usr/bin/git" ${git_options} checkout v2.2.3 --
-  WORKING_DIRECTORY "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
+  WORKING_DIRECTORY "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
@@ -77,32 +77,32 @@ endif()
 
 execute_process(
   COMMAND "/usr/bin/git" ${git_options} submodule init 
-  WORKING_DIRECTORY "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
+  WORKING_DIRECTORY "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to init submodules in: '/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src'")
+  message(FATAL_ERROR "Failed to init submodules in: '/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src'")
 endif()
 
 execute_process(
   COMMAND "/usr/bin/git" ${git_options} submodule update --recursive --init 
-  WORKING_DIRECTORY "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
+  WORKING_DIRECTORY "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to update submodules in: '/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src'")
+  message(FATAL_ERROR "Failed to update submodules in: '/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src'")
 endif()
 
 # Complete success, update the script-last-run stamp file:
 #
 execute_process(
   COMMAND ${CMAKE_COMMAND} -E copy
-    "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitinfo.txt"
-    "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt"
-  WORKING_DIRECTORY "/home/ayotundedemuren/Documents/GNC/_deps/pybind11-src"
+    "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitinfo.txt"
+    "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt"
+  WORKING_DIRECTORY "/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt'")
+  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/pybind11-populate-prefix/src/pybind11-populate-stamp/pybind11-populate-gitclone-lastrun.txt'")
 endif()
 

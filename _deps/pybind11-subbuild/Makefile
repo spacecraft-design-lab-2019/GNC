@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E remove -f
+RM = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild
+CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild
+CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/CMakeFiles /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/CMakeFiles /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/_deps/pybind11-subbuild/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-subbuild/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

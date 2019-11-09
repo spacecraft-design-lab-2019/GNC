@@ -1,4 +1,4 @@
-# Install script for directory: /home/ayotundedemuren/Documents/GNC/_deps/pybind11-src
+# Install script for directory: /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

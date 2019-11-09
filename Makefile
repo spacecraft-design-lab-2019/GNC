@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E remove -f
+RM = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles /home/ayotundedemuren/Documents/GNC/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -109,6 +109,32 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named magnetic_field
+
+# Build rule for target.
+magnetic_field: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 magnetic_field
+.PHONY : magnetic_field
+
+# fast build rule for target.
+magnetic_field/fast:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/build
+.PHONY : magnetic_field/fast
+
+#=============================================================================
+# Target rules for targets named frame_conversions_cpp
+
+# Build rule for target.
+frame_conversions_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 frame_conversions_cpp
+.PHONY : frame_conversions_cpp
+
+# fast build rule for target.
+frame_conversions_cpp/fast:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/build
+.PHONY : frame_conversions_cpp/fast
 
 #=============================================================================
 # Target rules for targets named triad_cpp
@@ -149,50 +175,140 @@ sun_utils_cpp/fast:
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/build
 .PHONY : sun_utils_cpp/fast
 
-# target to build an object file
-TRIAD/cpp/deterministic_ad.o:
-	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o
+TRIAD/cpp/deterministic_ad.o: TRIAD/cpp/deterministic_ad.cpp.o
+
 .PHONY : TRIAD/cpp/deterministic_ad.o
 
-# target to preprocess a source file
-TRIAD/cpp/deterministic_ad.i:
-	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.i
+# target to build an object file
+TRIAD/cpp/deterministic_ad.cpp.o:
+	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o
+.PHONY : TRIAD/cpp/deterministic_ad.cpp.o
+
+TRIAD/cpp/deterministic_ad.i: TRIAD/cpp/deterministic_ad.cpp.i
+
 .PHONY : TRIAD/cpp/deterministic_ad.i
 
-# target to generate assembly for a file
-TRIAD/cpp/deterministic_ad.s:
-	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.s
+# target to preprocess a source file
+TRIAD/cpp/deterministic_ad.cpp.i:
+	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.i
+.PHONY : TRIAD/cpp/deterministic_ad.cpp.i
+
+TRIAD/cpp/deterministic_ad.s: TRIAD/cpp/deterministic_ad.cpp.s
+
 .PHONY : TRIAD/cpp/deterministic_ad.s
 
+# target to generate assembly for a file
+TRIAD/cpp/deterministic_ad.cpp.s:
+	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s
+.PHONY : TRIAD/cpp/deterministic_ad.cpp.s
+
+magnetic_field_models/cpp/magnetic_field.o: magnetic_field_models/cpp/magnetic_field.cpp.o
+
+.PHONY : magnetic_field_models/cpp/magnetic_field.o
+
 # target to build an object file
-util_funcs/cpp/sun_utils.o:
-	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.o
+magnetic_field_models/cpp/magnetic_field.cpp.o:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.o
+.PHONY : magnetic_field_models/cpp/magnetic_field.cpp.o
+
+magnetic_field_models/cpp/magnetic_field.i: magnetic_field_models/cpp/magnetic_field.cpp.i
+
+.PHONY : magnetic_field_models/cpp/magnetic_field.i
+
+# target to preprocess a source file
+magnetic_field_models/cpp/magnetic_field.cpp.i:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.i
+.PHONY : magnetic_field_models/cpp/magnetic_field.cpp.i
+
+magnetic_field_models/cpp/magnetic_field.s: magnetic_field_models/cpp/magnetic_field.cpp.s
+
+.PHONY : magnetic_field_models/cpp/magnetic_field.s
+
+# target to generate assembly for a file
+magnetic_field_models/cpp/magnetic_field.cpp.s:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.s
+.PHONY : magnetic_field_models/cpp/magnetic_field.cpp.s
+
+util_funcs/cpp/frame_conversions.o: util_funcs/cpp/frame_conversions.cpp.o
+
+.PHONY : util_funcs/cpp/frame_conversions.o
+
+# target to build an object file
+util_funcs/cpp/frame_conversions.cpp.o:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o
+.PHONY : util_funcs/cpp/frame_conversions.cpp.o
+
+util_funcs/cpp/frame_conversions.i: util_funcs/cpp/frame_conversions.cpp.i
+
+.PHONY : util_funcs/cpp/frame_conversions.i
+
+# target to preprocess a source file
+util_funcs/cpp/frame_conversions.cpp.i:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.i
+.PHONY : util_funcs/cpp/frame_conversions.cpp.i
+
+util_funcs/cpp/frame_conversions.s: util_funcs/cpp/frame_conversions.cpp.s
+
+.PHONY : util_funcs/cpp/frame_conversions.s
+
+# target to generate assembly for a file
+util_funcs/cpp/frame_conversions.cpp.s:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.s
+.PHONY : util_funcs/cpp/frame_conversions.cpp.s
+
+util_funcs/cpp/sun_utils.o: util_funcs/cpp/sun_utils.cpp.o
+
 .PHONY : util_funcs/cpp/sun_utils.o
 
-# target to preprocess a source file
-util_funcs/cpp/sun_utils.i:
-	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.i
+# target to build an object file
+util_funcs/cpp/sun_utils.cpp.o:
+	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.cpp.o
+.PHONY : util_funcs/cpp/sun_utils.cpp.o
+
+util_funcs/cpp/sun_utils.i: util_funcs/cpp/sun_utils.cpp.i
+
 .PHONY : util_funcs/cpp/sun_utils.i
 
-# target to generate assembly for a file
-util_funcs/cpp/sun_utils.s:
-	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.s
+# target to preprocess a source file
+util_funcs/cpp/sun_utils.cpp.i:
+	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.cpp.i
+.PHONY : util_funcs/cpp/sun_utils.cpp.i
+
+util_funcs/cpp/sun_utils.s: util_funcs/cpp/sun_utils.cpp.s
+
 .PHONY : util_funcs/cpp/sun_utils.s
 
-# target to build an object file
-util_funcs/cpp/time_functions.o:
-	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.o
+# target to generate assembly for a file
+util_funcs/cpp/sun_utils.cpp.s:
+	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.cpp.s
+.PHONY : util_funcs/cpp/sun_utils.cpp.s
+
+util_funcs/cpp/time_functions.o: util_funcs/cpp/time_functions.cpp.o
+
 .PHONY : util_funcs/cpp/time_functions.o
 
-# target to preprocess a source file
-util_funcs/cpp/time_functions.i:
-	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.i
+# target to build an object file
+util_funcs/cpp/time_functions.cpp.o:
+	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.cpp.o
+.PHONY : util_funcs/cpp/time_functions.cpp.o
+
+util_funcs/cpp/time_functions.i: util_funcs/cpp/time_functions.cpp.i
+
 .PHONY : util_funcs/cpp/time_functions.i
 
-# target to generate assembly for a file
-util_funcs/cpp/time_functions.s:
-	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.s
+# target to preprocess a source file
+util_funcs/cpp/time_functions.cpp.i:
+	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.cpp.i
+.PHONY : util_funcs/cpp/time_functions.cpp.i
+
+util_funcs/cpp/time_functions.s: util_funcs/cpp/time_functions.cpp.s
+
 .PHONY : util_funcs/cpp/time_functions.s
+
+# target to generate assembly for a file
+util_funcs/cpp/time_functions.cpp.s:
+	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.cpp.s
+.PHONY : util_funcs/cpp/time_functions.cpp.s
 
 # Help Target
 help:
@@ -200,6 +316,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... magnetic_field"
+	@echo "... frame_conversions_cpp"
 	@echo "... edit_cache"
 	@echo "... triad_cpp"
 	@echo "... rebuild_cache"
@@ -208,6 +326,12 @@ help:
 	@echo "... TRIAD/cpp/deterministic_ad.o"
 	@echo "... TRIAD/cpp/deterministic_ad.i"
 	@echo "... TRIAD/cpp/deterministic_ad.s"
+	@echo "... magnetic_field_models/cpp/magnetic_field.o"
+	@echo "... magnetic_field_models/cpp/magnetic_field.i"
+	@echo "... magnetic_field_models/cpp/magnetic_field.s"
+	@echo "... util_funcs/cpp/frame_conversions.o"
+	@echo "... util_funcs/cpp/frame_conversions.i"
+	@echo "... util_funcs/cpp/frame_conversions.s"
 	@echo "... util_funcs/cpp/sun_utils.o"
 	@echo "... util_funcs/cpp/sun_utils.i"
 	@echo "... util_funcs/cpp/sun_utils.s"

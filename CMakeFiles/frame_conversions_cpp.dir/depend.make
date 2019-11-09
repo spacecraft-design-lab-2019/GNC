@@ -168,6 +168,14 @@ CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eig
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Core/util/StaticAssert.h
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Core/util/SymbolicIndex.h
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Core/util/XprHelper.h
+<<<<<<< HEAD
+=======
+CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/./ComplexSchur.h
+CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/./HessenbergDecomposition.h
+CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/./RealQZ.h
+CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/./RealSchur.h
+CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/./Tridiagonalization.h
+>>>>>>> ab6eb6d364ceaa103d818c640529b1b73ac400ec
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/ComplexEigenSolver.h
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/ComplexSchur.h
 CMakeFiles/frame_conversions_cpp.dir/util_funcs/cpp/frame_conversions.cpp.o: eigen-git-mirror/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h

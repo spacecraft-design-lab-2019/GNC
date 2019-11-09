@@ -50,19 +50,93 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E remove -f
+RM = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
+
+#=============================================================================
+# Target rules for target CMakeFiles/magnetic_field.dir
+
+# All Build rule for target.
+CMakeFiles/magnetic_field.dir/all:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/depend
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=3,4 "Built target magnetic_field"
+.PHONY : CMakeFiles/magnetic_field.dir/all
+
+# Include target in all.
+all: CMakeFiles/magnetic_field.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/magnetic_field.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/magnetic_field.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
+.PHONY : CMakeFiles/magnetic_field.dir/rule
+
+# Convenience name for target.
+magnetic_field: CMakeFiles/magnetic_field.dir/rule
+
+.PHONY : magnetic_field
+
+# clean rule for target.
+CMakeFiles/magnetic_field.dir/clean:
+	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/clean
+.PHONY : CMakeFiles/magnetic_field.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/magnetic_field.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/frame_conversions_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/frame_conversions_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=1,2 "Built target frame_conversions_cpp"
+.PHONY : CMakeFiles/frame_conversions_cpp.dir/all
+
+# Include target in all.
+all: CMakeFiles/frame_conversions_cpp.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/frame_conversions_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/frame_conversions_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
+.PHONY : CMakeFiles/frame_conversions_cpp.dir/rule
+
+# Convenience name for target.
+frame_conversions_cpp: CMakeFiles/frame_conversions_cpp.dir/rule
+
+.PHONY : frame_conversions_cpp
+
+# clean rule for target.
+CMakeFiles/frame_conversions_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/clean
+.PHONY : CMakeFiles/frame_conversions_cpp.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/frame_conversions_cpp.dir/clean
+
+.PHONY : clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/triad_cpp.dir
@@ -71,7 +145,7 @@ CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
 CMakeFiles/triad_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ayotundedemuren/Documents/GNC/CMakeFiles --progress-num=5,6 "Built target triad_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=9,10 "Built target triad_cpp"
 .PHONY : CMakeFiles/triad_cpp.dir/all
 
 # Include target in all.
@@ -81,9 +155,9 @@ all: CMakeFiles/triad_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/triad_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/triad_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
 .PHONY : CMakeFiles/triad_cpp.dir/rule
 
 # Convenience name for target.
@@ -108,7 +182,7 @@ clean: CMakeFiles/triad_cpp.dir/clean
 CMakeFiles/time_functions_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ayotundedemuren/Documents/GNC/CMakeFiles --progress-num=3,4 "Built target time_functions_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=7,8 "Built target time_functions_cpp"
 .PHONY : CMakeFiles/time_functions_cpp.dir/all
 
 # Include target in all.
@@ -118,9 +192,9 @@ all: CMakeFiles/time_functions_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/time_functions_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/time_functions_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
 .PHONY : CMakeFiles/time_functions_cpp.dir/rule
 
 # Convenience name for target.
@@ -145,7 +219,7 @@ clean: CMakeFiles/time_functions_cpp.dir/clean
 CMakeFiles/sun_utils_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ayotundedemuren/Documents/GNC/CMakeFiles --progress-num=1,2 "Built target sun_utils_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=5,6 "Built target sun_utils_cpp"
 .PHONY : CMakeFiles/sun_utils_cpp.dir/all
 
 # Include target in all.
@@ -155,9 +229,9 @@ all: CMakeFiles/sun_utils_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sun_utils_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sun_utils_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
 .PHONY : CMakeFiles/sun_utils_cpp.dir/rule
 
 # Convenience name for target.
