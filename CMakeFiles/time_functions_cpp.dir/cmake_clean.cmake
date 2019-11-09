@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.o"
+  "CMakeFiles/time_functions_cpp.dir/util_funcs/cpp/time_functions.cpp.o"
   "time_functions_cpp.pdb"
   "time_functions_cpp.cpython-36m-x86_64-linux-gnu.so"
 )

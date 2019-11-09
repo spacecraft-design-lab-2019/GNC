@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ayotundedemuren/Documents/GNC/util_funcs/cpp/sun_utils.cpp" "/home/ayotundedemuren/Documents/GNC/CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.o"
+  "/home/eleboeuf/Documents/GNC_mag/GNC/util_funcs/cpp/sun_utils.cpp" "/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/sun_utils_cpp.dir/util_funcs/cpp/sun_utils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -13,6 +13,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "orbit_propagation/cpp"
   "util_funcs/cpp"
   "eigen-git-mirror"
+  "magnetic_field_models/cpp"
   "_deps/pybind11-src/include"
   "/usr/include/python3.6m"
   )

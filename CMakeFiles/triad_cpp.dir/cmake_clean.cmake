@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o"
+  "CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o"
   "triad_cpp.pdb"
   "triad_cpp.cpython-36m-x86_64-linux-gnu.so"
 )

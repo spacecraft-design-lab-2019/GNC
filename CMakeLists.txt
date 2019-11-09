@@ -1,4 +1,4 @@
-#cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.13)
 project(GNC)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -19,6 +19,7 @@ endif()
 include_directories(orbit_propagation/cpp)
 include_directories(util_funcs/cpp)
 include_directories(eigen-git-mirror)
+include_directories(magnetic_field_models/cpp)
 
 pybind11_add_module(sun_utils_cpp util_funcs/cpp/sun_utils.cpp)
 pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
@@ -33,3 +34,6 @@ pybind11_add_module(frame_conversions_cpp util_funcs/cpp/frame_conversions.cpp)
 #
 #add_executable(TRIAD
 #        TRIAD/deterministic_ad.cpp TRIAD/deterministic_ad.h)
+
+add_executable(magnetic_field
+		./magnetic_field_models/cpp/magnetic_field.cpp ./magnetic_field_models/cpp/magnetic_field.h)

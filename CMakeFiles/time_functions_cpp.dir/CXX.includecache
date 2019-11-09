@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/ayotundedemuren/Documents/GNC/util_funcs/cpp/time_functions.cpp
+/home/eleboeuf/Documents/GNC_mag/GNC/util_funcs/cpp/time_functions.cpp
 time_functions.h
-/home/ayotundedemuren/Documents/GNC/util_funcs/cpp/time_functions.h
+/home/eleboeuf/Documents/GNC_mag/GNC/util_funcs/cpp/time_functions.h
 iostream
 -
 math.h
@@ -18,7 +18,7 @@ cassert
 ../../pybind11/include/pybind11/pybind11.h
 -
 
-/home/ayotundedemuren/Documents/GNC/util_funcs/cpp/time_functions.h
+/home/eleboeuf/Documents/GNC_mag/GNC/util_funcs/cpp/time_functions.h
 
 /usr/include/python3.6m/Python.h
 patchlevel.h

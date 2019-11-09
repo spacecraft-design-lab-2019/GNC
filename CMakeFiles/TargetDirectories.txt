@@ -1,7 +1,9 @@
-/home/ayotundedemuren/Documents/GNC/CMakeFiles/edit_cache.dir
-/home/ayotundedemuren/Documents/GNC/CMakeFiles/triad_cpp.dir
-/home/ayotundedemuren/Documents/GNC/CMakeFiles/rebuild_cache.dir
-/home/ayotundedemuren/Documents/GNC/CMakeFiles/time_functions_cpp.dir
-/home/ayotundedemuren/Documents/GNC/CMakeFiles/sun_utils_cpp.dir
-/home/ayotundedemuren/Documents/GNC/_deps/pybind11-build/CMakeFiles/edit_cache.dir
-/home/ayotundedemuren/Documents/GNC/_deps/pybind11-build/CMakeFiles/rebuild_cache.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/magnetic_field.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/frame_conversions_cpp.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/edit_cache.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/triad_cpp.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/rebuild_cache.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/time_functions_cpp.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/sun_utils_cpp.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-build/CMakeFiles/edit_cache.dir
+/home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-build/CMakeFiles/rebuild_cache.dir

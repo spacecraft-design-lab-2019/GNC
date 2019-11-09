@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E remove -f
+RM = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 # Include any dependencies generated for this target.
 include CMakeFiles/triad_cpp.dir/depend.make
@@ -57,30 +57,30 @@ include CMakeFiles/triad_cpp.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/triad_cpp.dir/flags.make
 
-CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o: CMakeFiles/triad_cpp.dir/flags.make
-CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o: TRIAD/cpp/deterministic_ad.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ayotundedemuren/Documents/GNC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o -c /home/ayotundedemuren/Documents/GNC/TRIAD/cpp/deterministic_ad.cpp
+CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o: CMakeFiles/triad_cpp.dir/flags.make
+CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o: TRIAD/cpp/deterministic_ad.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o -c /home/eleboeuf/Documents/GNC_mag/GNC/TRIAD/cpp/deterministic_ad.cpp
 
-CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ayotundedemuren/Documents/GNC/TRIAD/cpp/deterministic_ad.cpp > CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.i
+CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eleboeuf/Documents/GNC_mag/GNC/TRIAD/cpp/deterministic_ad.cpp > CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.i
 
-CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ayotundedemuren/Documents/GNC/TRIAD/cpp/deterministic_ad.cpp -o CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.s
+CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eleboeuf/Documents/GNC_mag/GNC/TRIAD/cpp/deterministic_ad.cpp -o CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s
 
 # Object files for target triad_cpp
 triad_cpp_OBJECTS = \
-"CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o"
+"CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o"
 
 # External object files for target triad_cpp
 triad_cpp_EXTERNAL_OBJECTS =
 
-triad_cpp.cpython-36m-x86_64-linux-gnu.so: CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.o
+triad_cpp.cpython-36m-x86_64-linux-gnu.so: CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o
 triad_cpp.cpython-36m-x86_64-linux-gnu.so: CMakeFiles/triad_cpp.dir/build.make
 triad_cpp.cpython-36m-x86_64-linux-gnu.so: CMakeFiles/triad_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ayotundedemuren/Documents/GNC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared module triad_cpp.cpython-36m-x86_64-linux-gnu.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared module triad_cpp.cpython-36m-x86_64-linux-gnu.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/triad_cpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -93,6 +93,6 @@ CMakeFiles/triad_cpp.dir/clean:
 .PHONY : CMakeFiles/triad_cpp.dir/clean
 
 CMakeFiles/triad_cpp.dir/depend:
-	cd /home/ayotundedemuren/Documents/GNC && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ayotundedemuren/Documents/GNC /home/ayotundedemuren/Documents/GNC /home/ayotundedemuren/Documents/GNC /home/ayotundedemuren/Documents/GNC /home/ayotundedemuren/Documents/GNC/CMakeFiles/triad_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/eleboeuf/Documents/GNC_mag/GNC /home/eleboeuf/Documents/GNC_mag/GNC /home/eleboeuf/Documents/GNC_mag/GNC /home/eleboeuf/Documents/GNC_mag/GNC /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles/triad_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/triad_cpp.dir/depend
 

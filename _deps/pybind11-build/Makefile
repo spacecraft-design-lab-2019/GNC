@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake
+CMAKE_COMMAND = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E remove -f
+RM = /home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
+CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/ayotundedemuren/Documents/GNC
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/ayotundedemuren/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/eleboeuf/.local/lib/python2.7/site-packages/cmake/data/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -80,14 +80,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ayotundedemuren/Documents/GNC && $(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles /home/ayotundedemuren/Documents/GNC/_deps/pybind11-build/CMakeFiles/progress.marks
-	cd /home/ayotundedemuren/Documents/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ayotundedemuren/Documents/GNC/CMakeFiles 0
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles /home/eleboeuf/Documents/GNC_mag/GNC/_deps/pybind11-build/CMakeFiles/progress.marks
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ayotundedemuren/Documents/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/clean
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,17 +97,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ayotundedemuren/Documents/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/preinstall
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ayotundedemuren/Documents/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/preinstall
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(MAKE) -f CMakeFiles/Makefile2 _deps/pybind11-build/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ayotundedemuren/Documents/GNC && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -129,6 +129,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ayotundedemuren/Documents/GNC && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/eleboeuf/Documents/GNC_mag/GNC && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
