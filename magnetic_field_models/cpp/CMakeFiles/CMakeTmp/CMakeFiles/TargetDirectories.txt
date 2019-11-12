@@ -1,3 +1,0 @@
-/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/CMakeTmp/CMakeFiles/rebuild_cache.dir
-/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_54a2a.dir
-/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/CMakeTmp/CMakeFiles/edit_cache.dir

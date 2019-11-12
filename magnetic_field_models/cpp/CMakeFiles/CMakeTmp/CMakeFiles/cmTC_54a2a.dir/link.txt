@@ -1,1 +1,0 @@
-/usr/bin/c++      -v CMakeFiles/cmTC_54a2a.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_54a2a 

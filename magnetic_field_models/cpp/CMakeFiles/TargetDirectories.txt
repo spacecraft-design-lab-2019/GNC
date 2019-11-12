@@ -1,0 +1,3 @@
+/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/rebuild_cache.dir
+/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/edit_cache.dir
+/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/CMakeFiles/cpp.dir
