@@ -60,9 +60,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/magnetic_field.dir/DependInfo.cmake"
   "CMakeFiles/frame_conversions_cpp.dir/DependInfo.cmake"
   "CMakeFiles/triad_cpp.dir/DependInfo.cmake"
+  "CMakeFiles/magnetic_field_cpp.dir/DependInfo.cmake"
   "CMakeFiles/time_functions_cpp.dir/DependInfo.cmake"
   "CMakeFiles/sun_utils_cpp.dir/DependInfo.cmake"
   )

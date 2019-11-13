@@ -65,43 +65,6 @@ CMAKE_SOURCE_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 
 #=============================================================================
-# Target rules for target CMakeFiles/magnetic_field.dir
-
-# All Build rule for target.
-CMakeFiles/magnetic_field.dir/all:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/depend
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=3,4 "Built target magnetic_field"
-.PHONY : CMakeFiles/magnetic_field.dir/all
-
-# Include target in all.
-all: CMakeFiles/magnetic_field.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/magnetic_field.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/magnetic_field.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
-.PHONY : CMakeFiles/magnetic_field.dir/rule
-
-# Convenience name for target.
-magnetic_field: CMakeFiles/magnetic_field.dir/rule
-
-.PHONY : magnetic_field
-
-# clean rule for target.
-CMakeFiles/magnetic_field.dir/clean:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/clean
-.PHONY : CMakeFiles/magnetic_field.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/magnetic_field.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/frame_conversions_cpp.dir
 
 # All Build rule for target.
@@ -172,6 +135,43 @@ CMakeFiles/triad_cpp.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/triad_cpp.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/magnetic_field_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/magnetic_field_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=3,4 "Built target magnetic_field_cpp"
+.PHONY : CMakeFiles/magnetic_field_cpp.dir/all
+
+# Include target in all.
+all: CMakeFiles/magnetic_field_cpp.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/magnetic_field_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/magnetic_field_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
+.PHONY : CMakeFiles/magnetic_field_cpp.dir/rule
+
+# Convenience name for target.
+magnetic_field_cpp: CMakeFiles/magnetic_field_cpp.dir/rule
+
+.PHONY : magnetic_field_cpp
+
+# clean rule for target.
+CMakeFiles/magnetic_field_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/clean
+.PHONY : CMakeFiles/magnetic_field_cpp.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/magnetic_field_cpp.dir/clean
 
 .PHONY : clean
 

@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared  -o magnetic_field_cpp.cpython-36m-x86_64-linux-gnu.so CMakeFiles/magnetic_field_cpp.dir/magnetic_field_models/cpp/magnetic_field.cpp.o -flto 

@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named magnetic_field
-
-# Build rule for target.
-magnetic_field: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 magnetic_field
-.PHONY : magnetic_field
-
-# fast build rule for target.
-magnetic_field/fast:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/build
-.PHONY : magnetic_field/fast
-
-#=============================================================================
 # Target rules for targets named frame_conversions_cpp
 
 # Build rule for target.
@@ -148,6 +135,19 @@ triad_cpp: cmake_check_build_system
 triad_cpp/fast:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/build
 .PHONY : triad_cpp/fast
+
+#=============================================================================
+# Target rules for targets named magnetic_field_cpp
+
+# Build rule for target.
+magnetic_field_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 magnetic_field_cpp
+.PHONY : magnetic_field_cpp
+
+# fast build rule for target.
+magnetic_field_cpp/fast:
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/build
+.PHONY : magnetic_field_cpp/fast
 
 #=============================================================================
 # Target rules for targets named time_functions_cpp
@@ -208,7 +208,7 @@ magnetic_field_models/cpp/magnetic_field.o: magnetic_field_models/cpp/magnetic_f
 
 # target to build an object file
 magnetic_field_models/cpp/magnetic_field.cpp.o:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.o
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/magnetic_field_models/cpp/magnetic_field.cpp.o
 .PHONY : magnetic_field_models/cpp/magnetic_field.cpp.o
 
 magnetic_field_models/cpp/magnetic_field.i: magnetic_field_models/cpp/magnetic_field.cpp.i
@@ -217,7 +217,7 @@ magnetic_field_models/cpp/magnetic_field.i: magnetic_field_models/cpp/magnetic_f
 
 # target to preprocess a source file
 magnetic_field_models/cpp/magnetic_field.cpp.i:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.i
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/magnetic_field_models/cpp/magnetic_field.cpp.i
 .PHONY : magnetic_field_models/cpp/magnetic_field.cpp.i
 
 magnetic_field_models/cpp/magnetic_field.s: magnetic_field_models/cpp/magnetic_field.cpp.s
@@ -226,7 +226,7 @@ magnetic_field_models/cpp/magnetic_field.s: magnetic_field_models/cpp/magnetic_f
 
 # target to generate assembly for a file
 magnetic_field_models/cpp/magnetic_field.cpp.s:
-	$(MAKE) -f CMakeFiles/magnetic_field.dir/build.make CMakeFiles/magnetic_field.dir/magnetic_field_models/cpp/magnetic_field.cpp.s
+	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/magnetic_field_models/cpp/magnetic_field.cpp.s
 .PHONY : magnetic_field_models/cpp/magnetic_field.cpp.s
 
 util_funcs/cpp/frame_conversions.o: util_funcs/cpp/frame_conversions.cpp.o
@@ -316,11 +316,11 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... magnetic_field"
 	@echo "... frame_conversions_cpp"
 	@echo "... edit_cache"
 	@echo "... triad_cpp"
 	@echo "... rebuild_cache"
+	@echo "... magnetic_field_cpp"
 	@echo "... time_functions_cpp"
 	@echo "... sun_utils_cpp"
 	@echo "... TRIAD/cpp/deterministic_ad.o"

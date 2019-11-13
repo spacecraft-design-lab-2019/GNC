@@ -6,11 +6,12 @@
 #include <math.h>
 #include <iostream>
 #include "../../eigen-git-mirror/Eigen/Dense"
-//#include "../../pybind11/include/pybind11/pybind11.h"
+#include <../../pybind11/include/pybind11/pybind11.h>
+#include <../../pybind11/include/pybind11/eigen.h>
 
 using namespace std;
 using namespace Eigen;
-//namespace py = pybind11;
+namespace py = pybind11;
 
 //function declaration
 //VectorXd get_magnetic_field(double lat, double lon, double alt, int year);
@@ -56,7 +57,7 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
     lat = lat*deg2rad;
     lon = lon*deg2rad;
     // radius of earth
-    double a = 6378.1;
+    double a = 6371.2;
     double r = a + alt;
     // year since 2015 for secular variation
     int dt = year - 2015;
@@ -200,7 +201,12 @@ MatrixXd get_Pd_coefficients(const MatrixXd P, double x){
 }
 
 
+PYBIND11_MODULE(magnetic_field_cpp, m) {
+    m.doc() = "Magnetic Field"; // optional module docstring
 
+    m.def("get_magnetic_field", &get_magnetic_field, "Gives mag field in NED at the given lat lon alt and year(geocentric)");
+
+}
 
 
 
