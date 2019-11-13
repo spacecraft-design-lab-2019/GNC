@@ -21,6 +21,8 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year);
 MatrixXd get_P_coefficients(double x);
 MatrixXd get_g_coefficients();
 MatrixXd get_h_coefficients();
+MatrixXd get_g_sv_coefficients();
+MatrixXd get_h_sv_coefficients();
 MatrixXd get_Pd_coefficients(MatrixXd P, double x);
 int main() {
     double lat = 45; double lon = 45; double alt = 400; int year = 2015;
@@ -36,22 +38,6 @@ int main() {
 
 VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
 
-
-    //2015-2020 secular variation values
-    // MatrixXd g_sv(3,4);
-    // g_sv(0,0) = 10.3; g_sv(0,1) = 18.1; g_sv(0,2) = 0.0; g_sv(0,3) = 0.0 ;
-    // g_sv(1,0) = -8.7; g_sv(1,1) = -3.3; g_sv(1,2) = 2.1; g_sv(1,3) = 0.0;
-    // g_sv(2,0) = 3.4; g_sv(2,1) = -5.5; g_sv(2,2) = -0.7; g_sv(2,3) = -10.1;
-
-    // MatrixXd h_sv(3,4);
-    // h_sv(0,0) = 0.0; h_sv(0,1) = -26.6; h_sv(0,2) = 0.0; h_sv(0,3) = 0.0;
-    // h_sv(1,0) = 0.0; h_sv(1,1) = -27.4; h_sv(1,2) = -14.1; h_sv(1,3) = 0.0;
-    // h_sv(2,0) = 0.0; h_sv(2,1) = 8.2; h_sv(2,2) = -0.4; h_sv(2,3) = 1.8;
-    MatrixXd g_sv(6, 6);
-    g_sv = MatrixXd::Zero(6, 6);
-    MatrixXd h_sv(6, 6);
-    h_sv = MatrixXd::Zero(6, 6);
-
     const double deg2rad = M_PI / 180.0;
     lat = 90 - lat;
     lat = lat*deg2rad;
@@ -64,26 +50,13 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
     // magnetic field components
     double B_r = 0; double B_lat = 0; double B_lon = 0;
 
-
-    // MatrixXd P_d(3,4);
-    // P_d(0,0) = -sin(lat);
-    // P_d(0,1) = (-sin(lat)*cos(lat))/(sqrt(1 - pow(cos(lat),2)));
-    // P_d(0,2) = 0;
-    // P_d(0,3) = 0;
-    // P_d(1,0) = -3*sin(lat)*cos(lat);
-    // P_d(1,1) = (3*sin(lat)*(1 - 2*pow(cos(lat), 2)))/(sqrt(1 - pow(cos(lat),2)));
-    // P_d(1,2) = 6*sin(lat)*cos(lat);
-    // P_d(1,3) = 0;
-    // P_d(2,0) = (-3/2)*sin(lat)*(5*pow(cos(lat), 2) - 1);
-    // P_d(2,1) = (3*sin(lat)*cos(lat)*(11 - 15*pow(cos(lat), 2)))/(2*sqrt(1 - pow(cos(lat),2)));
-    // P_d(2,2) = 15*sin(lat)*(3*pow(cos(lat), 2) - 1);
-    // P_d(2,3) = -45*sin(lat)*cos(lat)*sqrt(1 - pow(cos(lat), 2));
-
     MatrixXd g = get_g_coefficients();
     MatrixXd h = get_h_coefficients();
+    MatrixXd g_sv = get_g_sv_coefficients();
+    MatrixXd h_sv = get_h_sv_coefficients();
     MatrixXd P = get_P_coefficients(cos(lat));
     MatrixXd Pd = get_Pd_coefficients(P, cos(lat));
-    // IGRF model B field calculation, n/m sets order (3)
+    // IGRF model B field calculation, n/m sets order (5)
 
     for(int n = 1; n < 6; n++){
         for(int m = 0; m < 6; m++){
@@ -142,6 +115,29 @@ MatrixXd get_h_coefficients(){
     h(4, 1) = 283.3;    h(4, 2) = -188.7;   h(4, 3) = 180.9;    h(4, 4) = -329.5;
     h(5, 1) = 47.3;     h(5, 2) = 197.0;    h(5, 3) = -119.3;   h(5, 4) = 16.0;     h(5, 5) = 100.2;
     return h;
+}
+
+// 2015-2020 secular variation values
+MatrixXd get_g_sv_coefficients() {
+    MatrixXd g_sv(6, 6);
+    g_sv.row(0) << 0, 0, 0 ,0, 0, 0;
+    g_sv(1, 0) = 10.3; g_sv(1, 1) = 18.1;  g_sv(1, 2) = 0.0;      g_sv(1, 3) = 0.0;      g_sv(1, 4) = 0.0;      g_sv(1, 5) = 0.0;
+    g_sv(2, 0) = -8.7;  g_sv(2, 1) = -3.3;   g_sv(2, 2) = 2.1;   g_sv(2, 3) = 0.0;      g_sv(2, 4) = 0.0;      g_sv(2, 5) = 0.0;
+    g_sv(3, 0) = 3.4;   g_sv(3, 1) = -5.5;  g_sv(3, 2) = -0.7;   g_sv(3, 3) = -10.1;    g_sv(3, 4) = 0.0;      g_sv(3, 5) = 0.0;
+    g_sv(4, 0) = -0.7;    g_sv(4, 1) = 0.2;    g_sv(4, 2) = -9.1;    g_sv(4, 3) = 4.1;   g_sv(4, 4) = -4.3;     g_sv(4, 5) = 0.0;
+    g_sv(5, 0) = -0.2;   g_sv(5, 1) = 0.5;    g_sv(5, 2) = -1.3;    g_sv(5, 3) = -0.1;   g_sv(5, 4) = 1.4;   g_sv(5, 5) = 3.9;
+    return g_sv;
+}
+
+MatrixXd get_h_sv_coefficients() {
+    MatrixXd h_sv(6, 6);
+    h_sv.row(0) << 0, 0, 0 ,0, 0, 0;
+    h_sv(1, 1) = -26.6;
+    h_sv(2, 1) = -27.4;  h_sv(2, 2) = -14.1;
+    h_sv(3, 1) = 8.2;   h_sv(3, 2) = -0.4;    h_sv(3, 3) = 1.8;
+    h_sv(4, 1) = -1.3;    h_sv(4, 2) = 5.3;   h_sv(4, 3) = 2.9;    h_sv(4, 4) = -5.2;
+    h_sv(5, 1) = 0.6;     h_sv(5, 2) = 1.7;    h_sv(5, 3) = -1.2;   h_sv(5, 4) = 3.4;     h_sv(5, 5) = 0.0;
+    return h_sv;
 }
 
 double doub_fact(int x){
