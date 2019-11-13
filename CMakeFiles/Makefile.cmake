@@ -64,5 +64,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/triad_cpp.dir/DependInfo.cmake"
   "CMakeFiles/magnetic_field_cpp.dir/DependInfo.cmake"
   "CMakeFiles/time_functions_cpp.dir/DependInfo.cmake"
+  "CMakeFiles/detumble_cpp.dir/DependInfo.cmake"
   "CMakeFiles/sun_utils_cpp.dir/DependInfo.cmake"
   )

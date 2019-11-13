@@ -17,3 +17,13 @@ import math
 import pyIGRF
 
 import magnetic_field_cpp
+
+
+### Setting up parameters to run sweep
+alt = 400
+year = 2015
+
+for i, lat in enumerate(-90:0.5:90):
+	for j, lon in enumerate(0:0.5:360):
+		
+

@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /home/eleboeuf/Documents/GNC_mag/GNC
 CMakeFiles/frame_conversions_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=1,2 "Built target frame_conversions_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=3,4 "Built target frame_conversions_cpp"
 .PHONY : CMakeFiles/frame_conversions_cpp.dir/all
 
 # Include target in all.
@@ -108,7 +108,7 @@ clean: CMakeFiles/frame_conversions_cpp.dir/clean
 CMakeFiles/triad_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=9,10 "Built target triad_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=11,12 "Built target triad_cpp"
 .PHONY : CMakeFiles/triad_cpp.dir/all
 
 # Include target in all.
@@ -145,7 +145,7 @@ clean: CMakeFiles/triad_cpp.dir/clean
 CMakeFiles/magnetic_field_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=3,4 "Built target magnetic_field_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=5,6 "Built target magnetic_field_cpp"
 .PHONY : CMakeFiles/magnetic_field_cpp.dir/all
 
 # Include target in all.
@@ -182,7 +182,7 @@ clean: CMakeFiles/magnetic_field_cpp.dir/clean
 CMakeFiles/time_functions_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/time_functions_cpp.dir/build.make CMakeFiles/time_functions_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=7,8 "Built target time_functions_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=9,10 "Built target time_functions_cpp"
 .PHONY : CMakeFiles/time_functions_cpp.dir/all
 
 # Include target in all.
@@ -213,13 +213,50 @@ clean: CMakeFiles/time_functions_cpp.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/detumble_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/detumble_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=1,2 "Built target detumble_cpp"
+.PHONY : CMakeFiles/detumble_cpp.dir/all
+
+# Include target in all.
+all: CMakeFiles/detumble_cpp.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/detumble_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/detumble_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles 0
+.PHONY : CMakeFiles/detumble_cpp.dir/rule
+
+# Convenience name for target.
+detumble_cpp: CMakeFiles/detumble_cpp.dir/rule
+
+.PHONY : detumble_cpp
+
+# clean rule for target.
+CMakeFiles/detumble_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/clean
+.PHONY : CMakeFiles/detumble_cpp.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/detumble_cpp.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/sun_utils_cpp.dir
 
 # All Build rule for target.
 CMakeFiles/sun_utils_cpp.dir/all:
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/depend
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=5,6 "Built target sun_utils_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eleboeuf/Documents/GNC_mag/GNC/CMakeFiles --progress-num=7,8 "Built target sun_utils_cpp"
 .PHONY : CMakeFiles/sun_utils_cpp.dir/all
 
 # Include target in all.

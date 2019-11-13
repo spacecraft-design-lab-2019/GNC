@@ -12,8 +12,10 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "orbit_propagation/cpp"
   "util_funcs/cpp"
+  "detumble/cpp"
   "eigen-git-mirror"
   "magnetic_field_models/cpp"
+  "pybind11"
   "_deps/pybind11-src/include"
   "/usr/include/python3.6m"
   )

@@ -163,6 +163,19 @@ time_functions_cpp/fast:
 .PHONY : time_functions_cpp/fast
 
 #=============================================================================
+# Target rules for targets named detumble_cpp
+
+# Build rule for target.
+detumble_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 detumble_cpp
+.PHONY : detumble_cpp
+
+# fast build rule for target.
+detumble_cpp/fast:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/build
+.PHONY : detumble_cpp/fast
+
+#=============================================================================
 # Target rules for targets named sun_utils_cpp
 
 # Build rule for target.
@@ -201,6 +214,33 @@ TRIAD/cpp/deterministic_ad.s: TRIAD/cpp/deterministic_ad.cpp.s
 TRIAD/cpp/deterministic_ad.cpp.s:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s
 .PHONY : TRIAD/cpp/deterministic_ad.cpp.s
+
+detumble/cpp/detumble_algorithms.o: detumble/cpp/detumble_algorithms.cpp.o
+
+.PHONY : detumble/cpp/detumble_algorithms.o
+
+# target to build an object file
+detumble/cpp/detumble_algorithms.cpp.o:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/detumble/cpp/detumble_algorithms.cpp.o
+.PHONY : detumble/cpp/detumble_algorithms.cpp.o
+
+detumble/cpp/detumble_algorithms.i: detumble/cpp/detumble_algorithms.cpp.i
+
+.PHONY : detumble/cpp/detumble_algorithms.i
+
+# target to preprocess a source file
+detumble/cpp/detumble_algorithms.cpp.i:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/detumble/cpp/detumble_algorithms.cpp.i
+.PHONY : detumble/cpp/detumble_algorithms.cpp.i
+
+detumble/cpp/detumble_algorithms.s: detumble/cpp/detumble_algorithms.cpp.s
+
+.PHONY : detumble/cpp/detumble_algorithms.s
+
+# target to generate assembly for a file
+detumble/cpp/detumble_algorithms.cpp.s:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/detumble/cpp/detumble_algorithms.cpp.s
+.PHONY : detumble/cpp/detumble_algorithms.cpp.s
 
 magnetic_field_models/cpp/magnetic_field.o: magnetic_field_models/cpp/magnetic_field.cpp.o
 
@@ -322,10 +362,14 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... magnetic_field_cpp"
 	@echo "... time_functions_cpp"
+	@echo "... detumble_cpp"
 	@echo "... sun_utils_cpp"
 	@echo "... TRIAD/cpp/deterministic_ad.o"
 	@echo "... TRIAD/cpp/deterministic_ad.i"
 	@echo "... TRIAD/cpp/deterministic_ad.s"
+	@echo "... detumble/cpp/detumble_algorithms.o"
+	@echo "... detumble/cpp/detumble_algorithms.i"
+	@echo "... detumble/cpp/detumble_algorithms.s"
 	@echo "... magnetic_field_models/cpp/magnetic_field.o"
 	@echo "... magnetic_field_models/cpp/magnetic_field.i"
 	@echo "... magnetic_field_models/cpp/magnetic_field.s"
