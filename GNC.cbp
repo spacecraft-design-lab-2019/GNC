@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="GNC"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\_deps\;CMake Files\_deps\pybind11-src\;CMake Files\_deps\pybind11-src\tools\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="frame_conversions_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="frame_conversions_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="triad_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="triad_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sun_utils_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/sun_utils_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 sun_utils_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sun_utils_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/sun_utils_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 sun_utils_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="time_functions_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/time_functions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 time_functions_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="time_functions_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/time_functions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 time_functions_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/eleboeuf/Documents/GNC/TRIAD/cpp/deterministic_ad.cpp">
+			<Option target="triad_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/TRIAD/cpp/deterministic_ad.h">
+			<Option target="triad_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/frame_conversions.cpp">
+			<Option target="frame_conversions_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/frame_conversions.h">
+			<Option target="frame_conversions_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/sun_utils.cpp">
+			<Option target="sun_utils_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/sun_utils.h">
+			<Option target="sun_utils_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/time_functions.cpp">
+			<Option target="time_functions_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/time_functions.h">
+			<Option target="time_functions_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\_deps\pybind11-src\"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/tools/FindPythonLibsNew.cmake">
+			<Option virtualFolder="CMake Files\_deps\pybind11-src\tools\"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/tools/pybind11Tools.cmake">
+			<Option virtualFolder="CMake Files\_deps\pybind11-src\tools\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

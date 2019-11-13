@@ -7,6 +7,7 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0, gncdir)
 sys.path.insert(0, docdir)
 
+<<<<<<< HEAD
 from util_funcs.py_funcs import time_functions as tf
 import numpy as np
 import pytest
@@ -16,6 +17,14 @@ import time_functions_cpp as tfcpp
 =======
 import math
 from GNC.cmake_build_debug import time_functions_cpp as tfcpp
+>>>>>>> remotes/origin/HEAD
+=======
+
+from util_funcs.py_funcs import time_functions as tf
+import numpy as np
+import pytest
+import math
+import time_functions_cpp as tfcpp
 >>>>>>> remotes/origin/HEAD
 # Test 1: Check function works when month is after March
 def test_date2MJD_1():
@@ -63,11 +72,18 @@ def test_MJD2GMST_1():
     MJD = 48854.50972222211
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     assert True
 =======
+=======
+>>>>>>> remotes/origin/HEAD
     gmst_check = 152.578787810 * math.pi / 180 # example is from Vallado
     np.testing.assert_allclose(tf.MJD2GMST(MJD), gmst_check, atol=1e-6) # Python test
     np.testing.assert_allclose(tfcpp.MJD2GMST(MJD), gmst_check, atol=1e-6) # cpp test
     np.testing.assert_allclose(tfcpp.MJD2GMST(MJD), tf.MJD2GMST(MJD),
+<<<<<<< HEAD
+                               atol=1e-6)  # compare test
+>>>>>>> remotes/origin/HEAD
+=======
                                atol=1e-6)  # compare test
 >>>>>>> remotes/origin/HEAD

@@ -1,8 +1,25 @@
+<<<<<<< HEAD
 from GNC.util_funcs.py_funcs import frame_conversions as fc
 import numpy as np
 import pytest
 import math
 from GNC.cmake_build_debug import frame_conversions_cpp as fccpp
+=======
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+gncdir = os.path.dirname(parentdir)
+docdir = os.path.dirname(gncdir)
+sys.path.insert(0,parentdir)
+sys.path.insert(0, gncdir)
+sys.path.insert(0, docdir)
+
+from util_funcs.py_funcs import frame_conversions as fc
+import numpy as np
+import pytest
+import math
+import frame_conversions_cpp as fccpp
+>>>>>>> remotes/origin/HEAD
 
 def test_eci2ecef_1():
     GMST = math.pi

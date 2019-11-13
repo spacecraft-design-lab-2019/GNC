@@ -1,0 +1,8 @@
+//
+// Created by Paul on 11/5/2019.
+//
+
+#ifndef GNC_DETUMBLE_ALGORITHMS_H
+#define GNC_DETUMBLE_ALGORITHMS_H
+
+#endif //GNC_DETUMBLE_ALGORITHMS_H

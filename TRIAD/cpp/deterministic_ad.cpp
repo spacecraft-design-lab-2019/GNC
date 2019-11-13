@@ -13,6 +13,7 @@ using namespace std;
 
 MatrixXd triad_ad(MatrixXd M, MatrixXd V);
 
+
 int main(){
     MatrixXd M(3,2);
     M << -0.0561111, 0.47183533,
