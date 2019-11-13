@@ -1,5 +1,10 @@
 from orbit_propagation.orbit_prop_py import orbit
 import numpy as np
+<<<<<<< HEAD
+# from orbit_prop_py.orbit import *
+import pytest
+=======
+>>>>>>> remotes/origin/HEAD
 
 @pytest.mark.skip(reason="no way of currently testing this")
 def test_get_orbit_pos():
@@ -30,7 +35,7 @@ def test_get_orbit_state():
         6.75438623e-02,  5.74820083e+00), atol=1e-6)
 
 
-
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_get_orbit_magnetic():
     # test epoch
     epoch = '2013-12-14T14:18:37.00'

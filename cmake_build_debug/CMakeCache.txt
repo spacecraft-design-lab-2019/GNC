@@ -291,6 +291,9 @@ PYTHON_EXECUTABLE:FILEPATH=C:/Users/Ethan/AppData/Local/Programs/Python/Python37
 // of default installation prefix
 USE_PYTHON_INCLUDE_DIR:BOOL=OFF
 
+//Dependencies for the target
+frame_conversions_cpp_LIB_DEPENDS:STATIC=general;C:/Users/Ethan/AppData/Local/Programs/Python/Python37-32/libs/Python37.lib;
+
 //Value Computed by CMake
 pybind11_BINARY_DIR:STATIC=C:/Users/Ethan/CLionProjects/GNC/cmake_build_debug/_deps/pybind11-build
 
