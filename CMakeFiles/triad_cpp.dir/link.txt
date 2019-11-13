@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared  -o triad_cpp.cpython-36m-x86_64-linux-gnu.so CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.o -flto 
