@@ -53,7 +53,7 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
     h_sv = MatrixXd::Zero(6, 6);
 
     const double deg2rad = M_PI / 180.0;
-    //lat = 90 - lat;
+    lat = 90 - lat;
     lat = lat*deg2rad;
     lon = lon*deg2rad;
     // radius of earth

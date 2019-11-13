@@ -1,66 +1,66 @@
-# euler/__pycache__/Euler.cpython-37.pyc
-# util_funcs/test/__pycache__/test_time_functions.cpython-37-pytest-5.0.1.pyc
-# util_funcs/__pycache__/time_functions.cpython-37.pyc
-# util_funcs/__pycache__/sun_utils.cpython-37.pyc
-# util_funcs/__pycache__/frame_conversions.cpython-37.pyc
-# util_funcs/__pycache__/__init__.cpython-37.pyc
-# __pycache__/test_TRIAD.cpython-37-pytest-5.0.1.pyc
-# TRIAD/__pycache__/deterministic_ad.cpython-37.pyc
-# TRIAD/__pycache__/__init__.cpython-37.pyc
-.cache/
-.idea/
-.vs/
-cmake-build-debug/
-documentation.wiki/
-# orbit_propagation/orbit_prop_py/test/__pycache__/
-# orbit_propagation/test/__pycache__/
-# util_funcs/.cache/
-# util_funcs/test/__pycache__/
+# # euler/__pycache__/Euler.cpython-37.pyc
+# # util_funcs/test/__pycache__/test_time_functions.cpython-37-pytest-5.0.1.pyc
+# # util_funcs/__pycache__/time_functions.cpython-37.pyc
+# # util_funcs/__pycache__/sun_utils.cpython-37.pyc
+# # util_funcs/__pycache__/frame_conversions.cpython-37.pyc
+# # util_funcs/__pycache__/__init__.cpython-37.pyc
+# # __pycache__/test_TRIAD.cpython-37-pytest-5.0.1.pyc
+# # TRIAD/__pycache__/deterministic_ad.cpython-37.pyc
+# # TRIAD/__pycache__/__init__.cpython-37.pyc
 
-# MEKF/MEKF_py/__pycache__/
-# TRIAD/py_funcs/__pycache__/
-# util_funcs/py_funcs/__pycache__/
+# .cache/
+# .idea/
+# .vs/
+# cmake-build-debug/
+# documentation.wiki/
 
-_deps/pybind11-build/CMakeFiles/CMakeDirectoryInformation.cmake
+# # orbit_propagation/orbit_prop_py/test/__pycache__/
+# # orbit_propagation/test/__pycache__/
+# # util_funcs/.cache/
+# # util_funcs/test/__pycache__/
 
-_deps/pybind11-build/Makefile
-_deps/
-# CMakeFiles/
+# # MEKF/MEKF_py/__pycache__/
+# # TRIAD/py_funcs/__pycache__/
+# # util_funcs/py_funcs/__pycache__/
 
-_deps/pybind11-subbuild/CMakeCache.txt
+# _deps/pybind11-build/CMakeFiles/CMakeDirectoryInformation.cmake
 
-# util_funcs/__pycache__/
+# _deps/pybind11-build/Makefile
+# _deps/
+# # CMakeFiles/
 
-# TRIAD/test/__pycache__/
+# _deps/pybind11-subbuild/CMakeCache.txt
 
-Makefile
+# # util_funcs/__pycache__/
 
-# cmake_install.cmake
+# # TRIAD/test/__pycache__/
 
-# __pycache__/conftest.cpython-36-PYTEST.pyc
+# Makefile
 
-CMakeCache.txt
+# # cmake_install.cmake
 
-# euler/__pycache__/__init__.cpython-36.pyc
+# # __pycache__/conftest.cpython-36-PYTEST.pyc
 
-# euler/__pycache__/Euler.cpython-36.pyc
+# CMakeCache.txt
 
-# orbit_propagation/__pycache__/__init__.cpython-36.pyc
+# # euler/__pycache__/__init__.cpython-36.pyc
 
-# orbit_propagation/orbit_prop_py/__pycache__/orbit.cpython-36.pyc
+# # euler/__pycache__/Euler.cpython-36.pyc
 
-# detumble/__pycache__/__init__.cpython-36.pyc
+# # orbit_propagation/__pycache__/__init__.cpython-36.pyc
 
-# detumble/py_funcs/__pycache__/__init__.cpython-36.pyc
+# # orbit_propagation/orbit_prop_py/__pycache__/orbit.cpython-36.pyc
 
-# detumble/py_funcs/__pycache__/detumble_algorithms.cpython-36.pyc
+# # detumble/__pycache__/__init__.cpython-36.pyc
 
-# detumble_cpp.cpython-36m-x86_64-linux-gnu.so
+# # detumble/py_funcs/__pycache__/__init__.cpython-36.pyc
+
+# # detumble/py_funcs/__pycache__/detumble_algorithms.cpython-36.pyc
+
+# # detumble_cpp.cpython-36m-x86_64-linux-gnu.so
 
 /CMakeFiles/
-
 __pycache__
-
 *.pyc
 *.so
 *.cmake
