@@ -17,7 +17,7 @@ namespace py = pybind11;
 //VectorXd get_magnetic_field(double lat, double lon, double alt, int year);
 
 
-VectorXd get_magnetic_field(double lat, double lon, double alt, int year);
+VectorXd get_magnetic_field(double lat, double lon, double alt, double year);
 MatrixXd get_P_coefficients(double x);
 MatrixXd get_g_coefficients();
 MatrixXd get_h_coefficients();
@@ -25,7 +25,7 @@ MatrixXd get_g_sv_coefficients();
 MatrixXd get_h_sv_coefficients();
 MatrixXd get_Pd_coefficients(MatrixXd P, double x);
 int main() {
-    double lat = 45; double lon = 45; double alt = 400; int year = 2015;
+    double lat = 45; double lon = 45; double alt = 400; double year = 2015;
     MatrixXd P = get_P_coefficients(cos((90.0 - lat) * M_PI / 180.0));
     MatrixXd Pd = get_Pd_coefficients(P, cos(M_PI/2.0 - lat*M_PI/180.0));
     VectorXd B = get_magnetic_field(lat, lon, alt, year);
@@ -36,8 +36,16 @@ int main() {
 
 }
 
-VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
+VectorXd get_magnetic_field(double lat, double lon, double alt, double year){
 
+    /*
+    lat is latitude in degrees
+    lon is longitude in degrees
+    alt is altitude in km
+    year is the fractional year (include months/days essentially)
+
+    outputs B vector in NED
+    */
     const double deg2rad = M_PI / 180.0;
     lat = 90 - lat;
     lat = lat*deg2rad;
@@ -46,7 +54,7 @@ VectorXd get_magnetic_field(double lat, double lon, double alt, int year){
     double a = 6371.2;
     double r = a + alt;
     // year since 2015 for secular variation
-    int dt = year - 2015;
+    double dt = year - 2015.0;
     // magnetic field components
     double B_r = 0; double B_lat = 0; double B_lon = 0;
 
@@ -200,7 +208,7 @@ MatrixXd get_Pd_coefficients(const MatrixXd P, double x){
 PYBIND11_MODULE(magnetic_field_cpp, m) {
     m.doc() = "Magnetic Field"; // optional module docstring
 
-    m.def("get_magnetic_field", &get_magnetic_field, "Gives mag field in NED at the given lat lon alt and year(geocentric)");
+    m.def("get_magnetic_field", &get_magnetic_field, "Gives mag field in NED at the given lat lon alt and year, use geocentric");
 
 }
 

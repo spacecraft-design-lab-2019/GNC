@@ -49,13 +49,13 @@ X, Y = np.meshgrid(lon_range, lat_range)
 
 
 fig1, ax = plt.subplots()
-CS = ax.contour(X, Y, mag_field_strength_cpp)
+CS = ax.contour(X, Y, mag_field_strength_cpp, 30)
 CB = fig1.colorbar(CS, shrink=0.8, extend='both')
 ax.set_title('5th Order IGRF (Our Model)')
 plt.show()
 
 fig2, ax2 = plt.subplots()
-CS = ax2.contour(X, Y, mag_field_strength_igrf)
+CS = ax2.contour(X, Y, mag_field_strength_igrf, 30)
 CB = fig2.colorbar(CS, shrink=0.8, extend='both')
 ax2.set_title('Full IGRF (True Model)')
 plt.show()
