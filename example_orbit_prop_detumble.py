@@ -49,7 +49,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = period/8
+tf = period
 tstep = 2
 times = np.arange(t0,tf,tstep)
 n = len(times)
@@ -223,8 +223,10 @@ plt.title('Moment components')
 plt.show()
 # plot norm of velocity vector over time
 fig8 = plt.figure()
-plt.plot(np.linalg.norm(w_vec,axis=1))
-plt.title('Norm of angular rate, [rad/s]')
+plt.plot(times[0:n-1]/period,np.linalg.norm(w_vec,axis=1))
+plt.title('B_dot convergence')
+plt.xlabel('Period')
+plt.ylabel('Norm of angular rate, [rad/s]')
 plt.show()
 # Plot North, East, Down (directly from IGRF) to see if singularities coming from pyIGRF or a coordinate transformation
 fig9 = plt.figure()
