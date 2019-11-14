@@ -20,17 +20,13 @@ int main(){
 
 Vector3d detumble_B_cross(Vector3d omega, Vector3d B, double k){
     /*
-    Takes in the angular rate and magnetic field vectors (in principal frame)
-    (as 3x1 np arrays) and returns a 3x1 vector of control torque to detumble.
+    Takes in the angular rate [rad/s] and magnetic field [nanoTesla] vectors (in principal frame)
+    (as 3x1 np arrays) and returns a 3x1 vector of control torque [N-m] to detumble.
 
     - based on the paper by AVANZINI AND GIULIETTI
     TODO: find optimal k for our system
     */
 
-//    Reference Python code:
-//    b = B/np.linalg.norm(B) # normalize magnetic field vector
-//    L = -k*np.matmul((np.identity(3) - np.matmul(b,np.transpose(b))),omega)
-//    return L
     Vector3d b_hat, M;   // unit B field, control moment
 
     b_hat = B/B.norm();
@@ -41,14 +37,11 @@ Vector3d detumble_B_cross(Vector3d omega, Vector3d B, double k){
 
 Vector3d detumble_B_dot(Vector3d B, Vector3d B_dot, double k){
     /*
-    Takes in magnetic field, magnetic field rate (as 3x1 vectors, in principal frame), and control gain (scalar)
-    and returns a 3x1 control moment
+    Takes in magnetic field [nanoTesla], magnetic field rate [nanoTesla/s] (as 3x1 vectors, in principal frame), and control gain (scalar)
+    and returns a 3x1 control moment [Amp-meters^2]. Torque [N-m] = M [Amp-meters^2] cross B [Tesla]
 
     TODO: find optimal k for our system
     */
-//    Reference Python code:
-//    m = -k*B_dot/np.linalg.norm(B)
-//    return m
 
     Vector3d M;
 
