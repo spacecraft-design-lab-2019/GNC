@@ -4,7 +4,7 @@
 #include <string>
 #include "../../eigen-git-mirror/Eigen/Dense"
 
-using Eigen::MatrixXd;
+//using Eigen::MatrixXd;
 using namespace std;
 using namespace Eigen;
 
@@ -13,11 +13,32 @@ MatrixXd triad_ad(MatrixXd M, MatrixXd V);
 #define MAXBUFSIZE  ((int) 1e6)
 
 
-
-
-
-
 int main() {
+
+    // initialize W and V based on MEKF template data
+    MatrixXd W(6,6);
+    MatrixXd V(6,6);
+    for (int i = 0; i<6; i++){
+        for (int j = 0; j<6; j++){
+            if (i==j){
+                if (i < 3){
+                    W(i,j) = 0.003;
+                    V(i,j) = 0.003;
+                }
+                else{
+                    W(i,j) = 0.0076;
+                    V(i,j) = 0.0076;
+                }
+            }
+            else {
+                    W(i,j) = 0.0;
+                    V(i,j) = 0.0;
+                }
+        }
+    }
+
+    cout << W << endl;
+    cout << V << endl;
     /*MEKF_inputs = loadmat('mekf_inputs.mat')
     MEKF_truth  = loadmat('mekf_truth.mat')
     b_true = MEKF_truth['btrue']
