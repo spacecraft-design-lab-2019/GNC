@@ -8,9 +8,7 @@ using namespace std;
 using Eigen::MatrixXd;
 //using Eigen::
 
-MatrixXd triad_ad(MatrixXd M, MatrixXd V);
 MatrixXd readMatrix(const char *filename);
-MatrixXd DCM2q(MatrixXd A);
 double trace(MatrixXd A);
 
 #define MAXBUFSIZE  ((int) 1e6)
@@ -182,86 +180,6 @@ MatrixXd readMatrix(const char *filename)
             result(i,j) = buff[ cols*i+j ];
 
     return result;
-}
-
-// taken from utility functions
-MatrixXd triad_ad(MatrixXd M, MatrixXd V) {
-    /*
-    Gives rotation matrix from inertial to body frame
-    Inputs :
-    M - Matrix where each column is a measurement vector in the body frame - Note, most accurate measurement should be in the first column
-    V - Matrix where each column is a modeled vector of the corresponding measurement vector from M, in the inertial frame
-    Outputs:
-    R - rotation matrix from inertial to body frame
-    */
-    MatrixXd R(3,3);
-    if (M.outerSize() == 2 && V.outerSize() == 2)
-    {
-        Vector3d m1 = M.col(0);
-        Vector3d mtemp = M.col(1);
-        Vector3d m2 = m1.cross(mtemp);
-        Vector3d m3 = m1.cross(m2);
-
-        Vector3d v1 = V.col(0);
-        Vector3d vtemp = V.col(1);
-        Vector3d v2 = v1.cross(vtemp);
-        Vector3d v3 = v1.cross(v2);
-
-        MatrixXd Rtemp(3,3);
-        MatrixXd Vtemp(3, 3);
-        Rtemp << m1, m2, m3;
-        Vtemp << v1, v2, v3;
-        R = Rtemp * Vtemp.inverse();
-    }
-    else
-    {
-        R = M * V.completeOrthogonalDecomposition().pseudoInverse();
-    }
-    return R;
-}
-
-
-MatrixXd DCM2q(MatrixXd A) {
-    double B1, B2, B3, B4;
-    B1 = sqrt((1.0 / 4.0) * (1.0 + 2.0 * A(0, 0) - trace(A)));
-    B2 = sqrt((1.0 / 4.0) * (1.0 + 2.0 * A(1, 1) - trace(A)));
-    B3 = sqrt((1.0 / 4.0) * (1.0 + 2.0 * A(2, 2) - trace(A)));
-    B4 = sqrt((1.0 / 4.0) * (1.0 + trace(A)));
-
-    double qs, q1, q2, q3;
-
-    if ((B1 > B2) and (B1 > B3) and (B1 > B4)) {
-        q1 = B1;
-        q2 = (A(0, 1) + A(1, 0)) / (4 * B1);
-        q3 = (A(0, 2) + A(2, 0)) / (4 * B1);
-        qs = (A(1, 2) - A(2, 1)) / (4 * B1);
-    }else if ((B2 > B1) and (B2 > B3) and (B2 > B4)) {
-        q1 = (A(0, 1) + A(1, 0)) / (4 * B2);
-        q2 = B2;
-        q3 = (A(1, 2) + A(2, 1)) / (4 * B2);
-        qs = (A(2, 0) - A(0, 2)) / (4 * B2);
-    } else if ((B3 > B1) and (B3 > B2) and (B3>B4)){
-        q1 = (A(2,0)+A(0,2))/(4*B3);
-        q2 = (A(2,1)+A(1,2))/(4*B3);
-        q3 = B3;
-        qs = (A(0,1)-A(1,0))/(4*B3);
-    } else{
-        q1 = (A(1,2)-A(2,1))/(4*B4);
-        q2 = (A(2,0)-A(0,2))/(4*B4);
-        q3 = (A(0,1)-A(1,0))/(4*B4);
-        qs = B4;
-    }
-    MatrixXd q(4,1);
-    q(0,0) = qs;
-    q(1,0) = q1;
-    q(2,0) = q2;
-    q(3,0) = q3;
-    double qnorm;
-    qnorm = sqrt(pow(qs,2)+pow(q1,2)+pow(q2,2)+pow(q3,2));
-    for (int i = 0; i < 4; i++) {
-        q(i) = q(i) / qnorm;
-    }
-    return q;
 }
 
 double trace(MatrixXd A){

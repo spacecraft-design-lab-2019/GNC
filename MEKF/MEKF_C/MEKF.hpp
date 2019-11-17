@@ -14,5 +14,6 @@ void update(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V, Matrix
 void predict(MatrixXd xk, MatrixXd w, double dt, MatrixXd &xn, MatrixXd &A);
 MatrixXd DCM2q(MatrixXd A);
 double trace(MatrixXd A);
+MatrixXd triad_ad(MatrixXd M, MatrixXd V);
 
 #endif //GNC_MEKF_HPP
