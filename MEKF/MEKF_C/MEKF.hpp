@@ -1,6 +1,4 @@
-//
-// Created by jayde on 11/16/2019.
-//
+
 
 #ifndef GNC_MEKF_HPP
 #define GNC_MEKF_HPP
