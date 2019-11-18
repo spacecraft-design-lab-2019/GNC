@@ -89,7 +89,14 @@ def quat2DCM(quat):
     # calculate skew symmetric matrix Q
     Q = np.array([[0,-q4,q3],[q4,0,-q2],[-q3,q2,0]])
     # calculate DCM
-    DCM = (q1**2-np.transpose(q_vec)@q_vec)*np.identity(3)-2*q1*Q+2*q_vec@np.transpose(q_vec)
+
+
+    DCM = np.array([[ q1**2 + q2**2 - q3**2 - q4**2, 2*q2*q3 - 2*q1*q4, 2*q2*q4 + 2*q1*q3 ],
+                     [ 2*q2*q3 + 2*q1*q4, q1**2 - q2**2 + q3**2 - q4**2, 2*q3*q4 - 2*q1*q2 ],
+                     [ 2*q2*q4 - 2*q1*q3, 2*q3*q4 + 2*q1*q2, q1**2 - q2**2 - q3**2 + q4**2]])
+    # Source: Diebel (125) transposed to go from body to inertial.
+
+    # DCM = (q1 ** 2 - np.transpose(q_vec) @ q_vec) * np.identity(3) - 2 * q1 * Q + 2 * q_vec @ np.transpose(q_vec)
 
     return DCM
 
