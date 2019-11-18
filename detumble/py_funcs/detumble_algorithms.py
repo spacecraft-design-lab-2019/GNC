@@ -42,9 +42,9 @@ def detumble_B_dot_bang_bang(B_dot,max_dipoles = [[8.8e-3],[1.373e-2],[8.2e-3]])
 
     '''
     m = np.zeros((3,1))
-    m[0] = max_dipoles[0] * np.sign(np.dot(np.transpose(np.array([[1.0],[0.0],[0.0]])), np.transpose(B_dot)))
-    m[1] = max_dipoles[1] * np.sign(np.dot(np.transpose(np.array([[0.0],[1.0],[0.0]])) , np.transpose(B_dot)))
-    m[2] = max_dipoles[2] * np.sign(np.dot(np.transpose(np.array([[0.0],[0.0],[1.0]])) , np.transpose(B_dot)))
+    m[0] = max_dipoles[0] * -np.sign(np.dot(np.transpose(np.array([[1.0],[0.0],[0.0]])) , np.transpose(B_dot)))
+    m[1] = max_dipoles[1] * -np.sign(np.dot(np.transpose(np.array([[0.0],[1.0],[0.0]])) , np.transpose(B_dot)))
+    m[2] = max_dipoles[2] * -np.sign(np.dot(np.transpose(np.array([[0.0],[0.0],[1.0]])) , np.transpose(B_dot)))
     return m
     
 def get_B_dot(B1,B2,dt):
