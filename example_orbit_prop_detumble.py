@@ -3,7 +3,7 @@ Script integrating detumble with orbit/magnetic field knowledge
 '''
 
 from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
-from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot
+from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import math
@@ -21,27 +21,45 @@ import time
 plt.close('all')
         
 pi = math.pi
+#--------------------Values from FSW sim----------------------------------------
+# # Seed Initial Position/Velocity with TLE - BEESAT-1
+# # (optional) - can instead replace this with r_i, v_i as np.array(3)
+# line1 = ('1 35933U 09051C   19315.45643387  .00000096  00000-0  32767-4 0  9991')
+# line2 = ('2 35933  98.6009 127.6424 0006914  92.0098 268.1890 14.56411486538102')
+# 
+# # Simulation Parameters
+# tstart = datetime(2019, 12, 30, 00, 00, 00)
+# tstep = .1                     # [sec] - 1 Hz
+# 
+# # Initial Spacecraft Attitude
+# q_i = np.array([1, 0, 0, 0])    # quaternion
+# w_i = np.array([.01, .05, -.03])   # radians/sec
+# 
+# # Spacecraft Properties
+# I = np.array([[17,0,0],[0,18,0],[0,0,22]])
+# mass = 1.0 # kg
+#--------------------End Values from FSW sim---------------------------------------
 
 # inertia properties (add real later)
-Ixx = 75
-Iyy = 100
-Izz = 125
+Ixx = 0.34375
+Iyy = 0.34375
+Izz = 0.34375
 I = np.array([[Ixx, 0.0, 0.0],[0.0, Iyy, 0.0], [0.0, 0.0, Izz]])
 
 # initial attitude conditions, radians & rad/s
 q_0 = np.array([[1.0],[0.0],[0.0],[0.0]])                     # initial quaternion, scalar last
-w_0 = np.array([[.05],[.05],[.05]])  # initial rotation rate, rad/s
+w_0 = np.array([[.01],[.05],[-.03]])  # initial rotation rate, rad/s
 # initial state: quaternion, rotation rate
 x_0 = np.squeeze(np.concatenate((q_0,w_0)))
 
 # initial orbit state conditions, TLE+epoch
-epoch = '2020-05-10T08:05:03.00'
-line1 = ('1 25635U 99008B   13348.59627062  .00000650  00000-0  16622-3 0  9860')
-line2 = ('2 25635  96.4421 173.2395 0141189  10.0389  29.8678 14.46831495780970')
+epoch = '2019-12-30T00:00:00.00'
+line1 = ('1 35933U 09051C   19315.45643387  .00000096  00000-0  32767-4 0  9991')
+line2 = ('2 35933  98.6009 127.6424 0006914  92.0098 268.1890 14.56411486538102')
 TLE = {'line1': line1, 'line2': line2}
 
 # initial orbit time (fair warning, this is the time for PyCubed, not Orsted)
-MJD = 58827.53750000009
+MJD = 58847.0
 GMST_0 = tfcpp.MJD2GMST(MJD)
 
 mean_motion = 14.46/(24*3600)*2*math.pi # mean motion, radians/second
@@ -49,8 +67,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = period
-tstep = 2
+tf = 3600
+tstep = .1
 times = np.arange(t0,tf,tstep)
 n = len(times)
 
@@ -105,18 +123,26 @@ for i in range(len(times)-1):
 
     # Get B_dot based on previous measurement
     if i>0:
-        B_dot = get_B_dot(np.transpose(B_field_body[i-1,:]),np.transpose(B_field_body[i,:]),tstep)
+        B_1 = np.transpose(B_field_body[i-1,:])
+        B_2 = np.transpose(B_field_body[i,:])
+        B_dot = get_B_dot(B_1,B_2,tstep)
         B_dot_body[i,:] = np.transpose(B_dot)
 
-        # # Validate B_dot algorithm
-        # k_B_dot = -4.0*math.pi/period*(2)*Ixx*9.0e7
-        # Moment = dcpp.detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k_B_dot)
-        # # Torque on spacecraft
-        # M = np.cross(Moment, np.transpose(B_field_body[i, :]))
+        # Validate B_dot algorithm
+        # k_B_dot = -5e-6
+        # dipole = dcpp.detumble_B_dot(np.transpose(B_field_body[i,:]),B_dot, k_B_dot)
+        # Torque on spacecraft
+        # M = np.cross(dipole, np.transpose(B_field_body[i, :]))
 
-        # Validate B_cross_c++
-        k_B_cross = 4.0*math.pi/period*(2)*Ixx*2e-1
-        M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
+        # Validate B_dot bang bang control law:
+        # include 1e-9 factor to get nanoTesla back into SI units
+        dipole = detumble_B_dot_bang_bang(1e-9*B_dot)
+        bang_bang_gain = 1e-9 # 5e-6
+        M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
+
+        # # Validate B_cross_c++
+        # k_B_cross = 4.0*math.pi/period*(2)*Ixx*2e-1
+        # M = dcpp.detumble_B_cross(np.transpose(x[4:7]),np.transpose(B_field_body[i,:]),k_B_cross)
 
         # # Validate B_cross_python
         # k_B_cross = 4.0*math.pi/period*(2)*Ixx*1.0e-1
