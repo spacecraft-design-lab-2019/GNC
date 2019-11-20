@@ -16,6 +16,10 @@ int main(){
     return 0;
 }
 
+MatrixXd hat(Vector3d w);
+MatrixXd Lq(Vector4d q);
+MatrixXd Rq(Vector4d q);
+
 Vector3d get_w_dot(Vector3d w, Vector3d M, MatrixXd I){
     /*
     Takes in angular rate, net torque (3x1, principal frame), and the
@@ -40,7 +44,7 @@ Vector3d get_w_dot(Vector3d w, Vector3d M, MatrixXd I){
 
 }
 
-VectorXd get_q_dot(Vector4d q, Vector3d w){
+Vector4d get_q_dot(Vector4d q, Vector3d w){
     /*
      Takes in a quaternion and the rotation rate vector,
     and returns the time derivative of the quaternion 
@@ -51,19 +55,62 @@ VectorXd get_q_dot(Vector4d q, Vector3d w){
         q_dot - 4x1, scalar first, 1/sec
     */
 
-	Vector3d q_dot;
-	MatrixXd What(4,4);
-	// What.row(0) << 
-	q_dot = 1/2 * What * q;
+	Vector4d q_dot;
+	Vector4d wvec;
+	wvec(0) = 0;
+	wvec.tail(3) = w;
+	q_dot = 1/2 * Lq(q) * wvec;
 
 
     return q_dot;
 
 }
+
+MatrixXd Lq(Vector4d q){
+
+	MatrixXd Lq(4, 4);
+	double s = q(0);
+	Vector3d v;
+	v << q(1), q(2), q(3);
+	Lq.row(0) << q(0), -q(1), -q(2), -q(3);
+	Lq.col(0).tail(3) << -q(1), -q(2), -q(3);
+	Lq.block(1, 1, 3, 3) << s * MatrixXd::Identity(3, 3) + hat(v);
+
+	return Lq;
+}
+
+MatrixXd Rq(Vector4d q){
+
+	MatrixXd Rq(4, 4);
+	double s = q(0);
+	Vector3d v;
+	v << q(1), q(2), q(3);
+	Rq.row(0) << q(0), -q(1), -q(2), -q(3);
+	Rq.col(0).tail(3) << -q(1), -q(2), -q(3);
+	Rq.block(1, 1, 3, 3) << s * MatrixXd::Identity(3, 3) - hat(v);
+
+	return Rq;
+}
+
+MatrixXd hat(Vector3d w){
+
+	MatrixXd w_hat(3,3);
+	w_hat.row(0) << 0, -w(2), w(1);
+	w_hat.row(1) << w(2), 0, -w(0);
+	w_hat.row(2) << -w(1), w(0), 0;
+
+
+	return w_hat;
+
+}
+
 PYBIND11_MODULE(euler_cpp, m) {
     m.doc() = "Euler equations and Quat Functions"; // optional module docstring
 
     m.def("get_w_dot", &get_w_dot, "Gets angular velocity using Euler equations");
     m.def("get_q_dot", &get_q_dot, "Gets derivative of quaterion");
+    m.def("Lq", &Lq, "Left quat multiply");
+    m.def("Rq", &Rq, "Right quat multiply");
+    m.def("hat", &hat, "Gets hat matrix");
     
 }
