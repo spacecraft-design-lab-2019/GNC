@@ -52,10 +52,9 @@ VectorXd get_q_dot(Vector4d q, Vector3d w){
     */
 
 	Vector3d q_dot;
-	Vector4d wvec;
-	wvec(0) = 0;
-	wvec.tail(3) = w;
-	q_dot = 1/2 * q * wvec;
+	MatrixXd What(4,4);
+	// What.row(0) << 
+	q_dot = 1/2 * What * q;
 
 
     return q_dot;
