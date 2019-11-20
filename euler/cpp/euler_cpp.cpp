@@ -104,6 +104,18 @@ MatrixXd hat(Vector3d w){
 
 }
 
+Vector3d rotate_vec(Vector3d xb, Vector4d q){
+	/*
+	Goes from BODY to INERTIAL IFF q represents the BODY to INERTIAL attitude
+	*/
+	Vector4d xtemp_sol, xtemp;
+	xtemp << 0, xb;
+	MatrixXd lq = Lq(q);
+	MatrixXd rq = Rq(q);
+	xtemp_sol = lq * rq.transpose() * xtemp;
+	return xtemp_sol.tail(3);
+}
+
 PYBIND11_MODULE(euler_cpp, m) {
     m.doc() = "Euler equations and Quat Functions"; // optional module docstring
 
@@ -112,5 +124,6 @@ PYBIND11_MODULE(euler_cpp, m) {
     m.def("Lq", &Lq, "Left quat multiply");
     m.def("Rq", &Rq, "Right quat multiply");
     m.def("hat", &hat, "Gets hat matrix");
+    m.def("rotate_vec", &rotate_vec, "Rotates vector x from body to inertial");
     
 }
