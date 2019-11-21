@@ -66,6 +66,35 @@ Vector4d get_q_dot(Vector4d q, Vector3d w){
 
 }
 
+VectorXd get_attitude_derivative(double t, VectorXd x, Vector3d M, MatrixXd I){
+    /*
+    Takes in an attitude state parametrized by a quaternion and an angular rate and returns a state derivative.
+
+    Inputs:
+        t - time, scalar, [sec]
+        x - state, [q;w], 7x1 vector of stacked q and w.
+            q - quaternion, 4x1 vector, scalar first, represents rotation from body coordinates to ECI coordinates
+            w - angular rate, 3x1 vector, [rad/s], expressed in body frame of the spacecraft
+        M - Torques on spacecraft, 3x1 vector, [Newton-meters], expressed in body frame of the spacecraft
+        I - Moment of Inertia matrix, 3x3 matrix, [kg-m^2]
+
+    Outputs:
+        x_dot - rate of change of state, [q_dot;w_dot]
+    */
+
+    VectorXd x_dot(7,1);
+    Vector4d q_dot;
+    Vector3d w_dot;
+    Vector4d q = x(seq(0,3));
+    Vector3d w = x(seq(4,6),0);
+
+    q_dot = get_q_dot(q, w);
+    w_dot = get_w_dot(w, M, I);
+    x_dot << q_dot, w_dot;
+
+    return x_dot;
+}
+
 MatrixXd Lq(Vector4d q){
     /*
     TODO: add documentation
@@ -155,5 +184,6 @@ PYBIND11_MODULE(euler_cpp, m) {
     m.def("hat", &hat, "Gets hat matrix");
     m.def("rotate_vec", &rotate_vec, "Rotates vector x from body to inertial");
     m.def("get_inverse_quaternion", &get_inverse_quaternion, "Returns inverse quaternion rotation");
+    m.def("get_attitude_derivative", &get_attitude_derivative, "Returns derivative of attitude state");
     
 }
