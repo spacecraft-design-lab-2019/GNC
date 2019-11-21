@@ -20,10 +20,12 @@ def test_quat_rot1():
 	q = np.array([cos(theta /2), 0, 0, sin(theta/2)]) # 45 degree rotation about the z axis body to inertial
 
 	xb = np.array([1, 0, 0])
+	zb = np.array([0, 0, 1])
 	x_sol = np.array([cos(theta), sin(theta), 0])
+	z_sol = np.array([0, 0, 1])
 
 	np.testing.assert_allclose(ecpp.rotate_vec(xb, q), x_sol, atol=1e-15)
-
+	np.testing.assert_allclose(ecpp.rotate_vec(zb, q), z_sol, atol=1e-15)
 
 
 def test_quat_rot2():
@@ -54,4 +56,20 @@ def test_quat_rot4():
 
 	np.testing.assert_allclose(ecpp.rotate_vec(xb, q), x_sol, atol=1e-15)
 
+def test_quat_rot5():
+	theta = pi / 4
+	q = np.array([cos(theta /2), 0, 0, sin(theta/2)]) # 45 degree rotation about the z axis body to inertial
 
+	zb = np.array([0, 0, 1])
+	z_sol = np.array([0, 0, 1])
+
+	np.testing.assert_allclose(ecpp.rotate_vec(zb, q), z_sol, atol=1e-15)
+
+def test_quat_rot6():
+	theta = pi / 4
+	q = np.array([cos(theta /2), 0, 0, sin(theta/2)]) # 45 degree rotation about the z axis body to inertial
+
+	yb = np.array([0, 1, 0])
+	y_sol = np.array([-sin(theta), cos(theta), 0])
+
+	np.testing.assert_allclose(ecpp.rotate_vec(yb, q), y_sol, atol=1e-15)
