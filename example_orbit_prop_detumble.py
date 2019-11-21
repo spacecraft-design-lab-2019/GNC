@@ -2,7 +2,7 @@
 Script integrating detumble with orbit/magnetic field knowledge
 '''
 
-from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
+# from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
 from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -158,7 +158,7 @@ for i in range(len(times)-1):
     M_vec[i,:] = np.transpose(M)
 
     # Propagate dynamics/kinematics forward using commanded moment
-    y = integrate.odeint(get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
+    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
 
     # Store angular velocity
     w_vec[i,:] = y[-1,4:7]
