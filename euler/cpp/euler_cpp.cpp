@@ -105,7 +105,7 @@ MatrixXd Lq(Vector4d q){
 	Vector3d v;
 	v << q(1), q(2), q(3);
 	Lq.row(0) << q(0), -q(1), -q(2), -q(3);
-	Lq.col(0).tail(3) << -q(1), -q(2), -q(3);
+	Lq.col(0).tail(3) << q(1), q(2), q(3);
 	Lq.block(1, 1, 3, 3) << s * MatrixXd::Identity(3, 3) + hat(v);
 
 	return Lq;
@@ -120,7 +120,7 @@ MatrixXd Rq(Vector4d q){
 	Vector3d v;
 	v << q(1), q(2), q(3);
 	Rq.row(0) << q(0), -q(1), -q(2), -q(3);
-	Rq.col(0).tail(3) << -q(1), -q(2), -q(3);
+	Rq.col(0).tail(3) << q(1), q(2), q(3);
 	Rq.block(1, 1, 3, 3) << s * MatrixXd::Identity(3, 3) - hat(v);
 
 	return Rq;
