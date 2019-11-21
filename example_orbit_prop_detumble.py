@@ -16,6 +16,7 @@ import time_functions_cpp as tfcpp
 import frame_conversions_cpp as fccpp
 import detumble_cpp as dcpp
 import time
+import euler_cpp as ecpp
 
 # clear figures
 plt.close('all')
@@ -109,7 +110,7 @@ for i in range(len(times)-1):
     B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
 
     # get magnetic field in body frame (for detumble algorithm)
-    R_body2ECI = quat2DCM(np.transpose(x[0:4]))
+    # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
     B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
     B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
 
@@ -120,7 +121,8 @@ for i in range(len(times)-1):
 
 
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
-    B_field_body[i,:] = np.transpose( R_body2ECI @ B_field_ECI)
+    q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
+    B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
 
     # Get B_dot based on previous measurement
     if i>0:

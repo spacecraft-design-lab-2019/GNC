@@ -67,7 +67,9 @@ Vector4d get_q_dot(Vector4d q, Vector3d w){
 }
 
 MatrixXd Lq(Vector4d q){
-
+    /*
+    TODO: add documentation
+    */
 	MatrixXd Lq(4, 4);
 	double s = q(0);
 	Vector3d v;
@@ -80,7 +82,9 @@ MatrixXd Lq(Vector4d q){
 }
 
 MatrixXd Rq(Vector4d q){
-
+    /*
+    TODO: add documentation
+    */
 	MatrixXd Rq(4, 4);
 	double s = q(0);
 	Vector3d v;
@@ -93,7 +97,16 @@ MatrixXd Rq(Vector4d q){
 }
 
 MatrixXd hat(Vector3d w){
+    /*
+    This function takes in a vector, w,  and outputs a skew-symmetric matrix, w_hat, that represents
+    the vector cross product of that vector. Premultiplying a vector by this matrix is the same as taking the cross product
+    of that vector with w ( cross(w,vector) ).
 
+    Inputs:
+        w -3x1 vector. (Often an angular velocity [rad/s]).
+    Outputs:
+        w_hat - 3x3 matrix
+    */
 	MatrixXd w_hat(3,3);
 	w_hat.row(0) << 0, -w(2), w(1);
 	w_hat.row(1) << w(2), 0, -w(0);
@@ -116,6 +129,22 @@ Vector3d rotate_vec(Vector3d xb, Vector4d q){
 	return xtemp_sol.tail(3);
 }
 
+Vector4d get_inverse_quaternion(Vector4d q){
+    /*
+    This function takes in a quaternion and outputs its inverse (i.e. if a quaternion describes a rotation from body to ECI,
+    this function returns the quaternion describing rotation from ECI to body coordinates)
+
+    Inputs
+        q - quaternion, 4x1, scalar first
+    Outputs
+        q_inv - quaternion, 4x1, scalar first
+    */
+    Vector4d q_inv;
+    q_inv << -q(0), q(1), q(2), q(3);
+    return q_inv;
+
+}
+
 PYBIND11_MODULE(euler_cpp, m) {
     m.doc() = "Euler equations and Quat Functions"; // optional module docstring
 
@@ -125,5 +154,6 @@ PYBIND11_MODULE(euler_cpp, m) {
     m.def("Rq", &Rq, "Right quat multiply");
     m.def("hat", &hat, "Gets hat matrix");
     m.def("rotate_vec", &rotate_vec, "Rotates vector x from body to inertial");
+    m.def("get_inverse_quaternion", &get_inverse_quaternion, "Returns inverse quaternion rotation");
     
 }

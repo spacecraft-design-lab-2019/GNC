@@ -13,7 +13,7 @@ import numpy as np
 import pytest
 import math
 import euler_cpp as ecpp
-from math import cos, sin , pi
+from math import cos, sin , pi, sqrt
 
 def test_quat_rot1():
 	theta = pi / 4
@@ -73,3 +73,13 @@ def test_quat_rot6():
 	y_sol = np.array([-sin(theta), cos(theta), 0])
 
 	np.testing.assert_allclose(ecpp.rotate_vec(yb, q), y_sol, atol=1e-15)
+
+def test_quat_inverse():
+	vec = np.array([.33,.66,.99])
+	q = np.array([sqrt(.25),sqrt(.25),sqrt(.25),sqrt(.25)])
+
+	vec_rotated = ecpp.rotate_vec(vec, q)
+	q_inv = ecpp.get_inverse_quaternion(q)
+	vec_rot_back = ecpp.rotate_vec(vec_rotated, q_inv)
+
+	np.testing.assert_allclose(vec,vec_rot_back,atol = 1e-15)
