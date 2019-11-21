@@ -83,3 +83,20 @@ def test_quat_inverse():
 	vec_rot_back = ecpp.rotate_vec(vec_rotated, q_inv)
 
 	np.testing.assert_allclose(vec,vec_rot_back,atol = 1e-15)
+
+def test_quat_deriv():
+	# Test using rotation and rotation rate solely about z axis
+	theta = pi / 4.0
+	d_theta = .0000001
+	dt = .00001
+
+	# Numerical derivative
+	q_1 = np.array([cos(theta / 2), 0.0, 0.0, sin(theta / 2)])  # 45 degree rotation about the z axis body to inertial
+	q_2 = np.array([cos((theta + d_theta)/2), 0.0, 0.0, sin((theta + d_theta)/2)])
+	q_dot_num = (q_2-q_1)/dt
+
+	# Analytical derivative
+	w = np.array([0.0, 0.0, d_theta/dt])
+	q_dot_anal = ecpp.get_q_dot(q_2, w)
+
+	np.testing.assert_allclose(q_dot_num, q_dot_anal, atol=1e-5)

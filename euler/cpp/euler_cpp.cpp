@@ -7,6 +7,8 @@
 #include <../../eigen-git-mirror/Eigen/Geometry> 
 #include <../../pybind11/include/pybind11/pybind11.h>
 #include <../../pybind11/include/pybind11/eigen.h>
+#include <iostream>
+
 namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
@@ -57,10 +59,9 @@ Vector4d get_q_dot(Vector4d q, Vector3d w){
 
 	Vector4d q_dot;
 	Vector4d wvec;
-	wvec(0) = 0;
-	wvec.tail(3) = w;
-	q_dot = 1/2 * Lq(q) * wvec;
 
+	wvec << 0, w(0), w(1), w(2);
+	q_dot = .5 * Lq(q) * wvec;
 
     return q_dot;
 
