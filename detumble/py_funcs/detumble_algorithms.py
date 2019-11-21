@@ -32,7 +32,7 @@ def detumble_B_dot(B,B_dot,k=1.0):
     m = -k*B_dot/np.linalg.norm(B)
     return m
 
-def detumble_B_dot_bang_bang(B_dot,max_dipoles = [[8.8e-3],[1.373e-2],[8.2e-3]]):
+def detumble_B_dot_bang_bang(B_dot, max_dipoles = [[8.8e-3],[1.373e-2],[8.2e-3]]):
     '''
     :param B_dot: 3x1 vector of the rate of change of Earth's magnetic field, [nanoTesla/s], as measured in the spacecraft body
                     frame.
