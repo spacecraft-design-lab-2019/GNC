@@ -88,3 +88,5 @@ _deps/pybind11-subbuild/CMakeFiles/TargetDirectories.txt
 _deps/pybind11-subbuild/CMakeLists.txt
 
 _deps/pybind11-subbuild/Makefile
+
+.cache/v/cache/lastfailed
