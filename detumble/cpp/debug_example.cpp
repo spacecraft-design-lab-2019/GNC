@@ -9,8 +9,21 @@ using namespace std;
 Vector3d get_bias_estimate( MatrixXd B_mat);
 
 int main(){
-    MatrixXd B_mat_test = MatrixXd::Random(10,3);
-    // std::cout<< B_mat_test << std::endl;
+	MatrixXd B_mat_test = MatrixXd::Random(100,3);	
+	Vector3d bias_true;
+	bias_true << 1, 1, 1;
+
+	std::cout<< bias_true << std::endl;
+
+
+	// Add in bias
+	for (int i = 0; i < B_mat_test.rows(); i++)
+	{
+		B_mat_test.row(i) = B_mat_test.row(i) + bias_true.transpose();
+	}
+
+	std::cout<<B_mat_test<<std::endl;
+
 
     Vector3d bias_estimated;
     bias_estimated = get_bias_estimate(B_mat_test);
@@ -37,7 +50,7 @@ Vector3d get_bias_estimate(MatrixXd B_mat){
             (Note, this function uses the non-iterative method described in section 4 of the above paper).
     */
 
-    // build matrix of ellipsoid parameters
+    // build matrix of ellipsoid parameters (LHS of lls problem)
     MatrixXd D(B_mat.rows(),9);
     VectorXd x(B_mat.rows());
     VectorXd y(B_mat.rows());
@@ -47,8 +60,8 @@ Vector3d get_bias_estimate(MatrixXd B_mat){
     y = B_mat.col(1);
     z = B_mat.col(2);
 
-    D.col(0) = x.cwiseProduct(x) + y.cwiseProduct(y) - 2*z;
-    D.col(1) = x.cwiseProduct(x) + z.cwiseProduct(z) - 2*x;
+    D.col(0) = x.cwiseProduct(x) + y.cwiseProduct(y) - 2*z.cwiseProduct(z);
+    D.col(1) = x.cwiseProduct(x) + z.cwiseProduct(z) - 2*y.cwiseProduct(y);
     D.col(2) = 2*x.cwiseProduct(y);
     D.col(3) = 2*x.cwiseProduct(z);
     D.col(4) = 2*y.cwiseProduct(z);
@@ -57,14 +70,40 @@ Vector3d get_bias_estimate(MatrixXd B_mat){
     D.col(7) = 2*z;
     D.col(8) = MatrixXd::Ones(B_mat.rows(),1);
 
-    // build vector of distances from origin
-
+    // build vector of distances from origin (RHS of lls problem)
+    VectorXd dist(B_mat.rows(),1);
+    dist = x.cwiseProduct(x) + y.cwiseProduct(y) + z.cwiseProduct(z);
 
     // solve the system using SVD for numerical stability (try SVD and QR)
+    VectorXd u(9);
+    u = D.bdcSvd(ComputeThinU | ComputeThinV).solve(dist);
 
     // compute center from solved system
     Vector3d bias;
-    bias << 1, 2, 3;
+    VectorXd v(10);
+    v(0) = u(0) + u(1) -1;
+    v(1) = u(0) - 2*u(1) -1;
+    v(2) = u(1) - 2*u(0) -1;
+    v.tail<7>() = u.tail<7>();
+
+    std::cout<<v<<std::endl;
+
+    Matrix4d A;
+    A.row(0) << v(0), v(3), v(4), v(6);
+    A.row(1) << v(3), v(1), v(5), v(7);
+    A.row(2) << v(4), v(5), v(2), v(8);
+    A.row(3) << v(6), v(7), v(8), v(9);
+
+    std::cout<<A<<std::endl;
+
+
+    Matrix3d A_concat;
+    A_concat << A.block(0,0,3,3);
+
+
+    std::cout<<A_concat<<std::endl;
+
+    bias = -A_concat.colPivHouseholderQr().solve(v.segment(6,3));
 
 
     // TODO: implement output for translating system, find evals and evecs about origin to find parameters of T matrix
