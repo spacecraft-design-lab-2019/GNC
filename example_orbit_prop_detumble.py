@@ -2,8 +2,7 @@
 Script integrating detumble with orbit/magnetic field knowledge
 '''
 
-# from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
-from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
+# from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import math
