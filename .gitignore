@@ -89,4 +89,12 @@ _deps/pybind11-subbuild/CMakeLists.txt
 
 _deps/pybind11-subbuild/Makefile
 
+
 .cache/v/cache/lastfailed
+
+detumble/magnetometer_bias_estimation/Bias Estimation Example.png
+
+detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ellipsoid.png
+
+*.asv
+
