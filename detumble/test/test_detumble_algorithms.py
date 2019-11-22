@@ -31,13 +31,15 @@ def test_bias_estimation():
 
     for i in range(m):
         rand_vec = np.array(make_rand_vector(3))
-        # print(B_mags[i])
-        # print(rand_vec)
         B_true = np.transpose(bias_true) + B_mags[i]*rand_vec
         B_mat[i,:] = np.transpose(B_true)
     bias_est = dcpp.get_bias_estimate(B_mat)
 
-    np.testing.assert_allclose(0.0,1.0)
+    abs_error = (bias_est-bias_true)
+    rel_error = np.linalg.norm(abs_error)/np.linalg.norm(bias_true)
+
+
+    np.testing.assert_array_less(rel_error,.05)
 
 
     
