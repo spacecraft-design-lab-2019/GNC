@@ -36,6 +36,9 @@ pybind11_add_module(magnetic_field_cpp magnetic_field_models/cpp/magnetic_field.
 pybind11_add_module(detumble_cpp detumble/cpp/detumble_algorithms.cpp)
 #pybind11_add_module(pointer_t_cpp util_funcs/cpp/pointer_t.cpp)
 
+pybind11_add_module(euler_cpp euler/cpp/euler_cpp.cpp)
+
+
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
 #        util_funcs/cpp/time_functions.h)

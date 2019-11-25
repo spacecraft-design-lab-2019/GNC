@@ -1,10 +1,8 @@
 from orbit_propagation.orbit_prop_py import orbit
 import numpy as np
-<<<<<<< HEAD
+
 # from orbit_prop_py.orbit import *
 import pytest
-=======
->>>>>>> remotes/origin/HEAD
 
 @pytest.mark.skip(reason="no way of currently testing this")
 def test_get_orbit_pos():

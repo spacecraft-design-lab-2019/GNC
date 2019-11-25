@@ -64,6 +64,7 @@ __pycache__
 *.pyc
 *.so
 *.cmake
+/_deps/
 _deps/pybind11-build/CMakeFiles/progress.marks
 
 _deps/pybind11-build/Makefile
@@ -88,6 +89,9 @@ _deps/pybind11-subbuild/CMakeLists.txt
 
 _deps/pybind11-subbuild/Makefile
 
+
+.cache/v/cache/lastfailed
+
 detumble/magnetometer_bias_estimation/Bias Estimation Example.png
 
 detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ellipsoid.png
@@ -97,3 +101,4 @@ detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ell
 detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ellipsoid 2.png
 
 detumble/magnetometer_bias_estimation/spacecraft_design_example.m
+

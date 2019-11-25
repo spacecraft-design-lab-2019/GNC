@@ -2,8 +2,7 @@
 Script integrating detumble with orbit/magnetic field knowledge
 '''
 
-from euler import quat2DCM, get_attitude_derivative, get_q_dot, get_w_dot
-from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
+# from detumble.py_funcs import detumble_B_cross,detumble_B_dot,get_B_dot, detumble_B_dot_bang_bang
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import math
@@ -16,6 +15,7 @@ import time_functions_cpp as tfcpp
 import frame_conversions_cpp as fccpp
 import detumble_cpp as dcpp
 import time
+import euler_cpp as ecpp
 
 # clear figures
 plt.close('all')
@@ -45,6 +45,7 @@ Ixx = 0.34375
 Iyy = 0.34375
 Izz = 0.34375
 I = np.array([[Ixx, 0.0, 0.0],[0.0, Iyy, 0.0], [0.0, 0.0, Izz]])
+max_dipoles = np.array([[8.8e-3], [1.373e-2], [8.2e-3]])
 
 # initial attitude conditions, radians & rad/s
 q_0 = np.array([[1.0],[0.0],[0.0],[0.0]])                     # initial quaternion, scalar last
@@ -67,7 +68,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 3600
+tf = 600
 tstep = .1
 times = np.arange(t0,tf,tstep)
 n = len(times)
@@ -108,7 +109,7 @@ for i in range(len(times)-1):
     B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
 
     # get magnetic field in body frame (for detumble algorithm)
-    R_body2ECI = quat2DCM(np.transpose(x[0:4]))
+    # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
     B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
     B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
 
@@ -119,7 +120,8 @@ for i in range(len(times)-1):
 
 
     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
-    B_field_body[i,:] = np.transpose( np.transpose(R_body2ECI) @ B_field_ECI)
+    q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
+    B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
 
     # Get B_dot based on previous measurement
     if i>0:
@@ -136,7 +138,7 @@ for i in range(len(times)-1):
 
         # Validate B_dot bang bang control law:
         # include 1e-9 factor to get nanoTesla back into SI units
-        dipole = detumble_B_dot_bang_bang(1e-9*B_dot)
+        dipole = detumble_B_dot_bang_bang(np.transpose(B_dot_body[i,:]),max_dipoles)
         bang_bang_gain = 1e-9 # 5e-6
         M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
 
@@ -155,7 +157,7 @@ for i in range(len(times)-1):
     M_vec[i,:] = np.transpose(M)
 
     # Propagate dynamics/kinematics forward using commanded moment
-    y = integrate.odeint(get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
+    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
 
     # Store angular velocity
     w_vec[i,:] = y[-1,4:7]
