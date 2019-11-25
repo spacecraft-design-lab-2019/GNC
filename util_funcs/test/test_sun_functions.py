@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-from GNC.util_funcs.py_funcs import sun_utils as su
-import numpy as np
-import pytest
-import math
-from GNC.cmake_build_debug import sun_utils_cpp as sucpp
-=======
+
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -21,7 +15,7 @@ import numpy as np
 import pytest
 import math
 import sun_utils_cpp as sucpp
->>>>>>> remotes/origin/HEAD
+
 # Test 1: Check Sun position
 def test_sun_position_1():
     MJD = 51622 # J2000
