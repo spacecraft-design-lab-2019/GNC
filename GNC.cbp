@@ -17,41 +17,11 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="frame_conversions_cpp">
-				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+			<Target title="rebuild_cache">
 				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
-					<Add directory="/usr/include/python3.6m"/>
-				</Compiler>
+				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="frame_conversions_cpp/fast">
-				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
-				<Option object_output="./"/>
-				<Option type="3"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
-					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
-					<Add directory="/usr/include/python3.6m"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp/fast"/>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
@@ -67,8 +37,8 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="triad_cpp">
-				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+			<Target title="magnetic_field_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/magnetic_field_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
@@ -76,19 +46,22 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp"/>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 magnetic_field_cpp"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="triad_cpp/fast">
-				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+			<Target title="magnetic_field_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/magnetic_field_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
 				<Option object_output="./"/>
 				<Option type="3"/>
@@ -96,12 +69,15 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp/fast"/>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 magnetic_field_cpp/fast"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
@@ -116,7 +92,10 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
@@ -136,7 +115,10 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
@@ -147,11 +129,93 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="rebuild_cache">
+			<Target title="triad_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
-				<Option type="4"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="triad_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/triad_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 triad_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="frame_conversions_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="frame_conversions_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/frame_conversions_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 frame_conversions_cpp/fast"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
@@ -166,7 +230,10 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
@@ -186,12 +253,61 @@
 				<Compiler>
 					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
 					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
 					<Add directory="/usr/include/python3.6m"/>
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 time_functions_cpp/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="detumble_cpp">
+				<Option output="/home/eleboeuf/Documents/GNC/detumble_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 detumble_cpp"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="detumble_cpp/fast">
+				<Option output="/home/eleboeuf/Documents/GNC/detumble_cpp.cpython-36m-x86_64-linux-gnu.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/eleboeuf/Documents/GNC"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/eleboeuf/Documents/GNC/orbit_propagation/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/util_funcs/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/detumble/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/eigen-git-mirror"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/pybind11"/>
+					<Add directory="/home/eleboeuf/Documents/GNC/_deps/pybind11-src/include"/>
+					<Add directory="/usr/include/python3.6m"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 detumble_cpp/fast"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/eleboeuf/Documents/GNC/Makefile&quot;  VERBOSE=1 clean"/>
@@ -203,6 +319,18 @@
 		</Unit>
 		<Unit filename="/home/eleboeuf/Documents/GNC/TRIAD/cpp/deterministic_ad.h">
 			<Option target="triad_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/detumble/cpp/detumble_algorithms.cpp">
+			<Option target="detumble_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/detumble/cpp/detumble_algorithms.h">
+			<Option target="detumble_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/magnetic_field.cpp">
+			<Option target="magnetic_field_cpp"/>
+		</Unit>
+		<Unit filename="/home/eleboeuf/Documents/GNC/magnetic_field_models/cpp/magnetic_field.h">
+			<Option target="magnetic_field_cpp"/>
 		</Unit>
 		<Unit filename="/home/eleboeuf/Documents/GNC/util_funcs/cpp/frame_conversions.cpp">
 			<Option target="frame_conversions_cpp"/>
