@@ -93,3 +93,7 @@ detumble/magnetometer_bias_estimation/Bias Estimation Example.png
 detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ellipsoid.png
 
 *.asv
+
+detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ellipsoid 2.png
+
+detumble/magnetometer_bias_estimation/spacecraft_design_example.m
