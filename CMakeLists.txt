@@ -31,7 +31,7 @@ pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 pybind11_add_module(triad_cpp TRIAD/cpp/deterministic_ad.cpp)
 pybind11_add_module(frame_conversions_cpp util_funcs/cpp/frame_conversions.cpp)
 pybind11_add_module(magnetic_field_cpp magnetic_field_models/cpp/magnetic_field.cpp)
-
+pybind11_add_module(sample_cpp sample_cpp.cpp)
 
 pybind11_add_module(detumble_cpp detumble/cpp/detumble_algorithms.cpp)
 #pybind11_add_module(pointer_t_cpp util_funcs/cpp/pointer_t.cpp)
