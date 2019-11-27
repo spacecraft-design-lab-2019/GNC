@@ -41,3 +41,7 @@ detumble/magnetometer_bias_estimation/Bias Estimation Using Minimum Bounding ell
 
 detumble/magnetometer_bias_estimation/spacecraft_design_example.m
 
+
+detumble/cpp/bias
+
+detumble/cpp/bias.exe
