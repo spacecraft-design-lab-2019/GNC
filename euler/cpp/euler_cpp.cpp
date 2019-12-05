@@ -98,9 +98,16 @@ VectorXd get_attitude_derivative(double t, VectorXd x, Vector3d M, MatrixXd I){
 
 MatrixXd Lq(Vector4d q){
     /*
-    TODO: add documentation
+    Takes in quaternion and returns the left multiply matrix for quaternion rotation
+
+    Inputs:
+        q - quaternion, 4x1 vector, scalar first, represents rotation from body to ECI
+
+    Outputs: 
+        Lq - Left multiply matrix of quaternion, q
     */
 	MatrixXd Lq(4, 4);
+    Lq = MatrixXd::Zero(4,4);
 	double s = q(0);
 	Vector3d v;
 	v << q(1), q(2), q(3);
@@ -113,9 +120,16 @@ MatrixXd Lq(Vector4d q){
 
 MatrixXd Rq(Vector4d q){
     /*
-    TODO: add documentation
+    Takes in quaternion and returns the right multiply matrix for quaternion rotation
+
+    Inputs:
+        q - quaternion, 4x1 vector, scalar first, represents rotation from body to ECI
+
+    Outputs: 
+        Rq - Right multiply matrix of quaternion, q
     */
 	MatrixXd Rq(4, 4);
+    Rq = MatrixXd::Zero(4,4);
 	double s = q(0);
 	Vector3d v;
 	v << q(1), q(2), q(3);
