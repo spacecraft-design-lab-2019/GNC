@@ -1,9 +1,8 @@
 name: Python package
 
 on:
-#  pull_request:
-#    types: [assigned, opened, synchronize, reopened, edited]
-  push
+  pull_request:
+    types: [assigned, opened, synchronize, reopened, edited]
 
 jobs:
   build:
