@@ -64,7 +64,6 @@ SecretStorage==2.3.1
 sgp4==1.4
 simplejson==3.13.2
 six==1.13.0
-system-service==0.3
 systemd-python==234
 traitlets==4.3.3
 ubuntu-drivers-common==0.0.0
