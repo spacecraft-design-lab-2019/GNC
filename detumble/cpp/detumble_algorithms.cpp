@@ -1,7 +1,7 @@
 //
 // Created by Paul DeTrempe on 11/5/2019
 //
-
+#include "detumble_algorithms.h"
 #include "../../eigen-git-mirror/Eigen/Dense"
 #include "../../pybind11/include/pybind11/pybind11.h"
 #include "../../pybind11/include/pybind11/eigen.h"

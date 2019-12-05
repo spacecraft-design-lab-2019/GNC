@@ -1,6 +1,15 @@
 '''
 Script for testing detumble algorithms
-''' 
+'''
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+gncdir = os.path.dirname(parentdir)
+docdir = os.path.dirname(gncdir)
+sys.path.insert(0,parentdir)
+sys.path.insert(0, gncdir)
+sys.path.insert(0, docdir)
+
 import detumble_cpp as dcpp
 import numpy as np
 import sys
@@ -39,7 +48,7 @@ def test_bias_estimation():
     rel_error = np.linalg.norm(abs_error)/np.linalg.norm(bias_true)
 
 
-    np.testing.assert_array_less(rel_error,.05)
+    np.testing.assert_array_less(rel_error,.1)
 
 
     
