@@ -92,6 +92,3 @@ def test_ecef2lla_3():
         np.testing.assert_allclose(fccpp.ecef2lla(r), lla_pred, atol=1e-6)  # cpp test
         np.testing.assert_allclose(py_lla, fccpp.ecef2lla(r),
                                    atol=1e-6)  # compare test
-
-def test_false():
-    assert False
