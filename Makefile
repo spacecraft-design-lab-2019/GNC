@@ -111,6 +111,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named euler_cpp
+
+# Build rule for target.
+euler_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 euler_cpp
+.PHONY : euler_cpp
+
+# fast build rule for target.
+euler_cpp/fast:
+	$(MAKE) -f CMakeFiles/euler_cpp.dir/build.make CMakeFiles/euler_cpp.dir/build
+.PHONY : euler_cpp/fast
+
+#=============================================================================
+# Target rules for targets named sample_cpp
+
+# Build rule for target.
+sample_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sample_cpp
+.PHONY : sample_cpp
+
+# fast build rule for target.
+sample_cpp/fast:
+	$(MAKE) -f CMakeFiles/sample_cpp.dir/build.make CMakeFiles/sample_cpp.dir/build
+.PHONY : sample_cpp/fast
+
+#=============================================================================
 # Target rules for targets named frame_conversions_cpp
 
 # Build rule for target.
@@ -242,6 +268,33 @@ detumble/cpp/detumble_algorithms.cpp.s:
 	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/detumble/cpp/detumble_algorithms.cpp.s
 .PHONY : detumble/cpp/detumble_algorithms.cpp.s
 
+euler/cpp/euler_cpp.o: euler/cpp/euler_cpp.cpp.o
+
+.PHONY : euler/cpp/euler_cpp.o
+
+# target to build an object file
+euler/cpp/euler_cpp.cpp.o:
+	$(MAKE) -f CMakeFiles/euler_cpp.dir/build.make CMakeFiles/euler_cpp.dir/euler/cpp/euler_cpp.cpp.o
+.PHONY : euler/cpp/euler_cpp.cpp.o
+
+euler/cpp/euler_cpp.i: euler/cpp/euler_cpp.cpp.i
+
+.PHONY : euler/cpp/euler_cpp.i
+
+# target to preprocess a source file
+euler/cpp/euler_cpp.cpp.i:
+	$(MAKE) -f CMakeFiles/euler_cpp.dir/build.make CMakeFiles/euler_cpp.dir/euler/cpp/euler_cpp.cpp.i
+.PHONY : euler/cpp/euler_cpp.cpp.i
+
+euler/cpp/euler_cpp.s: euler/cpp/euler_cpp.cpp.s
+
+.PHONY : euler/cpp/euler_cpp.s
+
+# target to generate assembly for a file
+euler/cpp/euler_cpp.cpp.s:
+	$(MAKE) -f CMakeFiles/euler_cpp.dir/build.make CMakeFiles/euler_cpp.dir/euler/cpp/euler_cpp.cpp.s
+.PHONY : euler/cpp/euler_cpp.cpp.s
+
 magnetic_field_models/cpp/magnetic_field.o: magnetic_field_models/cpp/magnetic_field.cpp.o
 
 .PHONY : magnetic_field_models/cpp/magnetic_field.o
@@ -268,6 +321,33 @@ magnetic_field_models/cpp/magnetic_field.s: magnetic_field_models/cpp/magnetic_f
 magnetic_field_models/cpp/magnetic_field.cpp.s:
 	$(MAKE) -f CMakeFiles/magnetic_field_cpp.dir/build.make CMakeFiles/magnetic_field_cpp.dir/magnetic_field_models/cpp/magnetic_field.cpp.s
 .PHONY : magnetic_field_models/cpp/magnetic_field.cpp.s
+
+sample_cpp.o: sample_cpp.cpp.o
+
+.PHONY : sample_cpp.o
+
+# target to build an object file
+sample_cpp.cpp.o:
+	$(MAKE) -f CMakeFiles/sample_cpp.dir/build.make CMakeFiles/sample_cpp.dir/sample_cpp.cpp.o
+.PHONY : sample_cpp.cpp.o
+
+sample_cpp.i: sample_cpp.cpp.i
+
+.PHONY : sample_cpp.i
+
+# target to preprocess a source file
+sample_cpp.cpp.i:
+	$(MAKE) -f CMakeFiles/sample_cpp.dir/build.make CMakeFiles/sample_cpp.dir/sample_cpp.cpp.i
+.PHONY : sample_cpp.cpp.i
+
+sample_cpp.s: sample_cpp.cpp.s
+
+.PHONY : sample_cpp.s
+
+# target to generate assembly for a file
+sample_cpp.cpp.s:
+	$(MAKE) -f CMakeFiles/sample_cpp.dir/build.make CMakeFiles/sample_cpp.dir/sample_cpp.cpp.s
+.PHONY : sample_cpp.cpp.s
 
 util_funcs/cpp/frame_conversions.o: util_funcs/cpp/frame_conversions.cpp.o
 
@@ -356,6 +436,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... euler_cpp"
+	@echo "... sample_cpp"
 	@echo "... frame_conversions_cpp"
 	@echo "... edit_cache"
 	@echo "... triad_cpp"
@@ -370,9 +452,15 @@ help:
 	@echo "... detumble/cpp/detumble_algorithms.o"
 	@echo "... detumble/cpp/detumble_algorithms.i"
 	@echo "... detumble/cpp/detumble_algorithms.s"
+	@echo "... euler/cpp/euler_cpp.o"
+	@echo "... euler/cpp/euler_cpp.i"
+	@echo "... euler/cpp/euler_cpp.s"
 	@echo "... magnetic_field_models/cpp/magnetic_field.o"
 	@echo "... magnetic_field_models/cpp/magnetic_field.i"
 	@echo "... magnetic_field_models/cpp/magnetic_field.s"
+	@echo "... sample_cpp.o"
+	@echo "... sample_cpp.i"
+	@echo "... sample_cpp.s"
 	@echo "... util_funcs/cpp/frame_conversions.o"
 	@echo "... util_funcs/cpp/frame_conversions.i"
 	@echo "... util_funcs/cpp/frame_conversions.s"

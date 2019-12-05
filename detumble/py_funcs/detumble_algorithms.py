@@ -31,6 +31,21 @@ def detumble_B_dot(B,B_dot,k=1.0):
     '''
     m = -k*B_dot/np.linalg.norm(B)
     return m
+
+def detumble_B_dot_bang_bang(B_dot, max_dipoles = [[8.8e-3],[1.373e-2],[8.2e-3]]):
+    '''
+    :param B_dot: 3x1 vector of the rate of change of Earth's magnetic field, [nanoTesla/s], as measured in the spacecraft body
+                    frame.
+    :param max_dipoles: 3x1 vector of max dipole values [Amp-m^2] in the x, y, and z body (principal) axis directions.
+    :return: m, a 3x1 vector of the dipole commanded by the bang-bang b_dot control law.
+    references: Wertz, equation (7.54)
+
+    '''
+    m = np.zeros((3,1))
+    m[0] = max_dipoles[0] * -np.sign(np.dot(np.transpose(np.array([[1.0],[0.0],[0.0]])) , np.transpose(B_dot)))
+    m[1] = max_dipoles[1] * -np.sign(np.dot(np.transpose(np.array([[0.0],[1.0],[0.0]])) , np.transpose(B_dot)))
+    m[2] = max_dipoles[2] * -np.sign(np.dot(np.transpose(np.array([[0.0],[0.0],[1.0]])) , np.transpose(B_dot)))
+    return m
     
 def get_B_dot(B1,B2,dt):
     '''
