@@ -121,3 +121,12 @@ def test_get_q_dot():
 	qdot_pred = 0.5 * np.array([10*sqrt(2)/2, sqrt(2) - 5 * sqrt(2)/2, sqrt(2) + 5*sqrt(2)/2, -10*sqrt(2)/2])
 
 	np.testing.assert_allclose(ecpp.get_q_dot(q, w), qdot_pred, 1e-15)
+
+def test_get_attitude_derivative():
+	# Test checking Kinetmatic Equations
+
+	I = np.array([[5, 0, 0], [0, 10, 0], [0, 0, 100]])
+	M = np.array([2, -1, 5])
+	x = np.array([cos(pi/4), 0, 0, sin(pi/4), 2, 5, -10])
+	x_pred = np.array([10*sqrt(2)/4, sqrt(2)/2 - 5 * sqrt(2)/4, sqrt(2)/2 + 5*sqrt(2)/4, -10*sqrt(2)/4, 4502/5, -1901/10, -45/100])
+	np.testing.assert_allclose(ecpp.get_attitude_derivative(x, M, I), x_pred, 1e-15)

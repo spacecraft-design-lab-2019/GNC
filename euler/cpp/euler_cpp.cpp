@@ -67,7 +67,7 @@ Vector4d get_q_dot(Vector4d q, Vector3d w){
 
 }
 
-VectorXd get_attitude_derivative(double t, VectorXd x, Vector3d M, MatrixXd I){
+VectorXd get_attitude_derivative(VectorXd x, Vector3d M, MatrixXd I){
     /*
     Takes in an attitude state parametrized by a quaternion and an angular rate and returns a state derivative.
 
