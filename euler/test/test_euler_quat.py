@@ -15,6 +15,8 @@ import math
 import euler_cpp as ecpp
 from math import cos, sin , pi, sqrt
 
+
+#NOTE: All Quat rot functions test Lq and Rq as well as they are used. This also tests the skew matrix (hat) function. 
 def test_quat_rot1():
 	theta = pi / 4
 	q = np.array([cos(theta /2), 0, 0, sin(theta/2)]) # 45 degree rotation about the z axis body to inertial
@@ -100,3 +102,22 @@ def test_quat_deriv():
 	q_dot_anal = ecpp.get_q_dot(q_2, w)
 
 	np.testing.assert_allclose(q_dot_num, q_dot_anal, atol=1e-5)
+
+def test_get_w_dot():
+	# Test checking Euler Equations
+	I = np.array([[5, 0, 0], [0, 10, 0], [0, 0, 100]])
+	M = np.array([2, -1, 5])
+	w = np.array([2, 5, -10])
+
+	wdot_pred = np.array([4502/5, -1901/10, -45/100])
+
+	np.testing.assert_allclose(ecpp.get_w_dot(w, M, I), wdot_pred, 1e-15)
+
+def test_get_q_dot():
+	# Test checking Kinetmatic Equations
+	q = np.array([cos(pi/4), 0, 0, sin(pi/4)]) # 90 degree rotation about z from body to ECI
+	w = np.array([2, 5, -10])
+
+	qdot_pred = 0.5 * np.array([10*sqrt(2)/2, sqrt(2) - 5 * sqrt(2)/2, sqrt(2) + 5*sqrt(2)/2, -10*sqrt(2)/2])
+
+	np.testing.assert_allclose(ecpp.get_q_dot(q, w), qdot_pred, 1e-15)
