@@ -127,7 +127,7 @@ for i in range(len(times)-1):
     if i>0:
         B_1 = np.transpose(B_field_body[i-1,:])
         B_2 = np.transpose(B_field_body[i,:])
-        B_dot = get_B_dot(B_1,B_2,tstep)
+        B_dot = dcpp.get_B_dot(B_1,B_2,tstep)
         B_dot_body[i,:] = np.transpose(B_dot)
 
         # Validate B_dot algorithm
@@ -138,7 +138,7 @@ for i in range(len(times)-1):
 
         # Validate B_dot bang bang control law:
         # include 1e-9 factor to get nanoTesla back into SI units
-        dipole = detumble_B_dot_bang_bang(np.transpose(B_dot_body[i,:]),max_dipoles)
+        dipole = dcpp.detumble_B_dot_bang_bang(np.transpose(B_dot_body[i,:]),max_dipoles)
         bang_bang_gain = 1e-9 # 5e-6
         M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
 
@@ -256,10 +256,10 @@ plt.title('B_dot convergence')
 plt.xlabel('Period')
 plt.ylabel('Norm of angular rate, [rad/s]')
 plt.show()
-# Plot North, East, Down (directly from IGRF) to see if singularities coming from pyIGRF or a coordinate transformation
-fig9 = plt.figure()
-plt.plot(B_field_NED_vec[:,0])
-plt.plot(B_field_NED_vec[:,1])
-plt.plot(B_field_NED_vec[:,2])
-plt.title('Components of B field in NED (from pyIGRF)')
-plt.show()
+# # Plot North, East, Down (directly from IGRF) to see if singularities coming from pyIGRF or a coordinate transformation
+# fig9 = plt.figure()
+# plt.plot(B_field_NED_vec[:,0])
+# plt.plot(B_field_NED_vec[:,1])
+# plt.plot(B_field_NED_vec[:,2])
+# plt.title('Components of B field in NED (from pyIGRF)')
+# plt.show()
