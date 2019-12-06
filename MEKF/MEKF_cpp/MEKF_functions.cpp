@@ -14,7 +14,7 @@ MatrixXd quat2dcm(MatrixXd q);
 
 /* Predict Step */
 
-void predict(MatrixXd xk, MatrixXd w, double dt, MatrixXd &xn, MatrixXd &A){
+void predict(MatrixXd xk, MatrixXd Pk, MatrixXd w, double dt,  MatrixXd &A, MatrixXd &xn, MatrixXd &Pn){
     MatrixXd q(4,1), b(3,1);
     q(all,0) = xk(seq(0,3),0);
     b(all,0) = xk(seq(4,6),0);
@@ -70,6 +70,8 @@ void predict(MatrixXd xk, MatrixXd w, double dt, MatrixXd &xn, MatrixXd &A){
     A(seq(0,2),seq(0,2)) = V*Ls.transpose()*Rs*V.transpose();
     A(seq(0,2),seq(3,5)) = -0.5*dt*MatrixXd::Identity(3,3);
     A(seq(3,5),seq(3,5)) = MatrixXd::Identity(3,3);
+
+    Pn = A*Pk*A.transpose()+W;
 }
 
 /* Measurement Step */
@@ -102,7 +104,7 @@ void innovation(MatrixXd R, MatrixXd rN, MatrixXd rB, MatrixXd P, MatrixXd V, Ma
 /* Update Step */
 
 
-void update(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V, MatrixXd C, MatrixXd &x, MatrixXd &P){
+void update(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V, MatrixXd C, MatrixXd &xk, MatrixXd &Pk){
     MatrixXd dx(6,1);
     dx = L * z;
     MatrixXd dphi(3,1);
@@ -118,9 +120,9 @@ void update(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V, Matrix
     q = quatmult(xn(seq(0,3),0),temp_q);
     MatrixXd b(3,1);
     b = xn(seq(4,6),0) + dbeta;
-    x(seq(0,3),0) = q;
-    x(seq(4,6),0) = b;
-    P = (MatrixXd::Identity(6,6)-L*C)*Pn*(MatrixXd::Identity(6,6)-L*C).transpose() + L*V*L.transpose();
+    xk(seq(0,3),0) = q;
+    xk(seq(4,6),0) = b;
+    Pk = (MatrixXd::Identity(6,6)-L*C)*Pn*(MatrixXd::Identity(6,6)-L*C).transpose() + L*V*L.transpose();
 }
 
 
