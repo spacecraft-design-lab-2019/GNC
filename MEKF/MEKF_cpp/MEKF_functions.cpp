@@ -2,6 +2,8 @@
 #include "MEKF.hpp"
 #include <cmath>
 #include <stdio.h>
+#include "../../eigen-git-mirror/Eigen/Dense"
+
 
 using Eigen::MatrixXd;
 
@@ -14,7 +16,7 @@ MatrixXd quat2dcm(MatrixXd q);
 
 /* Predict Step */
 
-void predict(MatrixXd xk, MatrixXd Pk, MatrixXd w, double dt,  MatrixXd &A, MatrixXd &xn, MatrixXd &Pn){
+void predict(MatrixXd xk, MatrixXd Pk, MatrixXd w, double dt,  MatrixXd &A, MatrixXd &xn, MatrixXd &Pn, MatrixXd W){
     MatrixXd q(4,1), b(3,1);
     q(all,0) = xk(seq(0,3),0);
     b(all,0) = xk(seq(4,6),0);
@@ -86,8 +88,8 @@ void measurement(MatrixXd q, MatrixXd rN, MatrixXd &y, MatrixXd &R, MatrixXd &C)
     y(seq(0,2),0) = rB1;
     y(seq(3,5),0) = rB2;
 
-    C(seq(0,2),seq(0,2)) = 2*SkewSymmetric2(rB1(0),rB1(1),rB1(2));
-    C(seq(3,5),seq(0,2)) = 2*SkewSymmetric2(rB2(0),rB2(1),rB2(2));
+    C(seq(0,2),seq(0,2)) = 2*SkewSymmetric(rB1(0),rB1(1),rB1(2));
+    C(seq(3,5),seq(0,2)) = 2*SkewSymmetric(rB2(0),rB2(1),rB2(2));
     C(all,seq(3,5)) = MatrixXd::Zero(6,3);
 }
 /* Innovation Step */
@@ -156,7 +158,7 @@ MatrixXd quat2dcm(MatrixXd q){
     q_vec(2,0) = q4;
 // calculate skew symmetric matrix Q
     MatrixXd Q(3,3);
-    Q = SkewSymmetric2(q2,q3,q4);
+    Q = SkewSymmetric(q2,q3,q4);
 // calculate DCM
     MatrixXd DCM(3,3);
     DCM = (pow(q1,2.0)-q2*q2-q3*q3-q4*q4)*MatrixXd::Identity(3,3)-2.0*q1*Q+2.0*q_vec*q_vec.transpose();

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.13)
 project(GNC)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -19,12 +19,13 @@ endif()
 include_directories(orbit_propagation/cpp)
 include_directories(util_funcs/cpp)
 include_directories(eigen-git-mirror)
+include_directories(MEKF/MEKF_cpp)
 
 pybind11_add_module(sun_utils_cpp util_funcs/cpp/sun_utils.cpp)
 pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 pybind11_add_module(triad_cpp TRIAD/cpp/deterministic_ad.cpp)
-pybind11_add_module(MEKF/MEKF_cpp/get_xk)
-pybind11_add_module(MEKF/MEKF_cpp/get_Pk)
+pybind11_add_module(MEKF_cpp MEKF/MEKF_cpp/MEKF_cpp.cpp)
+
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
 #        util_funcs/cpp/time_functions.h)
