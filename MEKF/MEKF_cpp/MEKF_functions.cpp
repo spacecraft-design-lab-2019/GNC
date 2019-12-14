@@ -98,7 +98,7 @@ MatrixXd predict_Pn(MatrixXd xk, MatrixXd Pk, MatrixXd w, double dt,  MatrixXd W
 
     MatrixXd A(6,6);
     A(seq(0,2),seq(0,2)) = V*Ls.transpose()*Rs*V.transpose();
-    A(seq(0,2),seq(3,5)) = -0.5*dt*MatrixXd::Identity(3,3);
+    A(seq(0,2),seq(3,5)) = 0.5*dt*MatrixXd::Identity(3,3);
     A(seq(3,5),seq(3,5)) = MatrixXd::Identity(3,3);
     A(seq(3,5),seq(0,2)) = MatrixXd::Zero(3,3);
     MatrixXd Pn(6,6);
@@ -118,8 +118,8 @@ MatrixXd measurement(MatrixXd q, MatrixXd rN){
 
     MatrixXd C(6,6);
 
-    C(seq(0,2),seq(0,2)) = 2*SkewSymmetric(rB1(0),rB1(1),rB1(2));
-    C(seq(3,5),seq(0,2)) = 2*SkewSymmetric(rB2(0),rB2(1),rB2(2));
+    C(seq(0,2),seq(0,2)) = 2*SkewSymmetric(rB1(0,0),rB1(1,0),rB1(2,0));
+    C(seq(3,5),seq(0,2)) = 2*SkewSymmetric(rB2(0,0),rB2(1,0),rB2(2,0));
     C(all,seq(3,5)) = MatrixXd::Zero(6,3);
     return C;
 }
@@ -127,6 +127,7 @@ MatrixXd measurement(MatrixXd q, MatrixXd rN){
 
 MatrixXd innovation(MatrixXd R, MatrixXd rN, MatrixXd rB){
     MatrixXd Q(6,6);
+    Q = MatrixXd::Zero(6,6);
     Q(seq(0,2),seq(0,2)) = R;
     Q(seq(3,5),seq(3,5)) = R;
     MatrixXd z(6,1);
@@ -145,7 +146,7 @@ MatrixXd update_xk(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V,
     MatrixXd dbeta(3,1);
     dbeta = dx(seq(3,5),0);
     double temp;
-    temp = sqrt(1.0-pow(dphi(0,0),2)+pow(dphi(1,0),2)+pow(dphi(2,0),2));
+    temp = sqrt(1.0-pow(dphi(0,0),2.0)+pow(dphi(1,0),2.0)+pow(dphi(2,0),2.0));
     MatrixXd temp_q(4,1);
     temp_q(0,0) = temp;
     temp_q(seq(1,3),0) = dphi;
@@ -168,7 +169,7 @@ MatrixXd update_Pk(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V,
     MatrixXd dbeta(3,1);
     dbeta = dx(seq(3,5),0);
     double temp;
-    temp = sqrt(1.0-pow(dphi(0,0),2)+pow(dphi(1,0),2)+pow(dphi(2,0),2));
+    temp = sqrt(1.0-pow(dphi(0,0),2.0)+pow(dphi(1,0),2.0)+pow(dphi(2,0),2.0));
     MatrixXd temp_q(4,1);
     temp_q(0,0) = temp;
     temp_q(seq(1,3),0) = dphi;
@@ -180,7 +181,7 @@ MatrixXd update_Pk(MatrixXd L, MatrixXd z, MatrixXd xn, MatrixXd Pn, MatrixXd V,
     xk(seq(0,3),0) = q;
     xk(seq(4,6),0) = b;
     MatrixXd Pk(6,6);
-    Pk = (MatrixXd::Identity(6,6)-L*C)*Pn*(MatrixXd::Identity(6,6)-L*C).transpose() + L*V*L.transpose();
+    Pk = (MatrixXd::Identity(6,6)-L*C)*Pn*((MatrixXd::Identity(6,6)-L*C).transpose()) + L*V*L.transpose();
     return Pk;
 }
 
@@ -191,7 +192,7 @@ MatrixXd quatmult(MatrixXd q1, MatrixXd q2){
     qn_temp(0,0) = q1(0,0)*q2(0,0)-q1(seq(1,3),0).transpose()*q2(seq(1,3),0);
     qn_temp(seq(1,3),0) = q1(0,0)*q2(seq(1,3),0)+q2(0,0)*q1(seq(1,3),0)+cross(q1(seq(1,3),0),q2(seq(1,3),0));
     MatrixXd qn(4,1);
-    qn = qn_temp / sqrt(pow(qn_temp(0,0),2)+pow(qn_temp(1,0),2)+pow(qn_temp(2,0),2)+pow(qn_temp(3,0),2));
+    qn = qn_temp / sqrt(pow(qn_temp(0,0),2.0)+pow(qn_temp(1,0),2.0)+pow(qn_temp(2,0),2.0)+pow(qn_temp(3,0),2.0));
     return qn;
 }
 
