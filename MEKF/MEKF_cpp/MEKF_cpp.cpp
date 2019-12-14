@@ -5,9 +5,11 @@
 #include <../../pybind11/include/pybind11/pybind11.h>
 #include <../../pybind11/include/pybind11/eigen.h>
 namespace py = pybind11;
-using Eigen::MatrixXd;
+using namespace Eigen;
+using namespace std;
 
-MatrixXd get_xk(MatrixXd &xk, MatrixXd &Pk, MatrixXd w, MatrixXd rB, MatrixXd rN, MatrixXd W, MatrixXd V, double dt) {
+int main(){return 0;}
+MatrixXd get_xk(MatrixXd xk, MatrixXd Pk, MatrixXd w, MatrixXd rB, MatrixXd rN, MatrixXd W, MatrixXd V, double dt) {
 /*
  * xk - state 7x1 (q,Beta)
  * Pk - covariance 6x6
@@ -27,48 +29,57 @@ MatrixXd get_xk(MatrixXd &xk, MatrixXd &Pk, MatrixXd w, MatrixXd rB, MatrixXd rN
  * L - Kalman Gain
  */
 
-        // predict step
-        MatrixXd xn(7,1), A(6,6), Pn(6,6);
-        predict(xk,Pk,w,dt,A,xn,Pn,W);
 
-        // run measurement step
-        MatrixXd y(6,1), R(3,3), C(6,6);
-        measurement(xn(seq(0,3),0),rN,y,R,C);
-
-        // run innovation step to find z
-        MatrixXd z(6,1), S(6,6);
-        Innovation(R, rN, rB, Pn, V, C, z, S);
-
-        // find Kalman Gain
-        MatrixXd L(6,6);
-        L = Pn * C.transpose() * S.inverse();
-
-        // update step
-        update(L,z,xn,Pn,V,C,xk,Pk);
-    return xk;
-}
-
-MatrixXd get_Pk(MatrixXd &xk, MatrixXd &Pk, MatrixXd w, MatrixXd rB, MatrixXd rN, MatrixXd W, MatrixXd V, double dt) {
- /* same as above, returning Pk instead of xk */
     // predict step
-    MatrixXd xn(7,1), A(6,6), Pn(6,6);
-    predict(xk,Pk,w,dt,A,xn,Pn,W);
+    MatrixXd xn(7,1), Pn(6,6);
+    xn = predict_xn(xk,Pk,w,dt,W);
+    Pn = predict_Pn(xk,Pk,w,dt,W);
 
     // run measurement step
-    MatrixXd y(6,1), R(3,3), C(6,6);
-    measurement(xn(seq(0,3),0),rN,y,R,C);
+    MatrixXd R(3,3), C(6,6);
+    C = measurement(xn(seq(0,3),0),rN);
+    R = quat2dcm(xn(seq(0,3),0));
 
     // run innovation step to find z
     MatrixXd z(6,1), S(6,6);
-    Innovation(R, rN, rB, Pn, V, C, z, S);
+    z = innovation(R, rN, rB);
+    S = C*Pn*C.transpose()+V;
 
     // find Kalman Gain
     MatrixXd L(6,6);
     L = Pn * C.transpose() * S.inverse();
 
     // update step
-    update(L,z,xn,Pn,V,C,xk,Pk);
-    return Pk;
+    MatrixXd xk_new(7,1);
+    xk_new = update_xk(L,z,xn,Pn,V,C);
+    return xk_new;
+}
+
+MatrixXd get_Pk(MatrixXd xk, MatrixXd Pk, MatrixXd w, MatrixXd rB, MatrixXd rN, MatrixXd W, MatrixXd V, double dt) {
+ /* same as above, returning Pk instead of xk */
+   // predict step
+    MatrixXd xn(7,1), Pn(6,6);
+    xn = predict_xn(xk,Pk,w,dt,W);
+    Pn = predict_Pn(xk,Pk,w,dt,W);
+
+    // run measurement step
+    MatrixXd R(3,3), C(6,6);
+    C = measurement(xn(seq(0,3),0),rN);
+    R = quat2dcm(xn(seq(0,3),0));
+
+    // run innovation step to find z
+    MatrixXd z(6,1), S(6,6);
+    z = innovation(R, rN, rB);
+    S = C*Pn*C.transpose()+V;
+
+    // find Kalman Gain
+    MatrixXd L(6,6);
+    L = Pn * C.transpose() * S.inverse();
+
+    // update step
+    MatrixXd Pk_new(6,6);
+    Pk_new = update_Pk(L,z,xn,Pn,V,C);
+    return Pk_new;
 }
 
 
