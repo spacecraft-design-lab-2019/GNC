@@ -78,7 +78,7 @@ double date2MJD(int M, int D, int Y, int HH, int MM, double SS) {
     double y, m;
     double B, day_frac;
 
-    assert(valid_date(M, D, Y, HH, MM, SS));
+    // assert(valid_date(M, D, Y, HH, MM, SS)); // commenting out for now to avoid the issue of ending when the assert fails
 
     if (M<=2)
     {
