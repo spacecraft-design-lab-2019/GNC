@@ -21,6 +21,8 @@ Vector3d detumble_B_dot(Vector3d B, Vector3d B_dot, double k);
 Vector3d get_B_dot(Vector3d B1, Vector3d B2, double dt);
 Vector3d get_B_dot_bang_bang( Vector3d B_dot, Vector3d max_dipoles( double dipole_x, double dipole_y, double dipole_z) );
 Vector3d get_bias_estimate( MatrixXd B_mat);
+Vector3d detumble_B_cross_bang_bang(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles);
+Vector3d detumble_B_cross_directional(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles)
 
 int main(){
     // MatrixXd B_mat_test = MatrixXd::Zero(10,3);
@@ -45,6 +47,77 @@ Vector3d detumble_B_cross(Vector3d omega, Vector3d B, double k){
 
     b_hat = B/B.norm();
     M = -k*(MatrixXd::Identity(3, 3) - b_hat*b_hat.transpose())*omega;
+
+    return M;
+}
+
+Vector3d detumble_B_cross_bang_bang(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles){
+    /*
+    Takes in the angular rate [rad/s] and magnetic field [nanoTesla] vectors (in principal frame)
+    (as 3x1 np arrays), and a vector specifying the maximum dipoles in each axis as a 3x1 vector.
+    It returns a 3x1 vector specifying a magnetic dipole command.
+
+    - based on Wertz (7.49) and created from my brain.
+    TODO: find optimal k for our system
+    */
+
+    Vector3d b_hat, M_temp, M;   // unit B field, control moment
+
+    b_hat = B/B.norm();
+    M_temp = k*omega.cross(b_hat);
+
+    if( signbit(M_temp(0))){        // signbit returns true is a number is negative
+        M(0) = -max_dipoles(0);
+    }
+    else{
+        M(0) = max_dipoles(0);
+    }
+
+    if( signbit(M_temp(1)) ){        // signbit returns true is a number is negative
+        M(1) = -max_dipoles(1);
+    }
+    else{
+        M(1) = max_dipoles(1);
+    }
+
+    if( signbit(M_temp(2)) ){        // signbit returns true is a number is negative
+        M(2) = -max_dipoles(2);
+    }
+    else{
+        M(2) = max_dipoles(2);
+    }
+
+    return M;
+}
+
+Vector3d detumble_B_cross_directional(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles){
+    /*
+    Takes in the angular rate [rad/s] and magnetic field [nanoTesla] vectors (in principal frame)
+    (as 3x1 np arrays), and a vector specifying the maximum dipoles in each axis as a 3x1 vector.
+    It returns a 3x1 vector specifying a magnetic dipole command
+
+    - based on Wertz (7.49) and created from my brain.
+    TODO: find optimal k for our system
+    */
+
+    Vector3d b_hat, M_temp, M;   // unit B field, control moment
+    double ratio, max_ratio;
+
+    b_hat = B/B.norm();
+    M_temp = k*omega.cross(b_hat);
+
+
+    max_ratio = 1.0;
+    for (int i = 0; i < 3; ++i) // 3 is number of dipole axes
+    {
+        ratio = M_temp(i)/max_dipoles(i);
+        if ratio>max_ratio
+        {
+            max_ratio = ratio;
+        }
+    }
+
+    M = M_temp/max_ratio;
 
     return M;
 }
@@ -214,6 +287,8 @@ PYBIND11_MODULE(detumble_cpp, m) {
     m.doc() = "Detumble algorithms"; // optional module docstring
 
     m.def("detumble_B_cross", &detumble_B_cross, "Returns moment needed for detumble using B cross");
+    m.def("detumble_B_cross_bang_bang", &detumble_B_cross_bang_bang, "Returns moment needed for detumble using bang bang B _cross");
+    m.def("detumble_B_cross_directional", &detumble_B_cross_directional, "Returns moment needed for detumble using direction B_cross");
     m.def("detumble_B_dot", &detumble_B_dot, "Returns moment need for detumble using B dot");
     m.def("detumble_B_dot_bang_bang", &detumble_B_dot_bang_bang, "Bang bang controller for detumbling");
     m.def("get_bias_estimate", &get_bias_estimate, "Estimates magnetometer bias based on matrix of measurements");
