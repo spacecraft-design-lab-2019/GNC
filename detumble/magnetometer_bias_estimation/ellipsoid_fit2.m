@@ -1,5 +1,5 @@
 % New function for fitting ellipse based on stuff I understand
-function center = ellipsoid_fit2( X )
+function v = ellipsoid_fit2( X )
 x = X( :, 1 );
 y = X( :, 2 );
 z = X( :, 3 );
@@ -25,16 +25,6 @@ v(1) = u(1) +     u(2) - 1;
 v(2) = u(1) - 2 * u(2) - 1;
 v(3) = u(2) - 2 * u(1) - 1;
 v( 4 : 10 ) = u( 3 : 9 );
-
-% This is the matrix that makes things linear in x (from De Leeuw)
-W = [ v(1) v(4) v(5) v(7); ...
-      v(4) v(2) v(6) v(8); ...
-      v(5) v(6) v(3) v(9); ...
-      v(7) v(8) v(9) v(10) ];
-  
-V_inv = W(1:3,1:3);
-
-center = -V_inv\v( 7:9 );
 
 
 end
