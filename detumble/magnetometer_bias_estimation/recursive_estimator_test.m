@@ -12,10 +12,6 @@ caSense = .02;          % cross-axis sensitivity [??]
 
 
 %% Loop this a bunch of times and compare errors:
-numTrials = 100;
-
-
-for count = 1:numTrials
 bias_true = 45000 * randn(3,1);        % true bias, [nanoTesla]
 % true_vec(i,:) = bias_true';
 
@@ -44,21 +40,13 @@ bias_true = 45000 * randn(3,1);        % true bias, [nanoTesla]
     center_2 = ellipsoid_fit2( B_mat);
     
     %% Calculate error
-    
-    abs_err_old = (center-bias_true)';
-    rel_err_old(count) = norm(abs_err_old)/norm(bias_true);
-    
-    abs_err_new = (center_2-bias_true)';
-    rel_err_new(count) = norm(abs_err_new)/norm(bias_true);
-    
-end
 
 %% Plot to compare
-figure;
-plot(rel_err_old)
-hold on
-plot(rel_err_new)
-legend('old','new')
+% figure;
+% plot(rel_err_old)
+% hold on
+% plot(rel_err_new)
+% legend('old','new')
 
 
 
