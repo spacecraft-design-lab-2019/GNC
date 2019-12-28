@@ -50,8 +50,11 @@ b
 
 A_inv = V*(diag(diag(D).^-1))*V';
 
-%% Solve
+%% Solve using old bias estimator
 [ center, radii, evecs, v, chi2 ] = ellipsoid_fit( B_mat);
+
+%% Try with new bias estimator
+u = ellipsoid_fit2( B_mat);
 
 %% Output Error Metrics
 bias_estimated_sdp = A_inv*b;
