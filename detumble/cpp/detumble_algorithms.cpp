@@ -110,7 +110,7 @@ Vector3d detumble_B_cross_directional(Vector3d omega, Vector3d B, double k, Vect
     max_ratio = 1.0;
     for (int i = 0; i < 3; ++i) // 3 is number of dipole axes
     {
-        ratio = M_temp(i)/max_dipoles(i);
+        ratio = abs(M_temp(i))/max_dipoles(i);
         if (ratio>max_ratio)
         {
             max_ratio = ratio;

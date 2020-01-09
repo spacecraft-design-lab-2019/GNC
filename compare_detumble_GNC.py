@@ -51,7 +51,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 60000
+tf = 80000
 tstep = 10
 times = np.arange(t0,tf,tstep)
 n = len(times)
@@ -216,7 +216,7 @@ for i in range(len(times)-1):
     B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
 
     omega = x[4:7]
-    gain = 1
+    gain = 1000
     dipole = dcpp.detumble_B_cross_directional(np.transpose(omega), np.transpose(B_field_body[i,:]), gain, max_dipoles)
     bang_bang_gain = 1e-9 
     M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
