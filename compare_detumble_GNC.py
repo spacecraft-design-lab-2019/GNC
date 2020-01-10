@@ -51,7 +51,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 80000
+tf = 600
 tstep = 10
 times = np.arange(t0,tf,tstep)
 n = len(times)
