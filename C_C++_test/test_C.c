@@ -17,13 +17,16 @@ int main()
     // Initialize array and call C++ function
     double B_dot[3] = { 1.0, 1.0, 1.0};
     double max_dipoles[3] = {dipole_x, dipole_y, dipole_z};
-    double dipole_command[3];
+    double *dipole_command;
 
     // B_dot = { 1.0, 1.0, 1.0};
     // max_dipoles = {dipole_x, dipole_y, dipole_z};
 
     dipole_command = test_B_dot(B_dot, max_dipoles);
 
+    int loop;
+    for(loop = 0; loop < 3; loop++)
+      printf("%d ", dipole_command[loop]);
 
     return 0;
 }
