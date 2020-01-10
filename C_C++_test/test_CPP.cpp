@@ -20,30 +20,30 @@ int main(){
 }
 
 // C wrapper function exposing Eigen inputs and outputs
-extern "C" double* test_B_dot(double *B_dot, double *max_dipoles);
+extern "C"{
 
 
-double* test_B_dot(double *B_dot, double *max_dipoles)
-{
+	double* test_B_dot(double *B_dot, double *max_dipoles)
+	{
     // Change array pointers (because arrays are 2nd class citizens in C) to Eigen Vectors (get it? eigenvectors?)
-	Map<Vector3d> B_dot_Eigen(B_dot);
-	Map<Vector3d> max_dipoles_Eigen(B_dot);
-	Vector3d vec_sum;
+		Map<Vector3d> B_dot_Eigen(B_dot);
+		Map<Vector3d> max_dipoles_Eigen(B_dot);
+		Vector3d vec_sum;
 
 	// Vector3d commanded_dipoles_Eigen;
 
 	// First try outputting the addition of two vectors
-	vec_sum = B_dot_Eigen + max_dipoles_Eigen;
+		vec_sum = B_dot_Eigen + max_dipoles_Eigen;
 
     // Call the C++ function
     // commanded_dipoles_Eigen = detumble_B_dot_bang_bang( B_dot_Eigen, max_dipoles_Eigen);
 
     // Change Eigen vector to array pointer for output
-	double* vec_sum_array = vec_sum.data();
+		double* vec_sum_array = vec_sum.data();
 
-	return vec_sum_array;
+		return vec_sum_array;
+	}
 }
-
 
 // C++ control law
 Vector3d detumble_B_dot_bang_bang(Vector3d B_dot, Vector3d max_dipoles){

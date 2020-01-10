@@ -24,9 +24,9 @@ int main()
 
     dipole_command = test_B_dot(B_dot, max_dipoles);
 
-    int loop;
-    for(loop = 0; loop < 3; loop++)
-      printf("%d ", dipole_command[loop]);
+
+    for(int i = 0; i < 3; i++)
+      printf("%f ", dipole_command[i]);
 
     return 0;
 }
