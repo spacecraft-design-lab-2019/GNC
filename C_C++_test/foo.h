@@ -4,7 +4,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-void foo(int arg);
+void vec_sum(double* arg1, double* arg2, double* total);
 
 #ifdef __cplusplus
 } /* extern "C" */
