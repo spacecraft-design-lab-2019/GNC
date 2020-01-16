@@ -8,6 +8,7 @@
 #include "iLQR.h"
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "../../eigen-git-mirror/Eigen/Dense"
 
 using namespace Eigen;
@@ -18,8 +19,8 @@ using namespace std;
 int main() {
 
 	// Type definition for pointer to dynamics function (for clarity)
-	typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, VectorXd&, MatrixXd&);
-	dynamics pendDynPtr = &pendulumDynamics;
+	//typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);
+	dynamicsFunc pendDynPtr = &pendulumDynamics;
 
 	// Define Sizes
 	int Nx = 2;
@@ -32,20 +33,19 @@ int main() {
 	double R = 3.0;
 
 	// Initial and final states
-	VectorXd x0 = VectorXd::Zero(Nx, 1)
+	MatrixXd x0 = MatrixXd::Zero(Nx, 1);
 
-	VectorXd xg;
+	MatrixXd xg(Nx, 1);
 	xg << M_PI, 0;
 
-	// Outputs from iLQR
-	MatrixXd xtraj = MatrixXd::Zero(Nx, N);
-	MatrixXd utraj = Matrix::Zero(1, N-1); // Initial control trajectory
+	// Outputs from iLQR (intiialized)
+	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
+	MatrixXd utraj = Matrix::Zero(1, N-1);  // Initial control trajectory
 	MatrixXd K = MatrixXd::Zero(Nx, Nu*N);
-
-
+	Vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
 	// Call to iLQR function
-	//iLQRsimple(pendDynPtr, )
+	iLQRsimple(pendDynPtr, x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
 }
 
 
@@ -59,7 +59,7 @@ int main() {
   @ x, state vector
   @ x
   */
-void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, VectorXd& xdot, MatrixXd& dxdot) {
+void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& xdot, MatrixXd& dxdot) {
 
 	// parameters
 	double m = 1.0; // kg

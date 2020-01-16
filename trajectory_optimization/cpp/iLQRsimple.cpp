@@ -6,9 +6,10 @@
 */
 
 
-#include "iLQR.h"
+// #include "iLQR.h"
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "../../eigen-git-mirror/Eigen/Dense"
 
 using namespace Eigen;
@@ -16,7 +17,7 @@ using namespace std;
 
 
 // Type definition for pointer to dynamics function (for clarity)
-typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, VectorXd&, MatrixXd&);	
+typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
 
 /**
@@ -24,30 +25,33 @@ typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, VectorXd&, Ma
   *
   *
   */
-void iLQRsimple(dynamics pendDynPtr,
-				VectorXd& x0, 
-				VectorXd& xg, 
-				MatrixXd& utraj0, 
+void iLQRsimple(dynamicsFunc pendDynPtr,
+				MatrixXd& x0, 
+				MatrixXd& xg,  
 				MatrixXd& Q, 
 				double R, 
 				MatrixXd& Qf, 
 				double dt, 
-				double tol
-				MatrixXd& xtraj
-				MatrixXd& utraj
-				MatrixXd& K
-				MatrixXd& Jhist) {
+				double tol,
+				MatrixXd& xtraj,
+				MatrixXd& utraj,
+				MatrixXd& K,
+				vector<double>& Jhist) {
 
 	// Define sizes
 	double Nx = (unsigned int) x0.rows();
-	double Nu = (unsigned int) utraj0.rows();
-	double N = (unsigned int) utraj0.cols() + 1;
+	double Nu = (unsigned int) utraj.rows();
+	double N = (unsigned int) utraj.cols() + 1;
 
+	MatrixXd A = MatrixXd::Zero(Nx, Nx * N-1);
+	MatrixXd B = MatrixXd::Zero(Nx, Nu * N-1);
 
-
-
-
+	// Forward simulate with initial controls utraj0
+	double J = 0;
+	for (int k = 0; k < N-1; k++) {
+		auto Jk = 0.5 * ((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5 * (utraj(all, k).transpose()) * R * utraj(all, k);
+		J += Jk(0);
+		// Perform rk step
+	}
 }
-
-
 
