@@ -42,13 +42,13 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 
 	// Forward simulate with initial controls utraj0
 	double J = 0;
-	for (int k = 0; k < N-1; k++) {
+	for ( int k = 0; k < N-1; k++ ) {
 		auto Jk = 0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k);
 		J += Jk(0);
 		// Perform rk step
 	}
 	// Add terminal cost
-	Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
+	auto Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
 	J += Jn(0);
 	Jhist[0] = J;
 
@@ -58,25 +58,30 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 	MatrixXd s = MatrixXd::Zero(Nx, 1);
 	MatrixXd l = MatrixXd::Constant(Nu, N, 1 + tol);
 
-	MatrixXd Snew = S; // temp matrices for updating
+	MatrixXd Snew = S; // temporary matrices for updating
 	MatrixXd snew = s;
 	MatrixXd q(Nx, 1);
 	MatrixXd r(Nu, 1);
 	MatrixXd Ak(Nx, Nx);
 	MatrixXd Bk(Nx, Nu);
 	MatrixXd Kk(Nu, Nx);
-	MatrixXd LH;
-	
+	MatrixXd LH(Nu, Nu);
 
-	iter = 0;
-	while (l.lpNorm<Infinity>() > tol) {
+	// Line search temp matrices and params
+	MatrixXd xnew = MatrixXd::Zero(Nx, N);
+	MatrixXd unew = MatrixXd::Zero(Nu, N-1);
+	double alpha;
+	double Jnew;
+
+	int iter = 0;
+	while ( l.lpNorm<Infinity>() > tol ) {
 
 		iter += 1;
 
 		// Initialize backwards pass
 		S << Qf;
 		s << Qf*(xtraj(all, N) - xg);
-		for (int k = (N-1); k >= 0; k--) {
+		for ( int k = (N-1); k >= 0; k-- ) {
 
 			// Calculate cost gradients (for this time step)
 			q = Q * (xtraj(all, k) - xg);
@@ -86,23 +91,42 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 			// Need to check that these assignments don't slow the algorithm down too much. (Alternative code at botoom of file)
 			Ak = A(all, seq(Nx*k, Nx*(k+1)));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)));
-			Kk = K(all, seq(Nx*k, Nx*(k+1)));
+			
 
 			LH = (R + Bk.transpose()*S*Bk);
 			l(all, k) = LH.colPivHouseholderQr().solve((r + Bk.transpose()*s));
-			K(all, seq(aIdxStrt, aIdxEnd)) = LH.colPivHouseholderQr().solve(Bk.transpose()*S*Ak);
+			K(all, seq(Nx*k, Nx*(k+1))) = LH.colPivHouseholderQr().solve(Bk.transpose()*S*Ak);
 
 			// Calculate new cost to go matrices (Sk, sk)
+			Kk = K(all, seq(Nx*k, Nx*(k+1)));
 			Snew = Q + Kk.transpose()*R*Kk + (Ak - Bk*Kk).transpose()*S*(Ak - Bk*Kk);
 			snew = q - Kk.transpose()*R + Kk.transpose()*R*l(all, k) + (Ak - Bk*Kk).transpose()*(s - S*Bk*l(all, k));
 			S = Snew;
 			s = snew;
-			
 		}
+
+		// Forward pass line search with new l and K
+		xnew(all, 1) = xtraj(all, 1);
+		Jnew = J + 1;
+		alpha = 1;
+
+		while ( Jnew > J ) {
+			Jnew = 0;
+			for ( int k = 0; k < N; k++ ) {
+				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)))*(xnew(all, k) - xtraj(all, k));
+				// Update xnew with rk step
+				auto Jk = 0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k);
+				J += Jk(0);
+			}
+			auto Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
+			Jnew += Jn(0);
+			alpha *= 0.5;
+		}
+		xtraj = xnew; // Make sure this assigns to the reference as desired
+		utraj = unew;
+		J = Jnew;
+		Jhist[iter] = J;
 	}
-
-
-
 
 }
 
