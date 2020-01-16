@@ -76,7 +76,7 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 		// Initialize backwards pass
 		S << Qf;
 		s << Qf*(xtraj(all, N) - xg);
-		for (int k = (N-1); k > 0; k--) {
+		for (int k = (N-1); k >= 0; k--) {
 
 			// Calculate cost gradients (for this time step)
 			q = Q * (xtraj(all, k) - xg);
@@ -84,9 +84,9 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 
 			// Calculate feed-forward correction and feedback gain
 			// Need to check that these assignments don't slow the algorithm down too much. (Alternative code at botoom of file)
-			Ak = A(all, seq(Nx*(k-1), Nx*k));
-			Bk = B(all, seq(Nu*(k-1), Nu*k));
-			Kk = K(all, seq(Nx*(k-1), Nx*k));
+			Ak = A(all, seq(Nx*k, Nx*(k+1)));
+			Bk = B(all, seq(Nu*k, Nu*(k+1)));
+			Kk = K(all, seq(Nx*k, Nx*(k+1)));
 
 			LH = (R + Bk.transpose()*S*Bk);
 			l(all, k) = LH.colPivHouseholderQr().solve((r + Bk.transpose()*s));
@@ -116,10 +116,10 @@ void rkstep() {
 /*
 			// This code is less readable than assigning Ak, Bk, Kk as new MatrixXd variables
 			// but indexing should be more compuationally efficient.
-			int bIdxStrt = Nu * k - Nu;
-			int bIdxEnd = Nu * k;
-			int aIdxStrt = Nx * k - Nx;
-			int aIdxEnd = Nx * k;
+			int bIdxStrt = Nu * k 
+			int bIdxEnd = Nu * k + Nu;
+			int aIdxStrt = Nx * k;
+			int aIdxEnd = Nx * k + Nx;
 
 			MatrixXd LH = (R + B(all, seq(bIdxStrt, bIdxEnd)).transpose()*S*B(all, seq(bIdxStrt, bIdxEnd)));
 			MatrixXd l_RH = (r + B(all, seq(bIdxStrt, bIdxEnd)).transpose()*s);
