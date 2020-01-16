@@ -57,11 +57,11 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 	MatrixXd S = MatrixXd::Zero(Nx, Nx);
 	MatrixXd s = MatrixXd::Zero(Nx, 1);
 	MatrixXd l = MatrixXd::Constant(Nu, N, 1 + tol);
+	MatrixXd q(Nx, 1);
+	MatrixXd r(Nu, 1);
 
 	MatrixXd Snew = S; // temporary matrices for updating
 	MatrixXd snew = s;
-	MatrixXd q(Nx, 1);
-	MatrixXd r(Nu, 1);
 	MatrixXd Ak(Nx, Nx);
 	MatrixXd Bk(Nx, Nu);
 	MatrixXd Kk(Nu, Nx);
@@ -128,14 +128,48 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 		Jhist[iter] = J;
 	}
 
+	return;
 }
 
 
+/**
+  *
+  * Performs a single midpoint (2nd order Runge-Kutta) step
+  *
+  */
+void rkstep(const MatrixXd& x0, const MatrixXd& u0, double dt, MatrixXd& x1, MatrixXd& A, MatrixXd& B) {
 
-void rkstep() {
 
+	// Define sizes (could pass as parameters)
+	double Nx = static_cast<unsigned int>( x0.rows() );
+	double Nu = static_cast<unsigned int>( u0.rows() );
 
+	// Initialize matrices to pass to dynamics
+	// In final iplemenation, the size of these matrices should be specified
+	MatrixXd xdot1(Nx, 1), xdot2(Nx, 1);
+	MatrixXd dxdot1(Nx, Nx+Nu), dxdot2(Nx, Nx+Nu);
+
+	//Initialize matrices for RK midpoint step
+	MatrixXd A1, A2;
+	MatrixXd B1, B2;
+
+	pendulumDynamics(0, x0, u0, xdot1, dxdot1);
+	pendulumDynamics(0, x0 + dt*0.5*xdot1, u0, xdot2, dxdot2);
+
+	x1 = x0 + dt * xdot2;
+
+	A1 = dxdot1(all, seq(0, Nx));
+	A2 = dxdot2(all, seq(0, Nx));
+
+	B1 = dxdot1(all, seq(Nx+1, Nx+Nu));
+	B2 = dxdot2(all, seq(Nx+1, Nx+Nu));
+
+	A = MatrixXd::Identity(Nx, Nx) + dt*A2 + 0.5*dt*dt*A2*A1;
+	B = dt*B2 + 0.5*dt*dt*A2*B1;
+
+	return;
 }
+
 
 /*
 			// This code is less readable than assigning Ak, Bk, Kk as new MatrixXd variables
