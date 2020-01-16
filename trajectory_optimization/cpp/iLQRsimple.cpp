@@ -6,18 +6,13 @@
 */
 
 
-// #include "iLQR.h"
-#include <iostream>
-#include <cmath>
-#include <vector>
-#include "../../eigen-git-mirror/Eigen/Dense"
-
+#include "iLQR.h"
 using namespace Eigen;
 using namespace std;
 
 
 // Type definition for pointer to dynamics function (for clarity)
-typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
+//typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
 
 /**
@@ -49,7 +44,7 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 	// Forward simulate with initial controls utraj0
 	double J = 0;
 	for (int k = 0; k < N-1; k++) {
-		auto Jk = 0.5 * ((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5 * (utraj(all, k).transpose()) * R * utraj(all, k);
+		auto Jk = 0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k);
 		J += Jk(0);
 		// Perform rk step
 	}

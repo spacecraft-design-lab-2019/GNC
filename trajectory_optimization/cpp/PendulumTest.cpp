@@ -6,14 +6,8 @@
 */
 
 #include "iLQR.h"
-#include <iostream>
-#include <cmath>
-#include <vector>
-#include "../../eigen-git-mirror/Eigen/Dense"
-
 using namespace Eigen;
 using namespace std;
-
 
 
 int main() {
@@ -22,10 +16,12 @@ int main() {
 	//typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);
 	dynamicsFunc pendDynPtr = &pendulumDynamics;
 
-	// Define Sizes
+	// Define sizes and sim params
 	int Nx = 2;
 	int Nu = 1;
 	int N = 249;
+	double dt = 0.01;
+	double tol = 0.001;
 
 	// Cost matrices
 	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
@@ -40,9 +36,9 @@ int main() {
 
 	// Outputs from iLQR (intiialized)
 	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
-	MatrixXd utraj = Matrix::Zero(1, N-1);  // Initial control trajectory
+	MatrixXd utraj = MatrixXd::Zero(1, N-1);  // Initial control trajectory
 	MatrixXd K = MatrixXd::Zero(Nx, Nu*N);
-	Vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
+	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
 	// Call to iLQR function
 	iLQRsimple(pendDynPtr, x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
@@ -70,13 +66,13 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 	double g = 9.81; // m/s^2
 
 	// Non-linear EOM's
-	q = x(0);
-	qd = x(1);
-	qdd = (u - m * g * lc * sin(q) - b * qd) / I;
+	double q = x(0, 0);
+	double qd = x(1, 0);
+	double qdd = (u(0, 0) - m * g * lc * sin(q) - b * qd) / I;
 
 	// Returning xdot vector
-	xdot(0) = qd;
-	xdot(1) = qdd;
+	xdot(0, 0) = qd;
+	xdot(1, 0) = qdd;
 
 	// Returning concatenated matrices of linearized dynamics (jacobians)
 	// dxdot = [A, B]
