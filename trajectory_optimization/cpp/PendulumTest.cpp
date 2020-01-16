@@ -12,7 +12,7 @@ using namespace std;
 
 int main() {
 
-	// Type definition for pointer to dynamics function (for clarity)
+	// Type definition for pointer to dynamics function
 	//typedef void (*dynamics)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);
 	dynamicsFunc pendDynPtr = &pendulumDynamics;
 
@@ -36,8 +36,8 @@ int main() {
 
 	// Outputs from iLQR (intiialized)
 	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
-	MatrixXd utraj = MatrixXd::Zero(1, N-1);  // Initial control trajectory
-	MatrixXd K = MatrixXd::Zero(Nx, Nu*N);
+	MatrixXd utraj = MatrixXd::Zero(Nu, N-1);  // Initial control trajectory
+	MatrixXd K = MatrixXd::Zero(Nu, Nx*(N-1));
 	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
 	// Call to iLQR function
