@@ -48,8 +48,6 @@ int main() {
 
 /**
   * Simulates the pendulum's dynamics
-  * Could split this into two functions (linearized, non-linear) each returning a single value
-  * rather than passing in the outputs by reference
   * 
   @ t, current simulation time
   @ x, state vector

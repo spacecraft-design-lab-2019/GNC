@@ -29,7 +29,7 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 				MatrixXd& K,
 				vector<double>& Jhist);
 
-void rkstep(const MatrixXd& x0, const MatrixXd& u0, double dt, MatrixXd& x1, MatrixXd& A, MatrixXd& B);
+void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& x, MatrixXd& A, MatrixXd& B);
 
 
 #endif  // GNC_ILQR_H
