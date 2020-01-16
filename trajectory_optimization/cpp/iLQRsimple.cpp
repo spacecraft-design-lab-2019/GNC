@@ -48,5 +48,14 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 		J += Jk(0);
 		// Perform rk step
 	}
+	// Add terminal cost
+	Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
+	J += Jn(0);
+	Jhist[0] = J;
+
+	MatrixXd S = MatrixXd::Zero(Nx, Nx);
+	MatrixXd s = MatrixXd::Zero(Nx, 1);
+	MatrixXd l = MatrixXd::Zero(Nu, N); 
+
 }
 
