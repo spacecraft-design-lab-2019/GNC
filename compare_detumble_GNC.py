@@ -27,7 +27,7 @@ pi = math.pi
 # Ixx = 0.34375
 # Iyy = 0.34375
 # Izz = 0.5
-I = np.array([[17,0,0],[0,18,0],[0,0,22]])
+I = np.array([[.3,0,0],[0,.4,0],[0,0,.5]])
 max_dipoles = np.array([[8.8e-3], [1.373e-2], [8.2e-3]])
 
 # initial attitude conditions, radians & rad/s
@@ -51,7 +51,7 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 60000
+tf = 60
 tstep = .1
 times = np.arange(t0,tf,tstep)
 n = len(times)
