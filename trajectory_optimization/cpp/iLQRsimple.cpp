@@ -1,5 +1,4 @@
 /*
- *
  * Author: Nick Goodson 
  * Jan 14th 2020
  *
@@ -8,10 +7,6 @@
 #include "iLQR.h"
 using namespace Eigen;
 using namespace std;
-
-
-// Type definition for pointer to dynamics function (for clarity)
-//typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
 
 /**
@@ -44,16 +39,14 @@ void iLQRsimple(dynamicsFunc sysDynPtr,
 	// Forward simulate with initial controls utraj0
 	double J = 0;
 	for ( int k = 0; k < N-1; k++ ) {
-		auto Jk = 0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k);
-		J += Jk(0);
+		J = J + 0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k);
 
-		// Need to check if can pass an index to a matrix by reference (eg. xnew(all, k+1))
-		// Otherwise have to pass the entire matrix and the step 'k'
+		// TODO: Passing a slice of a matrix by non-const reference (eg. xtraj(all, k+1)) does not compile.
+		// Have to pass the entire matrix and pass in the step 'k' so the function can extract the slice
 		rkstep(xtraj(all, k), utraj(all, k), dt, xtraj(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
 	}
 	// Add terminal cost
-	auto Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
-	J += Jn(0);
+	J = J + 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
 	Jhist[0] = J;
 
 
@@ -117,15 +110,12 @@ void iLQRsimple(dynamicsFunc sysDynPtr,
 		while ( Jnew > J ) {
 			Jnew = 0;
 			for ( int k = 0; k < N; k++ ) {
+
 				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
 				rkstep(xnew(all, k), unew(all, k), dt, xnew(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
-
-				// Find new cost
-				auto Jk = 0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k);
-				J += Jk(0);
+				J = J + 0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
 			}
-			auto Jn = 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
-			Jnew += Jn(0);
+			J = J + 0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg);
 			alpha *= 0.5;
 		}
 		xtraj = xnew; // Make sure this assigns to the reference as desired
@@ -139,8 +129,9 @@ void iLQRsimple(dynamicsFunc sysDynPtr,
 
 
 /**
-  *
   * Performs a single midpoint (2nd order Runge-Kutta) step
+  * Can modify this function to include the satellites dynamics
+  * in the final implemenation to prevent having to pass matrices to a dynamics function
   *
   */
 void rkstep(const MatrixXd& x0, const MatrixXd& u0, double dt, MatrixXd& x1, MatrixXd& A, MatrixXd& B) {

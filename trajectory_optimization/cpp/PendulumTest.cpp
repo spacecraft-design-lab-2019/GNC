@@ -42,6 +42,8 @@ int main() {
 
 	// Call to iLQR function
 	iLQRsimple(pendDynPtr, x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+
+	return 0;
 }
 
 
