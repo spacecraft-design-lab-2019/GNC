@@ -19,7 +19,7 @@ using namespace std;
   *
   *
   */
-void iLQRsimple(dynamicsFunc pendDynPtr,
+void iLQRsimple(dynamicsFunc sysDynPtr,
 				MatrixXd& x0, 
 				MatrixXd& xg,  
 				MatrixXd& Q, 
@@ -96,10 +96,10 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 			Ak = A(all, seq(Nx*k, Nx*(k+1)-1));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)-1));
 			
-			// change to Cholesky
+			// Cholesky
 			LH = (R + Bk.transpose()*S*Bk);
-			l(all, k) = LH.colPivHouseholderQr().solve((r + Bk.transpose()*s));
-			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.colPivHouseholderQr().solve(Bk.transpose()*S*Ak);
+			l(all, k) = LH.llt().solve((r + Bk.transpose()*s));
+			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.llt().solve(Bk.transpose()*S*Ak);
 
 			// Calculate new cost to go matrices (Sk, sk)
 			Kk = K(all, seq(Nx*k, Nx*(k+1)-1));

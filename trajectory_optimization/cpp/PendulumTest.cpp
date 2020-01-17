@@ -47,11 +47,13 @@ int main() {
 
 
 /**
-  * Simulates the pendulum's dynamics
+  * Simulates the pendulum's dynamics. Used for forward step with runge-kutta integrator.
   * 
   @ t, current simulation time
   @ x, state vector
-  @ x
+  @ u, control input
+  @ xdot, state vector derivative (return value)
+  @ dxdot, error-state vector jacobian [A, B] (return value)
   */
 void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& xdot, MatrixXd& dxdot) {
 

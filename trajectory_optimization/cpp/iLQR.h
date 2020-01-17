@@ -16,7 +16,7 @@ typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&
 
 void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& xdot, MatrixXd& dxdot);
 
-void iLQRsimple(dynamicsFunc pendDynPtr,
+void iLQRsimple(dynamicsFunc sysDynPtr,
 				MatrixXd& x0, 
 				MatrixXd& xg,  
 				MatrixXd& Q, 
@@ -29,7 +29,7 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 				MatrixXd& K,
 				vector<double>& Jhist);
 
-void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& x, MatrixXd& A, MatrixXd& B);
+void rkstep(const MatrixXd& x0, const MatrixXd& u0, double dt, MatrixXd& x1, MatrixXd& A, MatrixXd& B);
 
 
 #endif  // GNC_ILQR_H
