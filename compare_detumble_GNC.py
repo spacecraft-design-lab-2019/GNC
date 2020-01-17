@@ -24,15 +24,15 @@ pi = math.pi
 
 
 # inertia properties (add real later)
-Ixx = 0.34375
-Iyy = 0.34375
-Izz = 0.34375
-I = np.array([[Ixx, 0.0, 0.0],[0.0, Iyy, 0.0], [0.0, 0.0, Izz]])
+# Ixx = 0.34375
+# Iyy = 0.34375
+# Izz = 0.5
+I = np.array([[17,0,0],[0,18,0],[0,0,22]])
 max_dipoles = np.array([[8.8e-3], [1.373e-2], [8.2e-3]])
 
 # initial attitude conditions, radians & rad/s
-q_0 = np.array([[1.0],[0.0],[0.0],[0.0]])                     # initial quaternion, scalar last
-w_0 = np.array([[.01],[.05],[-.03]])  # initial rotation rate, rad/s
+q_0 = np.array([[math.sqrt(4.0)/4.0],[math.sqrt(4.0)/4.0],[math.sqrt(4.0)/4.0],[math.sqrt(4.0)/4.0]])                     # initial quaternion, scalar last
+w_0 = np.array([[.03],[.03],[.03]])  # initial rotation rate, rad/s
 # initial state: quaternion, rotation rate
 x_0 = np.squeeze(np.concatenate((q_0,w_0)))
 
@@ -51,8 +51,8 @@ period = 2*pi/mean_motion                      # Period, seconds
 
 # feed in a vector of times and plot orbit
 t0 = 0.0
-tf = 600
-tstep = 10
+tf = 60000
+tstep = .1
 times = np.arange(t0,tf,tstep)
 n = len(times)
 
@@ -68,6 +68,7 @@ w_vec_b_cross_bang_bang = np.zeros((n-1,3))
 w_vec_b_cross_directional = np.zeros((n-1,3))
 q_vec = np.zeros((n-1,4))
 M_vec = np.zeros((n-1,3))
+dipole_vec = np.zeros((n-1,3))
 
 # Define function for calculating full state derivative
 t = time.time()
@@ -113,6 +114,7 @@ for i in range(len(times)-1):
         # Validate B_dot bang bang control law:
         # include 1e-9 factor to get nanoTesla back into SI units
         dipole = dcpp.detumble_B_dot_bang_bang(np.transpose(B_dot_body[i,:]),max_dipoles)
+        dipole_vec[i,:] = np.transpose(dipole)
         bang_bang_gain = 1e-9 
         M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
     else:
@@ -122,181 +124,183 @@ for i in range(len(times)-1):
     M_vec[i,:] = np.transpose(M)
 
     # Propagate dynamics/kinematics forward using commanded moment
-    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
+    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), args = (M, I), tfirst=True)
 
     # Store angular velocity
     w_vec_b_dot[i,:] = y[-1,4:7]
     q_vec[i,:] = y[-1,0:4]
 
     # Update full attitude state
-    x = y[-1,:]
+    x = np.transpose(y[-1,:])
 
 elapsed = time.time() - t
 print(elapsed)
 
-#---------------------------------------------B_cross_bang_bang----------------------------------------------------
-x = x_0;
-for i in range(len(times)-1):
-    # Get GMST at this time
-    GMST = tfcpp.MJD2GMST(MJD + times[i] / 60.0 / 60.0 / 24.0)
+# #---------------------------------------------B_cross_bang_bang----------------------------------------------------
+# x = x_0;
+# for i in range(len(times)-1):
+#     # Get GMST at this time
+#     GMST = tfcpp.MJD2GMST(MJD + times[i] / 60.0 / 60.0 / 24.0)
 
-    positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
+#     positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
 
-    # convert to ECEF
-    R_ECI2ECEF = fccpp.eci2ecef(GMST)
+#     # convert to ECEF
+#     R_ECI2ECEF = fccpp.eci2ecef(GMST)
 
-    positions_ECEF[i,:] = np.transpose(R_ECI2ECEF @ np.transpose(positions_ECI[i,:]))
-    lat, lon, alt = fccpp.ecef2lla(np.transpose(positions_ECEF[i,:]))
-    R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
+#     positions_ECEF[i,:] = np.transpose(R_ECI2ECEF @ np.transpose(positions_ECI[i,:]))
+#     lat, lon, alt = fccpp.ecef2lla(np.transpose(positions_ECEF[i,:]))
+#     R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
 
-    # get magnetic field at position
-    B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
-    B_field_NED_vec[i,:] = np.transpose(B_field_NED)        # store for later analysis
-    B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
+#     # get magnetic field at position
+#     B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
+#     B_field_NED_vec[i,:] = np.transpose(B_field_NED)        # store for later analysis
+#     B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
 
-    # get magnetic field in body frame (for detumble algorithm)
-    # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
-    B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
-    B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
+#     # get magnetic field in body frame (for detumble algorithm)
+#     # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
+#     B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
+#     B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
 
-    B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
-    q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
-    B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
+#     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
+#     q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
+#     B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
 
-    omega = x[4:7]
-    gain = 1
-    dipole = dcpp.detumble_B_cross_bang_bang(np.transpose(omega), np.transpose(B_field_body[i,:]), gain, max_dipoles)
-    bang_bang_gain = 1e-9 
-    M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
-
-
-    # store for plotting
-    M_vec[i,:] = np.transpose(M)
-
-    # Propagate dynamics/kinematics forward using commanded moment
-    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
-
-    # Store angular velocity
-    w_vec_b_cross_bang_bang[i,:] = y[-1,4:7]
-    q_vec[i,:] = y[-1,0:4]
-
-    # Update full attitude state
-    x = y[-1,:]
-
-elapsed = time.time() - t
-print(elapsed)
-
-#-----------------------------------------------B_cross_directional----------------------------------------------------------
-x = x_0;
-for i in range(len(times)-1):
-    # Get GMST at this time
-    GMST = tfcpp.MJD2GMST(MJD + times[i] / 60.0 / 60.0 / 24.0)
-
-    positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
-
-    # convert to ECEF
-    R_ECI2ECEF = fccpp.eci2ecef(GMST)
-
-    positions_ECEF[i,:] = np.transpose(R_ECI2ECEF @ np.transpose(positions_ECI[i,:]))
-    lat, lon, alt = fccpp.ecef2lla(np.transpose(positions_ECEF[i,:]))
-    R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
-
-    # get magnetic field at position
-    B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
-    B_field_NED_vec[i,:] = np.transpose(B_field_NED)        # store for later analysis
-    B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
-
-    # get magnetic field in body frame (for detumble algorithm)
-    # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
-    B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
-    B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
-
-    B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
-    q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
-    B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
-
-    omega = x[4:7]
-    gain = 1000
-    dipole = dcpp.detumble_B_cross_directional(np.transpose(omega), np.transpose(B_field_body[i,:]), gain, max_dipoles)
-    bang_bang_gain = 1e-9 
-    M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
+#     omega = x[4:7]
+#     gain = 1
+#     dipole = dcpp.detumble_B_cross_bang_bang(np.transpose(omega), np.transpose(B_field_body[i,:]), gain, max_dipoles)
+#     bang_bang_gain = 1e-9 
+#     M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
 
 
-    # store for plotting
-    M_vec[i,:] = np.transpose(M)
+#     # store for plotting
+#     M_vec[i,:] = np.transpose(M)
 
-    # Propagate dynamics/kinematics forward using commanded moment
-    y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
+#     # Propagate dynamics/kinematics forward using commanded moment
+#     y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
 
-    # Store angular velocity
-    w_vec_b_cross_directional[i,:] = y[-1,4:7]
-    q_vec[i,:] = y[-1,0:4]
+#     # Store angular velocity
+#     w_vec_b_cross_bang_bang[i,:] = y[-1,4:7]
+#     q_vec[i,:] = y[-1,0:4]
 
-    # Update full attitude state
-    x = y[-1,:]
+#     # Update full attitude state
+#     x = y[-1,:]
 
-elapsed = time.time() - t
-print(elapsed)
+# elapsed = time.time() - t
+# print(elapsed)
+
+# #-----------------------------------------------B_cross_directional----------------------------------------------------------
+# x = x_0;
+# for i in range(len(times)-1):
+#     # Get GMST at this time
+#     GMST = tfcpp.MJD2GMST(MJD + times[i] / 60.0 / 60.0 / 24.0)
+
+#     positions_ECI[i,:] = get_orbit_pos(TLE, epoch, times[i])
+
+#     # convert to ECEF
+#     R_ECI2ECEF = fccpp.eci2ecef(GMST)
+
+#     positions_ECEF[i,:] = np.transpose(R_ECI2ECEF @ np.transpose(positions_ECI[i,:]))
+#     lat, lon, alt = fccpp.ecef2lla(np.transpose(positions_ECEF[i,:]))
+#     R_ECEF2ENU = fccpp.ecef2enu(lat, lon)
+
+#     # get magnetic field at position
+#     B_field_NED = get_B_field_at_point(positions_ECEF[i,:]) # North, East, Down
+#     B_field_NED_vec[i,:] = np.transpose(B_field_NED)        # store for later analysis
+#     B_field_ENU = np.array([[B_field_NED[1]],[B_field_NED[0]],[-B_field_NED[2]]])    # north, east, down to east, north, up
+
+#     # get magnetic field in body frame (for detumble algorithm)
+#     # R_body2ECI = quat2DCM(np.transpose(x[0:4]))
+#     B_field_ECEF = np.transpose(R_ECEF2ENU) @ B_field_ENU
+#     B_field_ECI = np.transpose(R_ECI2ECEF) @ B_field_ECEF
+
+#     B_field_ECI_vec[i,:] = np.transpose(B_field_ECI)
+#     q_ECI2body = ecpp.get_inverse_quaternion(x[0:4])
+#     B_field_body[i,:] = ecpp.rotate_vec(B_field_ECI, q_ECI2body)
+
+#     omega = x[4:7]
+#     gain = 1000
+#     dipole = dcpp.detumble_B_cross_directional(np.transpose(omega), np.transpose(B_field_body[i,:]), gain, max_dipoles)
+#     bang_bang_gain = 1e-9 
+#     M = np.cross(np.squeeze(dipole), bang_bang_gain*np.transpose(B_field_body[i, :]))
+
+
+#     # store for plotting
+#     M_vec[i,:] = np.transpose(M)
+
+#     # Propagate dynamics/kinematics forward using commanded moment
+#     y = integrate.odeint(ecpp.get_attitude_derivative, x, (times[i],times[i+1]), (M, I), tfirst=True)
+
+#     # Store angular velocity
+#     w_vec_b_cross_directional[i,:] = y[-1,4:7]
+#     q_vec[i,:] = y[-1,0:4]
+
+#     # Update full attitude state
+#     x = y[-1,:]
+
+# elapsed = time.time() - t
+# print(elapsed)
 
 
 #----------------------------------------------Plotting--------------------------------------------------------------------
 # plot norm of velocity vector over time
-fig8 = plt.figure()
-plt.plot(times[0:n-1]/period,np.linalg.norm(w_vec_b_dot,axis=1))
-plt.plot(times[0:n-1]/period,np.linalg.norm(w_vec_b_cross_bang_bang,axis=1))
-plt.plot(times[0:n-1]/period,np.linalg.norm(w_vec_b_cross_directional,axis=1))
+fig1 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,np.linalg.norm(w_vec_b_dot,axis=1))
 plt.legend(('B_dot','B_cross_bang_bang','B_cross_directional'))
 plt.title('Detumble algorithm convergence')
 plt.xlabel('Period')
 plt.ylabel('Norm of angular rate, [rad/s]')
+
+# plot angular velocity over time
+fig2 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,w_vec_b_dot[:,0])
+plt.plot(times[0:n-1]/3600.0,w_vec_b_dot[:,1])
+plt.plot(times[0:n-1]/3600.0,w_vec_b_dot[:,2])
+plt.title('Angular velocity components')
+
+# plot B field components as a function of time
+fig3 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,B_field_body[:,0])
+plt.plot(times[0:n-1]/3600.0,B_field_body[:,1])
+plt.plot(times[0:n-1]/3600.0,B_field_body[:,2])
+plt.title('Body Magnetic field components, B')
+
+# plot B dotcomponents as a function of time
+fig4 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,B_dot_body[:,0])
+plt.plot(times[0:n-1]/3600.0,B_dot_body[:,1])
+plt.plot(times[0:n-1]/3600.0,B_dot_body[:,2])
+plt.title('Magnetic field rate of change, B_dot')
+plt.show()
+# plot B dot components as a function of time
+fig5 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,B_field_ECI_vec[:,0])
+plt.plot(times[0:n-1]/3600.0,B_field_ECI_vec[:,1])
+plt.plot(times[0:n-1]/3600.0,B_field_ECI_vec[:,2])
+plt.title('Magnetic field ECI')
+
+
+# plot quaternion over time
+fig6 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,q_vec[:,0])
+plt.plot(times[0:n-1]/3600.0,q_vec[:,1])
+plt.plot(times[0:n-1]/3600.0,q_vec[:,2])
+plt.plot(times[0:n-1]/3600.0,q_vec[:,3])
+plt.title('quaternion components')
+
+# plot Moment over time
+fig7 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,M_vec[:,0])
+plt.plot(times[0:n-1]/3600.0,M_vec[:,1])
+plt.plot(times[0:n-1]/3600.0,M_vec[:,2])
+plt.title('Moment components')
+
+# plot dipole over time
+fig8 = plt.figure()
+plt.plot(times[0:n-1]/3600.0,dipole_vec[:,0])
+plt.plot(times[0:n-1]/3600.0,dipole_vec[:,1])
+plt.plot(times[0:n-1]/3600.0,dipole_vec[:,2])
+plt.title('dipole components')
 plt.show()
 
 
-
-# # plot angular velocity over time
-# fig2 = plt.figure()
-# plt.plot(w_vec_b_dot[:,0])
-# plt.plot(w_vec_b_dot[:,1])
-# plt.plot(w_vec_b_dot[:,2])
-# plt.title('Angular velocity components')
-
-# # plot B field components as a function of time
-# fig4 = plt.figure()
-# plt.plot(B_field_body[:,0])
-# plt.plot(B_field_body[:,1])
-# plt.plot(B_field_body[:,2])
-# plt.title('Magnetic field components, B')
-# plt.show()
-
-# # plot B dotcomponents as a function of time
-# fig5 = plt.figure()
-# plt.plot(B_dot_body[:,0])
-# plt.plot(B_dot_body[:,1])
-# plt.plot(B_dot_body[:,2])
-# plt.title('Magnetic field rate of change, B_dot')
-# plt.show()
-
-# # plot B dot components as a function of time
-# fig5 = plt.figure()
-# plt.plot(B_field_ECI_vec[:,0])
-# plt.plot(B_field_ECI_vec[:,1])
-# plt.plot(B_field_ECI_vec[:,2])
-# plt.title('Magnetic field ECI')
-# plt.show()
-
-# # plot quaternion over time
-# fig6 = plt.figure()
-# plt.plot(q_vec[:,0])
-# plt.plot(q_vec[:,1])
-# plt.plot(q_vec[:,2])
-# plt.plot(q_vec[:,3])
-# plt.title('quaternion components')
-# plt.show()
-# # plot Moment over time
-# fig7 = plt.figure()
-# plt.plot(M_vec[:,0])
-# plt.plot(M_vec[:,1])
-# plt.plot(M_vec[:,2])
-# plt.title('Moment components')
-# plt.show()
 
