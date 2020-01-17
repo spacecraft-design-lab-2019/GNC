@@ -29,7 +29,6 @@ Python
 ==================
 
 >>>
-Finish writing a python implementation of iLQR
-Use the python implementation (as well as other python scripts) to test each section of the C++ implementation (Pybind)
+Use python to test each section of the C++ implementation (Pybind)
 
 

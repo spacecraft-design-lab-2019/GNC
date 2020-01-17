@@ -12,7 +12,6 @@ using namespace std;
 /**
   * Simple iLQR implementation
   *
-  *
   */
 void iLQRsimple(dynamicsFunc sysDynPtr,
 				MatrixXd& x0, 
