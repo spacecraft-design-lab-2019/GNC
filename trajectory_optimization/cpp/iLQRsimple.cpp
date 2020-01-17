@@ -96,7 +96,7 @@ void iLQRsimple(dynamicsFunc pendDynPtr,
 			Ak = A(all, seq(Nx*k, Nx*(k+1)-1));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)-1));
 			
-
+			// change to Cholesky
 			LH = (R + Bk.transpose()*S*Bk);
 			l(all, k) = LH.colPivHouseholderQr().solve((r + Bk.transpose()*s));
 			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.colPivHouseholderQr().solve(Bk.transpose()*S*Ak);
