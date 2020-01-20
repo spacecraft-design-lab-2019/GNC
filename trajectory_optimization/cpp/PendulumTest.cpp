@@ -9,39 +9,6 @@ using namespace Eigen;
 using namespace std;
 
 
-int main() {
-
-	// Define sizes and sim params
-	const int Nx = 2;
-	const int Nu = 1;
-	const double dt = 0.01;
-	const double tol = 0.001;
-	int N = 249;
-
-	// Cost matrices
-	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
-	MatrixXd Q = MatrixXd::Identity(Nx, Nx) * 0.01;
-	MatrixXd R;
-	R << 3.0;
-
-	// Initial and final states
-	MatrixXd x0 = MatrixXd::Zero(Nx, 1);
-	MatrixXd xg(Nx, 1);
-	xg << M_PI, 0;
-
-	// Outputs from iLQR (intitialized)
-	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
-	MatrixXd utraj = MatrixXd::Zero(Nu, N-1);
-	MatrixXd K = MatrixXd::Zero(Nu, Nx*(N-1));
-	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
-
-	// Call to iLQR function
-	iLQRsimple(x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
-
-	return 0;
-}
-
-
 /**
   * Simulates the pendulum's dynamics. Used for forward step with runge-kutta integrator.
   * 
@@ -76,5 +43,40 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 
 }
 
+/*
+
+// Test the iLQR algorithm on the pendulum
+int main() {
+
+	// Define sizes and sim params
+	const int Nx = 2;
+	const int Nu = 1;
+	const double dt = 0.01;
+	const double tol = 0.001;
+	int N = 249;
+
+	// Cost matrices
+	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
+	MatrixXd Q = MatrixXd::Identity(Nx, Nx) * 0.01;
+	MatrixXd R;
+	R << 3.0;
+
+	// Initial and final states
+	MatrixXd x0 = MatrixXd::Zero(Nx, 1);
+	MatrixXd xg(Nx, 1);
+	xg << M_PI, 0;
+
+	// Outputs from iLQR (intitialized)
+	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
+	MatrixXd utraj = MatrixXd::Zero(Nu, N-1);
+	MatrixXd K = MatrixXd::Zero(Nu, Nx*(N-1));
+	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
+
+	// Call to iLQR function
+	iLQRsimple(x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+
+	return 0;
+}
+*/
 
 

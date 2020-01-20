@@ -11,8 +11,11 @@
 using namespace Eigen;
 using namespace std;
 
+
 #define MAX_ITERS 1000
 
+
+int main(){return 0;}
 /**
   * Simple iLQR implementation
   *
@@ -30,12 +33,12 @@ bool iLQRsimple(MatrixXd& x0,
 				vector<double>& Jhist) {
 
 
-	int success_flag = true;  // Returns true if algorithm converged
+	bool success_flag = true;  // Returns true if algorithm converged
 
 	// Define sizes
-	unsigned int Nx = static_cast<unsigned int>( x0.rows() );
-	unsigned int Nu = static_cast<unsigned int>( utraj.rows() );
-	unsigned int N = static_cast<unsigned int>( xtraj.cols() );
+	const unsigned int Nx = static_cast<unsigned int>( x0.rows() );
+	const unsigned int Nu = static_cast<unsigned int>( utraj.rows() );
+	const unsigned int N = static_cast<unsigned int>( xtraj.cols() );
 
 	MatrixXd A = MatrixXd::Zero(Nx, Nx * (N-1));
 	MatrixXd B = MatrixXd::Zero(Nx, Nu * (N-1));
@@ -54,7 +57,7 @@ bool iLQRsimple(MatrixXd& x0,
 	}
 
 	J = J + (0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg)))(0); 	// Add terminal cost
-	Jhist[0] = J;
+	Jhist.push_back(J);
 
 
 	// Intialize matrices for optimisation
@@ -135,7 +138,7 @@ bool iLQRsimple(MatrixXd& x0,
 		xtraj = xnew; // Make sure this assigns to the reference as desired
 		utraj = unew;
 		J = Jnew;
-		Jhist[iter] = J;
+		Jhist.push_back(J);
 	}
 
 	return success_flag;
@@ -158,12 +161,9 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 	// Extract current state
 	MatrixXd x0 = xtraj(all, k);
 
-	// Initialize matrices to pass to dynamics
-	// In final iplemenation, the size of these matrices should be specified
+	// Initialize matrices
 	MatrixXd xdot1(Nx, 1), xdot2(Nx, 1);
 	MatrixXd dxdot1(Nx, Nx+Nu), dxdot2(Nx, Nx+Nu);  // [A B]
-
-	//Initialize matrices for RK midpoint step
 	MatrixXd A1, A2;
 	MatrixXd B1, B2;
 
@@ -172,11 +172,11 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 	pendulumDynamics(0, x0 + dt*0.5*xdot1, u0, xdot2, dxdot2);
 	xtraj(all, k+1) = x0 + dt * xdot2;
 
-	A1 = dxdot1(all, seq(0, Nx));
-	A2 = dxdot2(all, seq(0, Nx));
+	A1 = dxdot1(all, seq(0, Nx-1));
+	A2 = dxdot2(all, seq(0, Nx-1));
 
-	B1 = dxdot1(all, seq(Nx+1, Nx+Nu));
-	B2 = dxdot2(all, seq(Nx+1, Nx+Nu));
+	B1 = dxdot1(all, seq(Nx, Nx+Nu-1));
+	B2 = dxdot2(all, seq(Nx, Nx+Nu-1));
 
 	A(all, seq(Nx*k, Nx*(k+1)-1)) = MatrixXd::Identity(Nx, Nx) + dt*A2 + 0.5*dt*dt*A2*A1;
 	B(all, seq(Nu*k, Nu*(k+1)-1)) = dt*B2 + 0.5*dt*dt*A2*B1;
@@ -190,6 +190,7 @@ PYBIND11_MODULE(iLQR_SIMPLE_cpp, m) {
 	m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
 }
 */
+
 
 
 /*
