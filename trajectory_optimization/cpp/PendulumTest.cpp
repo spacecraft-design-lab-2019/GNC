@@ -42,7 +42,6 @@ int main() {
 }
 
 
-
 /**
   * Simulates the pendulum's dynamics. Used for forward step with runge-kutta integrator.
   * 
@@ -71,7 +70,7 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 	dxdot(0, 0) = 0;
 	dxdot(0, 1) = 1;
 	dxdot(0, 2) = 0;
-	dxdot(1, 0) = -m * g * lc * cos(q) / I;
+	dxdot(1, 0) = -m * g * lc * cos(x(0, 0)) / I;
 	dxdot(1, 1) = -b / I;
 	dxdot(1, 2) = 1.0 / I;
 

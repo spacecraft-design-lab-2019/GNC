@@ -5,9 +5,9 @@
 */
 
 #include "iLQRsimple.h"
-#include "../../pybind11/include/pybind11/pybind11.h"
-#include "../../pybind11/include/pybind11/eigen.h"
-namespace py = pybind11;
+// #include "../../pybind11/include/pybind11/pybind11.h"
+// #include "../../pybind11/include/pybind11/eigen.h"
+// namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
 
@@ -30,9 +30,9 @@ void iLQRsimple(MatrixXd& x0,
 				vector<double>& Jhist) {
 
 	// Define sizes
-	double Nx = static_cast<unsigned int>( x0.rows() );
-	double Nu = static_cast<unsigned int>( utraj.rows() );
-	double N = static_cast<unsigned int>( xtraj.cols() );
+	unsigned int Nx = static_cast<unsigned int>( x0.rows() );
+	unsigned int Nu = static_cast<unsigned int>( utraj.rows() );
+	unsigned int N = static_cast<unsigned int>( xtraj.cols() );
 
 	MatrixXd A = MatrixXd::Zero(Nx, Nx * (N-1));
 	MatrixXd B = MatrixXd::Zero(Nx, Nu * (N-1));
@@ -143,8 +143,8 @@ void iLQRsimple(MatrixXd& x0,
 void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, MatrixXd& B) {
 
 	// Define sizes (hard code in final version)
-	double Nx = static_cast<unsigned int>( x.rows() );
-	double Nu = static_cast<unsigned int>( u0.rows() );
+	unsigned int Nx = static_cast<unsigned int>( xtraj.rows() );
+	unsigned int Nu = static_cast<unsigned int>( u0.rows() );
 
 	// Extract current state
 	MatrixXd x0 = xtraj(all, k);
@@ -174,13 +174,13 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 
 }
 
-
+/*
 PYBIND11_MODULE(iLQR_SIMPLE_cpp, m) {
-    m.doc() = "iLQR main functions for simple dynamical systems"; // optional module docstring
-    m.def("iLQRsimple", &iLQRstep, "Calcualte an optimal trajectory using iLQR");
-    m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
+	m.doc() = "iLQR main functions for simple dynamical systems"; // optional module docstring
+	m.def("iLQRsimple", &iLQRsimple, "Calcualte an optimal trajectory using iLQR");
+	m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
 }
-
+*/
 
 
 /*
