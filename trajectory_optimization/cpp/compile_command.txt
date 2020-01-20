@@ -1,0 +1,2 @@
+g++ -I/usr/include/python3.6 -lpython3.6  iLQRsimple.cpp PendulumTest.cpp -o iLQRtest
+
