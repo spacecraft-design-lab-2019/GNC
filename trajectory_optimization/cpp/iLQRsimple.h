@@ -16,7 +16,7 @@
 // Type definition for pointer to dynamics function (for clarity)
 // typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
-void iLQRsimple(Eigen::MatrixXd& x0, 
+bool iLQRsimple(Eigen::MatrixXd& x0, 
 				Eigen::MatrixXd& xg,  
 				Eigen::MatrixXd& Q, 
 				Eigen::MatrixXd& R, 

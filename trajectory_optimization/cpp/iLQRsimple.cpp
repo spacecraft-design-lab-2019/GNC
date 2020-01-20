@@ -11,13 +11,13 @@
 using namespace Eigen;
 using namespace std;
 
-
+#define MAX_ITERS 1000
 
 /**
   * Simple iLQR implementation
   *
   */
-void iLQRsimple(MatrixXd& x0, 
+bool iLQRsimple(MatrixXd& x0, 
 				MatrixXd& xg,  
 				MatrixXd& Q, 
 				MatrixXd& R, 
@@ -28,6 +28,9 @@ void iLQRsimple(MatrixXd& x0,
 				MatrixXd& utraj,
 				MatrixXd& K,
 				vector<double>& Jhist) {
+
+
+	int success_flag = true;  // Returns true if algorithm converged
 
 	// Define sizes
 	unsigned int Nx = static_cast<unsigned int>( x0.rows() );
@@ -49,8 +52,8 @@ void iLQRsimple(MatrixXd& x0,
 		// Have to pass the entire matrix (by ref) and pass in the step 'k' so the function can assign to the slice directly
 		// rkstep(xtraj(all, k), utraj(all, k), dt, xtraj(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
 	}
-	// Add terminal cost
-	J = J + (0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg)))(0);
+
+	J = J + (0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg)))(0); 	// Add terminal cost
 	Jhist[0] = J;
 
 
@@ -75,9 +78,13 @@ void iLQRsimple(MatrixXd& x0,
 	double Jnew;
 
 	int iter = 0;
-	while ( l.lpNorm<Infinity>() > tol ) {
+	while ( l.lpNorm<Infinity>() > tol) {
 
 		iter += 1;
+		if (iter > MAX_ITERS):
+			// Break from the loop and don't perform the maneuver
+			success_flag = false;
+			return success_flag;
 
 		// Initialize backwards pass
 		S << Qf;
@@ -130,6 +137,8 @@ void iLQRsimple(MatrixXd& x0,
 		J = Jnew;
 		Jhist[iter] = J;
 	}
+
+	return success_flag;
 }
 
 
