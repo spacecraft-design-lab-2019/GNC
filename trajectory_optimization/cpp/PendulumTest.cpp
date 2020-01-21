@@ -43,6 +43,8 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 
 }
 
+
+
 /*
 
 // Test the iLQR algorithm on the pendulum
@@ -67,13 +69,14 @@ int main() {
 	xg << M_PI, 0;
 
 	// Outputs from iLQR (intitialized)
-	MatrixXd xtraj = MatrixXd::Zero(Nx, N); 
+	MatrixXd xtraj = MatrixXd::Zero(Nx, N);
+	xtraj[:, 0] = x0;
 	MatrixXd utraj = MatrixXd::Zero(Nu, N-1);
 	MatrixXd K = MatrixXd::Zero(Nu, Nx*(N-1));
 	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
 	// Call to iLQR function
-	iLQRsimple(x0, xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+	iLQRsimple(xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
 
 	return 0;
 }

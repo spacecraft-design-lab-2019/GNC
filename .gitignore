@@ -27,3 +27,7 @@ detumble/cpp/bias
 
 
 detumble/cpp/bias.exe
+
+CMakeCache.txt
+
+/cmake_build_debug/_deps/pybind11-subbuild/CMakeCache.txt

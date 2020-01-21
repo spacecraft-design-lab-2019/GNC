@@ -16,8 +16,7 @@
 // Type definition for pointer to dynamics function (for clarity)
 // typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
-bool iLQRsimple(Eigen::MatrixXd& x0, 
-				Eigen::MatrixXd& xg,  
+bool iLQRsimple(Eigen::MatrixXd& xg,  
 				Eigen::MatrixXd& Q, 
 				Eigen::MatrixXd& R, 
 				Eigen::MatrixXd& Qf, 
@@ -28,7 +27,6 @@ bool iLQRsimple(Eigen::MatrixXd& x0,
 				Eigen::MatrixXd& K,
 				std::vector<double>& Jhist);
 
-// void rkstep(const Eigen::MatrixXd& x0, const Eigen::MatrixXd& u0, double dt, Eigen::MatrixXd& x1, Eigen::MatrixXd& A, Eigen::MatrixXd& B);
 void rkstep(const Eigen::MatrixXd& u0, double dt, int k, Eigen::MatrixXd& x, Eigen::MatrixXd& A, Eigen::MatrixXd& B);
 
 void pendulumDynamics(double t, const Eigen::MatrixXd& x, const Eigen::MatrixXd& u, Eigen::MatrixXd& xdot, Eigen::MatrixXd& dxdot);

@@ -5,9 +5,9 @@
 */
 
 #include "iLQRsimple.h"
-// #include "../../pybind11/include/pybind11/pybind11.h"
-// #include "../../pybind11/include/pybind11/eigen.h"
-// namespace py = pybind11;
+#include "../../pybind11/include/pybind11/pybind11.h"
+#include "../../pybind11/include/pybind11/eigen.h"
+namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
 
@@ -16,12 +16,8 @@ using namespace std;
 
 
 int main(){return 0;}
-/**
-  * Simple iLQR implementation
-  *
-  */
-bool iLQRsimple(MatrixXd& x0, 
-				MatrixXd& xg,  
+
+bool iLQRsimple(MatrixXd& xg,  
 				MatrixXd& Q, 
 				MatrixXd& R, 
 				MatrixXd& Qf, 
@@ -125,8 +121,6 @@ bool iLQRsimple(MatrixXd& x0,
 			Jnew = 0;
 			for ( int k = 0; k < N; k++ ) {
 				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
-
-				// rkstep(xnew(all, k), unew(all, k), dt, xnew(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
 				rkstep(unew(all, k), dt, k, xnew, A, B);
 
 				J = J + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
@@ -183,34 +177,10 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 
 }
 
-/*
-PYBIND11_MODULE(iLQR_SIMPLE_cpp, m) {
+
+PYBIND11_MODULE(iLQRsimple_cpp, m) {
 	m.doc() = "iLQR main functions for simple dynamical systems"; // optional module docstring
 	m.def("iLQRsimple", &iLQRsimple, "Calcualte an optimal trajectory using iLQR");
 	m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
 }
-*/
 
-
-
-/*
-			// This code is less readable than assigning Ak, Bk, Kk as new MatrixXd variables from A, B, K
-			// but indexing should be more compuationally efficient.
-			int bIdxStrt = Nu * k 
-			int bIdxEnd = Nu * k + Nu -1;
-			int aIdxStrt = Nx * k;
-			int aIdxEnd = Nx * k + Nx -1;
-
-			MatrixXd LH = (R + B(all, seq(bIdxStrt, bIdxEnd)).transpose()*S*B(all, seq(bIdxStrt, bIdxEnd)));
-			MatrixXd l_RH = (r + B(all, seq(bIdxStrt, bIdxEnd)).transpose()*s);
-			MatrixXd K_RH = (B(all, seq(bIdxStrt, bIdxEnd)).transpose()*S*A(all, seq(aIdxStrt, aIdxEnd)));
-
-			l(all, k) = LH.colPivHouseholderQr().solve(l_RH);  // Use solver to perform inversion
-			K(all, seq(aIdxStrt, aIdxEnd)) = LH.colPivHouseholderQr().solve(K_RH); // K has same columns as A matrix
-
-			// Calculate new cost to go matrices (Sk, sk)
-			Snew = Q + K(all, seq(aIdxStrt, aIdxEnd)).transpose()*R*K(all, seq(aIdxStrt, aIdxEnd)) + 
-					(A(all, seq(aIdxStrt, aIdxEnd)) - B(all, seq(bIdxStrt, bIdxEnd))*K(all, seq(aIdxStrt, aIdxEnd).transpose()) *
-					S*((A(all, seq(aIdxStrt, aIdxEnd)) - B(all, seq(bIdxStrt, bIdxEnd))*K(all, seq(aIdxStrt, aIdxEnd));
-
-*/
