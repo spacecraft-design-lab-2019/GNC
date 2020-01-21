@@ -23,6 +23,7 @@ Vector3d get_B_dot_bang_bang( Vector3d B_dot, Vector3d max_dipoles( double dipol
 Vector3d get_bias_estimate( MatrixXd B_mat);
 Vector3d detumble_B_cross_bang_bang(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles);
 Vector3d detumble_B_cross_directional(Vector3d omega, Vector3d B, double k, Vector3d max_dipoles);
+void detumble_B_dot_C(double* B_dot, double* max_dipoles);
 
 int main(){
     // MatrixXd B_mat_test = MatrixXd::Zero(10,3);
@@ -33,6 +34,35 @@ int main(){
 
     return 0;
 }
+
+// C wrapper functions
+
+extern "C" {
+
+    void detumble_B_dot_C(double* B_dot, double* max_dipoles, double* commanded_dipole){
+        // Takes in two pointers to C/C++ arrays and one pointer to where you would like the answer stored
+        // Updates the contents of the answer array
+
+  // ----------------------Try to add two vectors using Eigen (map to Eigen, add, map back)-------
+
+        // Create Eigen vectors from C/C++ arrays
+        Vector3d B_dot_vec = Map<Vector3d>(B_dot);
+        Vector3d max_dipole_vec = Map<Vector3d>(max_dipoles);
+        Vector3d commanded_dipole_vec = Map<Vector3d>(commanded_dipole);
+
+        // Perform operation on vector/matrix (using Eigen notation)
+        commanded_dipole_vec = detumble_B_dot_bang_bang(B_dot_vec, max_dipole_vec);
+
+
+        // Copy contents back into array preallocated for holding answer used at higher level by C calling function
+        for (int i = 0; i < 3; ++i)
+        {
+            commanded_dipole[i] = commanded_dipole_vec(i);
+        }
+
+    }
+}
+
 
 Vector3d detumble_B_cross(Vector3d omega, Vector3d B, double k){
     /*
