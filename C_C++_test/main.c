@@ -7,7 +7,7 @@
 int main() {
 	int size;
 	size = 3;
-	double vec1[size], vec2[size], total_C[size];	
+	double omega[size], B[size], max_dipoles[size], commanded_dipole[size];	
 
 
 
@@ -17,7 +17,7 @@ int main() {
 		vec2[i] = 2.2;
 	}
 
-	vec_sum(vec1, vec2, total_C);
+    void detumble_B_dot(omega, B, max_dipoles, commanded_dipole);
 
 	for (int i = 0; i < size; ++i)
 	{

@@ -27,7 +27,7 @@ extern "C" {
 		// Create Eigen vectors from C/C++ arrays
 		Vector3d vector1 = Map<Vector3d>(arg1);
 		Vector3d vector2 = Map<Vector3d>(arg2);
-		Vector3d added_vectors;
+		Vector3d added_vectors = Map<Vector3d>(total);
 
 		// Perform operation on vector/matrix (using Eigen notation)
 		added_vectors = vector1 + vector2;
