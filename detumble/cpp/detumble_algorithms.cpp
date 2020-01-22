@@ -53,7 +53,6 @@ extern "C" {
         // Perform operation on vector/matrix (using Eigen notation)
         commanded_dipole_vec = detumble_B_dot_bang_bang(B_dot_vec, max_dipole_vec);
 
-
         // Copy contents back into array preallocated for holding answer used at higher level by C calling function
         for (int i = 0; i < 3; ++i)
         {
