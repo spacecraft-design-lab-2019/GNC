@@ -1,0 +1,59 @@
+Go to this thread for the C++ header file and code, as well as the linked C code.
+
+https://stackoverflow.com/questions/26889142/using-eigen-in-a-c-project
+
+Go to this page for how to add the new library you created to your path:
+
+https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html
+https://stackoverflow.com/questions/480764/linux-error-while-loading-shared-libraries-cannot-open-shared-object-file-no-s
+
+
+General Outlne of how to write/call C++ algorithms from C:
+
+1.  Create wrapper for C++ function using only C compatible input/output types (I think these will mostly be void functions with
+	the container for the output value as an input, but only time will tell).
+2.	Create a header file for the C++ file, specifying which functions will be C-callable (see detumble_algorithms.h for an example).
+3. 	Compile the C++ code into a library:
+
+		$ g++ detumble_algorithms.cpp -shared -fPIC -o libdetumble.so -I/usr/include/python3.6m
+
+		-shared tells the compiler you're making a shared library
+
+		-fPIC tells the compiler to use "Position Independent Code"-all address references are global, and can be shared across multiple
+		processes (like, say, C and C++)
+
+		-o (short for -out) tells the compiler the output file you'd like to write the library to. Convention dictates you name your library libsometing.so (in this case libdetumble.so).
+
+		-I/usr/include/python3.6m tells the compiler to use Python's C stuff in Python.h (I think this is necessary for pybind stuff that lives in the same file as the C++ functions/C wrappers, but I need to investigate further). This command may be different on your machine. To find the location of your Python.h headers, type the following command at the console
+
+		$ pkg-config --cflags python3
+
+		Output should look like: -I/usr/include/python3.6m -I/usr/include/x86_64-linux-gnu/python3.6m
+
+		If you don't have pkg-config, type the following at the console and repeat the above steps
+
+		$ sudo apt install pkg-config
+
+		Note: This outputs the library file to your current directory, it is currently on my TODO list to figure out how to write the library to a different (hopefully designated) folder.
+
+4.	If by some small miracle, your code successfully compiled into a library, you're now ready to compile your C code that calls your 
+	C++ library:
+
+		$ gcc C_detumble_main.c -L. -ldetumble -o main2
+
+		This tells the compiler to compile the C code in C_detumble_main.c
+
+		-L. tells the compiler which director to look in for library files (in this case, the . tells the compiler to look in the current directory)
+
+		-ldetumble tells the compiler we're using the detumble library, libdetumble.so (recall that library naming convention dictates that you call a library file libsomething.so)
+
+		-o tells the compiler the name of the file you want to write the executable to. In this case, we are writing the executable to a file named main2 (because I'm not creative)
+
+5.	Congrats! You've now compiled some C code that calls a library written in C++! Next, you're going to want to run the executable, you 
+	can do this by typing the following at the command line
+
+		$ ./main2   (or whatever your executable is named)
+
+6.  This last step probably didn't work, but that's ok. More than likely, your system doesn't know where to find the shared library you 
+	wrote and compiled in steps 1-3. You'll need to add your current folder (or the folder in which your shared library lives) to your LD_LIBRARY_PATH environment variable
+
