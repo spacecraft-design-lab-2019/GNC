@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named iLQRsimple_cpp
+
+# Build rule for target.
+iLQRsimple_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 iLQRsimple_cpp
+.PHONY : iLQRsimple_cpp
+
+# fast build rule for target.
+iLQRsimple_cpp/fast:
+	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/build
+.PHONY : iLQRsimple_cpp/fast
+
+#=============================================================================
 # Target rules for targets named sun_utils_cpp
 
 # Build rule for target.
@@ -216,6 +229,33 @@ TRIAD/cpp/deterministic_ad.cpp.s:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s
 .PHONY : TRIAD/cpp/deterministic_ad.cpp.s
 
+trajectory_optimization/cpp/iLQRsimple.o: trajectory_optimization/cpp/iLQRsimple.cpp.o
+
+.PHONY : trajectory_optimization/cpp/iLQRsimple.o
+
+# target to build an object file
+trajectory_optimization/cpp/iLQRsimple.cpp.o:
+	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.o
+.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.o
+
+trajectory_optimization/cpp/iLQRsimple.i: trajectory_optimization/cpp/iLQRsimple.cpp.i
+
+.PHONY : trajectory_optimization/cpp/iLQRsimple.i
+
+# target to preprocess a source file
+trajectory_optimization/cpp/iLQRsimple.cpp.i:
+	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.i
+.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.i
+
+trajectory_optimization/cpp/iLQRsimple.s: trajectory_optimization/cpp/iLQRsimple.cpp.s
+
+.PHONY : trajectory_optimization/cpp/iLQRsimple.s
+
+# target to generate assembly for a file
+trajectory_optimization/cpp/iLQRsimple.cpp.s:
+	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.s
+.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.s
+
 util_funcs/cpp/sun_utils.o: util_funcs/cpp/sun_utils.cpp.o
 
 .PHONY : util_funcs/cpp/sun_utils.o
@@ -276,6 +316,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... iLQRsimple_cpp"
 	@echo "... sun_utils_cpp"
 	@echo "... rebuild_cache"
 	@echo "... time_functions_cpp"
@@ -288,6 +329,9 @@ help:
 	@echo "... TRIAD/cpp/deterministic_ad.o"
 	@echo "... TRIAD/cpp/deterministic_ad.i"
 	@echo "... TRIAD/cpp/deterministic_ad.s"
+	@echo "... trajectory_optimization/cpp/iLQRsimple.o"
+	@echo "... trajectory_optimization/cpp/iLQRsimple.i"
+	@echo "... trajectory_optimization/cpp/iLQRsimple.s"
 	@echo "... util_funcs/cpp/sun_utils.o"
 	@echo "... util_funcs/cpp/sun_utils.i"
 	@echo "... util_funcs/cpp/sun_utils.s"

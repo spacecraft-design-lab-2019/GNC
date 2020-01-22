@@ -44,9 +44,9 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 }
 
 
+int main(){return 0;}
 
 /*
-
 // Test the iLQR algorithm on the pendulum
 int main() {
 

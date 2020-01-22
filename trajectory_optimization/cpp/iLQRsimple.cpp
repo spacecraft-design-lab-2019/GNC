@@ -4,9 +4,15 @@
  *
 */
 
-#include "iLQRsimple.h"
+// #include "iLQRsimple.h"
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include "PendulumTest.cpp"
+
 #include "../../pybind11/include/pybind11/pybind11.h"
 #include "../../pybind11/include/pybind11/eigen.h"
+#include "../../pybind11/include/pybind11/stl.h"
 namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
@@ -14,8 +20,6 @@ using namespace std;
 
 #define MAX_ITERS 1000
 
-
-int main(){return 0;}
 
 bool iLQRsimple(MatrixXd& xg,  
 				MatrixXd& Q, 
@@ -32,7 +36,7 @@ bool iLQRsimple(MatrixXd& xg,
 	bool success_flag = true;  // Returns true if algorithm converged
 
 	// Define sizes
-	const unsigned int Nx = static_cast<unsigned int>( x0.rows() );
+	const unsigned int Nx = static_cast<unsigned int>( xtraj.rows() );
 	const unsigned int Nu = static_cast<unsigned int>( utraj.rows() );
 	const unsigned int N = static_cast<unsigned int>( xtraj.cols() );
 
@@ -80,10 +84,11 @@ bool iLQRsimple(MatrixXd& xg,
 	while ( l.lpNorm<Infinity>() > tol) {
 
 		iter += 1;
-		if (iter > MAX_ITERS):
+		if (iter > MAX_ITERS){
 			// Break from the loop and don't perform the maneuver
 			success_flag = false;
 			return success_flag;
+		}
 
 		// Initialize backwards pass
 		S << Qf;

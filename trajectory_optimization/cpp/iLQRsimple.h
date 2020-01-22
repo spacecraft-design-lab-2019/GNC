@@ -7,7 +7,6 @@
 #ifndef GNC_ILQR_H
 #define GNC_ILQR_H
 
-
 #include <iostream>
 #include <cmath>
 #include <vector>
