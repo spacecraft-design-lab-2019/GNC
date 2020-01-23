@@ -2,33 +2,17 @@
 
 CPP
 ===============
-
->>>
-Get the current implementation to compile
-Sort alternative to passing matrix slices by non-const reference into rkstep integration function
-(and anywhere else where passing Matrices is causing issues)
-
->>>
-Make sure all matrices are allocted at compile time
-(use Matrix<type, rows, cols> initalization form the base class)
-Currently the iLQR function creates several matrices internally, need to pass these in to the function pre-allocated.
-This could entail passing a block of memory (as a large array/matrix) into the function, then mapping it into useful
-smaller matrices using the Eigen::Map function 
-
->>>
-Implement the dynamics directly in the rkstep function
-
->>>
-Make adjustments for quaternions/ satellite dynamics
-
->>>
-Add check to ensure cholesky decomposition remains stable in backward pass (Matrix is positive definite)
+Check C++ debug
+Change code to have fixed matrix sizes
 
 
 Python
-==================
+===========================
+Get Python working (fix linear algebra)
 
->>>
-Use python to test each section of the C++ implementation (Pybind)
+Write C++ functions for small sections of the code
+Based on the full iLQRsimple code (except pass and return by value)
+
+Swap the functions into the python code using pybind
 
 

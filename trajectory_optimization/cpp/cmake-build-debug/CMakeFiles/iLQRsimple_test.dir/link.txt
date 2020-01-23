@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.o CMakeFiles/iLQRsimple_test.dir/PendulumTest.cpp.o  -o iLQRsimple_test 

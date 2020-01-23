@@ -4,16 +4,16 @@
  *
 */
 
-// #include "iLQRsimple.h"
+#include "iLQRsimple.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
-#include "PendulumTest.cpp"
+// #include "PendulumTest.cpp"
 
-#include "../../pybind11/include/pybind11/pybind11.h"
-#include "../../pybind11/include/pybind11/eigen.h"
-#include "../../pybind11/include/pybind11/stl.h"
-namespace py = pybind11;
+// #include "../../pybind11/include/pybind11/pybind11.h"
+// #include "../../pybind11/include/pybind11/eigen.h"
+// #include "../../pybind11/include/pybind11/stl.h"
+// namespace py = pybind11;
 using namespace Eigen;
 using namespace std;
 
@@ -36,9 +36,9 @@ bool iLQRsimple(MatrixXd& xg,
 	bool success_flag = true;  // Returns true if algorithm converged
 
 	// Define sizes
-	const unsigned int Nx = static_cast<unsigned int>( xtraj.rows() );
-	const unsigned int Nu = static_cast<unsigned int>( utraj.rows() );
-	const unsigned int N = static_cast<unsigned int>( xtraj.cols() );
+	const auto Nx = static_cast<unsigned int>( xtraj.rows() );
+	const auto Nu = static_cast<unsigned int>( utraj.rows() );
+	const auto N = static_cast<unsigned int>( xtraj.cols() );
 
 	MatrixXd A = MatrixXd::Zero(Nx, Nx * (N-1));
 	MatrixXd B = MatrixXd::Zero(Nx, Nu * (N-1));
@@ -49,6 +49,7 @@ bool iLQRsimple(MatrixXd& xg,
 	for ( int k = 0; k < N-1; k++ ) {
 
 		J = J + (0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k))(0);
+//        rkstep(utraj, dt, k, xtraj, A, B);
 		rkstep(utraj(all, k), dt, k, xtraj, A, B);
 
 		// NOTE: Passing a slice of a matrix by non-const reference (eg. xtraj(all, k+1)) does not compile.
@@ -56,7 +57,7 @@ bool iLQRsimple(MatrixXd& xg,
 		// rkstep(xtraj(all, k), utraj(all, k), dt, xtraj(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
 	}
 
-	J = J + (0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg)))(0); 	// Add terminal cost
+	J = J + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0); 	// Add terminal cost
 	Jhist.push_back(J);
 
 
@@ -93,7 +94,7 @@ bool iLQRsimple(MatrixXd& xg,
 		// Initialize backwards pass
 		S << Qf;
 		s << Qf*(xtraj(all, N) - xg);
-		for ( int k = (N-1); k >= 0; k-- ) {
+		for ( int k = N-1; k >= 0; k-- ) {
 
 			// Calculate cost gradients (for this time step)
 			q = Q * (xtraj(all, k) - xg);
@@ -154,8 +155,8 @@ bool iLQRsimple(MatrixXd& xg,
 void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, MatrixXd& B) {
 
 	// Define sizes (hard code in final version)
-	unsigned int Nx = static_cast<unsigned int>( xtraj.rows() );
-	unsigned int Nu = static_cast<unsigned int>( u0.rows() );
+	auto Nx = static_cast<unsigned int>( xtraj.rows() );
+	auto Nu = static_cast<unsigned int>( u0.rows() );
 
 	// Extract current state
 	MatrixXd x0 = xtraj(all, k);
@@ -183,9 +184,9 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 }
 
 
-PYBIND11_MODULE(iLQRsimple_cpp, m) {
-	m.doc() = "iLQR main functions for simple dynamical systems"; // optional module docstring
-	m.def("iLQRsimple", &iLQRsimple, "Calcualte an optimal trajectory using iLQR");
-	m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
-}
+// PYBIND11_MODULE(iLQRsimple_cpp, m) {
+	// m.doc() = "iLQR main functions for simple dynamical systems"; // optional module docstring
+	// m.def("iLQRsimple", &iLQRsimple, "Calcualte an optimal trajectory using iLQR");
+	// m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
+// }
 
