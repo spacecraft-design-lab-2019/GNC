@@ -24,9 +24,9 @@ detumble/magnetometer_bias_estimation/spacecraft_design_example.m
 
 detumble/cpp/bias
 
+Makefile.txt
 
 
-detumble/cpp/bias.exe
 
 CMakeCache.txt
 
