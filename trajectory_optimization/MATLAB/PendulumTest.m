@@ -12,7 +12,7 @@ u0 = zeros(1,249);
 
 [xhist, uhist, K, J] = iLQRv1(@pendulum_dynamics, x0, xg, u0, Q, R, Qf, .01, 1e-3);
 
-figure();
+figure(1);
 subplot(3,1,1)
 plot(xhist(1,:));
 ylabel('q');
@@ -25,7 +25,7 @@ subplot(3,1,3);
 plot(uhist);
 ylabel('u');
 
-figure();
+figure(2);
 semilogy(J);
 ylabel('Cost');
 xlabel('Iteration');
@@ -38,7 +38,8 @@ utraj = cpp_data(:, 3);
 Jhist = cpp_data(:, 4);
 
 % Plot cpp iLQR results
-figure();
+figure(3);
+title('cpp iLQR results')
 subplot(3,1,1)
 plot(xtraj(:, 1));
 ylabel('q');
@@ -51,6 +52,7 @@ subplot(3,1,3)
 plot(utraj);
 ylabel('u');
 
-figure();
-plot(Jhist);
+figure(4);
+title('cpp iLQR cost')
+semilogy(Jhist);
 ylabel('Cost');

@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(../../eigen-git-mirror)
 
-add_executable(iLQRsimple_test iLQRsimple.cpp PendulumTest.cpp sub_functions_for_pybind.cpp utils.cpp)
+add_executable(iLQRsimple_test iLQRsimple.cpp PendulumTest.cpp utils.cpp)

@@ -5,8 +5,6 @@
 */
 
 #include "iLQRsimple.h"
-// #include "PendulumTest.cpp"
-
 // #include "../../pybind11/include/pybind11/pybind11.h"
 // #include "../../pybind11/include/pybind11/eigen.h"
 // #include "../../pybind11/include/pybind11/stl.h"
@@ -15,9 +13,14 @@ using namespace Eigen;
 using namespace std;
 
 
-#define MAX_ITERS 100
+#define MAX_ITERS 1000
 
 
+/**
+ * A simple implementation of the Iterative Linear-Quadratic-Regulator algorithm
+ *
+ * @return, xtraj, utraj, K
+ */
 bool iLQRsimple(MatrixXd& xg,  
 				MatrixXd& Q, 
 				MatrixXd& R, 
@@ -95,13 +98,9 @@ bool iLQRsimple(MatrixXd& xg,
 			Ak = A(all, seq(Nx*k, Nx*(k+1)-1));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)-1));
 
-			printMatrix(s);
-
-
 			// Cholesky
 			// TODO: Ensure matrix is positive definite before using Cholesky decomposition
 			LH = (R + Bk.transpose()*S*Bk);
-
 			l(all, k) = LH.llt().solve((r + Bk.transpose()*s));
 			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.llt().solve(Bk.transpose()*S*Ak);
 
@@ -112,11 +111,6 @@ bool iLQRsimple(MatrixXd& xg,
 			S = Snew;
 			s = snew;
 		}
-
-		printMatrix(A);
-		printMatrix(B);
-		printMatrix(l);
-		printMatrix(K);
 
 		// Forward pass line search with new l and K
 		xnew(all, 0) = xtraj(all, 0);
@@ -130,7 +124,7 @@ bool iLQRsimple(MatrixXd& xg,
 				rkstep(unew(all, k), dt, k, xnew, A, B);
 				Jnew = Jnew + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
 			}
-			Jnew = Jnew + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0);
+			Jnew = Jnew + (0.5*((xnew(all, N-1) - xg).transpose()) * Qf * ((xnew(all, N-1) - xg)))(0);
 			alpha *= 0.5;
 		}
 		
@@ -149,7 +143,6 @@ bool iLQRsimple(MatrixXd& xg,
   * in the final implemenation to prevent having to pass matrices to a dynamics function
   *
   */
-// void rkstep(const MatrixXd& x0, const MatrixXd& u0, double dt, int k, MatrixXd& x1, MatrixXd& A, MatrixXd& B) {
 void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, MatrixXd& B) {
 
 	// Define sizes (hard code in final version)

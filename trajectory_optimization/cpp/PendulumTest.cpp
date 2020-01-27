@@ -55,7 +55,7 @@ int main() {
 	const int Nu = 1;
 	const double dt = 0.01;
 	const double tol = 0.001;
-	int N = 5;
+	int N = 250;
 
 	// Cost matrices
 	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
@@ -79,7 +79,7 @@ int main() {
 	bool success = iLQRsimple(xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
 	cout << "Results: " << success << endl;
 
-	// Write results to a file for comparison with MATLAB
+	// Write results to a csv file for comparison with MATLAB or python
     writeToFile(xtraj, utraj, Jhist);
 
 	return 0;

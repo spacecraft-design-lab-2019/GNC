@@ -75,8 +75,6 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 			Ak = A[:, Nx*k:Nx*(k+1)]
 			Bk = B[:, Nu*k:Nu*(k+1)]
 
-			print(s)
-
 			# Calculate l and K
 			LH = (R + Bk.T @ S @ Bk)
 			l[:, k] = np.linalg.solve(LH, (r + Bk.T @ s))
@@ -110,8 +108,8 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 		J = Jnew
 		Jhist.append(J)
 
+		print("Iteration {}".format(count))
 		print("Final l = {}".format(np.max(np.abs(l))), "alpha = {}".format(2*alpha))
-		print("count = {}".format(count))
 
 	return xtraj, utraj, K, Jhist
 
@@ -119,8 +117,8 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 def rkstep_py(x0, u0, dt):
 
 	# Define constants
-	Nx = 2
-	Nu = 1
+	Nx = x0.shape[0]
+	Nu = u0.shape[0]
 
 	xdot1, dxdot1 = pendulumDynamics_py(0, x0, u0)
 	xdot2, dxdot2 = pendulumDynamics_py(0, x0 + 0.5*xdot1*dt, u0)
@@ -139,7 +137,7 @@ def rkstep_py(x0, u0, dt):
 
 
 def pendulumDynamics_py(t, x, u):
-	Nx = 2
+	Nx = x.shape[0]
 
 	m = 1.0
 	b = 0.1
@@ -161,7 +159,7 @@ def pendulumDynamics_py(t, x, u):
 # Test the algorithm
 def main():
 
-	N = 5
+	N = 250
 	Nx = 2
 	Nu = 1
 
@@ -178,7 +176,6 @@ def main():
 
 	xtraj, utraj, K, Jhist = iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol)
 
-	print(utraj)
 
 	# Plot results
 	fig, ax = plt.subplots(2, 2)

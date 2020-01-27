@@ -42,7 +42,7 @@ void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<doub
 
 
 /**
- * Prints an Eigen matrix to the console
+ * Prints an Eigen::Matrix to the console
  * @param mat
  */
 void printMatrix(const MatrixXd& mat) {
@@ -50,24 +50,24 @@ void printMatrix(const MatrixXd& mat) {
     auto Ncol = static_cast<unsigned int>( mat.cols() );
 
     cout << "[";
-    string rowString;
+    string rowString = "[";
     for( unsigned int i = 0; i < Nrow; ++i ) {
         for ( unsigned int j = 0; j < Ncol; ++j ) {
             if ( j == 0 ) {
-                rowString += "[" + toString(mat(i, j));
-            } else if ( j == (Ncol - 1) ) {
-                rowString += ", " + toString(mat(i, j)) + "]";
+                rowString += toString(mat(i, j));
             } else {
                 rowString += ", " + toString(mat(i, j));
             }
         }
-        // Add final bracket for last row
+        rowString += "]";
+
         if ( i == Nrow -1 ) {
+            // Add final bracket for last row
             cout << rowString << "]" << endl;
         } else {
             cout << rowString << endl;
         }
-        rowString = "";
+        rowString = "[";
     }
 }
 
