@@ -177,33 +177,6 @@ iLQRsimple.cpp.s:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.s
 .PHONY : iLQRsimple.cpp.s
 
-sub_functions_for_pybind.o: sub_functions_for_pybind.cpp.o
-
-.PHONY : sub_functions_for_pybind.o
-
-# target to build an object file
-sub_functions_for_pybind.cpp.o:
-	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.o
-.PHONY : sub_functions_for_pybind.cpp.o
-
-sub_functions_for_pybind.i: sub_functions_for_pybind.cpp.i
-
-.PHONY : sub_functions_for_pybind.i
-
-# target to preprocess a source file
-sub_functions_for_pybind.cpp.i:
-	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.i
-.PHONY : sub_functions_for_pybind.cpp.i
-
-sub_functions_for_pybind.s: sub_functions_for_pybind.cpp.s
-
-.PHONY : sub_functions_for_pybind.s
-
-# target to generate assembly for a file
-sub_functions_for_pybind.cpp.s:
-	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.s
-.PHONY : sub_functions_for_pybind.cpp.s
-
 utils.o: utils.cpp.o
 
 .PHONY : utils.o
@@ -246,9 +219,6 @@ help:
 	@echo "... iLQRsimple.o"
 	@echo "... iLQRsimple.i"
 	@echo "... iLQRsimple.s"
-	@echo "... sub_functions_for_pybind.o"
-	@echo "... sub_functions_for_pybind.i"
-	@echo "... sub_functions_for_pybind.s"
 	@echo "... utils.o"
 	@echo "... utils.i"
 	@echo "... utils.s"

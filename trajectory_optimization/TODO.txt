@@ -2,17 +2,13 @@
 
 CPP
 ===============
-Check C++ debug
-Change code to have fixed matrix sizes
+Rewrite code:
+ - Fixed matrix sizes
+ - Check for positive definite condition (before solver)
+ - Control limits
+ - Quaternion maths
+ - Satellite dynamics
 
 
-Python
-===========================
-Get Python working (fix linear algebra)
-
-Write C++ functions for small sections of the code
-Based on the full iLQRsimple code (except pass and return by value)
-
-Swap the functions into the python code using pybind
 
 

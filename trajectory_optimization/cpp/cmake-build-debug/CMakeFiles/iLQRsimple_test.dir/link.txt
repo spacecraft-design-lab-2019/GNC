@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.o CMakeFiles/iLQRsimple_test.dir/PendulumTest.cpp.o CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.o CMakeFiles/iLQRsimple_test.dir/utils.cpp.o  -o iLQRsimple_test 
+/usr/bin/c++  -g   CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.o CMakeFiles/iLQRsimple_test.dir/PendulumTest.cpp.o CMakeFiles/iLQRsimple_test.dir/utils.cpp.o  -o iLQRsimple_test 

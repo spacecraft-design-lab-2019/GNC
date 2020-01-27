@@ -1,12 +1,11 @@
 /*
  * Author: Nick Goodson
- * Jan 15th 2020
+ * Jan 28th 2020
  *
 */
 
 #include "iLQRsimple.h"
 #include <sstream>
-#include <fstream>
 
 using namespace std;
 using namespace Eigen;
@@ -25,15 +24,28 @@ string toString(T const& value) {
 
 /**
  * Writes iLQR results to a csv file
- * Columns are (xtraj[0], xtraj[1], utraj, J)
+ * Columns are (xtraj-states, utraj-controls, J-cost)
  */
 void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<double>& Jhist) {
     auto N = static_cast<unsigned int>( xtraj.cols() );
+    auto Nx = static_cast<unsigned int>( xtraj.rows() );
+    auto Nu = static_cast<unsigned int>( utraj.rows() );
+
     ofstream datafile;
     datafile.open("iLQR_pendulum_data.csv");
-    for (int i = 0; i < N-1; ++i ) {
-        string data_line = toString(xtraj(0, i)) + "," + toString(xtraj(1, i)) + ","
-                           + toString(utraj(0, i)) + "," + toString(Jhist[i]) + "\n";
+    for (int i = 0; i < N-1; ++i) {
+        string data_line;
+        for (int state = 0; state < Nx; ++state) {
+            data_line += toString(xtraj(state, i)) + ",";  // Add states
+        }
+        for (int contr = 0; contr < Nu; ++contr) {
+            data_line += toString(utraj(contr, i)) + ",";  // Add controls
+        }
+        if (i < Jhist.size()) {
+            data_line += toString(Jhist[i]) + "\n";  // Add cost
+        } else {
+            data_line += "0\n";  // Pad with zeros b/c cost is different length
+        }
         datafile << data_line;
     }
     datafile.close();
@@ -43,7 +55,7 @@ void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<doub
 
 /**
  * Prints an Eigen::Matrix to the console
- * @param mat
+ * @param mat, the matrix to print
  */
 void printMatrix(const MatrixXd& mat) {
     auto Nrow = static_cast<unsigned int>( mat.rows() );

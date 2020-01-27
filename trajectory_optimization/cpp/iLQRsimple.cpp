@@ -118,17 +118,18 @@ bool iLQRsimple(MatrixXd& xg,
 		alpha = 1;
 
 		while ( Jnew > J ) {
-			Jnew = 0;
-			for ( int k = 0; k < N-1; k++ ) {
- 				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
-				rkstep(unew(all, k), dt, k, xnew, A, B);
-				Jnew = Jnew + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
-			}
-			Jnew = Jnew + (0.5*((xnew(all, N-1) - xg).transpose()) * Qf * ((xnew(all, N-1) - xg)))(0);
-			alpha *= 0.5;
-		}
-		
-		xtraj = xnew; //TODO: Make sure this assigns to the reference as desired
+            Jnew = 0;
+            for (int k = 0; k < N - 1; k++) {
+                unew(all, k) = utraj(all, k) - alpha * l(all, k) -
+                               K(all, seq(Nx * k, Nx * (k + 1) - 1)) * (xnew(all, k) - xtraj(all, k));
+                rkstep(unew(all, k), dt, k, xnew, A, B);
+                Jnew = Jnew + (0.5 * ((xnew(all, k) - xg).transpose()) * Q * (xnew(all, k) - xg) +
+                               0.5 * (unew(all, k).transpose()) * R * unew(all, k))(0);
+            }
+            Jnew = Jnew + (0.5 * ((xnew(all, N - 1) - xg).transpose()) * Qf * ((xnew(all, N - 1) - xg)))(0);
+            alpha *= 0.5;
+        }
+		xtraj = xnew;
 		utraj = unew;
 		J = Jnew;
 		Jhist.push_back(J);
