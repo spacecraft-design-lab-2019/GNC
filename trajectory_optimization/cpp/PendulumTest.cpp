@@ -5,13 +5,16 @@
 */
 
 #include "iLQRsimple.h"
+#include <fstream>
+#include <sstream>
+
 using namespace Eigen;
 using namespace std;
 
 
 /**
   * Simulates the pendulum's dynamics. Used for forward step with runge-kutta integrator.
-  * 
+  *
   @ t, current simulation time
   @ x, current state vector (Nx, 1)
   @ u, control input (Nu, 1)
@@ -44,8 +47,38 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 }
 
 
+/**
+ * Converts primitive types to strings
+ */
+template<typename T>
+std::string toString(T const& value) {
+    std::ostringstream sstr;
+    sstr << value;
+    return sstr.str();
+}
 
-// Test the iLQR algorithm on the pendulum
+
+/**
+ * Writes iLQR results to a csv file
+ * Columns are (xtraj[0], xtraj[1], utraj, J)
+ */
+void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<double>& Jhist) {
+    auto N = static_cast<unsigned int>( xtraj.cols() );
+    ofstream datafile;
+    datafile.open("iLQR_pendulum_data.csv");
+    for (int i = 0; i < N; ++i ) {
+        string data_line = toString(xtraj(0, i)) + "," + toString(xtraj(1, i)) + ","
+                + toString(utraj(0, i)) + "," + toString(Jhist[i]) + "\n";
+        datafile << data_line;
+    }
+    datafile.close();
+    cout << "File written successfully"
+}
+
+
+/**
+ * Test the iLQR algorithm on the pendulum
+ */
 int main() {
 
 	// Define sizes and sim params
@@ -53,7 +86,7 @@ int main() {
 	const int Nu = 1;
 	const double dt = 0.01;
 	const double tol = 0.001;
-	int N = 249;
+	int N = 250;
 
 	// Cost matrices
 	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
@@ -74,8 +107,12 @@ int main() {
 	vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
 	// Call to iLQR function
-	iLQRsimple(xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+	bool success = iLQRsimple(xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+	cout << "Results: " << success << endl;
 
+	// Write results to a file for comparison with MATLAB
+    writeToFile(xtraj, utraj, Jhist);
+    
 	return 0;
 }
 

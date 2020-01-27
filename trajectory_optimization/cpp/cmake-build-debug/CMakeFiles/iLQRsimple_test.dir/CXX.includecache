@@ -1224,15 +1224,13 @@ IndexedViewMethods.h
 ReshapedMethods.h
 /home/nick/Documents/AA236/GNC/eigen-git-mirror/Eigen/src/plugins/ReshapedMethods.h
 
+/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/PendulumTest.cpp
+iLQRsimple.h
+/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.h
+
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.cpp
 iLQRsimple.h
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.h
-iostream
--
-cmath
--
-vector
--
 
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.h
 iostream

@@ -5,9 +5,6 @@
 */
 
 #include "iLQRsimple.h"
-#include <iostream>
-#include <cmath>
-#include <vector>
 // #include "PendulumTest.cpp"
 
 // #include "../../pybind11/include/pybind11/pybind11.h"
@@ -64,7 +61,7 @@ bool iLQRsimple(MatrixXd& xg,
 	// Intialize matrices for optimisation
 	MatrixXd S = MatrixXd::Zero(Nx, Nx);
 	MatrixXd s = MatrixXd::Zero(Nx, 1);
-	MatrixXd l = MatrixXd::Constant(Nu, N, 1 + tol);
+	MatrixXd l = MatrixXd::Constant(Nu, N-1, 1 + tol);
 	MatrixXd q(Nx, 1);
 	MatrixXd r(Nu, 1);
 
@@ -93,19 +90,20 @@ bool iLQRsimple(MatrixXd& xg,
 
 		// Initialize backwards pass
 		S << Qf;
-		s << Qf*(xtraj(all, N) - xg);
-		for ( int k = N-1; k >= 0; k-- ) {
+		s << Qf*(xtraj(all, N-1) - xg);
+		for ( int k = N-2; k >= 0; k-- ) {
 
 			// Calculate cost gradients (for this time step)
 			q = Q * (xtraj(all, k) - xg);
 			r = R * utraj(all, k);
 
 			// Calculate feed-forward correction and feedback gain
-			// Need to check that these assignments don't assign on heap/use too much memory (Alternative code at botoom of file)
+            //(Alternative code at bottom of file using indicies without assignment)
 			Ak = A(all, seq(Nx*k, Nx*(k+1)-1));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)-1));
 			
 			// Cholesky
+			// TODO: Ensure matrix is positive definite before using Cholesky decomposition
 			LH = (R + Bk.transpose()*S*Bk);
 			l(all, k) = LH.llt().solve((r + Bk.transpose()*s));
 			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.llt().solve(Bk.transpose()*S*Ak);
@@ -125,17 +123,17 @@ bool iLQRsimple(MatrixXd& xg,
 
 		while ( Jnew > J ) {
 			Jnew = 0;
-			for ( int k = 0; k < N; k++ ) {
-				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
+			for ( int k = 0; k < N-1; k++ ) {
+ 				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
 				rkstep(unew(all, k), dt, k, xnew, A, B);
 
 				J = J + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
 			}
-			J = J + (0.5*((xtraj(all, N) - xg).transpose()) * Qf * ((xtraj(all, N) - xg)))(0);
+			J = J + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0);
 			alpha *= 0.5;
 		}
 		
-		xtraj = xnew; // Make sure this assigns to the reference as desired
+		xtraj = xnew; //TODO: Make sure this assigns to the reference as desired
 		utraj = unew;
 		J = Jnew;
 		Jhist.push_back(J);

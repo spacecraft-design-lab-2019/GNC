@@ -12,43 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="084ecbac-137f-4450-b964-6df3442b9774" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/cpp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/a.out" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/a.out" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/CXX.includecache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/PendulumTest.cpp.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/build.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/depend.internal" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/depend.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/flags.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/link.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/progress.make" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Project.cbp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/cpp.cbp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmake-build-debug/iLQRsimple_test" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TODO.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PendulumTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/PendulumTest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/g++ compile_command.txt" beforeDir="false" afterPath="$PROJECT_DIR$/g++ compile_command.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/iLQRsimple_test" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/iLQRsimple_test" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iLQRsimple.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/iLQRsimple.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLQRtest" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +63,8 @@
       <workItem from="1579737018675" duration="686000" />
       <workItem from="1579737706230" duration="2447000" />
       <workItem from="1579744738819" duration="827000" />
+      <workItem from="1579757010675" duration="22000" />
+      <workItem from="1580005599429" duration="8661000" />
     </task>
     <servers />
   </component>
@@ -115,38 +84,38 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1579738446924" />
-    <state width="1807" height="423" key="GridCell.Tab.0.bottom" timestamp="1579745582605">
+    <state width="1807" height="343" key="GridCell.Tab.0.bottom" timestamp="1580012639279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1579745582605" />
-    <state width="1807" height="423" key="GridCell.Tab.0.center" timestamp="1579745582604">
+    <state width="1807" height="343" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639279" />
+    <state width="1807" height="343" key="GridCell.Tab.0.center" timestamp="1580012639279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1579745582604" />
-    <state width="1807" height="423" key="GridCell.Tab.0.left" timestamp="1579745582604">
+    <state width="1807" height="343" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639279" />
+    <state width="1807" height="343" key="GridCell.Tab.0.left" timestamp="1580012639279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1579745582604" />
-    <state width="1807" height="423" key="GridCell.Tab.0.right" timestamp="1579745582605">
+    <state width="1807" height="343" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639279" />
+    <state width="1807" height="343" key="GridCell.Tab.0.right" timestamp="1580012639279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1579745582605" />
-    <state width="1807" height="423" key="GridCell.Tab.1.bottom" timestamp="1579745584877">
+    <state width="1807" height="343" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639279" />
+    <state width="1807" height="343" key="GridCell.Tab.1.bottom" timestamp="1580012639280">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1579745584877" />
-    <state width="1807" height="423" key="GridCell.Tab.1.center" timestamp="1579745584876">
+    <state width="1807" height="343" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639280" />
+    <state width="1807" height="343" key="GridCell.Tab.1.center" timestamp="1580012639280">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1579745584876" />
-    <state width="1807" height="423" key="GridCell.Tab.1.left" timestamp="1579745584876">
+    <state width="1807" height="343" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639280" />
+    <state width="1807" height="343" key="GridCell.Tab.1.left" timestamp="1580012639279">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1579745584876" />
-    <state width="1807" height="423" key="GridCell.Tab.1.right" timestamp="1579745584877">
+    <state width="1807" height="343" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639279" />
+    <state width="1807" height="343" key="GridCell.Tab.1.right" timestamp="1580012639280">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="423" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1579745584877" />
+    <state width="1807" height="343" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1580012639280" />
     <state x="482" y="187" key="SettingsEditor" timestamp="1579738535794">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -155,16 +124,5 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="649" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1579654933121" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/iLQRsimple.cpp</url>
-          <line>59</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
