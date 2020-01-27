@@ -72,7 +72,7 @@ bool iLQRsimple(MatrixXd& xg,
 
 	int iter = 0;
 	while ( l.lpNorm<Infinity>() > tol) {
-        cout << "Print lp-norm" << l.lpNorm<Infinity>() << endl;
+        cout << "lp-norm: " << l.lpNorm<Infinity>() << endl;
 
 		iter += 1;
 		if (iter > MAX_ITERS){
@@ -94,20 +94,29 @@ bool iLQRsimple(MatrixXd& xg,
             //(Alternative code at bottom of file using indicies without assignment)
 			Ak = A(all, seq(Nx*k, Nx*(k+1)-1));
 			Bk = B(all, seq(Nu*k, Nu*(k+1)-1));
-			
+
+			printMatrix(s);
+
+
 			// Cholesky
 			// TODO: Ensure matrix is positive definite before using Cholesky decomposition
 			LH = (R + Bk.transpose()*S*Bk);
+
 			l(all, k) = LH.llt().solve((r + Bk.transpose()*s));
 			K(all, seq(Nx*k, Nx*(k+1)-1)) = LH.llt().solve(Bk.transpose()*S*Ak);
 
 			// Calculate new cost to go matrices (Sk, sk)
 			Kk = K(all, seq(Nx*k, Nx*(k+1)-1));
 			Snew = Q + Kk.transpose()*R*Kk + (Ak - Bk*Kk).transpose()*S*(Ak - Bk*Kk);
-			snew = q - Kk.transpose()*R + Kk.transpose()*R*l(all, k) + (Ak - Bk*Kk).transpose()*(s - S*Bk*l(all, k));
+			snew = q - Kk.transpose()*r + Kk.transpose()*R*l(all, k) + (Ak - Bk*Kk).transpose()*(s - S*Bk*l(all, k));
 			S = Snew;
 			s = snew;
 		}
+
+		printMatrix(A);
+		printMatrix(B);
+		printMatrix(l);
+		printMatrix(K);
 
 		// Forward pass line search with new l and K
 		xnew(all, 0) = xtraj(all, 0);

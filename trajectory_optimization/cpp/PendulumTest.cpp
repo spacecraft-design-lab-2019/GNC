@@ -5,7 +5,6 @@
 */
 
 #include "iLQRsimple.h"
-#include <fstream>
 #include <sstream>
 
 using namespace Eigen;
@@ -48,35 +47,6 @@ void pendulumDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& 
 
 
 /**
- * Converts primitive types to strings
- */
-template<typename T>
-std::string toString(T const& value) {
-    std::ostringstream sstr;
-    sstr << value;
-    return sstr.str();
-}
-
-
-/**
- * Writes iLQR results to a csv file
- * Columns are (xtraj[0], xtraj[1], utraj, J)
- */
-void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<double>& Jhist) {
-    auto N = static_cast<unsigned int>( xtraj.cols() );
-    ofstream datafile;
-    datafile.open("iLQR_pendulum_data.csv");
-    for (int i = 0; i < N-1; ++i ) {
-        string data_line = toString(xtraj(0, i)) + "," + toString(xtraj(1, i)) + ","
-                           + toString(utraj(0, i)) + "," + toString(Jhist[i]) + "\n";
-        datafile << data_line;
-    }
-    datafile.close();
-    cout << "File written successfully";
-}
-
-
-/**
  * Test the iLQR algorithm on the pendulum
  */
 int main() {
@@ -85,13 +55,13 @@ int main() {
 	const int Nu = 1;
 	const double dt = 0.01;
 	const double tol = 0.001;
-	int N = 250;
+	int N = 5;
 
 	// Cost matrices
 	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
 	MatrixXd Q = MatrixXd::Identity(Nx, Nx) * 0.01;
 	MatrixXd R(Nu, Nu);
-	R << 3.0;
+	R << 0.3;
 
 	// Initial and final states
 	MatrixXd x0 = MatrixXd::Zero(Nx, 1);

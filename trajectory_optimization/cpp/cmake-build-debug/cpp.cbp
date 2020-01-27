@@ -95,6 +95,12 @@
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.h">
 			<Option target="iLQRsimple_test"/>
 		</Unit>
+		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/sub_functions_for_pybind.cpp">
+			<Option target="iLQRsimple_test"/>
+		</Unit>
+		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/utils.cpp">
+			<Option target="iLQRsimple_test"/>
+		</Unit>
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

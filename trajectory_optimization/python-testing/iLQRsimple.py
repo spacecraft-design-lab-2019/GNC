@@ -56,7 +56,6 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 	K = np.zeros((Nu, Nx*(N-1)))
 	l = (tol+1)*np.ones((Nu, N-1))
 
-	# Backward pass
 	count = 0
 	while np.amax(np.abs(l)) > tol:
 
@@ -65,6 +64,7 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 		S = Qf
 		s = Qf @ (xtraj[:, N-1] - xg)
 
+		# Backward pass
 		for k in range(N-2, -1, -1):
 		
 			# Calculate cost gradients for this time step
@@ -74,6 +74,8 @@ def iLQRsimple_py(x0, xg, utraj0, Q, R, Qf, dt, tol):
 			# Make assignments for ease of reading
 			Ak = A[:, Nx*k:Nx*(k+1)]
 			Bk = B[:, Nu*k:Nu*(k+1)]
+
+			print(s)
 
 			# Calculate l and K
 			LH = (R + Bk.T @ S @ Bk)
@@ -159,7 +161,7 @@ def pendulumDynamics_py(t, x, u):
 # Test the algorithm
 def main():
 
-	N = 250
+	N = 5
 	Nx = 2
 	Nu = 1
 

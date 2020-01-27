@@ -10,11 +10,12 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <sstream>
+#include <fstream>
 #include "../../eigen-git-mirror/Eigen/Dense"
 
-// Type definition for pointer to dynamics function (for clarity)
-// typedef void (*dynamicsFunc)(double, const MatrixXd&, const MatrixXd&, MatrixXd&, MatrixXd&);	
 
+/* iLQRsimple.cpp */
 bool iLQRsimple(Eigen::MatrixXd& xg,  
 				Eigen::MatrixXd& Q, 
 				Eigen::MatrixXd& R, 
@@ -28,7 +29,18 @@ bool iLQRsimple(Eigen::MatrixXd& xg,
 
 void rkstep(const Eigen::MatrixXd& u0, double dt, int k, Eigen::MatrixXd& x, Eigen::MatrixXd& A, Eigen::MatrixXd& B);
 
+
+/* PendulumTest.cpp */
 void pendulumDynamics(double t, const Eigen::MatrixXd& x, const Eigen::MatrixXd& u, Eigen::MatrixXd& xdot, Eigen::MatrixXd& dxdot);
+
+
+/* utils.cpp */
+template<typename T>
+std::string toString(T const& value);
+
+void writeToFile(const Eigen::MatrixXd& xtraj, const Eigen::MatrixXd& utraj, const std::vector<double>& Jhist);
+
+void printMatrix(const Eigen::MatrixXd& mat);
 
 
 #endif  // GNC_ILQR_H

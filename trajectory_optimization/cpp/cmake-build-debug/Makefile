@@ -177,6 +177,60 @@ iLQRsimple.cpp.s:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/iLQRsimple.cpp.s
 .PHONY : iLQRsimple.cpp.s
 
+sub_functions_for_pybind.o: sub_functions_for_pybind.cpp.o
+
+.PHONY : sub_functions_for_pybind.o
+
+# target to build an object file
+sub_functions_for_pybind.cpp.o:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.o
+.PHONY : sub_functions_for_pybind.cpp.o
+
+sub_functions_for_pybind.i: sub_functions_for_pybind.cpp.i
+
+.PHONY : sub_functions_for_pybind.i
+
+# target to preprocess a source file
+sub_functions_for_pybind.cpp.i:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.i
+.PHONY : sub_functions_for_pybind.cpp.i
+
+sub_functions_for_pybind.s: sub_functions_for_pybind.cpp.s
+
+.PHONY : sub_functions_for_pybind.s
+
+# target to generate assembly for a file
+sub_functions_for_pybind.cpp.s:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/sub_functions_for_pybind.cpp.s
+.PHONY : sub_functions_for_pybind.cpp.s
+
+utils.o: utils.cpp.o
+
+.PHONY : utils.o
+
+# target to build an object file
+utils.cpp.o:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.o
+.PHONY : utils.cpp.o
+
+utils.i: utils.cpp.i
+
+.PHONY : utils.i
+
+# target to preprocess a source file
+utils.cpp.i:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.i
+.PHONY : utils.cpp.i
+
+utils.s: utils.cpp.s
+
+.PHONY : utils.s
+
+# target to generate assembly for a file
+utils.cpp.s:
+	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.s
+.PHONY : utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +246,12 @@ help:
 	@echo "... iLQRsimple.o"
 	@echo "... iLQRsimple.i"
 	@echo "... iLQRsimple.s"
+	@echo "... sub_functions_for_pybind.o"
+	@echo "... sub_functions_for_pybind.i"
+	@echo "... sub_functions_for_pybind.s"
+	@echo "... utils.o"
+	@echo "... utils.i"
+	@echo "... utils.s"
 .PHONY : help
 
 
