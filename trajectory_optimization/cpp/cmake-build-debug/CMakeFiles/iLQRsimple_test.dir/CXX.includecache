@@ -1227,6 +1227,10 @@ ReshapedMethods.h
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/PendulumTest.cpp
 iLQRsimple.h
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.h
+fstream
+-
+sstream
+-
 
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.cpp
 iLQRsimple.h

@@ -15,7 +15,7 @@ using namespace Eigen;
 using namespace std;
 
 
-#define MAX_ITERS 1000
+#define MAX_ITERS 100
 
 
 bool iLQRsimple(MatrixXd& xg,  
@@ -44,19 +44,11 @@ bool iLQRsimple(MatrixXd& xg,
 	// Forward simulate with initial controls utraj0
 	double J = 0;
 	for ( int k = 0; k < N-1; k++ ) {
-
 		J = J + (0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k))(0);
-//        rkstep(utraj, dt, k, xtraj, A, B);
 		rkstep(utraj(all, k), dt, k, xtraj, A, B);
-
-		// NOTE: Passing a slice of a matrix by non-const reference (eg. xtraj(all, k+1)) does not compile.
-		// Have to pass the entire matrix (by ref) and pass in the step 'k' so the function can assign to the slice directly
-		// rkstep(xtraj(all, k), utraj(all, k), dt, xtraj(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));
 	}
-
 	J = J + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0); 	// Add terminal cost
 	Jhist.push_back(J);
-
 
 	// Intialize matrices for optimisation
 	MatrixXd S = MatrixXd::Zero(Nx, Nx);
@@ -80,6 +72,7 @@ bool iLQRsimple(MatrixXd& xg,
 
 	int iter = 0;
 	while ( l.lpNorm<Infinity>() > tol) {
+        cout << "Print lp-norm" << l.lpNorm<Infinity>() << endl;
 
 		iter += 1;
 		if (iter > MAX_ITERS){
@@ -91,7 +84,7 @@ bool iLQRsimple(MatrixXd& xg,
 		// Initialize backwards pass
 		S << Qf;
 		s << Qf*(xtraj(all, N-1) - xg);
-		for ( int k = N-2; k >= 0; k-- ) {
+		for ( int k = (int)N-2; k >= 0; k-- ) {
 
 			// Calculate cost gradients (for this time step)
 			q = Q * (xtraj(all, k) - xg);
@@ -126,10 +119,9 @@ bool iLQRsimple(MatrixXd& xg,
 			for ( int k = 0; k < N-1; k++ ) {
  				unew(all, k) = utraj(all, k) - alpha*l(all, k) - K(all, seq(Nx*k, Nx*(k+1)-1))*(xnew(all, k) - xtraj(all, k));
 				rkstep(unew(all, k), dt, k, xnew, A, B);
-
-				J = J + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
+				Jnew = Jnew + (0.5*((xnew(all, k) - xg).transpose())*Q*(xnew(all, k) - xg) + 0.5*(unew(all, k).transpose())*R*unew(all, k))(0);
 			}
-			J = J + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0);
+			Jnew = Jnew + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0);
 			alpha *= 0.5;
 		}
 		
@@ -138,7 +130,6 @@ bool iLQRsimple(MatrixXd& xg,
 		J = Jnew;
 		Jhist.push_back(J);
 	}
-
 	return success_flag;
 }
 
@@ -188,3 +179,7 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 	// m.def("rkstep", &rkstep, "performs a runge-kutta update step on the non-linear and linearized system");
 // }
 
+
+// NOTE: Passing a slice of a matrix by non-const reference (eg. xtraj(all, k+1)) does not compile.
+// Have to pass the entire matrix (by ref) and pass in the step 'k' so the function can assign to the slice directly
+// rkstep(xtraj(all, k), utraj(all, k), dt, xtraj(all, k+1), A(all, seq(Nx*k, Nx*(k+1)-1)), B(all, seq(Nu*k, Nu*(k+1)-1)));

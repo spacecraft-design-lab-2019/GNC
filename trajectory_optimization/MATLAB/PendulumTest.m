@@ -29,3 +29,28 @@ figure();
 semilogy(J);
 ylabel('Cost');
 xlabel('Iteration');
+
+
+% Load file from cpp iLQR
+cpp_data = readmatrix("iLQR_pendulum_data.csv");
+xtraj = cpp_data(:, 1:2);
+utraj = cpp_data(:, 3);
+Jhist = cpp_data(:, 4);
+
+% Plot cpp iLQR results
+figure();
+subplot(3,1,1)
+plot(xtraj(:, 1));
+ylabel('q');
+
+subplot(3,1,2)
+plot(xtraj(:, 2));
+ylabel('qdot');
+
+subplot(3,1,3)
+plot(utraj);
+ylabel('u');
+
+figure();
+plot(Jhist);
+ylabel('Cost');

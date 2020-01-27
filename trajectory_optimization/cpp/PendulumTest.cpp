@@ -66,13 +66,13 @@ void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<doub
     auto N = static_cast<unsigned int>( xtraj.cols() );
     ofstream datafile;
     datafile.open("iLQR_pendulum_data.csv");
-    for (int i = 0; i < N; ++i ) {
+    for (int i = 0; i < N-1; ++i ) {
         string data_line = toString(xtraj(0, i)) + "," + toString(xtraj(1, i)) + ","
-                + toString(utraj(0, i)) + "," + toString(Jhist[i]) + "\n";
+                           + toString(utraj(0, i)) + "," + toString(Jhist[i]) + "\n";
         datafile << data_line;
     }
     datafile.close();
-    cout << "File written successfully"
+    cout << "File written successfully";
 }
 
 
@@ -80,7 +80,6 @@ void writeToFile(const MatrixXd& xtraj, const MatrixXd& utraj, const vector<doub
  * Test the iLQR algorithm on the pendulum
  */
 int main() {
-
 	// Define sizes and sim params
 	const int Nx = 2;
 	const int Nu = 1;
@@ -112,7 +111,7 @@ int main() {
 
 	// Write results to a file for comparison with MATLAB
     writeToFile(xtraj, utraj, Jhist);
-    
+
 	return 0;
 }
 
