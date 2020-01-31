@@ -1,3 +1,4 @@
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir
 /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles/iLQRtest.dir

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="cpp" targetName="iLQRtest" />
       <config projectName="cpp" targetName="iLQRsimple_test" />
     </generated>
   </component>
@@ -12,16 +13,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="084ecbac-137f-4450-b964-6df3442b9774" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/iLQR.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MATLAB/PendulumTest.m" beforeDir="false" afterPath="$PROJECT_DIR$/../MATLAB/PendulumTest.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MATLAB/iLQR_pendulum_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../MATLAB/iLQR_pendulum_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TODO.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PendulumTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/PendulumTest.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/utils.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/iLQRsimple_test.dir/utils.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cpp.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cpp.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/iLQRsimple_test" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/iLQRsimple_test" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLQRsimple.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/iLQRsimple.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/utils.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/g++ compile_command.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +39,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-Debug-iLQRtest" />
   </component>
   <component name="ProjectId" id="1WjF7FllSzPeWU8nq6itG8M4D3q" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -48,12 +56,21 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="CMake Application.iLQRsimple_test">
     <configuration name="iLQRsimple_test" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cpp" TARGET_NAME="iLQRsimple_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cpp" RUN_TARGET_NAME="iLQRsimple_test">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="iLQRtest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cpp" TARGET_NAME="iLQRtest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cpp" RUN_TARGET_NAME="iLQRtest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.iLQRsimple_test" />
+      <item itemvalue="CMake Application.iLQRtest" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -72,6 +89,7 @@
       <workItem from="1579757010675" duration="22000" />
       <workItem from="1580005599429" duration="23243000" />
       <workItem from="1580158964368" duration="2696000" />
+      <workItem from="1580507760295" duration="1444000" />
     </task>
     <servers />
   </component>
@@ -79,18 +97,18 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="451" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579738449250">
+    <state x="451" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580508150070">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="451" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1579738449250" />
+    <state x="451" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1580508150070" />
     <state x="741" y="299" width="566" height="593" key="#xdebugger.evaluate" timestamp="1579738783627">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="741" y="299" width="566" height="593" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1579738783627" />
-    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579738446924">
+    <state x="717" y="162" width="424" height="484" key="FileChooserDialogImpl" timestamp="1580508264051">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1579738446924" />
+    <state x="717" y="162" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1580508264051" />
     <state width="1807" height="310" key="GridCell.Tab.0.bottom" timestamp="1580166551316">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

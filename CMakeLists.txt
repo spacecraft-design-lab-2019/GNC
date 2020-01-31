@@ -20,13 +20,13 @@ include_directories(orbit_propagation/cpp)
 include_directories(util_funcs/cpp)
 include_directories(eigen-git-mirror)
 include_directories(MEKF/MEKF_cpp)
-include_directories(trajectory_optimization/cpp)
+#include_directories(trajectory_optimization/cpp)
 
 pybind11_add_module(sun_utils_cpp util_funcs/cpp/sun_utils.cpp)
 pybind11_add_module(time_functions_cpp util_funcs/cpp/time_functions.cpp)
 pybind11_add_module(triad_cpp TRIAD/cpp/deterministic_ad.cpp)
 pybind11_add_module(MEKF_cpp MEKF/MEKF_cpp/MEKF_cpp.cpp)
-pybind11_add_module(iLQRsimple_cpp trajectory_optimization/cpp/iLQRsimple.cpp)
+#pybind11_add_module(iLQRsimple_cpp trajectory_optimization/cpp/iLQRsimple.cpp)
 
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp

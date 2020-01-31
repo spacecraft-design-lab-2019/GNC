@@ -123,6 +123,19 @@ iLQRsimple_test/fast:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/build
 .PHONY : iLQRsimple_test/fast
 
+#=============================================================================
+# Target rules for targets named iLQRtest
+
+# Build rule for target.
+iLQRtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 iLQRtest
+.PHONY : iLQRtest
+
+# fast build rule for target.
+iLQRtest/fast:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/build
+.PHONY : iLQRtest/fast
+
 PendulumTest.o: PendulumTest.cpp.o
 
 .PHONY : PendulumTest.o
@@ -149,6 +162,60 @@ PendulumTest.s: PendulumTest.cpp.s
 PendulumTest.cpp.s:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/PendulumTest.cpp.s
 .PHONY : PendulumTest.cpp.s
+
+SatelliteTest.o: SatelliteTest.cpp.o
+
+.PHONY : SatelliteTest.o
+
+# target to build an object file
+SatelliteTest.cpp.o:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/SatelliteTest.cpp.o
+.PHONY : SatelliteTest.cpp.o
+
+SatelliteTest.i: SatelliteTest.cpp.i
+
+.PHONY : SatelliteTest.i
+
+# target to preprocess a source file
+SatelliteTest.cpp.i:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/SatelliteTest.cpp.i
+.PHONY : SatelliteTest.cpp.i
+
+SatelliteTest.s: SatelliteTest.cpp.s
+
+.PHONY : SatelliteTest.s
+
+# target to generate assembly for a file
+SatelliteTest.cpp.s:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/SatelliteTest.cpp.s
+.PHONY : SatelliteTest.cpp.s
+
+iLQR.o: iLQR.cpp.o
+
+.PHONY : iLQR.o
+
+# target to build an object file
+iLQR.cpp.o:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/iLQR.cpp.o
+.PHONY : iLQR.cpp.o
+
+iLQR.i: iLQR.cpp.i
+
+.PHONY : iLQR.i
+
+# target to preprocess a source file
+iLQR.cpp.i:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/iLQR.cpp.i
+.PHONY : iLQR.cpp.i
+
+iLQR.s: iLQR.cpp.s
+
+.PHONY : iLQR.s
+
+# target to generate assembly for a file
+iLQR.cpp.s:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/iLQR.cpp.s
+.PHONY : iLQR.cpp.s
 
 iLQRsimple.o: iLQRsimple.cpp.o
 
@@ -184,6 +251,7 @@ utils.o: utils.cpp.o
 # target to build an object file
 utils.cpp.o:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.o
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -193,6 +261,7 @@ utils.i: utils.cpp.i
 # target to preprocess a source file
 utils.cpp.i:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.i
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -202,6 +271,7 @@ utils.s: utils.cpp.s
 # target to generate assembly for a file
 utils.cpp.s:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/utils.cpp.s
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 # Help Target
@@ -213,9 +283,16 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... iLQRsimple_test"
 	@echo "... edit_cache"
+	@echo "... iLQRtest"
 	@echo "... PendulumTest.o"
 	@echo "... PendulumTest.i"
 	@echo "... PendulumTest.s"
+	@echo "... SatelliteTest.o"
+	@echo "... SatelliteTest.i"
+	@echo "... SatelliteTest.s"
+	@echo "... iLQR.o"
+	@echo "... iLQR.i"
+	@echo "... iLQR.s"
 	@echo "... iLQRsimple.o"
 	@echo "... iLQRsimple.i"
 	@echo "... iLQRsimple.s"

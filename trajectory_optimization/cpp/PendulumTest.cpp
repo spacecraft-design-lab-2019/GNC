@@ -55,10 +55,10 @@ int main() {
 	const int Nu = 1;
 	const double dt = 0.01;
 	const double tol = 0.001;
-	int N = 250;
+	int N = 400;
 
 	// Cost matrices
-	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 30;
+	MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 100;
 	MatrixXd Q = MatrixXd::Identity(Nx, Nx) * 0.01;
 	MatrixXd R(Nu, Nu);
 	R << 0.3;

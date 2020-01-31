@@ -1,14 +1,14 @@
 close all;
 clear all;
 
-Qf = 30*eye(2);
+Qf = 100*eye(2);
 Q = 0.01*eye(2);
 
 R = .3;
 
 x0 = [0 0]';
 xg = [pi 0]';
-u0 = zeros(1,249);
+u0 = zeros(1, 399);
 
 [xhist, uhist, K, J] = iLQRv1(@pendulum_dynamics, x0, xg, u0, Q, R, Qf, .01, 1e-3);
 
@@ -39,7 +39,7 @@ Jhist = cpp_data(:, 4);
 
 % Plot cpp iLQR results
 figure(3);
-title('cpp iLQR results')
+sgtitle('cpp iLQR results');
 subplot(3,1,1)
 plot(xtraj(:, 1));
 ylabel('q');
@@ -53,6 +53,17 @@ plot(utraj);
 ylabel('u');
 
 figure(4);
-title('cpp iLQR cost')
+title('cpp iLQR cost');
 semilogy(Jhist);
 ylabel('Cost');
+
+figure(5);
+subplot(1,2,1)
+sgtitle('MATLAB iLQR nominal trajectory vs CPP')
+plot(xhist(1, :));
+ylabel('Angle, \phi [rad]');
+xlabel('step k')
+
+subplot(1,2,2)
+plot(xtraj(:, 1));
+xlabel('step k')

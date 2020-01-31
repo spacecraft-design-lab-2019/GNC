@@ -85,9 +85,66 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="iLQRtest">
+				<Option output="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/iLQRtest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/../../eigen-git-mirror"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 iLQRtest"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="iLQRtest/fast">
+				<Option output="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/iLQRtest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/../../eigen-git-mirror"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 iLQRtest/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 		</Build>
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/PendulumTest.cpp">
 			<Option target="iLQRsimple_test"/>
+		</Unit>
+		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/SatelliteTest.cpp">
+			<Option target="iLQRtest"/>
+		</Unit>
+		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQR.cpp">
+			<Option target="iLQRtest"/>
+		</Unit>
+		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQR.h">
+			<Option target="iLQRtest"/>
 		</Unit>
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/iLQRsimple.cpp">
 			<Option target="iLQRsimple_test"/>
@@ -97,6 +154,7 @@
 		</Unit>
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/utils.cpp">
 			<Option target="iLQRsimple_test"/>
+			<Option target="iLQRtest"/>
 		</Unit>
 		<Unit filename="/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

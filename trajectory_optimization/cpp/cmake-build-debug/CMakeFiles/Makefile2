@@ -54,11 +54,13 @@ CMAKE_BINARY_DIR = /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cm
 
 # The main recursive "all" target.
 all: CMakeFiles/iLQRsimple_test.dir/all
+all: CMakeFiles/iLQRtest.dir/all
 
 .PHONY : all
 
 # The main recursive "clean" target.
 clean: CMakeFiles/iLQRsimple_test.dir/clean
+clean: CMakeFiles/iLQRtest.dir/clean
 
 .PHONY : clean
 
@@ -93,6 +95,33 @@ iLQRsimple_test: CMakeFiles/iLQRsimple_test.dir/rule
 CMakeFiles/iLQRsimple_test.dir/clean:
 	$(MAKE) -f CMakeFiles/iLQRsimple_test.dir/build.make CMakeFiles/iLQRsimple_test.dir/clean
 .PHONY : CMakeFiles/iLQRsimple_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/iLQRtest.dir
+
+# All Build rule for target.
+CMakeFiles/iLQRtest.dir/all:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/depend
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles --progress-num=5,6,7,8 "Built target iLQRtest"
+.PHONY : CMakeFiles/iLQRtest.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/iLQRtest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/iLQRtest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nick/Documents/AA236/GNC/trajectory_optimization/cpp/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/iLQRtest.dir/rule
+
+# Convenience name for target.
+iLQRtest: CMakeFiles/iLQRtest.dir/rule
+
+.PHONY : iLQRtest
+
+# clean rule for target.
+CMakeFiles/iLQRtest.dir/clean:
+	$(MAKE) -f CMakeFiles/iLQRtest.dir/build.make CMakeFiles/iLQRtest.dir/clean
+.PHONY : CMakeFiles/iLQRtest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
