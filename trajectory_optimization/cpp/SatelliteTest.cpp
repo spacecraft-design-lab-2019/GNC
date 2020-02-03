@@ -7,10 +7,11 @@
 #include "iLQR.h"
 
 using namespace Eigen;
+using namespace std;
 
 
 /**
- * Test the iLQR algorithm on the pendulum
+ * Test the iLQR algorithm on a desired attitude change
  */
 int main() {
     // Define sizes and sim params

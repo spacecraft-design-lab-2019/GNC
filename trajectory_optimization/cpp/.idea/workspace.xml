@@ -13,20 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="084ecbac-137f-4450-b964-6df3442b9774" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/iLQR.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MATLAB/PendulumTest.m" beforeDir="false" afterPath="$PROJECT_DIR$/../MATLAB/PendulumTest.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MATLAB/iLQR_pendulum_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../MATLAB/iLQR_pendulum_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TODO.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PendulumTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/PendulumTest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cpp.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cpp.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/g++ compile_command.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SatelliteTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/SatelliteTest.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iLQR.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/iLQR.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +79,9 @@
       <workItem from="1579757010675" duration="22000" />
       <workItem from="1580005599429" duration="23243000" />
       <workItem from="1580158964368" duration="2696000" />
-      <workItem from="1580507760295" duration="1444000" />
+      <workItem from="1580507760295" duration="1496000" />
+      <workItem from="1580616818626" duration="2485000" />
+      <workItem from="1580711201110" duration="2386000" />
     </task>
     <servers />
   </component>

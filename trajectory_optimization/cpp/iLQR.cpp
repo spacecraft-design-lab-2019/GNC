@@ -14,7 +14,7 @@ using namespace std;
 
 
 /**
- * A simple implementation of the Iterative Linear-Quadratic-Regulator algorithm
+ * Iterative Linear-Quadratic-Regulator algorithm for a satellite
  *
  * @return, xtraj, utraj, K
  */
@@ -182,20 +182,22 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
   */
 void satelliteDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& xdot, MatrixXd& dxdot) {
 
-    // parameters (Probably should be passed in as a configuration variable)
-    const double m = 1.0; // kg
+    // parameters TODO: (Probably should be passed in as a configuration variable)
+    const double J = 0.01; // kgm^2
+
+
 
     // Non-linear EOM's  (Returning xdot vector)
     xdot(0, 0) = x(1, 0);
-    xdot(1, 0) = (u(0, 0) - m * g * lc * sin(x(0, 0)) - b * x(1, 0)) / I;
+    xdot(1, 0) = 0;
 
     // Returning concatenated matrices of linearized dynamics (jacobians)
     // dxdot = [A, B]
     dxdot(0, 0) = 0;
     dxdot(0, 1) = 1;
     dxdot(0, 2) = 0;
-    dxdot(1, 0) = -m * g * lc * cos(x(0, 0)) / I;
-    dxdot(1, 1) = -b / I;
-    dxdot(1, 2) = 1.0 / I;
+    dxdot(1, 0) = 0;
+    dxdot(1, 1) = 0;
+    dxdot(1, 2) = 0;
 
 }

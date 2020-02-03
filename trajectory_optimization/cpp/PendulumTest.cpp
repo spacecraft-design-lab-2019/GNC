@@ -5,7 +5,6 @@
 */
 
 #include "iLQRsimple.h"
-#include <sstream>
 
 using namespace Eigen;
 using namespace std;
