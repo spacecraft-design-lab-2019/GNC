@@ -15,20 +15,19 @@ using namespace std;
 
 /**
  * Iterative Linear-Quadratic-Regulator algorithm for a satellite
- *
  * @return, xtraj, utraj, K
  */
-bool iLQR(MatrixXd& xg,
-                MatrixXd& Q,
-                MatrixXd& R,
-                MatrixXd& Qf,
-                double dt,
-                double tol,
+bool iLQR(const MatrixXd& xg,
+                const MatrixXd& Qw,
+                const MatrixXd& R,
+                const MatrixXd& Qwf,
+                const double Qqf,
+                const double dt,
+                const double tol,
                 MatrixXd& xtraj,
                 MatrixXd& utraj,
                 MatrixXd& K,
                 vector<double>& Jhist) {
-
 
     bool success_flag = true;  // Returns true if algorithm converged
 
@@ -40,25 +39,26 @@ bool iLQR(MatrixXd& xg,
     MatrixXd A = MatrixXd::Zero(Nx, Nx * (N-1));
     MatrixXd B = MatrixXd::Zero(Nx, Nu * (N-1));
 
-
     // Forward simulate with initial controls utraj0
     double J = 0;
     for ( int k = 0; k < N-1; k++ ) {
-        J = J + (0.5*((xtraj(all, k) - xg).transpose()) * Q * (xtraj(all, k) - xg) + 0.5*(utraj(all, k).transpose()) * R * utraj(all, k))(0);
-        rkstep(utraj(all, k), dt, k, xtraj, A, B);
+        J = J + min(1 + (xg(seq(0, 3), all).transpose() * xtraj(seq(0, 3), k))(0), 1 - (xg(seq(0, 3), all).transpose() * xtraj(seq(0, 3), k))(0)) +
+                (0.5 * (xtraj(seq(4, 7), k) - xg(seq(4, 7), all)).transpose() * Qw * (xtraj(seq(4, 7), k) - xg(seq(4, 7), all)) +
+                0.5 * utraj(all, k).transpose() * R * utraj(all, k))(0);
     }
-    J = J + (0.5*((xtraj(all, N-1) - xg).transpose()) * Qf * ((xtraj(all, N-1) - xg)))(0); 	// Add terminal cost
+    J = J + Qqf * min(1 + (xg(seq(0, 3), all).transpose() * xtraj(seq(0, 3), N-1))(0), 1 - (xg(seq(0, 3), all).transpose() * xtraj(seq(0, 3), N-1))(0)) +
+            (0.5 * (xtraj(seq(4, 7), N-1) - xg(seq(4, 7), all)).transpose() * Qwf * (xtraj(seq(4, 7), N-1) - xg(seq(4, 7), all)))(0); 	// Add terminal cost
     Jhist.push_back(J);
 
-    // Intialize matrices for optimisation
+    // Initialize matrices for optimization
     MatrixXd S = MatrixXd::Zero(Nx, Nx);
     MatrixXd s = MatrixXd::Zero(Nx, 1);
     MatrixXd l = MatrixXd::Constant(Nu, N-1, 1 + tol);
     MatrixXd q(Nx, 1);
     MatrixXd r(Nu, 1);
 
-    MatrixXd Snew = S; // temporary matrices for update step
-    MatrixXd snew = s;
+    MatrixXd Snew(Nx, Nx); // temporary matrices for update step
+    MatrixXd snew(Nx, 1);
     MatrixXd Ak(Nx, Nx);
     MatrixXd Bk(Nx, Nu);
     MatrixXd Kk(Nu, Nx);
@@ -119,10 +119,12 @@ bool iLQR(MatrixXd& xg,
                 unew(all, k) = utraj(all, k) - alpha * l(all, k) -
                                K(all, seq(Nx * k, Nx * (k + 1) - 1)) * (xnew(all, k) - xtraj(all, k));
                 rkstep(unew(all, k), dt, k, xnew, A, B);
-                Jnew = Jnew + (0.5 * ((xnew(all, k) - xg).transpose()) * Q * (xnew(all, k) - xg) +
-                               0.5 * (unew(all, k).transpose()) * R * unew(all, k))(0);
+                Jnew = Jnew + min(1 + (xg(seq(0, 3), all).transpose() * xnew(seq(0, 3), k))(0), 1 - (xg(seq(0, 3), all).transpose() * xnew(seq(0, 3), k))(0)) +
+                    (0.5 * (xnew(seq(4, 7), k) - xg(seq(4, 7), all)).transpose() * Qw * (xnew(seq(4, 7), k) - xg(seq(4, 7), all)) +
+                     0.5 * unew(all, k).transpose() * R * unew(all, k))(0);
             }
-            Jnew = Jnew + (0.5 * ((xnew(all, N - 1) - xg).transpose()) * Qf * ((xnew(all, N - 1) - xg)))(0);
+            Jnew = Jnew + Qqf * min(1 + (xg(seq(0, 3), all).transpose() * xnew(seq(0, 3), N-1))(0), 1 - (xg(seq(0, 3), all).transpose() * xnew(seq(0, 3), N-1))(0)) +
+                (0.5 * (xnew(seq(4, 7), N-1) - xg(seq(4, 7), all)).transpose() * Qwf * (xnew(seq(4, 7), N-1) - xg(seq(4, 7), all)))(0); 	// Add terminal cost
             alpha *= 0.5;
         }
         xtraj = xnew;
@@ -183,13 +185,10 @@ void rkstep(const MatrixXd& u0, double dt, int k, MatrixXd& xtraj, MatrixXd& A, 
 void satelliteDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd& xdot, MatrixXd& dxdot) {
 
     // parameters TODO: (Probably should be passed in as a configuration variable)
-    const double J = 0.01; // kgm^2
-
-
+    MatrixXd J = MatrixXd::Identity(3, 3) * 0.01;  // kgm^2
 
     // Non-linear EOM's  (Returning xdot vector)
-    xdot(0, 0) = x(1, 0);
-    xdot(1, 0) = 0;
+    
 
     // Returning concatenated matrices of linearized dynamics (jacobians)
     // dxdot = [A, B]
@@ -199,5 +198,4 @@ void satelliteDynamics(double t, const MatrixXd& x, const MatrixXd& u, MatrixXd&
     dxdot(1, 0) = 0;
     dxdot(1, 1) = 0;
     dxdot(1, 2) = 0;
-
 }

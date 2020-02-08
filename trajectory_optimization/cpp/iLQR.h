@@ -17,12 +17,13 @@
 
 
 /* iLQRsimple.cpp */
-bool iLQR(Eigen::MatrixXd& xg,
-                Eigen::MatrixXd& Q,
-                Eigen::MatrixXd& R,
-                Eigen::MatrixXd& Qf,
-                double dt,
-                double tol,
+bool iLQR(const Eigen::MatrixXd& xg,
+                const Eigen::MatrixXd& Qw,
+                const Eigen::MatrixXd& R,
+                const Eigen::MatrixXd& Qwf,
+                const Eigen::MatrixXd& Qqf,
+                const double dt,
+                const double tol,
                 Eigen::MatrixXd& xtraj,
                 Eigen::MatrixXd& utraj,
                 Eigen::MatrixXd& K,

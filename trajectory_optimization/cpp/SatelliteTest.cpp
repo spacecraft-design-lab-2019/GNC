@@ -16,21 +16,25 @@ using namespace std;
 int main() {
     // Define sizes and sim params
     const int Nx = 7;  //(q, w)
+    const int Nw = 3; // dimension of rotational dynamics
     const int Nu = 3;
     const double dt = 0.01;
     const double tol = 0.001;
     int N = 300;
 
     // Cost matrices
-    MatrixXd Qf = MatrixXd::Identity(Nx, Nx) * 100;
-    MatrixXd Q = MatrixXd::Identity(Nx, Nx) * 0.01;
-    MatrixXd R(Nu, Nu);
-    R << 0.3;
+    MatrixXd Qwf = MatrixXd::Identity(Nw, Nw) * 100;  // Omega terminal cost
+    MatrixXd Qw = MatrixXd::Identity(Nw, Nw) * 0.01;  // Omega cumulative cost
+    MatrixXd R = MatrixXd::Identity(Nu, Nu) * 0.3;  // Control cumulative cost
+    const double Qqf = 30;  // Attitude (quaternion) terminal cost
 
     // Initial and final states
-    MatrixXd x0 = MatrixXd::Zero(Nx, 1);
+    double theta0 = M_PI / 2;
+    double thetaF = 3 * M_PI / 2;
+    MatrixXd x0(Nx, 1);
     MatrixXd xg(Nx, 1);
-    xg << M_PI, 0;
+    x0 << sin(theta0/2), 0, 0, cos(theta0/2), 0, 0, 0;
+    xg << sin(thetaF/2), 0, 0, cos(thetaF/2), 0, 0, 0;
 
     // Outputs from iLQR (intitialized)
     MatrixXd xtraj = MatrixXd::Zero(Nx, N);
@@ -40,7 +44,7 @@ int main() {
     vector<double> Jhist;  // Size depends on how many iterations of while loop run. Use for testing only, don't implement on MCU
 
     // Call to iLQR function
-    bool success = iLQRsimple(xg, Q, R, Qf, dt, tol, xtraj, utraj, K, Jhist);
+    bool success = iLQRsimple(xg, Qw, R, Qwf, Qqf, dt, tol, xtraj, utraj, K, Jhist);
     cout << "Results: " << success << endl;
 
     // Write results to a csv file for comparison with MATLAB or python

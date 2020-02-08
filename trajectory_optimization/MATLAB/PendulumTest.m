@@ -10,60 +10,65 @@ x0 = [0 0]';
 xg = [pi 0]';
 u0 = zeros(1, 399);
 
-[xhist, uhist, K, J] = iLQRv1(@pendulum_dynamics, x0, xg, u0, Q, R, Qf, .01, 1e-3);
-
-figure(1);
-subplot(3,1,1)
-plot(xhist(1,:));
-ylabel('q');
-
-subplot(3,1,2)
-plot(xhist(2,:));
-ylabel('qdot');
-
-subplot(3,1,3);
-plot(uhist);
-ylabel('u');
-
-figure(2);
-semilogy(J);
-ylabel('Cost');
-xlabel('Iteration');
+% Using MATLAB
+[xhist, uhist, K] = iLQRv1(x0, xg, u0, Q, R, Qf, .01, 1e-3);
 
 
-% Load file from cpp iLQR
-cpp_data = readmatrix("iLQR_pendulum_data.csv");
-xtraj = cpp_data(:, 1:2);
-utraj = cpp_data(:, 3);
-Jhist = cpp_data(:, 4);
+% Comparison to C (using MEX file)
+% [xhist, uhist, K] = iLQRv1_mex(x0, xg, u0, 
 
-% Plot cpp iLQR results
-figure(3);
-sgtitle('cpp iLQR results');
-subplot(3,1,1)
-plot(xtraj(:, 1));
-ylabel('q');
-
-subplot(3,1,2)
-plot(xtraj(:, 2));
-ylabel('qdot');
-
-subplot(3,1,3)
-plot(utraj);
-ylabel('u');
-
-figure(4);
-title('cpp iLQR cost');
-semilogy(Jhist);
-ylabel('Cost');
-
-figure(5);
-subplot(1,2,1)
-sgtitle('MATLAB iLQR nominal trajectory vs CPP')
-plot(xhist(1, :));
-ylabel('Angle, \phi [rad]');
-xlabel('step k')
-
-subplot(1,2,2)
-plot(xtraj(:, 1));
-xlabel('step k')
+% figure(1);
+% subplot(3,1,1)
+% plot(xhist(1,:));
+% ylabel('q');
+% 
+% subplot(3,1,2)
+% plot(xhist(2,:));
+% ylabel('qdot');
+% 
+% subplot(3,1,3);
+% plot(uhist);
+% ylabel('u');
+% 
+% figure(2);
+% semilogy(J);
+% ylabel('Cost');
+% xlabel('Iteration');
+% 
+% 
+% % Load file from cpp iLQR
+% cpp_data = readmatrix("iLQR_pendulum_data.csv");
+% xtraj = cpp_data(:, 1:2);
+% utraj = cpp_data(:, 3);
+% Jhist = cpp_data(:, 4);
+% 
+% % Plot cpp iLQR results
+% figure(3);
+% sgtitle('cpp iLQR results');
+% subplot(3,1,1)
+% plot(xtraj(:, 1));
+% ylabel('q');
+% 
+% subplot(3,1,2)
+% plot(xtraj(:, 2));
+% ylabel('qdot');
+% 
+% subplot(3,1,3)
+% plot(utraj);
+% ylabel('u');
+% 
+% figure(4);
+% title('cpp iLQR cost');
+% semilogy(Jhist);
+% ylabel('Cost');
+% 
+% figure(5);
+% subplot(1,2,1)
+% sgtitle('MATLAB iLQR nominal trajectory vs CPP')
+% plot(xhist(1, :));
+% ylabel('Angle, \phi [rad]');
+% xlabel('step k')
+% 
+% subplot(1,2,2)
+% plot(xtraj(:, 1));
+% xlabel('step k')

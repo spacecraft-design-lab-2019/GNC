@@ -1,13 +1,22 @@
 
 
-CPP
+MATLAB
 ===============
-Rewrite code:
- - Fixed matrix sizes
- - Check for positive definite condition (before solver) -> Multiply by identity + a small number
- - Control limits
- - Quaternion maths
- - Satellite dynamics
+Add quaternion linearized cost for backward pass
+Add quat cost and sign to terminal cost for forward passes
+
+Change qk and wk to indices of xk in forward passes
+
+Add control limits
+Initialize matrices
+
+
+
+Test allowing Mathworks types
+Test code using .mex file with MATLAB
+
+
+
 
 
 
