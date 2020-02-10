@@ -10,7 +10,7 @@ using namespace std;
 
 
 // TODO: potentially should be a variable
-#define MAX_ITERS 1000
+const int MAX_ITERS  = 1000
 
 
 /**

@@ -23,10 +23,16 @@ end
 J = J + (1/2)*(xtraj(:,N)-xg)'*Qf*(xtraj(:,N)-xg);
 % Jhist(1) = J;
 
-S = zeros(Nx, Nx, N);
-s = zeros(Nx, N);
+
+% Set up backwards pass matrices
+S = zeros(Nx, Nx);
+s = zeros(Nx);
 K = zeros(Nu,Nx,N-1);
 l = (tol+1)*ones(Nu,N-1);
+Snew = zeros(Nx,Nx);  % temp matrices
+snew = zeros(Nx,1);
+unew = zeros(Nu,N-1); % Line search temp matrices
+xnew = zeros(Nx,N); 
  
 iter = 0;
 while max(abs(l)) > tol
@@ -34,8 +40,8 @@ while max(abs(l)) > tol
     iter = iter + 1;
     
     %Set up backwards LQR pass
-    S(:,:,N) = Qf;
-    s(:,N) = Qf*(xtraj(:,N)-xg);
+    S = Qf;
+    s = Qf*(xtraj(:,N)-xg);
     for k = (N-1):-1:1
         
         %Calculate cost gradients for this time step
@@ -43,12 +49,14 @@ while max(abs(l)) > tol
         r = R*utraj(:,k);
         
         %Calculate l and K
-        l(:,k) = (R + B(:,:,k)'*S(:,:,k+1)*B(:,:,k))\(r + B(:,:,k)'*s(:,k+1));
-        K(:,:,k) = (R + B(:,:,k)'*S(:,:,k+1)*B(:,:,k))\(B(:,:,k)'*S(:,:,k+1)*A(:,:,k));
+        l(:,k) = (R + B(:,:,k)'*S*B(:,:,k))\(r + B(:,:,k)'*s);
+        K(:,:,k) = (R + B(:,:,k)'*S*B(:,:,k))\(B(:,:,k)'*S*A(:,:,k));
         
         %Calculate new S and s        
-        S(:,:,k) = Q + K(:,:,k)'*R*K(:,:,k) + (A(:,:,k)-B(:,:,k)*K(:,:,k))'*S(:,:,k+1)*(A(:,:,k)-B(:,:,k)*K(:,:,k));
-        s(:,k) = q - K(:,:,k)'*r + K(:,:,k)'*R*l(:,k) + (A(:,:,k)-B(:,:,k)*K(:,:,k))'*(s(:,k+1) - S(:,:,k+1)*B(:,:,k)*l(:,k));
+        Snew = Q + K(:,:,k)'*R*K(:,:,k) + (A(:,:,k)-B(:,:,k)*K(:,:,k))'*S*(A(:,:,k)-B(:,:,k)*K(:,:,k));
+        snew = q - K(:,:,k)'*r + K(:,:,k)'*R*l(:,k) + (A(:,:,k)-B(:,:,k)*K(:,:,k))'*(s - S*B(:,:,k)*l(:,k));
+        S = Snew;
+        s = snew;
 
     end
 
@@ -70,19 +78,11 @@ while max(abs(l)) > tol
     end
     xtraj = xnew;
     utraj = unew;
-    
     J = Jnew;
-    
 %     Jhist(iter+1) = J;
     
     disp([max(abs(l)) 2*alpha])
 end
-% 
-% disp('Iterations: ');
-% disp(iter);
-% 
-% disp('Final Cost: ');
-% disp(Jnew);
 
 end
 

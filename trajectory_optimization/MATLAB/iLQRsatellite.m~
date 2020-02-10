@@ -1,4 +1,4 @@
-function [xtraj, utraj, K, Jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters)
+function [xtraj, utraj, K, Jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol)
 %iLQR Trajectory Optimization for Satellite
 
 Nx = length(x0);
@@ -47,7 +47,6 @@ iter = 0;
 while max(abs(l)) > tol
 
     iter = iter + 1;
-    % Add failure condition
     
     %Set up backwards LQR pass
     S = Qf;
