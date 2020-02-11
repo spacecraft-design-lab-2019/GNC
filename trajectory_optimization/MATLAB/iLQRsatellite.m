@@ -34,7 +34,7 @@ Jhist(1) = J;
 
 % Set up backwards pass matrices
 S = zeros(Nx, Nx);
-s = zeros(Nx);
+s = zeros(Nx,1);
 K = zeros(Nu,Nx,N-1);
 l = (tol+1)*ones(Nu,N-1);
 Snew = zeros(Nx,Nx);  % temp matrices
@@ -47,15 +47,15 @@ iter = 0;
 while max(abs(l)) > tol
 
     iter = iter + 1;
-    % Add failure condition
+    % Add failure condition if max_iters exceeded
     
     %Set up backwards LQR pass
     S = Qf;
-    s = Qf*(xtraj(:,N)-xg);  %!!!!! Fix this
+    s = Qf*(xtraj(:,N)-xg);  %!!!!! Fix this for quaternion !!!!!
     for k = (N-1):-1:1
         
         %Calculate cost gradients for this time step
-        % !!!!!!!!!!Need to update this for quaternion
+        % !!!!!!!!!!Need to update this for quaternion !!!!!!!!!!
         q = Qw*(xtraj(:,k)-xg);
         r = R*utraj(:,k);
         

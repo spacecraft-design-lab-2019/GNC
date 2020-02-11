@@ -1,0 +1,16 @@
+Notes from testing Matlab coder with a toy example
+===================================================
+
+The C code and MATLAB code return the same results for the test function.
+
+The C code generated is very verbose, particularly for the backslash operator (solving linear systems)
+It might be a good idea to wrap this inside another function.
+This function will be included in the MATLAB code gen and will hopefully abstract away
+the large amount of code behind solving linear systems.
+
+eg. function [x] = solveLinearSys(A, X)
+		x = A\b;
+
+
+There are a lot of headers and source files when generating the code but this is more
+of a book keeping issue as the actual file sizes aren't large.

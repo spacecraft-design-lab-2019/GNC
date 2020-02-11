@@ -11,7 +11,7 @@ xg = [pi 0]';
 u0 = zeros(1, 399);
 
 % Using MATLAB
-[xhist, uhist, K] = iLQRv1(x0, xg, u0, Q, R, Qf, .01, 1e-3);
+[xhist, uhist, K] = iLQRsimple(x0, xg, u0, Q, R, Qf, .01, 1e-3);
 
 figure(1);
 subplot(3,1,1)
@@ -25,13 +25,25 @@ ylabel('qdot');
 subplot(3,1,3);
 plot(uhist);
 ylabel('u');
-% 
-% figure(2);
-% semilogy(J);
-% ylabel('Cost');
-% xlabel('Iteration');
-% 
-% 
+
+
+% Call C code using mex file
+[xhistmex, uhistmex, Kmex]  = iLQRsimple_mex(x0, xg, u0, Q, R, Qf, .01, 1e-3);
+
+figure(2);
+subplot(3,1,1)
+plot(xhistmex(1,:));
+ylabel('q');
+
+subplot(3,1,2)
+plot(xhistmex(2,:));
+ylabel('qdot');
+
+subplot(3,1,3);
+plot(uhistmex);
+ylabel('u');
+
+
 % % Compare to CPP iLQR
 % % Load file output from cpp iLQR
 % cpp_data = readmatrix("iLQR_pendulum_data.csv");

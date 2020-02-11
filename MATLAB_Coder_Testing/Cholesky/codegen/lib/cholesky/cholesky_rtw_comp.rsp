@@ -1,0 +1,7 @@
+-I/home/nick/Documents/AA236/GNC/MATLAB_Coder_Testing/Cholesky/codegen/lib/cholesky
+-I/home/nick/Documents/AA236/GNC/MATLAB_Coder_Testing/Cholesky
+-I/usr/local/MATLAB/R2019b/extern/include
+-I/usr/local/MATLAB/R2019b/simulink/include
+-I/usr/local/MATLAB/R2019b/rtw/c/src
+-I/usr/local/MATLAB/R2019b/rtw/c/src/ext_mode/common
+-I/usr/local/MATLAB/R2019b/rtw/c/ert

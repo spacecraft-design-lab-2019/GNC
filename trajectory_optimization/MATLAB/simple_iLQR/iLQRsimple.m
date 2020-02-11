@@ -1,4 +1,4 @@
-function [xtraj, utraj, K] = iLQRv1(x0, xg, utraj0, Q, R, Qf, dt, tol)
+function [xtraj, utraj, K] = iLQRsimple(x0, xg, utraj0, Q, R, Qf, dt, tol)
 %#codegen
 %iLQR Trajectory Optimization
 
@@ -26,7 +26,7 @@ J = J + (1/2)*(xtraj(:,N)-xg)'*Qf*(xtraj(:,N)-xg);
 
 % Set up backwards pass matrices
 S = zeros(Nx, Nx);
-s = zeros(Nx);
+s = zeros(Nx,1);
 K = zeros(Nu,Nx,N-1);
 l = (tol+1)*ones(Nu,N-1);
 Snew = zeros(Nx,Nx);  % temp matrices
