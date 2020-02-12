@@ -20,7 +20,7 @@ int main() {
     const int Nu = 3;
     const double dt = 0.01;
     const double tol = 0.001;
-    int N = 300;
+    const int N = 300;
 
     // Cost matrices
     MatrixXd Qwf = MatrixXd::Identity(Nw, Nw) * 100;  // Omega terminal cost

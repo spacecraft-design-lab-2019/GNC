@@ -2,19 +2,14 @@
 
 MATLAB
 ===============
-Add quaternion linearized cost for backward pass (Use full Hessian etc)
 Add check for if max iterations exceeded
 Re-write satelltie dynamics in simplest way (expand matrices)
 
-
+Change backslash to Cholesky (if needed)
 Add control limits
 Add magnetorquer control
-Initialize all matrices
 
 
-
-Test simple Pendulum code using .mex file with MATLAB
-Test allowing Mathworks types
 
 
 

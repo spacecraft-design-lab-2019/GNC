@@ -80,7 +80,7 @@ while max(abs(l)) > tol
     Jnew = J+1;
     while Jnew > J
         Jnew = 0;
-%         quat_cost_sign = zeros(Nx, 1);
+        quat_cost_sign = zeros(Nx);
         for k = 1:N-1
             unew(:,k) = utraj(:,k) - alpha*l(:,k) - K(:,:,k)*(xnew(:,k)-xtraj(:,k));
             [xnew(:,k+1), A(:,:,k), B(:,:,k)] = rkstep(xnew(:,k),unew(:,k), dt);
@@ -103,7 +103,7 @@ while max(abs(l)) > tol
     J = Jnew;
     Jhist(iter+1) = J;
     
-%     disp([max(abs(l)) 2*alpha])
+    disp([max(abs(l)) 2*alpha])
 end
 
 end

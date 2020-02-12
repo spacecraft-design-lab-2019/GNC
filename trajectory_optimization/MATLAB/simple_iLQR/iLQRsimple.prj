@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="4023443629" file="/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/iLQRsimple.prj" location="/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR" name="iLQRsimple" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="11480578" file="/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/iLQRsimple.prj" location="/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR" name="iLQRsimple" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -126,7 +126,7 @@
       </unset>
     </profile>
     <profile key="profile.c">
-      <param.grt.GenCodeOnly>true</param.grt.GenCodeOnly>
+      <param.grt.GenCodeOnly>false</param.grt.GenCodeOnly>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
       <param.BuildFolder>option.BuildFolder.Project</param.BuildFolder>
@@ -310,6 +310,7 @@
       <param.psQuickConfValue>option.psQuickConfValue.proj</param.psQuickConfValue>
       <param.psOutputFolder>results_$codegenName$</param.psOutputFolder>
       <unset>
+        <param.grt.GenCodeOnly />
         <param.WorkingFolder />
         <param.SpecifiedWorkingFolder />
         <param.BuildFolder />
@@ -820,13 +821,13 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
-      <item>PendulumTest</item>
+      <item>pendulumTest</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/iLQRsimple/iLQRsimple.a</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/codegen/exe/iLQRsimple/iLQRsimple</param.outputfile>
     <param.version>R2012a</param.version>
     <param.HasECoderFeatures>true</param.HasECoderFeatures>
     <param.HasGpuCoder>false</param.HasGpuCoder>
@@ -841,19 +842,19 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>2134422988</param.AnnotationChecksum>
+    <param.AnnotationChecksum>1092479426</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
     <var.redirectedInputTypeData />
     <var.DismissScreener>false</var.DismissScreener>
     <param.unifiedParamStorage />
-    <var.gc.lastOutputRoot>codegen/lib/iLQRsimple</var.gc.lastOutputRoot>
-    <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>2678695625</var.gc.preBuildChecksum>
+    <var.gc.lastOutputRoot>codegen/exe/iLQRsimple</var.gc.lastOutputRoot>
+    <var.gc.lastOutputType>EXECUTABLE</var.gc.lastOutputType>
+    <var.gc.preBuildChecksum>2576883194</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/iLQRsimple</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>11480578</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>PendulumTest</var.lastCfiTestSnippet>
+    <var.cfi.preBuildChecksum>550717172</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>pendulumTest</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/iLQRsimple.m&lt;/file&gt;&lt;file&gt;/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/pendulum_dynamics.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;452549391&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/iLQRsimple.m&lt;/file&gt;&lt;file&gt;/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/pendulum_dynamics.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
@@ -867,8 +868,8 @@
     <var.ecoderEnabled>true</var.ecoderEnabled>
     <param.mex.outputfile>iLQRsimple_mex</param.mex.outputfile>
     <param.grt.outputfile>iLQRsimple</param.grt.outputfile>
-    <param.artifact>option.target.artifact.lib</param.artifact>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/iLQRsimple/iLQRsimple.a</param.outputfile>
+    <param.artifact>option.target.artifact.exe</param.artifact>
+    <param.outputfile>${PROJECT_ROOT}/codegen/exe/iLQRsimple/iLQRsimple</param.outputfile>
     <param.CppNamespace />
     <param.gpu.Enabled>false</param.gpu.Enabled>
     <param.gpu.KernelNamePrefix />
@@ -890,8 +891,8 @@
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.cfiTargetLibSuppression>false</var.cfiTargetLibSuppression>
-    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>1</param.tensorrt.NumCalibrationBatches>
@@ -1002,8 +1003,6 @@
       <var.isDeepLearningForMatlabCoderEnabled />
       <param.deeplearning.TargetLib />
       <var.cfiTargetLibSuppression />
-      <var.hasMatlabDeepLearningSupportPackage />
-      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -1060,7 +1059,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/iLQRsimple.m">
-        <Marker>1581382210532</Marker>
+        <Marker>1581395440334</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>
@@ -1083,7 +1082,7 @@
               <Size>2 x 1</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
               <Sparse>false</Sparse>
             </type>
@@ -1092,7 +1091,7 @@
               <Size>1 x 399</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
               <Sparse>false</Sparse>
             </type>
@@ -1101,7 +1100,7 @@
               <Size>2 x 2</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
               <Sparse>false</Sparse>
             </type>
@@ -1110,7 +1109,7 @@
               <Size>1 x 1</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
               <Sparse>false</Sparse>
             </type>
@@ -1119,7 +1118,7 @@
       </file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}/codegen/lib/iLQRsimple" name="iLQRsimple.a" optional="false">/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/codegen/lib/iLQRsimple/iLQRsimple.a</file>
+      <file location="${PROJECT_ROOT}/codegen/exe/iLQRsimple" name="iLQRsimple" optional="false">/home/nick/Documents/AA236/GNC/trajectory_optimization/MATLAB/simple_iLQR/codegen/exe/iLQRsimple/iLQRsimple</file>
     </build-deliverables>
     <workflow />
     <matlab>

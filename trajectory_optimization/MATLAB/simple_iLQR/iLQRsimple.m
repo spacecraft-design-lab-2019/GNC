@@ -1,18 +1,16 @@
-function [xtraj, utraj, K] = iLQRsimple(x0, xg, utraj0, Q, R, Qf, dt, tol)
+function [xtraj, utraj, K] = iLQRsimple(x0, xg, utraj, Q, R, Qf, dt, tol)
 %#codegen
 %iLQR Trajectory Optimization
 
 Nx = length(x0);
-Nu = size(utraj0,1);
-N = size(utraj0,2)+1;
+Nu = size(utraj,1);
+N = size(utraj,2)+1;
 
 xtraj = zeros(Nx, N);
 xtraj(:,1) = x0;
 
 A = zeros(Nx, Nx, N-1);
 B = zeros(Nx, Nu, N-1);
-
-utraj = utraj0;
 
 %First simulate with utraj0 to get initial matrices
 J = 0;
