@@ -1,6 +1,7 @@
 function [P_inv_updated, q_updated, bias_updated] = UpdateEllipse(P_inv, q, X_i)
 %This function updates the outer product matrix, P, RHS vector, q, using
 %the data found in X_i
+% This assumes you've already updated q before the function call.
 x = X_i(1);
 y = X_i(2);
 z = X_i(3);
@@ -19,9 +20,9 @@ y = x^2 + y^2 + z^2;
 
 % Rank one update formula, from EE 263 slides
 P_inv_updated = P_inv - 1/(1+a'*P_inv*a)*(P_inv*a)*(P_inv*a)';
-q_updated = q + y*a;
-
-u = P_inv_updated*q_updated;
+% q_updated = q + y*a;
+q_updated = q;
+u = P_inv_updated*q;
 
 % This is the matrix that makes things linear in x (from De Leeuw)
 v = zeros(10,1);
