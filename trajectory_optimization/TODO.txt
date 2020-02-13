@@ -2,12 +2,16 @@
 
 MATLAB
 ===============
-Add check for if max iterations exceeded
+Add check / failure condition for if max iterations exceeded
 Re-write satelltie dynamics in simplest way (expand matrices)
 
 Change backslash to Cholesky (if needed)
 Add control limits
-Add magnetorquer control
+Add magnetorquer control / magnetic field model
+
+C
+===========
+compile pendulum iLQR
 
 
 

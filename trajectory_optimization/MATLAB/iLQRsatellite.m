@@ -18,7 +18,7 @@ quat_cost_sign = zeros(Nx, 1);
 J = 0;
 for k = 1:(N-1)
     % Find the quaternion-error cost (record the sign for use in backward pass)
-    [quat_cost, sign] = calc_quat_cost(xg, xtraj(:,k));
+    [quat_cost, sign] = calc_quat_cost(xtraj(:,k),xg);
     quat_cost_sign(k) = sign;
     
     % Cumulative Cost
@@ -86,7 +86,7 @@ while max(abs(l)) > tol
             [xnew(:,k+1), A(:,:,k), B(:,:,k)] = rkstep(xnew(:,k),unew(:,k), dt);
             
             % Find the quaternion-error cost (record the sign for use in backward pass)
-            [quat_cost, sign] = calc_quat_cost(xg, xnew(:,k));
+            [quat_cost, sign] = calc_quat_cost(xnew(:,k),xg);
             quat_cost_sign(k) = sign;
             
             % Cumulative Cost
