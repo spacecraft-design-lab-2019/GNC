@@ -20,7 +20,7 @@ bias_true = 45000 * randn(3,1);        % true bias, [nanoTesla]
 
 
 %% Spoof a bunch of measurements and record sequential bias estimate
-N = 5000;   % Number of measurements
+N = 3000;   % Number of measurements
 B_mat = zeros(N,3);
 B_mag_mean = 45000;
 B_mag_std_dev = 5000;
@@ -28,6 +28,7 @@ B_mag_std_dev = 5000;
 estimates = zeros(N,3);
 P = zeros(9,9);
 q = zeros(9,1);
+initialized = 0;
 for i = 1:N
     % TODO: figure out actual distribution of magnitudes in polar orbit
     B_true_mag = B_mag_mean + normrnd(0,B_mag_std_dev);
@@ -56,8 +57,14 @@ for i = 1:N
     % initialize P_inv after some time
     start_idx = 50;
     if i>=start_idx
-        P_inv = inv(P);
+        if ~initialized
+            P_inv = inv(P);
+        end
+        initialized = 1;
+
         [P_inv_updated, q_updated, bias_updated] = UpdateEllipse(P_inv, q, B_mat(i,:)');
+        P_inv = P_inv_updated;
+
         estimates(i,:) = bias_updated';
     end
 end
@@ -69,11 +76,14 @@ v = ellipsoid_fit2( B_mat);
 
 %% Plot for comparison
 figure;
-plot(abs(estimates(start_idx:end,1)-bias_true(1)));
-hold on
-plot(abs(estimates(start_idx:end,2)-bias_true(2)));
-plot(abs(estimates(start_idx:end,3)-bias_true(3)));
-
+% plot(abs(estimates(start_idx:end,1)-bias_true(1))/norm(bias_true));
+% hold on
+% plot(abs(estimates(start_idx:end,2)-bias_true(2))/norm(bias_true));
+% plot(abs(estimates(start_idx:end,3)-bias_true(3))/norm(bias_true));
+plot(sum(abs(estimates(start_idx:end,:)'-bias_true))/norm(bias_true))
+title('Recursive bias estimator performance')
+xlabel('# of Measurements')
+ylabel('Error, $\frac{\mid \epsilon \mid}{\mid \mid bias \mid \mid}$', 'Interpreter', 'LaTeX') 
 
 %% Functions
 function [T,scaling_matrix, misalignment_matrix] = get_T_matrix(scaleF,caSense)
