@@ -23,6 +23,7 @@ include_directories(eigen-git-mirror)
 
 include_directories(magnetic_field_models/cpp)
 include_directories(MEKF/MEKF_cpp)
+#include_directories(trajectory_optimization/cpp)
 
 include_directories(pybind11)
 
@@ -38,6 +39,7 @@ pybind11_add_module(detumble_cpp detumble/cpp/detumble_algorithms.cpp)
 
 pybind11_add_module(euler_cpp euler/cpp/euler_cpp.cpp)
 pybind11_add_module(MEKF_cpp MEKF/MEKF_cpp/MEKF_cpp.cpp)
+#pybind11_add_module(iLQRsimple_cpp trajectory_optimization/cpp/iLQRsimple.cpp)
 
 #add_executable(time_functions
 #        util_funcs/cpp/time_functions.cpp
@@ -57,4 +59,3 @@ pybind11_add_module(MEKF_cpp MEKF/MEKF_cpp/MEKF_cpp.cpp)
 
 #add_executable(pointer_t
 #		util_funcs/cpp/pointer_t.cpp util_funcs/cpp/pointer_t.h)
-

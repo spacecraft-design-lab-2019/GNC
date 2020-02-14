@@ -1,0 +1,4 @@
+Use to compile for debug with gdb. Make sure pybind lines are commented out
+
+g++ iLQRsimple.cpp PendulumTest.cpp -o iLQRtest.exe -ggdb
+
