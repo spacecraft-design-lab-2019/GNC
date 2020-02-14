@@ -59,6 +59,7 @@ CMAKE_BINARY_DIR = /home/nick/Documents/AA236/GNC
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+
 	/opt/cmake-3.16.2-Linux-x86_64/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
@@ -111,19 +112,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named iLQRsimple_cpp
-
-# Build rule for target.
-iLQRsimple_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 iLQRsimple_cpp
-.PHONY : iLQRsimple_cpp
-
-# fast build rule for target.
-iLQRsimple_cpp/fast:
-	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/build
-.PHONY : iLQRsimple_cpp/fast
-
-#=============================================================================
 # Target rules for targets named sun_utils_cpp
 
 # Build rule for target.
@@ -135,6 +123,19 @@ sun_utils_cpp: cmake_check_build_system
 sun_utils_cpp/fast:
 	$(MAKE) -f CMakeFiles/sun_utils_cpp.dir/build.make CMakeFiles/sun_utils_cpp.dir/build
 .PHONY : sun_utils_cpp/fast
+
+#=============================================================================
+# Target rules for targets named detumble_cpp
+
+# Build rule for target.
+detumble_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 detumble_cpp
+.PHONY : detumble_cpp
+
+# fast build rule for target.
+detumble_cpp/fast:
+	$(MAKE) -f CMakeFiles/detumble_cpp.dir/build.make CMakeFiles/detumble_cpp.dir/build
+.PHONY : detumble_cpp/fast
 
 #=============================================================================
 # Target rules for targets named time_functions_cpp
@@ -161,6 +162,58 @@ triad_cpp: cmake_check_build_system
 triad_cpp/fast:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/build
 .PHONY : triad_cpp/fast
+
+#=============================================================================
+# Target rules for targets named frame_conversions_cpp
+
+# Build rule for target.
+frame_conversions_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 frame_conversions_cpp
+.PHONY : frame_conversions_cpp
+
+# fast build rule for target.
+frame_conversions_cpp/fast:
+	$(MAKE) -f CMakeFiles/frame_conversions_cpp.dir/build.make CMakeFiles/frame_conversions_cpp.dir/build
+.PHONY : frame_conversions_cpp/fast
+
+#=============================================================================
+# Target rules for targets named sample_cpp
+
+# Build rule for target.
+sample_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sample_cpp
+.PHONY : sample_cpp
+
+# fast build rule for target.
+sample_cpp/fast:
+	$(MAKE) -f CMakeFiles/sample_cpp.dir/build.make CMakeFiles/sample_cpp.dir/build
+.PHONY : sample_cpp/fast
+
+#=============================================================================
+# Target rules for targets named euler_cpp
+
+# Build rule for target.
+euler_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 euler_cpp
+.PHONY : euler_cpp
+
+# fast build rule for target.
+euler_cpp/fast:
+	$(MAKE) -f CMakeFiles/euler_cpp.dir/build.make CMakeFiles/euler_cpp.dir/build
+.PHONY : euler_cpp/fast
+
+#=============================================================================
+# Target rules for targets named magnetic_field_cpp
+
+# Build rule for target.
+MEKF_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 MEKF_cpp
+.PHONY : MEKF_cpp
+
+# fast build rule for target.
+MEKF_cpp/fast:
+	$(MAKE) -f CMakeFiles/MEKF_cpp.dir/build.make CMakeFiles/MEKF_cpp.dir/build
+.PHONY : MEKF_cpp/fast
 
 #=============================================================================
 # Target rules for targets named MEKF_cpp
@@ -229,33 +282,6 @@ TRIAD/cpp/deterministic_ad.cpp.s:
 	$(MAKE) -f CMakeFiles/triad_cpp.dir/build.make CMakeFiles/triad_cpp.dir/TRIAD/cpp/deterministic_ad.cpp.s
 .PHONY : TRIAD/cpp/deterministic_ad.cpp.s
 
-trajectory_optimization/cpp/iLQRsimple.o: trajectory_optimization/cpp/iLQRsimple.cpp.o
-
-.PHONY : trajectory_optimization/cpp/iLQRsimple.o
-
-# target to build an object file
-trajectory_optimization/cpp/iLQRsimple.cpp.o:
-	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.o
-.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.o
-
-trajectory_optimization/cpp/iLQRsimple.i: trajectory_optimization/cpp/iLQRsimple.cpp.i
-
-.PHONY : trajectory_optimization/cpp/iLQRsimple.i
-
-# target to preprocess a source file
-trajectory_optimization/cpp/iLQRsimple.cpp.i:
-	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.i
-.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.i
-
-trajectory_optimization/cpp/iLQRsimple.s: trajectory_optimization/cpp/iLQRsimple.cpp.s
-
-.PHONY : trajectory_optimization/cpp/iLQRsimple.s
-
-# target to generate assembly for a file
-trajectory_optimization/cpp/iLQRsimple.cpp.s:
-	$(MAKE) -f CMakeFiles/iLQRsimple_cpp.dir/build.make CMakeFiles/iLQRsimple_cpp.dir/trajectory_optimization/cpp/iLQRsimple.cpp.s
-.PHONY : trajectory_optimization/cpp/iLQRsimple.cpp.s
-
 util_funcs/cpp/sun_utils.o: util_funcs/cpp/sun_utils.cpp.o
 
 .PHONY : util_funcs/cpp/sun_utils.o
@@ -316,12 +342,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... iLQRsimple_cpp"
-	@echo "... sun_utils_cpp"
+
 	@echo "... rebuild_cache"
+	@echo "... sun_utils_cpp"
+	@echo "... detumble_cpp"
 	@echo "... time_functions_cpp"
-	@echo "... edit_cache"
 	@echo "... triad_cpp"
+	@echo "... edit_cache"
+	@echo "... frame_conversions_cpp"
+	@echo "... sample_cpp"
+	@echo "... euler_cpp"
+	@echo "... magnetic_field_cpp"
 	@echo "... MEKF_cpp"
 	@echo "... MEKF/MEKF_cpp/MEKF_cpp.o"
 	@echo "... MEKF/MEKF_cpp/MEKF_cpp.i"
@@ -329,9 +360,6 @@ help:
 	@echo "... TRIAD/cpp/deterministic_ad.o"
 	@echo "... TRIAD/cpp/deterministic_ad.i"
 	@echo "... TRIAD/cpp/deterministic_ad.s"
-	@echo "... trajectory_optimization/cpp/iLQRsimple.o"
-	@echo "... trajectory_optimization/cpp/iLQRsimple.i"
-	@echo "... trajectory_optimization/cpp/iLQRsimple.s"
 	@echo "... util_funcs/cpp/sun_utils.o"
 	@echo "... util_funcs/cpp/sun_utils.i"
 	@echo "... util_funcs/cpp/sun_utils.s"
