@@ -22,7 +22,7 @@ for k = 1:(N-1)
     quat_cost_sign(k) = sign;
     
     % Cumulative Cost
-    J = J + 50*quat_cost + (1/2)*(xtraj(:,k)-xg)'*Q*(xtraj(:,k)-xg) + (1/2)*utraj(:,k)'*R*utraj(:,k);
+    J = J + quat_cost + (1/2)*(xtraj(:,k)-xg)'*Q*(xtraj(:,k)-xg) + (1/2)*utraj(:,k)'*R*utraj(:,k);
     [xtraj(:,k+1), A(:,:,k), B(:,:,k)] = rkstep(xtraj(:,k),utraj(:,k), dt);
 end
 % Terminal cost
@@ -91,7 +91,7 @@ while max(absL) > tol
             quat_cost_sign(k) = sign;
             
             % Cumulative Cost
-            Jnew = Jnew + 50*quat_cost + (1/2)*(xnew(:,k)-xg)'*Q*(xnew(:,k)-xg) + (1/2)*unew(:,k)'*R*unew(:,k);
+            Jnew = Jnew + quat_cost + (1/2)*(xnew(:,k)-xg)'*Q*(xnew(:,k)-xg) + (1/2)*unew(:,k)'*R*unew(:,k);
         end
         % Terminal cost
         [quat_cost_final, sign] = calc_quat_cost(xnew(:,N), xg);

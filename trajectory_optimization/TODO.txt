@@ -1,9 +1,12 @@
-
 Draw block diagram for control system -> python and C interfaces
-
+Simulink cholesky block
 
 MATLAB
 ===============
+Pass inertia as parameter
+
+Debug current implementation
+
 Read paper - add control limits, regularization
 
 Add check / failure condition for if max iterations exceeded
@@ -13,10 +16,21 @@ Change backslash to Cholesky (if needed)
 Add control limits
 Add magnetorquer control / magnetic field model
 
+Make cholesky solver for iLQR and MEKF
+
 C
 ===========
 compile pendulum iLQR
-write Linear algebra functions for iLQR and MEKF
+
+
+
+
+
+
+
+
+
+
 
 
 
