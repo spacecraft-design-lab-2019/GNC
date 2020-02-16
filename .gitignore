@@ -90,3 +90,7 @@ _deps/pybind11-subbuild/CMakeLists.txt
 _deps/pybind11-subbuild/Makefile
 
 .cache/v/cache/lastfailed
+
+euler/.cache/v/cache/lastfailed~HEAD
+
+euler/.cache/v/cache/lastfailed~recursive_magnetometer_estimator
