@@ -51,10 +51,17 @@ MatrixXd triad_ad(MatrixXd M, MatrixXd V) {
         Vector3d v2 = v1.cross(vtemp);
         Vector3d v3 = v1.cross(v2);
 
-        MatrixXd Rtemp(3,3);
+        MatrixXd Rtemp(3, 3);
         MatrixXd Vtemp(3, 3);
-        Rtemp << m1, m2, m3;
-        Vtemp << v1, v2, v3;
+
+        Rtemp.col(0) << m1;
+        Rtemp.col(1) << m2;
+        Rtemp.col(2) << m3;
+
+        Vtemp.col(0) << v1;
+        Vtemp.col(1) << v2;
+        Vtemp.col(2) << v3;
+        
         R = Rtemp * Vtemp.inverse();
     }
     else

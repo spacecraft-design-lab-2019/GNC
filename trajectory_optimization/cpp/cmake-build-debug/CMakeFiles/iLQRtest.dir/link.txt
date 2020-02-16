@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/iLQRtest.dir/iLQR.cpp.o CMakeFiles/iLQRtest.dir/SatelliteTest.cpp.o CMakeFiles/iLQRtest.dir/utils.cpp.o  -o iLQRtest 

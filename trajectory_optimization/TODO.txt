@@ -1,0 +1,28 @@
+
+Draw block diagram for control system -> python and C interfaces
+
+
+MATLAB
+===============
+Read paper - add control limits, regularization
+
+Add check / failure condition for if max iterations exceeded
+Re-write satelltie dynamics in simplest way (expand matrices)
+
+Change backslash to Cholesky (if needed)
+Add control limits
+Add magnetorquer control / magnetic field model
+
+C
+===========
+compile pendulum iLQR
+write Linear algebra functions for iLQR and MEKF
+
+
+
+
+
+
+
+
+
