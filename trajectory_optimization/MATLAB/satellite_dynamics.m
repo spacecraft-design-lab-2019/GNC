@@ -1,6 +1,7 @@
 function [xdot, dxdot] = satellite_dynamics(t,x,u)
 
 J = 0.01*eye(3); % kgm^2
+Jinv = inv(J);
 
 % Angular velocity
 w = x(5:7);
@@ -17,10 +18,10 @@ xdot = [qdot; wdot];
 % Jacobians
 A = [0, -w', -v';
     w, -skew_mat(w), s*eye(3)+skew_mat(v);
-    zeros(3,4), -inv(J)*(skew_mat(w)*J - skew_mat(J*w))];
+    zeros(3,4), -Jinv*(skew_mat(w)*J - skew_mat(J*w))];
 
 B = [zeros(4,3);
-    inv(J)];
+    Jinv];
 
 dxdot = [A, B];
 

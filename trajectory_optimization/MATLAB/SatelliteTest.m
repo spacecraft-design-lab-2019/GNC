@@ -9,7 +9,7 @@ clc;
 close all;
 
 % Sim Params
-N = 1000;  % num steps
+N = 5000;  % num steps
 dt = 0.01;
 tol = 1e-3;
 max_iters = 1000;
@@ -34,17 +34,20 @@ utraj0 = zeros(Nu, N-1);
 % Cost matrices
 % Cumulative
 Q = zeros(Nx, Nx);
-Qw = 0.5*eye(3);
+Qw = 0.1*eye(3);
 Q(5:7, 5:7) = Qw;
-R = 0.3*eye(3);
+R = 0.5*eye(3);
 
 % Terminal
 Qf= zeros(Nx, Nx);
-Qwf = 5*eye(3);
+Qwf = 1*eye(3);
 Qf(5:7, 5:7) = Qwf;
 Qqf = 200;  % Final cost for attitude error
 
-[xtraj, utraj, K, jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters);
+[xtraj, utraj, K, Jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters);
+
+% print final state
+xtraj(:, end)
 
 % Plot the quaternion time evolution
 figure(1);
@@ -70,7 +73,18 @@ plot(utraj(3,:));
 
 %plot omega
 figure(3)
+sgtitle("Omega")
+subplot(3,1,1)
+plot(xtraj(5, :))
+subplot(3,1,2)
+plot(xtraj(6, :))
+subplot(3,1,3)
+plot(xtraj(7,:))
 
+%plot the cost(
+figure(4)
+sgtitle("Cost")
+plot(Jhist)
 
 
 
