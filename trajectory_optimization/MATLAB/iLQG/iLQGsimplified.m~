@@ -107,7 +107,7 @@ N   = size(u0, 2);          % number of state transitions
 u   = u0;                   % initial control sequence
 
 % --- proccess options
-if nargin < 4,
+if nargin < 4
     Op = struct();
 end
 Op  = setOpts(defaults,Op);
@@ -139,42 +139,24 @@ trace(1).lambda = lambda;
 trace(1).dlambda = dlambda;
 
 % --- initial trajectory
-if size(x0,2) == 1
-    diverge = true;
-    for alpha = Op.Alpha
-        [x,un,cost]  = forward_pass(x0(:,1),alpha*u,[],[],[],1,DYNCST,Op.lims,[]);
-        % simplistic divergence test
-        if all(abs(x(:)) < 1e8)
-            u = un;
-            diverge = false;
-            break
-        end
+diverge = true;
+for alpha = Op.Alpha
+    [x,un,cost]  = forward_pass(x0(:,1),alpha*u,[],[],[],1,DYNCST,Op.lims,[]);
+    % simplistic divergence test
+    if all(abs(x(:)) < 1e8)
+        u = un;
+        diverge = false;
+        break
     end
-elseif size(x0,2) == N+1 % pre-rolled initial forward pass
-    x        = x0;
-    diverge  = false;
-    if isempty(Op.cost)
-        error('pre-rolled initial trajectory requires cost')
-    else
-        cost     = Op.cost;
-    end
-else
-    error('pre-rolled initial trajectory must be of correct length')
 end
 
 trace(1).cost = sum(cost(:));
-
-% user plotting
-Op.plotFn(x);
 
 if diverge
     [Vx,Vxx, stop]  = deal(nan);
     L        = zeros(m,n,N);
     cost     = [];
-    trace    = trace(1);
-    if verbosity > 0
-        fprintf('\nEXIT: Initial control sequence caused divergence\n');
-    end
+    fprintf('\nEXIT: Initial control sequence caused divergence\n');
     return
 end
 
@@ -184,33 +166,22 @@ stop        = 0;
 dcost       = 0;
 z           = 0;
 expected    = 0;
-print_head  = 6; % print headings every print_head lines
 
-if verbosity > 0
-    fprintf('\n=========== begin iLQG ===========\n');
-end
-graphics(Op.plot,x,u,cost,zeros(m,n,N),[],[],[],[],[],[],trace,1);
-for iter = 1:Op.maxIter
-    if stop
-        break;
-    end
-    trace(iter).iter = iter;    
+
+fprintf('\n=========== begin iLQG ===========\n');
+
+for iter = 1:Op.maxIter 
     
     %====== STEP 1: differentiate dynamics and cost along new trajectory
     if flgChange
-        t_diff = tic;
         [~,~,fx,fu,fxx,fxu,fuu,cx,cu,cxx,cxu,cuu]   = DYNCST(x, [u nan(m,1)], 1:N+1);
-        trace(iter).time_derivs = toc(t_diff);
         flgChange   = 0;
     end
     
     %====== STEP 2: backward pass, compute optimal control law and cost-to-go
     backPassDone   = 0;
     while ~backPassDone
-        
-        t_back   = tic;
         [diverge, Vx, Vxx, l, L, dV] = back_pass(cx,cu,cxx,cxu,cuu,fx,fu,fxx,fxu,fuu,lambda,Op.regType,Op.lims,u);
-        trace(iter).time_backward = toc(t_back);
         
         if diverge
             if verbosity > 2
@@ -228,13 +199,10 @@ for iter = 1:Op.maxIter
 
     % check for termination due to small gradient
     g_norm         = mean(max(abs(l) ./ (abs(u)+1),[],1));
-    trace(iter).grad_norm = g_norm;
     if g_norm < Op.tolGrad && lambda < 1e-5
         dlambda   = min(dlambda / Op.lambdaFactor, 1/Op.lambdaFactor);
         lambda    = lambda * dlambda * (lambda > Op.lambdaMin);
-        if verbosity > 0
-            fprintf('\nSUCCESS: gradient norm < tolGrad\n');
-        end
+        fprintf('\nSUCCESS: gradient norm < tolGrad\n');
         break;
     end
     
@@ -354,9 +322,6 @@ cnew = permute(cnew, [1 3 2]);
 function [diverge, Vx, Vxx, k, K, dV] = back_pass(cx,cu,cxx,cxu,cuu,fx,fu,fxx,fxu,fuu,lambda,regType,lims,u)
 % Perform the Ricatti-Mayne backward pass
 
-% tensor multiplication for DDP terms
-vectens = @(a,b) permute(sum(bsxfun(@times,a,b),1), [3 2 1]);
-
 N  = size(cx,2);
 n  = numel(cx)/N;
 m  = numel(cu)/N;
@@ -382,34 +347,14 @@ for i = N-1:-1:1
     Qu  = cu(:,i)      + fu(:,:,i)'*Vx(:,i+1);
     Qx  = cx(:,i)      + fx(:,:,i)'*Vx(:,i+1);
     Qux = cxu(:,:,i)'  + fu(:,:,i)'*Vxx(:,:,i+1)*fx(:,:,i);
-    if ~isempty(fxu)
-        fxuVx = vectens(Vx(:,i+1),fxu(:,:,:,i));
-        Qux   = Qux + fxuVx;
-    end
     
     Quu = cuu(:,:,i)   + fu(:,:,i)'*Vxx(:,:,i+1)*fu(:,:,i);
-    if ~isempty(fuu)
-        fuuVx = vectens(Vx(:,i+1),fuu(:,:,:,i));
-        Quu   = Quu + fuuVx;
-    end
-    
     Qxx = cxx(:,:,i)   + fx(:,:,i)'*Vxx(:,:,i+1)*fx(:,:,i);
-    if ~isempty(fxx)
-        Qxx = Qxx + vectens(Vx(:,i+1),fxx(:,:,:,i));
-    end
     
-    Vxx_reg = (Vxx(:,:,i+1) + lambda*eye(n)*(regType == 2));
-    
+    Vxx_reg = (Vxx(:,:,i+1) + lambda*eye(n)*(regType == 2));    
     Qux_reg = cxu(:,:,i)'   + fu(:,:,i)'*Vxx_reg*fx(:,:,i);
-    if ~isempty(fxu)
-        Qux_reg = Qux_reg + fxuVx;
-    end
-    
+
     QuuF = cuu(:,:,i)  + fu(:,:,i)'*Vxx_reg*fu(:,:,i) + lambda*eye(m)*(regType == 1);
-    
-    if ~isempty(fuu)
-        QuuF = QuuF + fuuVx;
-    end
     
     if nargin < 13 || isempty(lims) || lims(1,1) > lims(1,2)
         % no control limits: Cholesky decomposition, check for non-PD

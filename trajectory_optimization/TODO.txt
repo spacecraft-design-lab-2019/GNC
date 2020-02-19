@@ -1,9 +1,8 @@
 
 Structure
 ============
-Draw block diagram for control system -> python and C interfaces
 Pass inertia (and it's inverse) as parameters
-Magnetic field model (make accessible in the function) calls IGRF
+Magnetic field model (pass in time sequence of B vectors) calls IGRF & sgp4
 
 
 Debug current implementation
@@ -22,6 +21,10 @@ Add magnetorquer control / magnetic field model
 	Pass in time series of B vectors to iLQR
 	Convert the B vector to Body frame for calculating torque at each step
 	
+
+Add check after solver has run that final attitude and velocity are
+within an acceptable tolerance of the desired values. If not
+don't run the control sequence
 
 
 
