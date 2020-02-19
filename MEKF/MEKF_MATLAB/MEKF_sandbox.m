@@ -16,21 +16,32 @@ clear; close all; clc;
 % % ^^ These don't agree....
 
 %% Load data
-load('mekf_inputs.mat')
-load('mekf_truth.mat')
-Q = W;  % Process Noise
-R = V;  % Measurement Noise
+load('noise.mat')
+load('simstates.mat')
+load('predictions.mat')
+load('sensors.mat')
+load('bias.mat')
+dt = .1;
+
+% Tune Q and R matrices
+Q = Q*1e9;
+
+% gyro noise
+R(4:6, 4:6) = 1*R(4:6, 4:6);
+
+
+qtrue = simstates(:,4:7)';
 N = size(qtrue, 2);
+btrue = bias';
 times = 0:dt:(N-1)*dt;
-% load('output_mekf.mat')
+whist = simstates(:,11:13)';
+
 
 %% Run the MEKF
 % Initial conditions
 x_k = [qtrue(:,1); btrue(:,1)];
 P_k = Q;
 w_k = whist(:,1);
-r_sun_inert = rN1;
-r_B_inert = rN2;
 
 % Preallocate
 b_hist = zeros(size(btrue));
@@ -40,9 +51,10 @@ P_hist = zeros(size(P_k,1), N);
 for i = 1:N
     % measure some stuff
     w_k = whist(:,i);
-    r_sun_body = rB1hist(:,i);
-    r_B_body = rB2hist(:,i);
-    
+    r_B_body = sensors(i,1:3)';
+    r_sun_body = sensors(i,7:9)';
+    r_sun_inert = predictions(i,4:6)';
+    r_B_inert = predictions(i,1:3)';
     % Update our beliefs
     [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
                                  r_sun_inert, r_B_inert, Q, R, dt);
@@ -59,9 +71,35 @@ end
 
 %% Plots
 figure;
+subplot(2,2,1)
 plot(times, qtrue(1,:))
 hold on
 plot(times, q_hist(1,:));
+legend('q_1, true', 'q_1, estimate')
+subplot(2,2,2)
+plot(times, qtrue(2,:))
+hold on
+plot(times, q_hist(2,:));
+legend('q_2, true', 'q_2, estimate')
+subplot(2,2,3)
+plot(times, qtrue(3,:))
+hold on
+plot(times, q_hist(3,:));
+legend('q_3, true', 'q_3, estimate')
+subplot(2,2,4)
+plot(times, qtrue(4,:))
+hold on
+plot(times, q_hist(4,:));
+legend('q_4, true', 'q_4, estimate')
+
+figure;
+plot(times, btrue(1,:), 'b--')
+hold on
+plot(times, b_hist(1,:), 'b-')
+plot(times, btrue(2,:), 'r--')
+plot(times, b_hist(2,:), 'r-')
+plot(times, btrue(3,:), 'k--')
+plot(times, b_hist(3,:), 'k-')
 
 
 
@@ -174,7 +212,7 @@ function q_out = quatmult(q1, q2)
     % quaternions
     L = getL(q1);
     R = getR(q1);
-    q_out = L*R'*q2;
+    q_out = L*q2;
 end
 
 function rotationMatrix = quat2DCM(q)
@@ -188,12 +226,12 @@ function rotationMatrix = quat2DCM(q)
 end
 
 % Fairly certain Jayden's quat2DCM is backwards
-% function rotationMatrix = quat2DCM2(q)
-%     % Try stuff from Jayden's code too
-%     Q = skew_mat(q(2:4));
-%     rotationMatrix = ( q(1)^2 - q(2)^2 - q(3)^2 - q(4)^2)*eye(3)...
-%                      -2*q(1)*Q + 2*q(2:4)*q(2:4)';    
-% end
+function rotationMatrix = quat2DCM2(q)
+    % Try stuff from Jayden's code too
+    Q = skew_mat(q(2:4));
+    rotationMatrix = ( q(1)^2 - q(2)^2 - q(3)^2 - q(4)^2)*eye(3)...
+                     -2*q(1)*Q + 2*q(2:4)*q(2:4)';    
+end
 
 function L = getL(q)
     % for left quaternion multiplication q1*q2 = L(q1)q2
