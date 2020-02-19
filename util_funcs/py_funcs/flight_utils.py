@@ -185,4 +185,3 @@ def ecef2enu(lat, lon):
     R = transpose(R)
     return R
 
-[x[i]] for x,y in 
