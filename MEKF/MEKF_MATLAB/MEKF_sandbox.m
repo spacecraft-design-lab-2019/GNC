@@ -50,9 +50,9 @@ P_hist = zeros(size(P_k,1), N);
 
 for i = 1:N
     % measure some stuff
-    w_k = whist(:,i);
     r_B_body = sensors(i,1:3)';
     r_sun_body = sensors(i,7:9)';
+    w_k = sensors(i,4:6)';
     r_sun_inert = predictions(i,4:6)';
     r_B_inert = predictions(i,1:3)';
     % Update our beliefs
@@ -120,9 +120,9 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
     b_k = x_k(5:7);
 
     % "control input"
-    u_k = w_k + b_k;
-    theta = norm(u_k-b_k)*dt;
-    r = (u_k-b_k)/norm(u_k-b_k);
+%     u_k = w_k + b_k;
+    theta = norm(w_k-b_k)*dt;
+    r = (w_k-b_k)/norm(w_k-b_k);
     s_k = [cos(theta/2); r*sin(theta/2)];   % error quaternion
     
     % propagate quaternion
