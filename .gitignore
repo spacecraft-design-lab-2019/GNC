@@ -32,3 +32,5 @@ _deps/pybind11-subbuild/Makefile
 euler/.cache/v/cache/lastfailed~HEAD
 
 euler/.cache/v/cache/lastfailed~recursive_magnetometer_estimator
+
+*.asv
