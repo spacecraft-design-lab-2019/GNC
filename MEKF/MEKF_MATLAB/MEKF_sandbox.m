@@ -4,44 +4,68 @@
 clear; close all; clc;
 
 %% Test rotation matrix
-q0 = .5;
-q1 = .5;
-q2 = .5;
-q3 = .5;
+% q0 = .5;
+% q1 = .5;
+% q2 = .5;
+% q3 = .5;
+% 
+% % Test Jayden's stuff vs. regular quaternion rotation
+% q = [q0; q1; q2; q3];
+% R1 = quat2DCM(q);
+% R2 = quat2DCM2(q);
+% % ^^ These don't agree....
 
-% Test Jayden's stuff vs. regular quaternion rotation
-q = [q0; q1; q2; q3];
-R1 = quat2DCM(q);
-R2 = quat2DCM2(q);
-% ^^ These don't agree....
+%% Load data
+load('mekf_inputs.mat')
+load('mekf_truth.mat')
+Q = W;  % Process Noise
+R = V;  % Measurement Noise
+N = size(qtrue, 2);
+times = 0:dt:(N-1)*dt;
+% load('output_mekf.mat')
 
-%% Simulation parameters
-%noise covariances 
-omega_process_sigma = .000001*eye(3);
-quat_process_sigma = .000001*eye(4);
-omega_sensor_sigma = .0001*eye(3);
-quat_sensor_sigma = .0001*eye(4);
+%% Run the MEKF
+% Initial conditions
+x_k = [qtrue(:,1); btrue(:,1)];
+P_k = Q;
+w_k = whist(:,1);
+r_sun_inert = rN1;
+r_B_inert = rN2;
 
-%process and sensor noise matricees 
-Q_process(1:3,1:3) = omega_process_sigma;
-Q_process(4:7,4:7) = quat_process_sigma;
-R_sensor(1:3,1:3) = omega_sensor_sigma;
-R_sensor(4:7,4:7) = quat_sensor_sigma;
+% Preallocate
+b_hist = zeros(size(btrue));
+q_hist = zeros(size(qtrue));
+P_hist = zeros(size(P_k,1), N);
 
-%initial conditions 
-omega0 = [deg2rad(2);deg2rad(4); deg2rad(8)];
-quat0 = [0 0 0 1]';
-dt = .001;
+for i = 1:N
+    % measure some stuff
+    w_k = whist(:,i);
+    r_sun_body = rB1hist(:,i);
+    r_B_body = rB2hist(:,i);
+    
+    % Update our beliefs
+    [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
+                                 r_sun_inert, r_B_inert, Q, R, dt);
+                             
+    % record history
+    q_hist(:,i) = x_k1(1:4);
+    b_hist(:,i) = x_k1(5:7);
+    P_hist(:,i) = diag(P_k1);
+    
+    % Iterate
+    x_k = x_k1;
+    P_k = P_k1;
+end
 
+%% Plots
+figure;
+plot(times, qtrue(1,:))
+hold on
+plot(times, q_hist(1,:));
 
-%% load in sample data
 
 
 %% MEKF functions
-
-
-
-%% Utility functions
 
 function [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
                                  r_sun_inert, r_B_inert, Q, R, dt)
@@ -59,7 +83,7 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
 
     % "control input"
     u_k = w_k + b_k;
-    theta = norm(u_k - b_k)*dt;
+    theta = norm(u_k-b_k)*dt;
     r = (u_k-b_k)/norm(u_k-b_k);
     s_k = [cos(theta/2); r*sin(theta/2)];   % error quaternion
     
@@ -123,6 +147,10 @@ function [dx, x_k1, P_k1] = update(x_k, P_k, z_k, L, C, R)
     % -------------------- Covariance Update ------------------
     P_k1 = (eye(6) - L*C) * P_k * (eye(6)-L*C)' + L*R*L';
 end
+
+
+%% Utility functions
+
 
 function A = getAmatrix(s_k, dt)
     L = getL(s_k);
