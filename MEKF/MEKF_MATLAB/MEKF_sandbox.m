@@ -24,7 +24,7 @@ load('bias.mat')
 dt = .1;
 
 % Tune Q and R matrices
-Q = Q*1e9;
+Q = Q;
 
 % gyro noise
 R(4:6, 4:6) = 1*R(4:6, 4:6);
@@ -55,6 +55,7 @@ for i = 1:N
     w_k = sensors(i,4:6)';
     r_sun_inert = predictions(i,4:6)';
     r_B_inert = predictions(i,1:3)';
+    
     % Update our beliefs
     [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
                                  r_sun_inert, r_B_inert, Q, R, dt);
@@ -71,6 +72,7 @@ end
 
 %% Plots
 figure;
+title('Quaternions')
 subplot(2,2,1)
 plot(times, qtrue(1,:))
 hold on
@@ -100,6 +102,7 @@ plot(times, btrue(2,:), 'r--')
 plot(times, b_hist(2,:), 'r-')
 plot(times, btrue(3,:), 'k--')
 plot(times, b_hist(3,:), 'k-')
+title('Estimated Gyro Bias vs. True Bias')
 
 
 
@@ -135,7 +138,8 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
     x_pred = [q_k1; b_k1];
     
     %--------------------Predict Covariance--------------------
-    A_k = getAmatrix(s_k, dt);
+%     A_k1 = getAmatrix(s_k, dt);
+    A_k = getAmatrix2(w_k, b_k, dt);    % try 279C version
     P_pred = A_k*P_k*A_k' + Q;    
 end
 
@@ -162,7 +166,7 @@ function [z, S, C] = innovation(x_k, P_k, r_sun_body, r_B_body, r_sun_inert, r_B
 end
 
 function L = getKalmanGain(P, C, S)
-    L = P*C'*inv(S);
+    L = P*C'/S;%inv(S);
 end
 
 function [dx, x_k1, P_k1] = update(x_k, P_k, z_k, L, C, R)
@@ -175,7 +179,8 @@ function [dx, x_k1, P_k1] = update(x_k, P_k, z_k, L, C, R)
     phi = dx(1:3);
     db = dx(4:6);
     
-    dq = [sqrt(1-phi'*phi); phi];
+%     dq = [sqrt(1-phi'*phi); phi];
+    
     
     % -------------------- State Update -----------------------
     q_k1 = quatmult(q_k, dq);
@@ -190,14 +195,22 @@ end
 %% Utility functions
 
 
-function A = getAmatrix(s_k, dt)
-    L = getL(s_k);
-    R = getR(s_k);
-    V = getV();
-    
+% function A = getAmatrix(s_k, dt)
+%     L = getL(s_k);
+%     R = getR(s_k);
+%     V = getV();
+%     
+%     A = zeros(6,6);
+%     A(1:3, 1:3) = V*L'*R*V';
+%     A(1:3, 4:6) = -.5*dt*eye(3);
+%     A(4:6, 4:6) = eye(3);
+% end
+
+function A = getAmatrix2(w_k, b_k, dt)
+    % version from 279C notes
     A = zeros(6,6);
-    A(1:3, 1:3) = V*L'*R*V';
-    A(1:3, 4:6) = .5*dt*eye(3);
+    A(1:3, 1:3) = expm(-skew_mat(w_k-b_k)*dt); % V*L'*R*V';
+    A(1:3, 4:6) = -dt*eye(3);
     A(4:6, 4:6) = eye(3);
 end
 
