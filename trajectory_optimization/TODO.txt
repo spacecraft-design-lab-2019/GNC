@@ -5,15 +5,20 @@ Pass inertia (and it's inverse) as parameters
 Magnetic field model (pass in time sequence of B vectors) calls IGRF & sgp4
 
 
-Debug current implementation
-Read paper - add control limits, regularization
+Debug current implementation (Read Zac's paper)
 
+
+Read paper - add: 
+ -> control limits (boxQP)
+ -> regularization for backward pass
+ -> better line search
+ -> Failure criteria (max iterations, )
 
 Add check / failure condition for if max iterations exceeded
 
+
 Make cholesky solver for iLQR and MEKF  (maybe Simulink cholesky block)
 Change backslash to call to Cholesky solver
-Add control limits
 
 
 Add magnetorquer control / magnetic field model

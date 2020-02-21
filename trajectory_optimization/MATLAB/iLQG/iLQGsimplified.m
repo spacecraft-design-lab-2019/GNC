@@ -162,7 +162,6 @@ end
 
 % constants, timers, counters
 flgChange   = 1;
-stop        = 0;
 dcost       = 0;
 z           = 0;
 expected    = 0;
@@ -184,9 +183,7 @@ for iter = 1:Op.maxIter
         [diverge, Vx, Vxx, l, L, dV] = back_pass(cx,cu,cxx,cxu,cuu,fx,fu,fxx,fxu,fuu,lambda,Op.regType,Op.lims,u);
         
         if diverge
-            if verbosity > 2
-                fprintf('Cholesky failed at timestep %d.\n',diverge);
-            end
+            fprintf('Cholesky failed at timestep %d.\n',diverge);
             dlambda   = max(dlambda * Op.lambdaFactor, Op.lambdaFactor);
             lambda    = max(lambda * dlambda, Op.lambdaMin);
             if lambda > Op.lambdaMax
@@ -241,7 +238,6 @@ for iter = 1:Op.maxIter
         x              = xnew;
         cost           = costnew;
         flgChange      = 1;
-        Op.plotFn(x);
         
         % terminate ?
         if dcost < Op.tolFun
@@ -297,11 +293,7 @@ for i = 1:N
     end    
     
     if ~isempty(L)
-        if ~isempty(diff)
-            dx = diff(xnew(:,:,i), x(:,i*K1));
-        else
-            dx          = xnew(:,:,i) - x(:,i*K1);
-        end
+        dx          = xnew(:,:,i) - x(:,i*K1);
         unew(:,:,i) = unew(:,:,i) + L(:,:,i)*dx;
     end
     
@@ -351,40 +343,27 @@ for i = N-1:-1:1
     Quu = cuu(:,:,i)   + fu(:,:,i)'*Vxx(:,:,i+1)*fu(:,:,i);
     Qxx = cxx(:,:,i)   + fx(:,:,i)'*Vxx(:,:,i+1)*fx(:,:,i);
     
-    Vxx_reg = (Vxx(:,:,i+1) + lambda*eye(n)*(regType == 2));    
+    Vxx_reg = (Vxx(:,:,i+1) + lambda*eye(n)*(regType == 2));  % Regularization type 1
     Qux_reg = cxu(:,:,i)'   + fu(:,:,i)'*Vxx_reg*fx(:,:,i);
 
-    QuuF = cuu(:,:,i)  + fu(:,:,i)'*Vxx_reg*fu(:,:,i) + lambda*eye(m)*(regType == 1);
+    QuuF = cuu(:,:,i)  + fu(:,:,i)'*Vxx_reg*fu(:,:,i) + lambda*eye(m)*(regType == 1);  % (OR!) Regularization type 2
     
-    if nargin < 13 || isempty(lims) || lims(1,1) > lims(1,2)
-        % no control limits: Cholesky decomposition, check for non-PD
-        [R,d] = chol(QuuF);
-        if d ~= 0
-            diverge  = i;
-            return;
-        end
-        
-        % find control law
-        kK = -R\(R'\[Qu Qux_reg]);
-        k_i = kK(:,1);
-        K_i = kK(:,2:n+1);
-        
-    else        % solve Quadratic Program
-        lower = lims(:,1)-u(:,i);
-        upper = lims(:,2)-u(:,i);
-        
-        [k_i,result,R,free] = boxQP(QuuF,Qu,lower,upper,k(:,min(i+1,N-1)));
-        if result < 1
-            diverge  = i;
-            return;
-        end
-        
-        K_i    = zeros(m,n);
-        if any(free)
-            Lfree        = -R\(R'\Qux_reg(free,:));
-            K_i(free,:)   = Lfree;
-        end
-        
+
+    % solve Quadratic Program (for control with limits)
+    lower = lims(:,1)-u(:,i);
+    upper = lims(:,2)-u(:,i);
+
+    [k_i,result,R,free] = boxQP(QuuF,Qu,lower,upper,k(:,min(i+1,N-1)));
+    if result < 1
+        diverge  = i;  % Quu non positive definite
+        return;
+    end
+
+    % Feedback gains in free rows
+    K_i    = zeros(m,n);
+    if any(free)
+        Lfree        = -R\(R'\Qux_reg(free,:));
+        K_i(free,:)   = Lfree;
     end
     
     % update cost-to-go approximation

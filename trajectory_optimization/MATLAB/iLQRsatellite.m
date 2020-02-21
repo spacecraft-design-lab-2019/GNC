@@ -112,11 +112,9 @@ while max(absL) > tol
     
 %     disp([max(abs(l)) 2*alpha])
 end
+success = 1;
 
 end
-
-
-function [
 
 
 function [x, A, B] = rkstep(x0,u0, dt)
@@ -125,8 +123,8 @@ function [x, A, B] = rkstep(x0,u0, dt)
     Nx = length(x0);
     Nu = length(u0);
 
-    [xdot1, dxdot1] = satellite_dynamics(0,x0,u0);
-    [xdot2, dxdot2] = satellite_dynamics(0,x0+.5*dt*xdot1,u0);
+    [xdot1, dxdot1] = satellite_dynamics(x0,u0);
+    [xdot2, dxdot2] = satellite_dynamics(x0+.5*dt*xdot1,u0);
     x1 = x0 + dt*xdot2;
     
     % Normalize the quaternion

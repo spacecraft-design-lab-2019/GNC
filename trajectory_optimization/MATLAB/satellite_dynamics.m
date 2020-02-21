@@ -1,4 +1,4 @@
-function [xdot, dxdot] = satellite_dynamics(t,x,u)
+function [xdot, dxdot] = satellite_dynamics(x,u)
 
 J = 0.01*eye(3); % kgm^2
 Jinv = inv(J);

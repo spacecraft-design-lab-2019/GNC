@@ -44,7 +44,7 @@ Qwf = 1*eye(3);
 Qf(5:7, 5:7) = Qwf;
 Qqf = 200;  % Final cost for attitude error
 
-[xtraj, utraj, K, Jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters);
+[xtraj, utraj, K, Jhist, success] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters);
 
 % print final state
 xtraj(:, end)
