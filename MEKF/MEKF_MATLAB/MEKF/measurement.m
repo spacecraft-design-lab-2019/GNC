@@ -2,7 +2,7 @@ function [y,C] = measurement(q,rN)
 
 QBN = qtodcm(q)';
 
-rB = QBN*rN;
+rB = QBN*rN; % known position measured in body frame based on current quaternion
 
 C = zeros(3*size(rN,2),6);
 
