@@ -16,31 +16,43 @@ clear; close all; clc;
 % % ^^ These don't agree....
 
 %% Load data
-load('noise.mat')
-load('simstates.mat')
-load('predictions.mat')
-load('sensors.mat')
-load('bias.mat')
-dt = .1;
+% load('noise.mat')
+% load('simstates.mat')
+% load('predictions.mat')
+% load('sensors.mat')
+% load('bias.mat')
+% dt = .1;
+% 
+% % Tune Q and R matrices
+% Q = Q;
+% 
+% % gyro noise
+% R(4:6, 4:6) = 1*R(4:6, 4:6);
+% 
+% 
+% qtrue = simstates(:,4:7)';
+% N = size(qtrue, 2);
+% btrue = bias';
+% whist = simstates(:,11:13)';
 
-% Tune Q and R matrices
-Q = Q;
-
-% gyro noise
-R(4:6, 4:6) = 1*R(4:6, 4:6);
-
-
-qtrue = simstates(:,4:7)';
+%% Load Zach's data
+clear;
+load mekf_truth
+load mekf_inputs
+Q = W;
+R = V;
 N = size(qtrue, 2);
-btrue = bias';
 times = 0:dt:(N-1)*dt;
-whist = simstates(:,11:13)';
 
+% Make quaternions scalar 1st
+q1 = qtrue(:,1)
+qtrue = circshift(qtrue,1,1);
+q1_shifted = qtrue(:,1)
 
 %% Run the MEKF
 % Initial conditions
-x_k = [qtrue(:,1); btrue(:,1)];
-P_k = Q;
+x_k = [qtrue(:,1); zeros(3,1)];
+P_k = blkdiag((.1*pi/180)^2*eye(3), (1*pi/180)^2*eye(3)); %10 deg. and 10 deg/sec 1-sigma uncertainty
 w_k = whist(:,1);
 
 % Preallocate
@@ -50,11 +62,11 @@ P_hist = zeros(size(P_k,1), N);
 
 for i = 1:N
     % measure some stuff
-    r_B_body = sensors(i,1:3)';
-    r_sun_body = sensors(i,7:9)';
-    w_k = sensors(i,4:6)';
-    r_sun_inert = predictions(i,4:6)';
-    r_B_inert = predictions(i,1:3)';
+    r_B_body = rB2hist(:,i);%sensors(i,1:3)';
+    r_sun_body = rB1hist(:,i);%sensors(i,7:9)';
+    w_k = whist(:,i);%sensors(i,4:6)';
+    r_sun_inert = rN1;%predictions(i,4:6)';
+    r_B_inert = rN2;%predictions(i,1:3)';
     
     % Update our beliefs
     [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
@@ -73,22 +85,22 @@ end
 %% Plots
 figure;
 title('Quaternions')
-subplot(2,2,1)
+subplot(4,1,1)
 plot(times, qtrue(1,:))
 hold on
 plot(times, q_hist(1,:));
 legend('q_1, true', 'q_1, estimate')
-subplot(2,2,2)
+subplot(4,1,2)
 plot(times, qtrue(2,:))
 hold on
 plot(times, q_hist(2,:));
 legend('q_2, true', 'q_2, estimate')
-subplot(2,2,3)
+subplot(4,1,3)
 plot(times, qtrue(3,:))
 hold on
 plot(times, q_hist(3,:));
 legend('q_3, true', 'q_3, estimate')
-subplot(2,2,4)
+subplot(4,1,4)
 plot(times, qtrue(4,:))
 hold on
 plot(times, q_hist(4,:));
@@ -113,7 +125,7 @@ function [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
     [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q);
     [z, S, C] = innovation(x_pred, P_pred, r_sun_body, r_B_body, r_sun_inert, r_B_inert, R);
     L = getKalmanGain(P_pred, C, S);
-    [dx, x_k1, P_k1] = update(x_k, P_k, z, L, C, R);
+    [dx, x_k1, P_k1] = update(x_pred, P_pred, z, L, C, R);
 end
 
 function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
@@ -123,7 +135,6 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
     b_k = x_k(5:7);
 
     % "control input"
-%     u_k = w_k + b_k;
     theta = norm(w_k-b_k)*dt;
     r = (w_k-b_k)/norm(w_k-b_k);
     s_k = [cos(theta/2); r*sin(theta/2)];   % error quaternion
@@ -139,7 +150,7 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
     
     %--------------------Predict Covariance--------------------
 %     A_k1 = getAmatrix(s_k, dt);
-    A_k = getAmatrix2(w_k, b_k, dt);    % try 279C version
+    A_k = getAmatrix2(s_k, dt);    % try 279C version
     P_pred = A_k*P_k*A_k' + Q;    
 end
 
@@ -148,7 +159,7 @@ function [z, S, C] = innovation(x_k, P_k, r_sun_body, r_B_body, r_sun_inert, r_B
     % Get rotation matrix based on quaternion giving rotation from body to
     % inertial reference frame
     q = x_k(1:4);
-    R_body2inert = quat2DCM(q);
+    R_body2inert =  qtodcm(q);
     
     % Transpose that to get the matrix we actually need for our prefit
     % residuals
@@ -159,8 +170,8 @@ function [z, S, C] = innovation(x_k, P_k, r_sun_body, r_B_body, r_sun_inert, r_B
                                   zeros(3), R_N2B]* [r_sun_inert; r_B_inert];
     
     % --------------------- Innovation/pre-fit covariance -------------
-    C = [2*skew_mat(r_sun_body), zeros(3);
-         2*skew_mat(r_B_body)  , zeros(3)];
+    C = [skew_mat(R_N2B*r_sun_inert), zeros(3);
+         skew_mat(R_N2B*r_B_inert)  , zeros(3)];
     
     S = C*P_k*C' + R;
 end
@@ -179,9 +190,8 @@ function [dx, x_k1, P_k1] = update(x_k, P_k, z_k, L, C, R)
     phi = dx(1:3);
     db = dx(4:6);
     
-%     dq = [sqrt(1-phi'*phi); phi];
-    
-    
+    dq = [sqrt(1-phi'*phi); phi/2];
+     
     % -------------------- State Update -----------------------
     q_k1 = quatmult(q_k, dq);
     b_k1 = b_k + db;
@@ -206,10 +216,10 @@ end
 %     A(4:6, 4:6) = eye(3);
 % end
 
-function A = getAmatrix2(w_k, b_k, dt)
+function A = getAmatrix2(s_k, dt)
     % version from 279C notes
     A = zeros(6,6);
-    A(1:3, 1:3) = expm(-skew_mat(w_k-b_k)*dt); % V*L'*R*V';
+    A(1:3, 1:3) = qtodcm(s_k)'; % V*L'*R*V';
     A(1:3, 4:6) = -dt*eye(3);
     A(4:6, 4:6) = eye(3);
 end
@@ -224,19 +234,19 @@ function q_out = quatmult(q1, q2)
     % equivalent to quaternion multiplication q1*q2 for scalar first
     % quaternions
     L = getL(q1);
-    R = getR(q1);
+%     R = getR(q1);
     q_out = L*q2;
 end
 
-function rotationMatrix = quat2DCM(q)
-    % returns the rotation matrix from body to inertial frame if a body to
-    % inertial quaternion is given
-    L = getL(q);
-    R = getR(q);
-    
-    temp = L*R';
-    rotationMatrix = temp(2:4, 2:4);    
-end
+% function rotationMatrix = quat2DCM(q)
+%     % returns the rotation matrix from body to inertial frame if a body to
+%     % inertial quaternion is given
+%     L = getL(q);
+%     R = getR(q);
+%     
+%     temp = L*R';
+%     rotationMatrix = temp(2:4, 2:4);    
+% end
 
 % Fairly certain Jayden's quat2DCM is backwards
 function rotationMatrix = quat2DCM2(q)
@@ -260,6 +270,12 @@ function R = getR(q)
     R(1,:) = [q(1), -q(2), -q(3), -q(4)];
     R(:,1) = [q(1);  q(2);  q(3);  q(4)];
     R(2:4, 2:4) = q(1)*eye(3) - skew_mat(q(2:4));
+end
+
+function R = qtodcm(q)
+
+    R = eye(3) + 2*hat(q(2:4))*(hat(q(2:4)) + eye(3)*q(1));
+    
 end
 
 function [x_skew] = skew_mat(x)
