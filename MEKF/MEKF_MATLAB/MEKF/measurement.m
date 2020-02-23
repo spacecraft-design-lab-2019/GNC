@@ -10,9 +10,9 @@ for k = 1:size(rN,2)
     C(3*(k-1)+(1:3),:) = [hat(rB(:,k)), zeros(3)];
 end
 
-C = [eye(3), zeros(3); C];
+% C = [eye(3), zeros(3); C];
 
-y = [q; rB(:)];
+y = [rB(:)];
 
 
 end
