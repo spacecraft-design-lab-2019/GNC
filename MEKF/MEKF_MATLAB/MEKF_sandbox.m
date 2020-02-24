@@ -3,18 +3,6 @@
 % Paul DeTrempe
 clear; clc;
 
-%% Test rotation matrix
-% q0 = .5;
-% q1 = .5;
-% q2 = .5;
-% q3 = .5;
-% 
-% % Test Jayden's stuff vs. regular quaternion rotation
-% q = [q0; q1; q2; q3];
-% R1 = quat2DCM(q);
-% R2 = quat2DCM2(q);
-% % ^^ These don't agree....
-
 %% Load data
 load('noise.mat')
 load('simstates.mat')
@@ -38,11 +26,11 @@ whist = simstates(:,11:13)';
 %% Load Zach's data
 % clear;
 % load mekf_truth
-% load mekf_inputs
-% Q = W;
-% R = V;
+load mekf_inputs
+Q = W;
+R = V;
 % N = size(qtrue, 2);
-times = 0:dt:(N-1)*dt;
+% 
 % 
 % % Make quaternions scalar 1st
 % q1 = qtrue(:,1)
@@ -50,8 +38,9 @@ times = 0:dt:(N-1)*dt;
 % q1_shifted = qtrue(:,1)
 
 %% Run the MEKF
+times = 0:dt:(N-1)*dt;
 % Initial conditions
-x_k = [qtrue(:,1); .04*ones(3,1)];
+x_k = [qtrue(:,1); zeros(3,1)];
 P_k = blkdiag((.1*pi/180)^2*eye(3), (1*pi/180)^2*eye(3)); %10 deg. and 10 deg/sec 1-sigma uncertainty
 w_k = whist(:,1);
 
@@ -62,12 +51,20 @@ P_hist = zeros(size(P_k,1), N);
 
 for i = 1:N
     % measure some stuff
+    % Zac's stuff
+%     r_B_body = rB1hist(:,i); %sensors(i,1:3)';
+%     r_sun_body = rB2hist(:,i); %sensors(i,7:9)';
+%     w_k = whist(:,i); %sensors(i,4:6)';
+%     r_B_inert = rN1; %predictions(i,1:3)';
+%     r_sun_inert = rN2; %predictions(i,4:6)';
+
+    % Our sim
     r_B_body = sensors(i,1:3)';
     r_sun_body = sensors(i,7:9)';
     w_k = sensors(i,4:6)';
-    r_sun_inert = predictions(i,4:6)';
     r_B_inert = predictions(i,1:3)';
-    
+    r_sun_inert = predictions(i,4:6)';
+
     % Update our beliefs
     [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
                                  r_sun_inert, r_B_inert, Q, R, dt);
@@ -116,8 +113,6 @@ plot(times, btrue(3,:), 'k--')
 plot(times, b_hist(3,:), 'k-')
 title('Estimated Gyro Bias vs. True Bias')
 
-
-
 %% MEKF functions
 
 function [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
@@ -150,7 +145,7 @@ function [x_pred, P_pred] = predict(x_k, P_k, w_k, dt, Q)
     
     %--------------------Predict Covariance--------------------
 %     A_k1 = getAmatrix(s_k, dt);
-    A_k = getAmatrix2(s_k, dt);    % try 279C version
+    A_k = getAmatrix(s_k, dt);    % try 279C version
     P_pred = A_k*P_k*A_k' + Q;    
 end
 
@@ -159,7 +154,7 @@ function [z, S, C] = innovation(x_k, P_k, r_sun_body, r_B_body, r_sun_inert, r_B
     % Get rotation matrix based on quaternion giving rotation from body to
     % inertial reference frame
     q = x_k(1:4);
-    R_body2inert =  qtodcm(q);
+    R_body2inert =  quat2DCM(q);
     
     % Transpose that to get the matrix we actually need for our prefit
     % residuals
@@ -177,7 +172,7 @@ function [z, S, C] = innovation(x_k, P_k, r_sun_body, r_B_body, r_sun_inert, r_B
 end
 
 function L = getKalmanGain(P, C, S)
-    L = P*C'/S;%inv(S);
+    L = P*C'/S;
 end
 
 function [dx, x_k1, P_k1] = update(x_k, P_k, z_k, L, C, R)
@@ -204,23 +199,15 @@ end
 
 %% Utility functions
 
-
-% function A = getAmatrix(s_k, dt)
-%     L = getL(s_k);
-%     R = getR(s_k);
-%     V = getV();
-%     
-%     A = zeros(6,6);
-%     A(1:3, 1:3) = V*L'*R*V';
-%     A(1:3, 4:6) = -.5*dt*eye(3);
-%     A(4:6, 4:6) = eye(3);
-% end
-
-function A = getAmatrix2(s_k, dt)
-    % version from 279C notes
+function A = getAmatrix(s_k, dt)
+    % version from 236 notes
+    L = getL(s_k);
+    R = getR(s_k);
+    V = getV();
+    
     A = zeros(6,6);
-    A(1:3, 1:3) = qtodcm(s_k)'; % V*L'*R*V';
-    A(1:3, 4:6) = -dt*eye(3);
+    A(1:3, 1:3) = V*L'*R*V';
+    A(1:3, 4:6) = -.5*dt*eye(3);
     A(4:6, 4:6) = eye(3);
 end
 
@@ -234,26 +221,17 @@ function q_out = quatmult(q1, q2)
     % equivalent to quaternion multiplication q1*q2 for scalar first
     % quaternions
     L = getL(q1);
-%     R = getR(q1);
     q_out = L*q2;
 end
 
-% function rotationMatrix = quat2DCM(q)
-%     % returns the rotation matrix from body to inertial frame if a body to
-%     % inertial quaternion is given
-%     L = getL(q);
-%     R = getR(q);
-%     
-%     temp = L*R';
-%     rotationMatrix = temp(2:4, 2:4);    
-% end
-
-% Fairly certain Jayden's quat2DCM is backwards
-function rotationMatrix = quat2DCM2(q)
-    % Try stuff from Jayden's code too
-    Q = skew_mat(q(2:4));
-    rotationMatrix = ( q(1)^2 - q(2)^2 - q(3)^2 - q(4)^2)*eye(3)...
-                     -2*q(1)*Q + 2*q(2:4)*q(2:4)';    
+function rotationMatrix = quat2DCM(q)
+    % returns the rotation matrix from body to inertial frame if a body to
+    % inertial quaternion is given
+    L = getL(q);
+    R = getR(q);
+    
+    temp = L*R';
+    rotationMatrix = temp(2:4, 2:4);    
 end
 
 function L = getL(q)
@@ -272,15 +250,10 @@ function R = getR(q)
     R(2:4, 2:4) = q(1)*eye(3) - skew_mat(q(2:4));
 end
 
-function R = qtodcm(q)
-
-    R = eye(3) + 2*hat(q(2:4))*(hat(q(2:4)) + eye(3)*q(1));
-    
-end
-
 function [x_skew] = skew_mat(x)
-% Returns skew symmetric - cross porduct matrix of a vector
-
-x_skew = [0 -x(3) x(2); x(3) 0 -x(1); -x(2) x(1) 0];
+% Returns skew symmetric - cross product matrix of a vector
+x_skew = [0 -x(3) x(2);...
+          x(3) 0 -x(1);...
+          -x(2) x(1) 0];
 
 end
