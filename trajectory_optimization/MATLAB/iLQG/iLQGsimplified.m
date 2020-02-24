@@ -197,8 +197,6 @@ for iter = 1:Op.maxIter
     % check for termination due to small gradient
     g_norm         = mean(max(abs(l) ./ (abs(u)+1),[],1));
     if g_norm < Op.tolGrad && lambda < 1e-5
-        dlambda   = min(dlambda / Op.lambdaFactor, 1/Op.lambdaFactor);
-        lambda    = lambda * dlambda * (lambda > Op.lambdaMin);
         fprintf('\nSUCCESS: gradient norm < tolGrad\n');
         break;
     end
@@ -254,7 +252,7 @@ for iter = 1:Op.maxIter
         if lambda > Op.lambdaMax
             fprintf('\nEXIT: lambda > lambdaMax\n');
             break;
-        end
+        enddlda
     end
 end
 

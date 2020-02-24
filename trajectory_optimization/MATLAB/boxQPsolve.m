@@ -96,7 +96,7 @@ for iter = 1:maxIter
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
     deltaX = zeros(n,1);
-    deltaX(free) = -Quufree\(Quufree'\grad_clamped(free)) - u(free);  % Should be cholesky solver
+    deltaX(free) = -Quufree\(Quufree'\grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);
@@ -107,13 +107,13 @@ for iter = 1:maxIter
     % armijo linesearch
     step  = 1;
     nstep = 0;
-	xc    = clamp(u + step*deltaX, lower, upper);
-    vc    = xc'*Qu + 0.5*xc'*Quu*xc;
+	uc    = clamp(u + step*deltaX, lower, upper);
+    vc    = uc'*Qu + 0.5*uc'*Quu*uc;
     while (vc - oldvalue)/(step*sdotg) < Armijo
         step  = step*stepDec;
         nstep = nstep+1;
-		xc    = clamp(u + step*deltaX, lower, upper);
-        vc    = xc'*Qu + 0.5*xc'*Quu*xc;
+		uc    = clamp(u + step*deltaX, lower, upper);
+        vc    = uc'*Qu + 0.5*uc'*Quu*uc;
         if step<minStep
             result = 2;
             break
@@ -121,7 +121,7 @@ for iter = 1:maxIter
     end
     
     % accept candidate
-    u = xc;
+    u = uc;
     value = vc;
 end
 

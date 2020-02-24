@@ -1,4 +1,4 @@
-function [x, u, K, Jhist, trace] = iLQR(DYNAMICS, COST, x0, xg, u0, uLims, Ops)
+function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 % Solves finite horizon optimal control problem using the iterative
 % linear quadratic redualtor method
 
@@ -18,11 +18,12 @@ function [x, u, K, Jhist, trace] = iLQR(DYNAMICS, COST, x0, xg, u0, uLims, Ops)
 %
 % u0 - The initial control sequeunce (m, N-1)
 %
-% uLims - The control limits (m, 2) (lower, upper)
+% u_lims - The control limits (m, 2) (lower, upper)
 %
 % Ops (options):
 % -----------------------
-% dt, max_iters, exit_tol, grad_tol, zMin, lambda_max, lambda_min, lambda_scaling
+% dt, max_iters, exit_tol, grad_tol, z_min, lambda_max, lambda_min,
+% lambda_scaling, lambda_tol(1e-5)
 
 
 % Outputs
@@ -53,40 +54,109 @@ Nu = size(u0, 1);
 l = zeros(Nu, N-1);
 K = zeros(Nu, Nx, N-1);
 alpha = 0;
-[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x0,xg,u0,l,K,alpha,uLims,Ops.dt);
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x0,xg,u0,l,K,alpha,u_lims,Ops.dt);
 Jhist(1) = cost;
 
 
-% Convergence checks and constants
-flgChange   = 1;  % True if cost improves (otherwise change lambda)
-dcost       = 0;  % Cost change
-expectedChange  = 0;  % Expected cost change
-z           = 0;  % Ratio of cost change to expected cost change
-
+% Convergence check params
+expectedChange = 0; % Expected cost change
+z = 0;              % Ratio of cost change to expected cost change
 
 printf("\n==================Begin iLQR================\n");
-flgChange = 1;
 for iter = 1:Ops.max_iters
     
     % Backward Pass
-    backwardPassDone = 0;
-    while ~backwardPassDone
-        [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,uLims,u)
+    %=======================================
+    backPassDone = 0;
+    while ~backPassDone
+        [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
+        
+        if diverge
+            fprintf("Cholesky factorizaton failed at timestep %d\n",diverge);
+            
+            % Increase regularization parameter (lambda)
+            dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
+            lambda = max(lambda * dlambda, Ops.lambda_min);
+            if lambda > Ops.lambda_max
+                break;
+            end
+            continue;  % Retry with larger lambda
+        end
+        backPassDone = 1;
     end
-
+    
+    % Check gradient of control, defined as l/u
+    % Terminate if sufficiently small (success)
+    g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
+    if g_norm < Ops.grad_tol && lambda < Ops.lambda_tol
+        result = 1;
+        printf("\n---Success: Gradient decreased below grad_tol--\n");
+        break;
+    end
+   
+    % Forward Line-Search
+    %===========================================
+    if backPassDone
+        fwdPassDone = 0;
+        for alpha = Alphas
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,Ops.dt);
+            expectedChange = -alpha*(dV(1) + alpha*dV1(2));
+            if expectedChange > 0
+                z = (cost - cost_n)/expectedChange;
+            else
+                z = sign(cost - cost_n);
+                printf("\n----Warning: non positive expected reduction--\n");
+            end
+            if z > Ops.z_min
+                fwdPassDone = 1;
+                break;
+            end
+        end
+    end
+    
+    % Parameter Updates
+    %=============================================
+    if fwdPassDone
+        % Decrease Lambda
+        dlambda = min(dlambda/Ops.lambda_factor, 1/Ops.lambda_factor);
+        lambda = lamda * dlambda * (lambda > Ops.lambda_min);  % set = 0 if lambda too small
+        
+        % Update trajectory and controls
+        x = x_n;
+        u = u_n;
+        fx = fx_n;
+        fu = fu_n;
+        cx = cx_n;
+        cu = cu_n;
+        cxx = cxx_n;
+        cuu = cuu_n;
+        cost = cost_n;
+        
+    else
+        % No cost reduction (based on z-value)
+        % Increase lambda
+        dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
+        lambda = max(lambda * dlambda, Ops.lambda_min);
+        if lambda > Ops.lambda_max
+            % Lambda too large - solver diverged
+            result = 0;
+            printf("\n---Diverged: new lambda > lambda_max--\n");
+            break;
+        end
+        
+    end
 
 end
 
 if iter == Ops.max_iters
+    % Ddin't converge completely
+    result = 0;
+    printf("\n---Warning: Max iterations exceeded--\n");
+end
     
-
-
-
 end
 
-end
-
-function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,uLims,dt)
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,dt)
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -118,7 +188,7 @@ for k = 1:(N-1)
     unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*(xnew(:,k) - x(:,k));
 
     % Ensure control is within limits
-    unew(:,k) = min(uLims(:,2), max(uLims(:,1), unew(:,k)));
+    unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
 
     % Step the dynamics forward
     [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = DYNAMICS(xnew(:,k), unew(:,k), dt);
@@ -153,6 +223,9 @@ Qxx = zeros(Nx,Nx);
 Quu = zeros(Nu,Nu);
 Qux = zeros(Nu,Nx);
 
+% Change in cost
+dV = [0 0];
+
 % Set cost-to-go Jacobain and Hessian equal to final costs
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
@@ -169,11 +242,12 @@ for k=(N-1):-1:1
     % Regularization (for Cholesky positive definiteness)
     Quu = Quu + eye(Nu)*lambda;
     
-    % Solve the Quadratic program with control lims
+    % Solve the Quadratic program with control limits
     upper = uLims(:,2) - u(:,k);
     lower = uLims(:,1) - u(:,k);
-    [l,result,Luu,freeIdcs] = boxQPsolve(Quu,Qu,lower,upper,u0);
-    
+    l_idx = min(N-1, k+1);
+    [lk,result,Luu,freeIdcs] = boxQPsolve(Quu,Qu,lower,upper,l(:,l_idx));
+
     if result < 1
         diverge = k;
         return;
@@ -181,16 +255,22 @@ for k=(N-1):-1:1
     
     % Solve for feedback gains in non-clamped rows of u
     % (using cholesky factor of Quu)
+    Kk = zeros(Nu,Nx);
     if any(freeIdcs)
-        K(freeIdcs,:,k) = Luu\Luu'\Qux(freeIdcs,:);
+    Kk(freeIdcs, :) = -Luu\Luu'\Qux(freeIdcs,:);
     end
     
+    % Update Cost to Go
+    dV  = dV + [lk'*Qu  (1/2)*lk'*Quu*lk];
+    Vx  = Qx  + Kk'*Quu*lk + Kk'*Qu  + Qux'*lk;
+    Vxx = Qxx + Kk'*Quu*Kk + Kk'*Qux + Qux'*Kk;
+    Vxx = (1/2)*(Vxx + Vxx');  % Make sure Hessian is symmetric
     
-    
+    % Update Control Vectors
+    l(:, k) = -lk;
+    K(:,:,k) = -Kk;
     
 end
-
-
 
 end
 
