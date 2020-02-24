@@ -1,7 +1,7 @@
 % Prototype script for Matlab MEKF
 % To be autocoded into C
 % Paul DeTrempe
-clear; close all; clc;
+clear; clc;
 
 %% Test rotation matrix
 % q0 = .5;
@@ -16,42 +16,42 @@ clear; close all; clc;
 % % ^^ These don't agree....
 
 %% Load data
-% load('noise.mat')
-% load('simstates.mat')
-% load('predictions.mat')
-% load('sensors.mat')
-% load('bias.mat')
-% dt = .1;
-% 
-% % Tune Q and R matrices
+load('noise.mat')
+load('simstates.mat')
+load('predictions.mat')
+load('sensors.mat')
+load('bias.mat')
+dt = .1;
+
+% Tune Q and R matrices
 % Q = Q;
-% 
-% % gyro noise
-% R(4:6, 4:6) = 1*R(4:6, 4:6);
-% 
-% 
-% qtrue = simstates(:,4:7)';
-% N = size(qtrue, 2);
-% btrue = bias';
-% whist = simstates(:,11:13)';
+
+% gyro noise
+% R(4:6, 4:6) = 1e3*R(4:6, 4:6);
+
+
+qtrue = simstates(:,4:7)';
+N = size(qtrue, 2);
+btrue = bias';
+whist = simstates(:,11:13)';
 
 %% Load Zach's data
-clear;
-load mekf_truth
-load mekf_inputs
-Q = W;
-R = V;
-N = size(qtrue, 2);
+% clear;
+% load mekf_truth
+% load mekf_inputs
+% Q = W;
+% R = V;
+% N = size(qtrue, 2);
 times = 0:dt:(N-1)*dt;
-
-% Make quaternions scalar 1st
-q1 = qtrue(:,1)
-qtrue = circshift(qtrue,1,1);
-q1_shifted = qtrue(:,1)
+% 
+% % Make quaternions scalar 1st
+% q1 = qtrue(:,1)
+% qtrue = circshift(qtrue,1,1);
+% q1_shifted = qtrue(:,1)
 
 %% Run the MEKF
 % Initial conditions
-x_k = [qtrue(:,1); zeros(3,1)];
+x_k = [qtrue(:,1); .04*ones(3,1)];
 P_k = blkdiag((.1*pi/180)^2*eye(3), (1*pi/180)^2*eye(3)); %10 deg. and 10 deg/sec 1-sigma uncertainty
 w_k = whist(:,1);
 
@@ -62,11 +62,11 @@ P_hist = zeros(size(P_k,1), N);
 
 for i = 1:N
     % measure some stuff
-    r_B_body = rB2hist(:,i);%sensors(i,1:3)';
-    r_sun_body = rB1hist(:,i);%sensors(i,7:9)';
-    w_k = whist(:,i);%sensors(i,4:6)';
-    r_sun_inert = rN1;%predictions(i,4:6)';
-    r_B_inert = rN2;%predictions(i,1:3)';
+    r_B_body = sensors(i,1:3)';
+    r_sun_body = sensors(i,7:9)';
+    w_k = sensors(i,4:6)';
+    r_sun_inert = predictions(i,4:6)';
+    r_B_inert = predictions(i,1:3)';
     
     % Update our beliefs
     [x_k1, P_k1] = MEKFstep(x_k, P_k, w_k, r_sun_body, r_B_body,...
