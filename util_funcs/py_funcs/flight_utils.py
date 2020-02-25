@@ -151,7 +151,7 @@ def valid_date(M, D, Y, HH, MM, SS):
 
     return check
 
-def mjd_2_GMST(mjd):
+def MJD2GMST(mjd):
     """
     Function: mjd_2_GMST
         Calculates Greenwich Mean Sidereal Time
