@@ -74,23 +74,20 @@ def transpose(M):
     J = range(len(M[0]))
     return [[M[i][j] for i in I] for j in J]
 
-def ECI_to_ECEF(r_ECI, GMST):
+def ECI_to_ECEF(GMST):
     """
-    Function: ECI_to_ECEF
-        Converts position vector in ECI to ECEF.
+    Rotation matrix from ECI to ECEF coordinates
     Inputs:
-        r_ECI: position vector in Earth Centered Inertial (ECI)
-        GMST: current Greenwich Mean Sidereal Time [rad]
+    GMST - Greenwich Mean Sidereal Time
     Outputs:
-        r_ECEF: position vector in Earth Centered Earth Fixed (ECEF)
+    R - Rotation matrix from ECI to ECEF
     """
 
     rotation = [[math.cos(GMST), math.sin(GMST), 0],
                 [-math.sin(GMST), math.cos(GMST), 0],
                 [0, 0, 1]]
-    r_ECEF = [dot(m,r_ECI) for m in rotation]
 
-    return r_ECEF
+    return rotation
 
 def date2MJD(M, D, Y, HH, MM, SS):
     """
