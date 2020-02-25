@@ -13,6 +13,7 @@ import pytest
 import math
 from util_funcs.py_funcs import frame_conversions as fc
 from util_funcs.py_funcs import time_functions as tf
+from util_funcs.py_funcs import sun_utils as su
 
 def test_ECI_2_ECEF_1():
     GMST = math.pi
@@ -115,3 +116,26 @@ def test_ECEF_to_LLA_3():
     np.testing.assert_allclose(py_lla, lla_pred, atol=1e-6)  # Python test
     np.testing.assert_allclose(py_lla, py_lla2,
                                atol=1e-6)  # compare test
+    
+def test_sun_position_1():
+    MJD = 51622 # J2000
+
+    JPL_check = np.array([1.489004447920312E+08, -3.382674902835714E+06, 1.046597880064510E+02]) #given on this MJD
+    JPL_check_unit = JPL_check / np.linalg.norm(JPL_check)
+
+    py_unit = fut.sun_position(MJD) / np.linalg.norm(su.sun_position(MJD))
+    I_vec = np.array([1, 0, 0])
+    ang1 = math.acos(np.dot(py_unit, I_vec))
+    ang2 = math.acos(np.dot(JPL_check_unit, I_vec))
+
+    np.testing.assert_allclose(ang1, ang2, atol=5e-5) # Python test, checking that the approximate angle is fairly close to JPL
+    np.testing.assert_allclose(su.sun_position(MJD),fut.sun_position(MJD), atol=1e-6) # compare test
+
+def test_sat_sun_vect_1():
+    r = [7000, 500, 1000]
+    MJD = 51622
+    check = su.sun_position(MJD) - r
+    check = check / np.linalg.norm(check)
+
+    np.testing.assert_allclose(fut.sat_sun_vect(r, MJD), check, atol=1e-6)
+    np.testing.assert_allclose(fut.sat_sun_vect(r, MJD), su.sat_sun_vect(r, MJD), atol=1e-6)
