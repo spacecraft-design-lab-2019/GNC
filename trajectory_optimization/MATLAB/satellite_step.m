@@ -1,4 +1,4 @@
-function [x, fx, fu] = satellite_step(x0,u0, dt)
+function [x, fx, fu] = satellite_step(x0,u0,dt)
     % Steps the dynamics forward using an rk method
     % Returns: new state, dynamics derivatives, cost derivatives
     

@@ -139,8 +139,8 @@ results = { 'Hessian is not positive definite',...          % result = -1
             'Gradient norm smaller than tolerance',...      % result = 5
             'All dimensions are clamped'};                  % result = 6
 
-fprintf('RESULT: %s.\niterations %d  gradient %-12.6g final value %-12.6g  factorizations %d\n',...
-    results{result+2}, iter, gnorm, value, nfactor);
+% fprintf('RESULT: %s.\niterations %d  gradient %-12.6g final value %-12.6g  factorizations %d\n',...
+%     results{result+2}, iter, gnorm, value, nfactor);
 end
 
 function [clampedVals] = clamp(x, lower, upper)

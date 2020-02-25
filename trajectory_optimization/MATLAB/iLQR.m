@@ -22,8 +22,8 @@ function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 %
 % Ops (options):
 % -----------------------
-% dt, max_iters, exit_tol, grad_tol, z_min, lambda_max, lambda_min,
-% lambda_scaling, lambda_tol(1e-5)
+% dt, max_iters, exit_tol, grad_tol, lambda_tol, z_min, lambda_max, lambda_min,
+% lambda_scaling
 
 
 % Outputs
@@ -62,8 +62,9 @@ Jhist(1) = cost;
 expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
 
-printf("\n==================Begin iLQR================\n");
+fprintf("\n==================Begin iLQR================\n");
 for iter = 1:Ops.max_iters
+    fprintf("\n---New Iteration---\n");
     
     % Backward Pass
     %=======================================
@@ -72,7 +73,7 @@ for iter = 1:Ops.max_iters
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
         if diverge
-            fprintf("Cholesky factorizaton failed at timestep %d\n",diverge);
+            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
             
             % Increase regularization parameter (lambda)
             dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
@@ -90,22 +91,22 @@ for iter = 1:Ops.max_iters
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < Ops.grad_tol && lambda < Ops.lambda_tol
         result = 1;
-        printf("\n---Success: Gradient decreased below grad_tol--\n");
+        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
         break;
     end
    
     % Forward Line-Search
     %===========================================
+    fwdPassDone = 0;
     if backPassDone
-        fwdPassDone = 0;
         for alpha = Alphas
             [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,Ops.dt);
-            expectedChange = -alpha*(dV(1) + alpha*dV1(2));
+            expectedChange = -alpha*(dV(1) + alpha*dV(2));
             if expectedChange > 0
                 z = (cost - cost_n)/expectedChange;
             else
                 z = sign(cost - cost_n);
-                printf("\n----Warning: non positive expected reduction--\n");
+                fprintf("\n---Warning: non positive expected reduction---\n");
             end
             if z > Ops.z_min
                 fwdPassDone = 1;
@@ -118,8 +119,9 @@ for iter = 1:Ops.max_iters
     %=============================================
     if fwdPassDone
         % Decrease Lambda
-        dlambda = min(dlambda/Ops.lambda_factor, 1/Ops.lambda_factor);
-        lambda = lamda * dlambda * (lambda > Ops.lambda_min);  % set = 0 if lambda too small
+        dlambda = min(dlambda/Ops.lambda_scaling, 1/Ops.lambda_scaling);
+        lambda = lambda * dlambda * (lambda > Ops.lambda_min);  % set = 0 if lambda too small
+        dcost = cost - cost_n;
         
         % Update trajectory and controls
         x = x_n;
@@ -132,15 +134,22 @@ for iter = 1:Ops.max_iters
         cuu = cuu_n;
         cost = cost_n;
         
+        % terminate ?
+        if dcost < Ops.exit_tol
+            fprintf('\n---Success cost change < tolerance---\n');
+            break;
+        end
+        
     else
         % No cost reduction (based on z-value)
         % Increase lambda
         dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
         lambda = max(lambda * dlambda, Ops.lambda_min);
+        
         if lambda > Ops.lambda_max
             % Lambda too large - solver diverged
             result = 0;
-            printf("\n---Diverged: new lambda > lambda_max--\n");
+            fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
         end
         
@@ -151,7 +160,7 @@ end
 if iter == Ops.max_iters
     % Ddin't converge completely
     result = 0;
-    printf("\n---Warning: Max iterations exceeded--\n");
+    fprintf("\n---Warning: Max iterations exceeded---\n");
 end
     
 end
@@ -194,14 +203,14 @@ for k = 1:(N-1)
     [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = DYNAMICS(xnew(:,k), unew(:,k), dt);
     
     % Calculate the cost
-    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = COST(xnew(:,k), unew(:,k), xg, terminal); 
+    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = COST(xnew(:,k), xg, unew(:,k), terminal); 
     cost = cost + c;
 end
 
 % Final cost
 terminal = 1;
 u_temp = zeros(Nu,1);
-[c,cx(:,N),~,cxx(:,:,N),~] = COST(xnew(:,N), u_temp, xg, terminal); 
+[c,cx(:,N),~,cxx(:,:,N),~] = COST(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
 end
@@ -214,7 +223,7 @@ N = size(u, 2) + 1;
 Nx = size(fx,1);
 Nu = size(u,1);
 
-% Initialize matrices
+% Initialize matrices (for C)
 l = zeros(Nu,N-1);
 K = zeros(Nu,Nx,N-1);
 Qx = zeros(Nx,1);
@@ -230,6 +239,7 @@ dV = [0 0];
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
 
+diverge = 0;
 for k=(N-1):-1:1
     
     % Define cost gradients

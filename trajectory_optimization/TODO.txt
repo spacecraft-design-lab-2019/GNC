@@ -1,16 +1,10 @@
 
-Check/swap signs of K and l
-
+Test new features since refactor
+Make stripped down version for Auto-Coder
+Auto Code for hardware run
 
 Pass inertia (and it's inverse) as parameters
 Magnetic field model (pass in time sequence of B vectors) calls IGRF & sgp4
-
-
-Read paper - add: 
- -> control limits (boxQP)
- -> regularization for backward pass
- -> better line search
- -> Failure criteria (max iterations, )
 
 
 Read Zac's paper:
@@ -20,7 +14,7 @@ Add magnetorquer control / magnetic field model
 	Convert the B vector to Body frame for calculating torque at each step
 	
 
-Add check after solver has run that final attitude and velocity are
+Add check (in python?) after solver has run that final attitude and velocity are
 within an acceptable tolerance of the desired values. If not
 don't run the control sequence
 

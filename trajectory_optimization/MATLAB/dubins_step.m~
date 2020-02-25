@@ -1,0 +1,33 @@
+function [x,fx,fu] = dubins_step(x0,u0,dt)
+% RK step for Dubins car
+
+% === states and controls:
+% x = [x y th v]' = [x; y; car_angle; front_wheel_velocity]
+% u = [delta a]'     = [front_wheel_angle; acceleration]
+
+% constants
+l  = 2.0;      % wheelbase
+
+% controls
+delta  = u0(1); % front wheel angle
+a  = u0(2);     % front wheel acceleration
+
+th  = x(3);     % car angle
+               
+z  = [cos(th); sin(th)];  % z = unit_vector(o)
+
+v  = x(4,:,:); % v = front wheel velocity
+f  = dt*v;      % f = front wheel rolling distance
+               % b = back wheel rolling distance
+b  = l + f.*cos(delta) - sqrt(l^2 - (f.*sin(delta)).^2);
+               % do = change in car angle
+do = asin(sin(delta).*f/l);
+
+dy = [tt(b, z); do; dt*a];   % change in state
+y  = x + dy;                % new state
+
+end
+
+
+
+function [xdot, dxdot] = dubins_dynamics(
