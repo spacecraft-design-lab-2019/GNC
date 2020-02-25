@@ -59,12 +59,12 @@ def ECEF_to_LLA(r_ECEF, rad_Earth):
         alt:    altitude    [rad]
     """
 
-    lat = math.arcsin(r_ECEF[2] / norm2(r_ECEF))
-    lon = math.arctan2(r_ECEF[1], r_ECEF[0])
+    lat = math.asin(r_ECEF[2] / norm2(r_ECEF))
+    lon = math.atan2(r_ECEF[1], r_ECEF[0])
 
     alt = norm2(r_ECEF) - rad_Earth
 
-    return [lat, lon, alt]
+    return lat, lon, alt
 
 def dot(v1, v2):
     return sum(x*y for x,y in zip(v1,v2))
