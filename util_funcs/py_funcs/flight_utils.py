@@ -1,4 +1,7 @@
 import math
+import numpy as np
+from math import cos
+from math import sin
 
 def sun_position(MJD):
     """
@@ -83,8 +86,8 @@ def ECI_to_ECEF(GMST):
     R - Rotation matrix from ECI to ECEF
     """
 
-    rotation = [[math.cos(GMST), math.sin(GMST), 0],
-                [-math.sin(GMST), math.cos(GMST), 0],
+    rotation = [[cos(GMST), sin(GMST), 0],
+                [-sin(GMST), cos(GMST), 0],
                 [0, 0, 1]]
 
     return rotation
@@ -177,8 +180,28 @@ def ecef2enu(lat, lon):
     Ehat = [-math.sin(lon), math.cos(lon), 0]
     Nhat = [-math.sin(lat) * math.cos(lon), -math.sin(lat) * math.sin(lon), math.cos(lat)]
     Uhat = [math.cos(lat) * math.cos(lon), math.cos(lat) * math.sin(lon), math.sin(lat)]
-#
-#    R = np.column_stack((Ehat, Nhat, Uhat))
-    R = transpose(R)
+    
+    R = [Ehat,
+         Nhat,
+         Uhat]
     return R
 
+def ecef2enu2(lat, lon):
+    """
+    Rotation matrix from ECEF to ENU coordinates
+    Inputs:
+    lat - Latitude in radians
+    lon - Longitude in radians
+    Outputs:
+    R - Rotation matrix from ECEF to ENU
+    """
+    Ehat = np.array([-math.sin(lon), math.cos(lon), 0])
+    Nhat = np.array([-sin(lat) * cos(lon), -sin(lat) * sin(lon), cos(lat)])
+    Uhat = np.array([cos(lat) * cos(lon), cos(lat) * sin(lon), sin(lat)])
+    
+    R = np.column_stack((Ehat, Nhat, Uhat))
+#    R = np.transpose(R)
+    return R
+#
+#print(ecef2enu2(math.pi/2, math.pi/3))
+#print(ecef2enu(math.pi/2, math.pi/3))

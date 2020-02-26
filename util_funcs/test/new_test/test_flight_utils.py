@@ -139,3 +139,19 @@ def test_sat_sun_vect_1():
 
     np.testing.assert_allclose(fut.sat_sun_vect(r, MJD), check, atol=1e-6)
     np.testing.assert_allclose(fut.sat_sun_vect(r, MJD), su.sat_sun_vect(r, MJD), atol=1e-6)
+    
+def test_ecef2enu_1():
+    lat = 0
+    lon = math.pi / 6
+    test_vec = [1, 0, 0]
+    R_pred = np.array([[-1/2, math.sqrt(3)/2 ,0 ],
+                       [0, 0, 1],
+                       [math.sqrt(3)/2, 1/2, 0]])
+    test_rot_vec = np.array([-1/2, 0, math.sqrt(3)/2])
+    np.testing.assert_allclose(fut.ecef2enu(lat, lon), R_pred, atol=1e-6)  # Python test
+    np.testing.assert_allclose(fc.ecef2enu(lat, lon), fut.ecef2enu(lat, lon),
+                               atol=1e-6)  # compare test
+
+    np.testing.assert_allclose(np.array(fut.ecef2enu(lat, lon)) @ test_vec, test_rot_vec, atol=1e-6) # checking rotations
+    np.testing.assert_allclose(fc.ecef2enu(lat, lon) @ test_vec, np.array(fut.ecef2enu(lat, lon)) @ test_vec,
+                               atol=1e-6)  # compare test
