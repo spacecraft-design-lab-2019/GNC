@@ -1,4 +1,4 @@
-function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
+function [x,u,K,result] = ilqrCar(x0, xg, u0, u_lims)
 % Solves finite horizon optimal control problem using the iterative
 % linear quadratic redualtor method
 
@@ -19,11 +19,6 @@ function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 % u0 - The initial control sequeunce (m, N-1)
 %
 % u_lims - The control limits (m, 2) (lower, upper)
-%
-% Ops (options):
-% -----------------------
-% dt, max_iters, exit_tol, grad_tol, lambda_tol, z_min, lambda_max, lambda_min,
-% lambda_scaling
 
 
 % Outputs
@@ -36,6 +31,17 @@ function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 %
 % Jhist - The cost history (convergence)
 
+
+% Options
+Ops.dt = 0.03;            % Timestep (Should match MCU Hz)
+Ops.max_iters = 500;      % maximum iterations
+Ops.exit_tol = 1e-7;      % cost reduction exit tolerance
+Ops.grad_tol = 1e-4;      % gradient exit criterion
+Ops.lambda_tol = 1e-5;    % lambda criterion for gradient exit
+Ops.z_min = 0;            % minimum accepted cost reduction ratio
+Ops.lambda_max = 1e10;    % maximum regularization parameter
+Ops.lambda_min = 1e-6;    % set lambda = 0 below this value
+Ops.lambda_scaling = 1.6; % amount to scale dlambda by
 
 % CONSTANTS
 Alphas = 10.^linspace(0, -3, 11);  % line search param
@@ -51,18 +57,15 @@ Nu = size(u0, 1);
 l = zeros(Nu, N-1);
 K = zeros(Nu, Nx, N-1);
 alpha = 0;
-[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x0,xg,u0,l,K,alpha,u_lims,Ops.dt);
-Jhist = [];
-Jhist(1) = cost;
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,Ops.dt);
 
 
 % Convergence check params
 expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
 
-fprintf("\n==================Begin iLQR================\n");
+% Begin iLQR
 for iter = 1:Ops.max_iters
-    fprintf("\n---New Iteration---\n");
     
     % Backward Pass
     %=======================================
@@ -71,8 +74,6 @@ for iter = 1:Ops.max_iters
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
         if diverge
-            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
-            
             % Increase regularization parameter (lambda)
             dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
             lambda = max(lambda * dlambda, Ops.lambda_min);
@@ -89,7 +90,6 @@ for iter = 1:Ops.max_iters
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < Ops.grad_tol && lambda < Ops.lambda_tol
         result = 1;
-        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
         break;
     end
    
@@ -98,13 +98,12 @@ for iter = 1:Ops.max_iters
     fwdPassDone = 0;
     if backPassDone
         for alpha = Alphas
-            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,Ops.dt);
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,l,K,alpha,u_lims,Ops.dt);
             expectedChange = -alpha*(dV(1) + alpha*dV(2));
             if expectedChange > 0
                 z = (cost - cost_n)/expectedChange;
             else
                 z = sign(cost - cost_n);
-                fprintf("\n---Warning: non positive expected reduction---\n");
             end
             if z > Ops.z_min
                 fwdPassDone = 1;
@@ -131,10 +130,9 @@ for iter = 1:Ops.max_iters
         cxx = cxx_n;
         cuu = cuu_n;
         cost = cost_n;
-        Jhist(iter+1) = cost;
+
         % terminate ?
         if dcost < Ops.exit_tol
-            fprintf('\n---Success cost change < tolerance---\n');
             break;
         end
         
@@ -147,7 +145,6 @@ for iter = 1:Ops.max_iters
         if lambda > Ops.lambda_max
             % Lambda too large - solver diverged
             result = 0;
-            fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
         end
         
@@ -158,12 +155,11 @@ end
 if iter == Ops.max_iters
     % Ddin't converge completely
     result = 0;
-    fprintf("\n---Warning: Max iterations exceeded---\n");
 end
     
 end
 
-function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,dt)
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt)
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -180,8 +176,8 @@ xnew = zeros(Nx,N);
 unew = zeros(Nu,N-1);
 fx = zeros(Nx,Nx,N-1);
 fu = zeros(Nx,Nu,N-1);
-cx = zeros(Nx,N);
-cu = zeros(Nu,N-1);
+cx = zeros(Nx,1,N);
+cu = zeros(Nu,1,N-1);
 cxx = zeros(Nx,Nx,N);
 cuu = zeros(Nu,Nu,N-1);
 cost = 0;
@@ -198,17 +194,17 @@ for k = 1:(N-1)
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = DYNAMICS(xnew(:,k), unew(:,k), dt);
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = car_step(xnew(:,k), unew(:,k), dt);
     
     % Calculate the cost
-    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = COST(xnew(:,k), xg, unew(:,k), terminal); 
+    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = car_cost(xnew(:,k), xg, unew(:,k), terminal); 
     cost = cost + c;
 end
 
 % Final cost
 terminal = 1;
 u_temp = zeros(Nu,1);
-[c,cx(:,N),~,cxx(:,:,N),~] = COST(xnew(:,N), xg, u_temp, terminal); 
+[c,cx(:,N),~,cxx(:,:,N),~] = car_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
 end
@@ -221,7 +217,7 @@ N = size(u, 2) + 1;
 Nx = size(fx,1);
 Nu = size(u,1);
 
-% Initialize matrices (for C)
+% Initialize matrices and variables
 l = zeros(Nu,N-1);
 K = zeros(Nu,Nx,N-1);
 Qx = zeros(Nx,1);
@@ -229,6 +225,10 @@ Qu = zeros(Nu,1);
 Qxx = zeros(Nx,Nx);
 Quu = zeros(Nu,Nu);
 Qux = zeros(Nu,Nx);
+
+lk = zeros(Nu, 1);
+result = 0;
+
 
 % Change in cost
 dV = [0 0];
@@ -281,6 +281,5 @@ for k=(N-1):-1:1
 end
 
 end
-
 
 

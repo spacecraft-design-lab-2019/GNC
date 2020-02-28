@@ -130,15 +130,15 @@ if iter >= maxIter
     result = 1;
 end
 
-results = { 'Hessian is not positive definite',...          % result = -1
-            'No descent direction found',...                % result = 0    SHOULD NOT OCCUR
-            'Maximum main iterations exceeded',...          % result = 1
-            'Maximum line-search iterations exceeded',...   % result = 2
-            'Improvement smaller than tolerance',...        % result = 3
-            'Gradient norm smaller than tolerance',...      % result = 4
-            'All dimensions are clamped'};                  % result = 5
-
-% fprintf("\nBoxQP Result: %s \n", results{result+2});
+% results meaning
+% =======================
+% Hessian is not positive definite           % result = -1
+% No descent direction found                 % result = 0    SHOULD NOT OCCUR
+% Maximum main iterations exceeded           % result = 1
+% Maximum line-search iterations exceeded    % result = 2
+% Improvement smaller than tolerance         % result = 3
+% Gradient norm smaller than tolerance       % result = 4
+% All dimensions are clamped                 % result = 5
 end
 
 function [clampedVals] = clamp(x, lower, upper)

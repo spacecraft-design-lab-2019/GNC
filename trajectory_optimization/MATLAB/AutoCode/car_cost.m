@@ -4,15 +4,12 @@ function [cost, cx, cu, cxx, cuu] = car_cost(x, xg, u, terminal)
 
 % Cost matrices
 % Cumulative
-Q = 1e-5*eye(4);
-Q(1,1) = 1e-3;
-Q(2,2) = 1e-3;
-R = [0.01, 0;
-     0, 0.0001];
+Q = 0.1*eye(4);
+R = 0.01*eye(2);
 
 % Terminal
-Qf = 0.1*eye(4);
-Qf(4,4) = 0.3;
+Qf = eye(4);
+Qf(3,3) = 100;
 
 if terminal
     % Terminal cost
