@@ -5,7 +5,7 @@ close all
 clc
 
 % Paramters
-T = 500;                    % time horizon
+T = 501;                    % time horizon
 x0 = zeros(4, T);
 x0(:,1) = [1;1;pi*3/2;0];   % initial state
 % xg = zeros(4,1);            % goal state
@@ -27,7 +27,7 @@ Ops.lambda_scaling = 1.6; % amount to scale dlambda by
 
 
 % Run iLQR
-[x,u,K,Jhist,result] = iLQR(@car_step, @car_cost, x0, xg, u0, u_lims, Ops);
+[x,u,K,Jhist,result] = iLQR(@car_step, @car_cost2, x0, xg, u0, u_lims, Ops);
 
 % Plot results
 % Car path

@@ -1,5 +1,7 @@
 
-Test new features since refactor
+
+QPsolver -> check if auto coder can handle boolean array multiplciation (clamped gradient)
+
 Make stripped down version for Auto-Coder
 Auto Code for hardware run
 

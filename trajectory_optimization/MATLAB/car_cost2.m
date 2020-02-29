@@ -2,7 +2,6 @@ function [cost, cx, cu, cxx, cuu] = car_cost2(x, xg, u, terminal)
 
 cost = cost_func(x,u,terminal);
 [cx,cu,cxx,cuu] = cost_derivs(x,u,terminal);
-xg;
 
 end
 
