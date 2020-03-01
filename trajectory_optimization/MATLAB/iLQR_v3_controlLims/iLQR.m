@@ -218,6 +218,8 @@ end
 
 function [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u)
 % Perfoms the LQR backward pass to find the optimal controls
+% Solves a quadratic program (QP) at each timestep for the optimal
+% controls given the control limits
 
 N = size(u, 2) + 1;
 Nx = size(fx,1);

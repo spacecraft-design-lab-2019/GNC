@@ -1,5 +1,4 @@
 
-
 QPsolver -> check if auto coder can handle boolean array multiplciation (clamped gradient)
 Change QuuFree to not be dynamically sized
 
@@ -8,8 +7,12 @@ Make stripped down version for Auto-Coder
 Auto Code for hardware run
 
 
-Pass inertia (and it's inverse) as parameters
-Magnetic field model (pass in time sequence of B vectors) calls IGRF & sgp4
+// Pass parameters
+==================
+- Inertia and it's inverse
+- Solver Options.
+- Magnetic field model (pass in time sequence of B vectors) calls IGRF & sgp4
+- Cost function matrices (Maybe?)
 
 
 Read Zac's paper:

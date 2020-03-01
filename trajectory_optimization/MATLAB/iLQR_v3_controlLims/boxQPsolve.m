@@ -1,18 +1,19 @@
 function [u,result,Luu_free,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
-% Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower<=u<=upper
+% Finds the optimal control with limits to minimize a quadratic cost
+% Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower <= u <= upper
 %
 %  inputs:
-%     Quu          - positive definite matrix   (n * n)
-%     Qu           - bias vector                (n)
-%     lower        - lower bounds               (n)
-%     upper        - upper bounds               (n)
-%     u0           - initial state              (n)
+%     Quu       - positive definite matrix              (n * n)
+%     Qu        - bias vector                           (n)
+%     lower     - lower bounds                          (n)
+%     upper     - upper bounds                          (n)
+%     u0        - initial control input for warm-start  (n)
 %
 %  outputs:
-%     u            - solution                   (n)
-%     result       - result type (roughly, higher is better, see below)
-%     Luu          - cholesky factor            (n * n)
-%     free         - set of free dimensions     (n)
+%     u         - solution                   (n)
+%     result    - result type (roughly, higher is better, see below)
+%     Luu       - cholesky factor            (n * n)
+%     free      - set of free dimensions     (n)
 
 n = size(Quu,1);
 
