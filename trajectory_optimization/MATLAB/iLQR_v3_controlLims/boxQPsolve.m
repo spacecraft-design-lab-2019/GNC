@@ -1,4 +1,4 @@
-function [u,result,Quufree,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
+function [u,result,Luu_free,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
 % Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower<=u<=upper
 %
 %  inputs:
@@ -11,22 +11,24 @@ function [u,result,Quufree,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
 %  outputs:
 %     u            - solution                   (n)
 %     result       - result type (roughly, higher is better, see below)
-%     Quufree      - subspace cholesky factor   (n_free * n_free)
+%     Luu          - cholesky factor            (n * n)
 %     free         - set of free dimensions     (n)
 
+n = size(Quu,1);
 
-n        = size(Quu,1);
-clamped  = false(n,1);
-free     = true(n,1);
-oldvalue = 0;
-result   = 0;
-gnorm    = 0;
-nfactor  = 0;
-Quufree  = zeros(n);
+% Initialize arrays
+clamped      = false(n,1);
+prev_clamped = false(n,1);
+free         = true(n,1);
+deltaX       = zeros(n, 1);
+grad         = zeros(n, 1);
+grad_clamped = zeros(n, 1);
+uc           = zeros(n, 1);
+Luu_free     = zeros(n, n);  % Placeholder to return if Luu_free not assigned
 
-
-% initial state
-u = clamp(u0(:), lower, upper);
+% Initialize scalars
+oldvalue     = 0;
+result       = 0;
 
 % options
 maxIter        = 100;       % maximum number of iterations
@@ -35,6 +37,9 @@ minRelImprove  = 1e-8;      % minimum relative improvement
 stepDec        = 0.6;       % factor for decreasing stepsize
 minStep        = 1e-22;     % minimal stepsize for linesearch
 Armijo         = 0.1;   	% Armijo parameter (fraction of linear improvement required)
+
+% initial state
+u = clamp(u0(:), lower, upper);
 
 % initial objective value
 value = u'*Qu + 0.5*u'*Quu*u;
@@ -57,8 +62,8 @@ for iter = 1:maxIter
     grad = Qu + Quu*u;
     
     % find clamped dimensions
-    old_clamped                     = clamped;
-    clamped                         = false(n,1);
+    prev_clamped                    = clamped;
+    clamped(:, 1)                   = false;
     clamped((u == lower)&(grad>0))  = true;
     clamped((u == upper)&(grad<0))  = true;
     free                            = ~clamped;
@@ -69,21 +74,20 @@ for iter = 1:maxIter
         break;
     end
     
-    % factorize if clamped has changed
+    % Cholesky factorize if clamped controls have changed
     if iter == 1
         factorize = true;
     else
-        factorize = any(old_clamped ~= clamped);
+        factorize = any(prev_clamped ~= clamped);
     end
     
      % Cholesky (check for non PD)
     if factorize
-        [Quufree, indef] = chol_local(Quu(free,free));
+        [Luu_free, indef] = chol_local(Quu(free, free));
         if indef
             result = -1;
             break
         end
-        nfactor = nfactor + 1;
     end
     
     % check gradient norm
@@ -95,8 +99,8 @@ for iter = 1:maxIter
     
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
-    deltaX = zeros(n,1);
-    deltaX(free) = -Quufree\(Quufree'\grad_clamped(free)) - u(free); % cholesky solver
+    deltaX(:, 1) = 0;
+    deltaX(free) = -Luu_free\(Luu_free'\grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);
@@ -105,7 +109,7 @@ for iter = 1:maxIter
         break
     end
     
-    % armijo linesearch
+    % Armijo linesearch
     step  = 1;
     nstep = 0;
 	uc    = clamp(u + step*deltaX, lower, upper);
@@ -130,19 +134,20 @@ if iter >= maxIter
     result = 1;
 end
 
-%results = { 'Hessian is not positive definite',...          % result = -1
-%            'No descent direction found',...                % result = 0    SHOULD NOT OCCUR
-%            'Maximum main iterations exceeded',...          % result = 1
-%            'Maximum line-search iterations exceeded',...   % result = 2
-%            'Improvement smaller than tolerance',...        % result = 3
-%            'Gradient norm smaller than tolerance',...      % result = 4
-%            'All dimensions are clamped'};                  % result = 5
+% Results
+% ===========================
+% -1: Hessian is not positive definite
+%  0: No descent direction found          (SHOULD NOT OCCUR)
+%  1: Maximum main iterations exceeded       
+%  2: Maximum line-search iterations exceeded  
+%  3: Improvement smaller than tolerance     
+%  4: Gradient norm smaller than tolerance    
+%  5: All dimensions are clamped 
 
-% fprintf("\nBoxQP Result: %s \n", results{result+2});
 end
 
 function [clampedVals] = clamp(x, lower, upper)
-% Returns clamped values
+% Returns array x with all values clamped between lower and upper
 
 clampedVals = max(lower, min(upper, x));
 

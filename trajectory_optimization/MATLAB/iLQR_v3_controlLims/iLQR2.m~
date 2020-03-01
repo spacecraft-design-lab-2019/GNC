@@ -1,4 +1,4 @@
-function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
+function [x,u,K,Jhist,result] = iLQR2(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 % Solves finite horizon optimal control problem using the iterative
 % linear quadratic redualtor method
 
@@ -267,7 +267,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk = zeros(Nu,Nx);
     if any(freeIdcs)
-        Kk(freeIdcs, :) = -Luu\(Luu'\Qux(freeIdcs,:));
+        Kk(freeIdcs, :) = -Luu(freeIdcs)\(Luu(freeIdcs)'\Qux(freeIdcs,:));
     end
     
     % Update Cost to Go

@@ -1,6 +1,8 @@
 
 
 QPsolver -> check if auto coder can handle boolean array multiplciation (clamped gradient)
+Change QuuFree to not be dynamically sized
+
 
 Make stripped down version for Auto-Coder
 Auto Code for hardware run

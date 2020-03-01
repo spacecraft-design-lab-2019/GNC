@@ -132,8 +132,10 @@ for iter = 1:Ops.max_iters
         cuu = cuu_n;
         cost = cost_n;
         Jhist(iter+1) = cost;
-        % terminate ?
+        
+        % Terminate ?
         if dcost < Ops.exit_tol
+            result = 1;
             fprintf('\n---Success cost change < tolerance---\n');
             break;
         end
@@ -248,13 +250,13 @@ for k=(N-1):-1:1
     Qux = fu(:,:,k)'*Vxx*fx(:,:,k);
     
     % Regularization (for Cholesky positive definiteness)
-    Quu = Quu + eye(Nu)*lambda;
+    QuuF = Quu + eye(Nu)*lambda;
     
     % Solve the Quadratic program with control limits
     upper = u_lims(:,2) - u(:,k);
     lower = u_lims(:,1) - u(:,k);
     l_idx = min(N-1, k+1);
-    [lk,result,Luu,freeIdcs] = boxQPsolve(Quu,Qu,lower,upper,-1*l(:,l_idx));
+    [lk,result,Luu_free,free] = boxQPsolve(QuuF,Qu,lower,upper,-1*l(:,l_idx));
 
     if result < 1
         diverge = k;
@@ -264,8 +266,8 @@ for k=(N-1):-1:1
     % Solve for feedback gains in non-clamped rows of u
     % (using cholesky factor of Quu)
     Kk = zeros(Nu,Nx);
-    if any(freeIdcs)
-        Kk(freeIdcs, :) = -Luu\Luu'\Qux(freeIdcs,:);
+    if any(free)
+        Kk(free, :) = -Luu_free\(Luu_free'\Qux(free,:));
     end
     
     % Update Cost to Go
