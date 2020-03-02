@@ -10,7 +10,7 @@ x0 = zeros(4, T);
 x0(:,1) = [1;1;pi*3/2;0];   % initial state
 % xg = zeros(4,1);            % goal state
 xg = [0;0;0;0];
-u0 = zeros(2,T);            % initial controls
+u0 = zeros(2,T-1);            % initial controls
 u_lims = [-.5 .5;           % wheel angle limits (radians)
           -2  2];           % acceleration limits (m/s^2)
 
@@ -27,7 +27,7 @@ Ops.lambda_scaling = 1.6; % amount to scale dlambda by
 
 
 % Run iLQR
-[x,u,K,Jhist,result] = iLQR(@car_step, @car_cost2, x0, xg, u0, u_lims, Ops);
+[x,u,K,Jhist,result] = iLQR(@car_step, @car_cost, x0, xg, u0, u_lims, Ops);
 
 % Plot results
 % Car path

@@ -1,10 +1,8 @@
 
-QPsolver -> check if auto coder can handle boolean array multiplciation (clamped gradient)
-Change QuuFree to not be dynamically sized
-
-
-Make stripped down version for Auto-Coder
-Auto Code for hardware run
+Check boolean type circuit python (needs boolean header)
+Check variable sized arrays (needs C99 compiler)
+Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
+	Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
 
 
 // Pass parameters
@@ -21,13 +19,10 @@ Add magnetorquer control / magnetic field model
 	Pass in time series of B vectors to iLQR
 	Convert the B vector to Body frame for calculating torque at each step
 	
+Add functionality for different length trajectories (just pass N as parameter)
 
 Add check (in python?) after solver has run that final attitude and velocity are
-within an acceptable tolerance of the desired values. If not
-don't run the control sequence
-
-
-Add functionality in C-code for different length trajectories
+within an acceptable tolerance of the desired values. If not don't run the control sequence
 
 
 

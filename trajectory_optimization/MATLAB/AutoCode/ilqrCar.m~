@@ -52,13 +52,14 @@ Nu = size(u0, 1);
 % Init matrices for update
 x_n = zeros(Nx,N);
 u_n = zeros(Nu,N-1);
-fx_n = zeros(Nx,Nx,N-1);
-fu_n = zeros(Nx,Nu,N-1);
+fx_n = zeros(Nx,Nx,N);
+fu_n = zeros(Nx,Nu,N);
 cx_n = zeros(Nx,N);
-cu_n = zeros(Nu,N-1);
-cxx_n = zeros(Nx,Nx,N);
-cuu_n = zeros(Nu,Nu,N-1);
-cost_n = 0;
+cu_n = Nu(
+cxx_n;
+cuu_n;
+cost_n;
+
 
 % Initial Forward rollout
 % Returns xtraj, (unew=utraj0), cost
@@ -71,13 +72,12 @@ alpha = 0;
 % Convergence check params
 expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
-result = false;
 
 for iter = 1:max_iters
     
     % Backward Pass
     %=======================================
-    backPassDone = false;
+    backPassDone = 0;
     while ~backPassDone
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
@@ -90,20 +90,20 @@ for iter = 1:max_iters
             end
             continue;  % Retry with larger lambda
         end
-        backPassDone = true;
+        backPassDone = 1;
     end
     
     % Check gradient of control, defined as l/u
     % Terminate if sufficiently small (success)
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < grad_tol && lambda < lambda_tol
-        result = true;
+        result = 1;
         break;
     end
    
     % Forward Line-Search
     %===========================================
-    fwdPassDone = false;
+    fwdPassDone = 0;
     if backPassDone
         for alpha = Alphas
             [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt);
@@ -114,7 +114,7 @@ for iter = 1:max_iters
                 z = sign(cost - cost_n);
             end
             if z > z_min
-                fwdPassDone = true;
+                fwdPassDone = 1;
                 break;
             end
         end
@@ -141,7 +141,7 @@ for iter = 1:max_iters
         
         % Terminate ?
         if dcost < exit_tol
-            result = true;
+            result = 1;
             break;
         end
         
@@ -153,7 +153,7 @@ for iter = 1:max_iters
         
         if lambda > lambda_max
             % Lambda too large - solver diverged
-            result = false;
+            result = 0;
             break;
         end
         
@@ -163,7 +163,7 @@ end
 
 if iter == max_iters
     % Ddin't converge completely
-    result = false;
+    result = 0;
 end
     
 end
@@ -247,7 +247,7 @@ dV = [0 0];
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
 
-diverge = false;
+diverge = 0;
 for k=(N-1):-1:1
     
     % Define cost gradients
@@ -264,10 +264,10 @@ for k=(N-1):-1:1
     upper = u_lims(:,2) - u(:,k);
     lower = u_lims(:,1) - u(:,k);
     l_idx = min(N-1, k+1);
-    [lk,result,Luu,free] = boxQPsolve(QuuF,Qu,lower,upper,-1*l(:,l_idx));
+    [lk,result,Luu_free,free] = boxQPsolve(QuuF,Qu,lower,upper,-1*l(:,l_idx));
 
     if result < 1
-        diverge = true;
+        diverge = k;
         return;
     end
     
@@ -275,7 +275,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk(:,:) = 0;
     if any(free)
-        Kk(free, :) = -Luu(free,free)\(Luu(free,free)'\Qux(free,:));
+        Kk(free, :) = -Luu_free\(Luu_free'\Qux(free,:));
     end
     
     % Update Cost to Go

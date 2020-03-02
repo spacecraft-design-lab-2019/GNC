@@ -1,4 +1,4 @@
-function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
+function [u,result,Luu_free,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
 % Finds the optimal control with limits to minimize a quadratic cost
 % Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower <= u <= upper
 %
@@ -36,7 +36,7 @@ maxIter        = 100;       % maximum number of iterations
 minGrad        = 1e-8;      % minimum norm of non-fixed gradient
 minRelImprove  = 1e-8;      % minimum relative improvement
 stepDec        = 0.6;       % factor for decreasing stepsize
-minStep        = 1e-20;     % minimal stepsize for linesearch
+minStep        = 1e-22;     % minimal stepsize for linesearch
 Armijo         = 0.1;   	% Armijo parameter (fraction of linear improvement required)
 
 % initial state
@@ -84,7 +84,7 @@ for iter = 1:maxIter
     
      % Cholesky (check for non PD)
     if factorize
-        [Luu(free,free), indef] = chol_free(Quu(free,free));
+        [Luu(free,free), indef] = chol_local(Quu(free, free));
         if indef
             result = -1;
             break
@@ -155,13 +155,8 @@ clampedVals = max(lower, min(upper, x));
 end
 
 
-function [L, fail] = chol_free(A)
+function [L, fail] = chol_local(A)
 % Wrapper for MATLAB chol for use with auto coder
-% Inputs:
-%===========
-% A - positive semi-definite matrix
 [L, fail] = chol(A);
 
 end
-
-

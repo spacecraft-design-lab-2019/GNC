@@ -1,5 +1,5 @@
 function [x,fx,fu] = car_step(x0,u0,dt)
-% RK step for car
+% Forward Euler step for car
 % returns x, fx, fu
 
 % === states and controls:
