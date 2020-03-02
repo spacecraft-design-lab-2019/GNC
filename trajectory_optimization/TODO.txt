@@ -4,6 +4,7 @@ Check variable sized arrays (needs C99 compiler)
 Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
 	Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
 
+Try make x0 a single column rather than an entire time history.
 
 // Pass parameters
 ==================

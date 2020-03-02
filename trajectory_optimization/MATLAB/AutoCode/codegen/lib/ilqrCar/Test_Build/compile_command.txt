@@ -1,2 +1,5 @@
-c99 main.c ilqrCar.c -o ilqrTest.exe -ggdb -lm
+c99 main.c ilqrCar.c -o ilqrTest.run -ggdb -lm
 
+chmod +X ilqrTest.run
+
+./ilqrTest.run

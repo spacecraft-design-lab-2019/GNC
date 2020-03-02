@@ -4,12 +4,14 @@
 #include "main.h"
 #include "ilqrCar.h"
 
+
 /* Function Declarations */
 static void initULims(double uLims[4]);
 static void initU0(double u0[1000]);
 static void initXg(double xg[4]);
 static void initX0(double x0[2004]);
 static void main_ilqrCar(void);
+static void writeToFile(char* filename, double x[2004], const int nStates, const int nRows);
 
 
 static void initULims(double uLims[4])
@@ -82,6 +84,38 @@ static void main_ilqrCar(void)
   initU0(u0);
   initULims(uLims);
   ilqrCar(x0, xg, u0, uLims, x, u, K, &result);
+
+  const int nStates = 4;
+  const int nRows = 501;
+  char filename[] = "C_ilqr_run1";
+  writeToFile(filename, x, nStates, nRows);
+}
+
+
+/**
+ * Writes the trajectory optimization result to a csv file
+ *
+ * filename - char array with the desired filename (no extension)
+ * x[]      - the state trajectories from the optimisation
+ * nStates  - the number of states
+ */
+static void writeToFile(char* filename, double x[2004], const int nStates, const int nRows)
+{
+  filename = strcat(filename ,".csv");
+  printf("Writing data to %s", filename);
+ 
+  FILE* f = fopen(filename, "w+");
+  fprintf(f, "timestep, x, y, theta, v");
+
+  /* Loop over the array to write each state vector to the file */
+  // for (int rowIdx = 0; rowIdx < nRows; rowIdx++) {
+  //   fprintf(f, "\n%d", rowIdx);
+  //   for (int colIdx = 0; colIdx < nStates; colIdx++) {
+  //     fprintf(f, ",%f", x[(rowIdx * nStates) + colIdx]);
+  //   }
+  // }
+  fclose(f);
+  printf("\nFile successfuly written");
 }
 
 
@@ -89,8 +123,7 @@ int main()
 {
 
   main_ilqrCar();
-  printf("Done");
-
+  printf("\nOptimization Done");
   return 0;
 }
 
