@@ -5,6 +5,7 @@
 /* Include Files */
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 // #include "rtwtypes.h"
 #include "ilqrCar.h"
 

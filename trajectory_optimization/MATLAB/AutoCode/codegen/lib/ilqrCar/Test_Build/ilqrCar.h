@@ -15,7 +15,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 // #include "rtwtypes.h"
-#include "ilqrCar_types.h"
+// #include "ilqrCar_types.h"
 
 #include <stdbool.h>
 

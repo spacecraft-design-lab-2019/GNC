@@ -15,8 +15,8 @@ static void main_ilqrCar(void);
 static void initULims(double uLims[4])
 {
   // Need to check the order of these is correct
-  uLims[0] = -0.5
-  uLims[1] = -2
+  uLims[0] = -0.5;
+  uLims[1] = -2;
   uLims[2] = 0.5;
   uLims[3] = 2;
 }
@@ -30,7 +30,7 @@ static void initU0(double u0[1000])
   /* Loop over the array to initialize each element. */
   for (idx0 = 0; idx0 < 2; idx0++) {
     for (idx1 = 0; idx1 < 500; idx1++) {
-      result[idx0 + (idx1 << 1)] = 0.0;
+      u0[idx0 + (idx1 << 1)] = 0.0;
     }
   }
 }
@@ -54,7 +54,7 @@ static void initX0(double x0[2004])
   /* Loop over the array to initialize each element to zero. */
   for (idx0 = 0; idx0 < 4; idx0++) {
     for (idx1 = 0; idx1 < 501; idx1++) {
-      result[idx0 + (idx1 << 2)] = 0.0;
+      x0[idx0 + (idx1 << 2)] = 0.0;
     }
   }
   // Set the inital state
@@ -74,19 +74,14 @@ static void main_ilqrCar(void)
   static double x[2004];
   static double u[1000];
   static double K[4000];
-  boolean_T result;
+  bool result;
 
   // Init x0
   initX0(x0);
   initXg(xg);
   initU0(u0);
   initULims(uLims);
-  ilqrCar(b_dv, dv1, dv2, dv3, x, u, K, &result);
-
-  ilqrCar(const double x0[2004], const double xg[4], const double u0[1000],
-             const double u_lims[4], double x[2004], double u[1000], double K
-             [4000], boolean_T *result)
-
+  ilqrCar(x0, xg, u0, uLims, x, u, K, &result);
 }
 
 
