@@ -1,0 +1,5 @@
+c99 main.c ilqrCar.c -o ilqrTest.run -Wall -ggdb -lm
+
+chmod +X ilqrTest.run
+
+./ilqrTest.run
