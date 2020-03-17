@@ -13,12 +13,6 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 % u0 - The initial control sequeunce (m, N-1)
 %
 % u_lims - The control limits (m, 2) (lower, upper)
-%
-% Ops (options):
-% -----------------------
-% dt, max_iters, exit_tol, grad_tol, lambda_tol, z_min, lambda_max, lambda_min,
-% lambda_scaling
-
 
 % Outputs
 % ===========================================
@@ -26,13 +20,13 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 %
 % u - Final open-loop controls (m, N-1)
 %
-% K - Feedback control gains (n, m, N-1)
+% K - Feedback control gains (n-1, m, N-1) 
 %
-% result - Indicates termination condition
+% result - Indicates convergence (boolean 0 or 1)
 
 
 % Options (pass in as array)
-dt = 0.03;            % Timestep (Should match MCU Hz)
+dt = 0.03;            % Timestep (Should be highest we can get away with)
 max_iters = 500;      % maximum iterations
 exit_tol = 1e-7;      % cost reduction exit tolerance
 grad_tol = 1e-4;      % gradient exit criterion
@@ -47,25 +41,14 @@ lambda_scaling = 1.6; % amount to scale dlambda by
 Alphas = 10.^linspace(0, -3, 11);  % line search param
 lambda = 1;
 dlambda = 1;
-N = size(u0, 2) + 1;
+N = size(u0, 2)+1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
-
-% Init matrices for update
-x_n = zeros(Nx,N);
-u_n = zeros(Nu,N-1);
-fx_n = zeros(Nx,Nx,N-1);
-fu_n = zeros(Nx,Nu,N-1);
-cx_n = zeros(Nx,N);
-cu_n = zeros(Nu,N-1);
-cxx_n = zeros(Nx,Nx,N);
-cuu_n = zeros(Nu,Nu,N-1);
-cost_n = 0;
+Ne = Nx-1;  % error state size (3 param. error representation for attitude)
 
 % Initial Forward rollout
-% Returns xtraj, (unew=utraj0), cost
 l = zeros(Nu, N-1);
-K = zeros(Nu, Nx, N-1);
+K = zeros(Nu, Ne, N-1);
 dV = zeros(1, 2);
 alpha = 0;
 [x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt);
@@ -75,7 +58,9 @@ expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
 result = false;
 
+fprintf("\n==================Begin iLQR================\n");
 for iter = 1:max_iters
+    fprintf("\n---New Iteration---\n");
     
     % Backward Pass
     %=======================================
@@ -84,6 +69,8 @@ for iter = 1:max_iters
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
         if diverge
+            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
+            
             % Increase regularization parameter (lambda)
             dlambda = max(lambda_scaling * dlambda, lambda_scaling);
             lambda = max(lambda * dlambda, lambda_min);
@@ -99,7 +86,8 @@ for iter = 1:max_iters
     % Terminate if sufficiently small (success)
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < grad_tol && lambda < lambda_tol
-        result = true;
+        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
+        result = 1;
         break;
     end
    
@@ -114,6 +102,7 @@ for iter = 1:max_iters
                 z = (cost - cost_n)/expectedChange;
             else
                 z = sign(cost - cost_n);
+                fprintf("\n---Warning: non positive expected reduction---\n");
             end
             if z > z_min
                 fwdPassDone = true;
@@ -143,7 +132,8 @@ for iter = 1:max_iters
         
         % Terminate ?
         if dcost < exit_tol
-            result = true;
+            result = 1;
+            fprintf('\n---Success cost change < tolerance---\n');
             break;
         end
         
@@ -155,17 +145,18 @@ for iter = 1:max_iters
         
         if lambda > lambda_max
             % Lambda too large - solver diverged
-            result = false;
+            result = 0;
+            fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
         end
         
     end
-
 end
 
 if iter == max_iters
     % Ddin't converge completely
-    result = false;
+    result = 0;
+    fprintf("\n---Warning: Max iterations exceeded---\n");
 end
     
 end
@@ -181,42 +172,52 @@ function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,
 N = size(x,2);
 Nx = size(x,1);
 Nu = size(u,1);
+Ne = Nx-1;
 
-% Initialize outputs
+% Initialize outputs (Don't overwrite x or u)
 xnew = zeros(Nx,N);
 unew = zeros(Nu,N-1);
-fx = zeros(Nx,Nx,N-1);
-fu = zeros(Nx,Nu,N-1);
-cx = zeros(Nx,N);
+fx = zeros(Ne,Ne,N-1);
+fu = zeros(Ne,Nu,N-1);
+cx = zeros(Ne,N);
 cu = zeros(Nu,N-1);
-cxx = zeros(Nx,Nx,N);
+cxx = zeros(Ne,Ne,N);
 cuu = zeros(Nu,Nu,N-1);
 cost = 0;
 
 xnew(:,1) = x(:,1);
 terminal = 0;
 for k = 1:(N-1)
+    % Find the state error vector dx
+    dx = zeros(6,1);
+    dx(4:6) = xnew(5:7,k) - x(5:7,k);
+    quat_error = quat_multiply(xnew(1:4,k), x(1:4,k));
+    dx(1:3) = quat_error(2:4) / quat_error(1);  % inverse Cayley Map
     
-    % Update the control during line-search
-    % (During inital forward rollout, l and K will be arrays of zeros)
-    unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*(xnew(:,k) - x(:,k));
-
-    % Ensure control is within limits
+    % Find the new control and ensure it is within the limits
+    unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*dx;
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = car_step(xnew(:,k), unew(:,k), dt);
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt);
     
     % Calculate the cost
-    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = car_cost(xnew(:,k), xg, unew(:,k), terminal); 
+    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = satellite_cost(xnew(:,k), xg, unew(:,k), terminal); 
     cost = cost + c;
 end
 
 % Final cost
 terminal = 1;
 u_temp = zeros(Nu,1);
-[c,cx(:,N),~,cxx(:,:,N),~] = car_cost(xnew(:,N), xg, u_temp, terminal); 
+[c,cx(:,N),~,cxx(:,:,N),~] = satellite_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
+
+function [qnew] = quat_multiply(q1, q2)
+% Rotates quaternion q1 by quaternion q2
+L1 = [q1(1), -q1(2:4)';
+     -q1(2:4), q1(1)*eye(3) + skew_mat(q1(2:4))];
+qnew = L1*q2;
+end
 
 end
 
@@ -227,19 +228,19 @@ function [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u)
 % controls given the control limits
 
 N = size(u, 2) + 1;
-Nx = size(fx,1);
+Ne = size(fx,1);
 Nu = size(u,1);
 
 % Initialize matrices (for C)
 l = zeros(Nu,N-1);
-K = zeros(Nu,Nx,N-1);
-Qx = zeros(Nx,1);
+K = zeros(Nu,Ne,N-1);
+Qx = zeros(Ne,1);
 Qu = zeros(Nu,1);
-Qxx = zeros(Nx,Nx);
+Qxx = zeros(Ne,Ne);
 Quu = zeros(Nu,Nu);
-Qux = zeros(Nu,Nx);
+Qux = zeros(Nu,Ne);
 
-Kk = zeros(Nu,Nx);
+Kk = zeros(Nu,Ne);
 result = 0;
 
 % Change in cost
@@ -277,7 +278,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk(:,:) = 0;
     if any(free)
-        Kk(free, :) = -Luu(free,free)\(Luu(free,free)'\Qux(free,:));
+        Kk(free, :) = -Luu\(Luu'\Qux(free,:));
     end
     
     % Update Cost to Go

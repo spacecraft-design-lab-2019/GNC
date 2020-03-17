@@ -1,11 +1,12 @@
 
 Immediate
 ================
-- Implement Zac's paper
-- Consider removing cost calculation function -> hard code (pass matrices as params), pass u and x to backward pass
-- Try make x0 a single column rather than an entire time history.
+- Fix boxQP for car autocode (check if still works in C)
+- Fix convergence for MILQR
 
-- Check floats work okay (instead of doubles)
+- Consider removing cost calculation function -> hard code (pass matrices as params), pass u and x to backward pass
+
+- Check floats work okay (instead of doubles) -> ensure all numbers in floating point range
 - Try to remove large/small constants in auto generated code (maybe include NaN types)
 
 - !!! Try to run iLQR in circuitpython !!!
@@ -23,7 +24,7 @@ Immediate
 - Cost function matrices (Maybe?)
 
 
-Add magnetorquer control / magnetic field model
+Add magnetorquer control / magnetic field model (Change Jacobian in satelite_step function)
 	Should pre-compute orbit and magnetic field in ECI or ECEF
 	Pass in time series of B vectors to iLQR
 	Convert the B vector to Body frame for calculating torque at each step

@@ -3,29 +3,29 @@ function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower,upper,u0) %#codegen
 % Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower <= u <= upper
 %
 %  inputs:
-%     Quu       - positive definite matrix              (n * n)
-%     Qu        - bias vector                           (n)
-%     lower     - lower bounds                          (n)
-%     upper     - upper bounds                          (n)
-%     u0        - initial control input for warm-start  (n)
+%     Quu       - positive definite matrix              (m * m)
+%     Qu        - bias vector                           (m)
+%     lower     - lower bounds                          (m)
+%     upper     - upper bounds                          (m)
+%     u0        - initial control input for warm-start  (m)
 %
 %  outputs:
-%     u         - solution                   (n)
+%     u         - solution                   (m)
 %     result    - result type (roughly, higher is better, see below)
-%     Luu       - cholesky factor            (n * n)
-%     free      - set of free dimensions     (n)
+%     Luu       - cholesky factor            (m * m)
+%     free      - set of free dimensions     (m)
 
-n = size(Quu,1);
+m = size(Quu,1);
 
 % Initialize arrays
-clamped      = false(n,1);
-prev_clamped = false(n,1);
-free         = true(n,1);
-deltaX       = zeros(n, 1);
-grad         = zeros(n, 1);
-grad_clamped = zeros(n, 1);
-uc           = zeros(n, 1);
-Luu          = zeros(n, n);  % Placeholder to return if Luu not assigned
+clamped      = false(m,1);
+prev_clamped = false(m,1);
+free         = true(m,1);
+deltaX       = zeros(m, 1);
+grad         = zeros(m, 1);
+grad_clamped = zeros(m, 1);
+uc           = zeros(m, 1);
+Luu          = zeros(m, m);  % Placeholder to return if Luu not assigned
 
 % Initialize scalars
 oldvalue     = 0;
@@ -84,7 +84,7 @@ for iter = 1:maxIter
     
      % Cholesky (check for non PD)
     if factorize
-        [Luu(free,free), indef] = chol_free(Quu(free,free));
+        [Luu, indef] = chol_free(Quu(free,free));
         if indef
             result = -1;
             break
@@ -101,7 +101,7 @@ for iter = 1:maxIter
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
     deltaX(:) = 0;
-    deltaX(free) = -Luu(free,free)\(Luu(free,free)'\grad_clamped(free)) - u(free); % cholesky solver
+    deltaX(free) = -Luu\(Luu'\grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);

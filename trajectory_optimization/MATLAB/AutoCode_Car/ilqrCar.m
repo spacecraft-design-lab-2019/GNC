@@ -13,11 +13,6 @@ function [x,u,K,result] = ilqrCar(x0, xg, u0, u_lims)
 % u0 - The initial control sequeunce (m, N-1)
 %
 % u_lims - The control limits (m, 2) (lower, upper)
-%
-% Ops (options):
-% -----------------------
-% dt, max_iters, exit_tol, grad_tol, lambda_tol, z_min, lambda_max, lambda_min,
-% lambda_scaling
 
 
 % Outputs

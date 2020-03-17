@@ -272,7 +272,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk(:,:) = 0;
     if any(free)
-        Kk(free, :) = -Luu(free,free)\(Luu(free,free)'\Qux(free,:));
+        Kk(free, :) = -Luu\(Luu'\Qux(free,:));
     end
     
     % Update Cost to Go

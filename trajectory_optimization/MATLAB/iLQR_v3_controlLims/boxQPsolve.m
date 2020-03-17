@@ -84,7 +84,7 @@ for iter = 1:maxIter
     
      % Cholesky (check for non PD)
     if factorize
-        [Luu(free,free), indef] = chol_free(Quu(free,free));
+        [Luu, indef] = chol_free(Quu(free,free));
         if indef
             result = -1;
             break
@@ -101,7 +101,7 @@ for iter = 1:maxIter
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
     deltaX(:) = 0;
-    deltaX(free) = -Luu(free,free)\(Luu(free,free)'\grad_clamped(free)) - u(free); % cholesky solver
+    deltaX(free) = -Luu\(Luu'\grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);

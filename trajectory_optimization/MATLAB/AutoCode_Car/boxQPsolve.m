@@ -84,7 +84,7 @@ for iter = 1:maxIter
     
      % Cholesky (check for non PD)
     if factorize
-        [Luu(free,free), indef] = chol_free(Quu(free,free));
+        [Luu(free,free), indef] = chol_free(Quu(free,free)); % !!!This can fail!!!
         if indef
             result = -1;
             break
