@@ -1,4 +1,4 @@
-function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower,upper,u0)
+function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower,upper,u0) %#codegen
 % Finds the optimal control with limits to minimize a quadratic cost
 % Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower <= u <= upper
 %
@@ -92,7 +92,7 @@ for iter = 1:maxIter
     end
     
     % check gradient norm
-    gnorm  = norm(grad(free));
+    gnorm = norm(grad(free));
     if gnorm < minGrad
         result = 4;
         break;
@@ -112,14 +112,12 @@ for iter = 1:maxIter
     
     % Armijo linesearch
     step  = 1;
-    nstep = 0;
-	uc    = clamp(u + step*deltaX, lower, upper);
-    vc    = uc'*Qu + 0.5*uc'*Quu*uc;
+	uc = clamp(u + step*deltaX, lower, upper);
+    vc = uc'*Qu + 0.5*uc'*Quu*uc;
     while (vc - oldvalue)/(step*sdotg) < Armijo
         step  = step*stepDec;
-        nstep = nstep+1;
-		uc    = clamp(u + step*deltaX, lower, upper);
-        vc    = uc'*Qu + 0.5*uc'*Quu*uc;
+		uc = clamp(u + step*deltaX, lower, upper);
+        vc = uc'*Qu + 0.5*uc'*Quu*uc;
         if step < minStep
             result = 2;
             break

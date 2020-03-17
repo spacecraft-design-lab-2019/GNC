@@ -1,13 +1,19 @@
 
+Immediate
+================
+- Implement Zac's paper
+- Consider removing cost calculation function -> hard code (pass matrices as params), pass u and x to backward pass
+- Try make x0 a single column rather than an entire time history.
+
+- Check floats work okay (instead of doubles)
+- Try to remove large/small constants in auto generated code (maybe include NaN types)
+
+- !!! Try to run iLQR in circuitpython !!!
+
 - Check boolean type circuit python (needs boolean header)
 - Check variable sized arrays (needs C99 compiler)
 - Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
 	> Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
-
-- Try make x0 a single column rather than an entire time history.
-- Check floats work okay (instead of doubles)
-- Try to remove large/small constants in auto generated code (maybe include NaN types)
-
 
 // Pass parameters
 ==================
@@ -17,7 +23,6 @@
 - Cost function matrices (Maybe?)
 
 
-Read Zac's paper:
 Add magnetorquer control / magnetic field model
 	Should pre-compute orbit and magnetic field in ECI or ECEF
 	Pass in time series of B vectors to iLQR
@@ -25,8 +30,17 @@ Add magnetorquer control / magnetic field model
 	
 Add functionality for different length trajectories (just pass N as parameter)
 
-Add check (in python?) after solver has run that final attitude and velocity are
-within an acceptable tolerance of the desired values. If not don't run the control sequence
+
+ Python
+ ===================
+-Add check after solver runs that final attitude and velocity are within an acceptable tolerance of
+	the desired values. If not don't run the control sequence.
+-Call to SGP4 to find a time series of future satellite states
+-Call to IGRF and ECEF2Body -> create a time series of B vectors (in body frame)
+-Call MILQR
+-Main control loop
+	- Interpolate controls based on state measurement
+
 
 
 

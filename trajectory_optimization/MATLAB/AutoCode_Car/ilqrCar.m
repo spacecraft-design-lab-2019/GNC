@@ -1,4 +1,4 @@
-function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
+function [x,u,K,result] = ilqrCar(x0, xg, u0, u_lims)
 % Solves finite horizon optimal control problem using the iterative
 % linear quadratic redualtor method
 
@@ -6,12 +6,6 @@ function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 
 % Inputs
 % ===========================================
-% DYNAMICS - Function handle for the rkstep/ dynamics update
-%           (In final implementation remove this and just put dynamcis
-%           and cost functions at bottom of this file)
-%
-% COST - Function handle for cost calculation/ cost derivatives
-%
 % x0 - The intial trajectory (n, N)
 %
 % xg - The goal state (n, 1)
@@ -34,7 +28,19 @@ function [x,u,K,Jhist,result] = iLQR(DYNAMICS, COST, x0, xg, u0, u_lims, Ops)
 %
 % K - Feedback control gains (n, m, N-1)
 %
-% Jhist - The cost history (convergence)
+% result - Indicates termination condition
+
+
+% Options (pass in as array)
+dt = 0.03;            % Timestep (Should match MCU Hz)
+max_iters = 500;      % maximum iterations
+exit_tol = 1e-7;      % cost reduction exit tolerance
+grad_tol = 1e-4;      % gradient exit criterion
+lambda_tol = 1e-5;    % lambda criterion for gradient exit
+z_min = 0;            % minimum accepted cost reduction ratio
+lambda_max = 1e10;    % maximum regularization parameter
+lambda_min = 1e-6;    % set lambda = 0 below this value
+lambda_scaling = 1.6; % amount to scale dlambda by
 
 
 % CONSTANTS
@@ -45,69 +51,72 @@ N = size(u0, 2) + 1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
 
+% Init matrices for update
+x_n = zeros(Nx,N);
+u_n = zeros(Nu,N-1);
+fx_n = zeros(Nx,Nx,N-1);
+fu_n = zeros(Nx,Nu,N-1);
+cx_n = zeros(Nx,N);
+cu_n = zeros(Nu,N-1);
+cxx_n = zeros(Nx,Nx,N);
+cuu_n = zeros(Nu,Nu,N-1);
+cost_n = 0;
 
 % Initial Forward rollout
 % Returns xtraj, (unew=utraj0), cost
 l = zeros(Nu, N-1);
 K = zeros(Nu, Nx, N-1);
+dV = zeros(1, 2);
 alpha = 0;
-[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x0,xg,u0,l,K,alpha,u_lims,Ops.dt);
-Jhist = [];
-Jhist(1) = cost;
-
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt);
 
 % Convergence check params
 expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
+result = false;
 
-fprintf("\n==================Begin iLQR================\n");
-for iter = 1:Ops.max_iters
-    fprintf("\n---New Iteration---\n");
+for iter = 1:max_iters
     
     % Backward Pass
     %=======================================
-    backPassDone = 0;
+    backPassDone = false;
     while ~backPassDone
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
         if diverge
-            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
-            
             % Increase regularization parameter (lambda)
-            dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
-            lambda = max(lambda * dlambda, Ops.lambda_min);
-            if lambda > Ops.lambda_max
+            dlambda = max(lambda_scaling * dlambda, lambda_scaling);
+            lambda = max(lambda * dlambda, lambda_min);
+            if lambda > lambda_max
                 break;
             end
             continue;  % Retry with larger lambda
         end
-        backPassDone = 1;
+        backPassDone = true;
     end
     
     % Check gradient of control, defined as l/u
     % Terminate if sufficiently small (success)
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
-    if g_norm < Ops.grad_tol && lambda < Ops.lambda_tol
-        result = 1;
-        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
+    if g_norm < grad_tol && lambda < lambda_tol
+        result = true;
         break;
     end
    
     % Forward Line-Search
     %===========================================
-    fwdPassDone = 0;
+    fwdPassDone = false;
     if backPassDone
         for alpha = Alphas
-            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,Ops.dt);
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt);
             expectedChange = -alpha*(dV(1) + alpha*dV(2));
             if expectedChange > 0
                 z = (cost - cost_n)/expectedChange;
             else
                 z = sign(cost - cost_n);
-                fprintf("\n---Warning: non positive expected reduction---\n");
             end
-            if z > Ops.z_min
-                fwdPassDone = 1;
+            if z > z_min
+                fwdPassDone = true;
                 break;
             end
         end
@@ -117,8 +126,8 @@ for iter = 1:Ops.max_iters
     %=============================================
     if fwdPassDone
         % Decrease Lambda
-        dlambda = min(dlambda/Ops.lambda_scaling, 1/Ops.lambda_scaling);
-        lambda = lambda * dlambda * (lambda > Ops.lambda_min);  % set = 0 if lambda too small
+        dlambda = min(dlambda/lambda_scaling, 1/lambda_scaling);
+        lambda = lambda * dlambda * (lambda > lambda_min);  % set = 0 if lambda too small
         dcost = cost - cost_n;
         
         % Update trajectory and controls
@@ -131,25 +140,22 @@ for iter = 1:Ops.max_iters
         cxx = cxx_n;
         cuu = cuu_n;
         cost = cost_n;
-        Jhist(iter+1) = cost;
         
         % Terminate ?
-        if dcost < Ops.exit_tol
-            result = 1;
-            fprintf('\n---Success cost change < tolerance---\n');
+        if dcost < exit_tol
+            result = true;
             break;
         end
         
     else
         % No cost reduction (based on z-value)
         % Increase lambda
-        dlambda = max(Ops.lambda_scaling * dlambda, Ops.lambda_scaling);
-        lambda = max(lambda * dlambda, Ops.lambda_min);
+        dlambda = max(lambda_scaling * dlambda, lambda_scaling);
+        lambda = max(lambda * dlambda, lambda_min);
         
-        if lambda > Ops.lambda_max
+        if lambda > lambda_max
             % Lambda too large - solver diverged
-            result = 0;
-            fprintf("\n---Diverged: new lambda > lambda_max---\n");
+            result = false;
             break;
         end
         
@@ -157,15 +163,14 @@ for iter = 1:Ops.max_iters
 
 end
 
-if iter == Ops.max_iters
+if iter == max_iters
     % Ddin't converge completely
-    result = 0;
-    fprintf("\n---Warning: Max iterations exceeded---\n");
+    result = false;
 end
     
 end
 
-function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(DYNAMICS,COST,x,xg,u,l,K,alpha,u_lims,dt)
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt)
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -200,17 +205,17 @@ for k = 1:(N-1)
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = DYNAMICS(xnew(:,k), unew(:,k), dt);
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = car_step(xnew(:,k), unew(:,k), dt);
     
     % Calculate the cost
-    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = COST(xnew(:,k), xg, unew(:,k), terminal); 
+    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = car_cost(xnew(:,k), xg, unew(:,k), terminal); 
     cost = cost + c;
 end
 
 % Final cost
 terminal = 1;
 u_temp = zeros(Nu,1);
-[c,cx(:,N),~,cxx(:,:,N),~] = COST(xnew(:,N), xg, u_temp, terminal); 
+[c,cx(:,N),~,cxx(:,:,N),~] = car_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
 end
@@ -244,7 +249,7 @@ dV = [0 0];
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
 
-diverge = 0;
+diverge = false;
 for k=(N-1):-1:1
     
     % Define cost gradients
@@ -264,7 +269,7 @@ for k=(N-1):-1:1
     [lk,result,Luu,free] = boxQPsolve(QuuF,Qu,lower,upper,-1*l(:,l_idx));
 
     if result < 1
-        diverge = k;
+        diverge = true;
         return;
     end
     

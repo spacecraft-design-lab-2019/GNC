@@ -1,6 +1,6 @@
-function [x,u,K,result] = ilqrCar(x0, xg, u0, u_lims)
-% Solves finite horizon optimal control problem using the iterative
-% linear quadratic redualtor method
+function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
+% Solves finite horizon optimal control problem using a
+% multiplicative iterative linear quadratic regulator
 
 % Note that this solver will not work without control limits
 
@@ -27,6 +27,8 @@ function [x,u,K,result] = ilqrCar(x0, xg, u0, u_lims)
 % u - Final open-loop controls (m, N-1)
 %
 % K - Feedback control gains (n, m, N-1)
+%
+% result - Indicates termination condition
 
 
 % Options (pass in as array)
