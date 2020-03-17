@@ -51,7 +51,7 @@ v = x(2:4);
 
 % Non-linear dynamics
 qdot = 0.5*[-v'; s*eye(3) + skew_mat(v)]*w;
-wdot = inv(J)*(u - skew_mat(w)*J*w);
+wdot = Jinv*(u - skew_mat(w)*J*w);
 xdot = [qdot; wdot];
 
 % Jacobians 

@@ -2,7 +2,6 @@
 Immediate
 ================
 - Fix boxQP for car autocode (check if still works in C)
-- Fix convergence for MILQR
 
 - Consider removing cost calculation function -> hard code (pass matrices as params), pass u and x to backward pass
 

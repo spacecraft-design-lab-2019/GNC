@@ -212,15 +212,15 @@ u_temp = zeros(Nu,1);
 [c,cx(:,N),~,cxx(:,:,N),~] = satellite_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
-function [q_error] = calc_quat_error(q1, q2)
+function [qnew] = calc_quat_error(q1, q2)
 % Calculate error between q1 and q2
-% Defined as conj(q1)*q2
-q1 = [1;-1;-1;-1].*q1;  % conjugate
+% Defined as inv(q1)*q2
+q1_inv = q1
 
 L1 = [q1(1), -q1(2:4)';
-      q1(2:4), q1(1)*eye(3) + skew_mat(q1(2:4))];
-q_error = L1*q2;
-q_error = q_error/sqrt(q_error'*q_error);  % re-normalzie
+     -q1(2:4), q1(1)*eye(3) + skew_mat(q1(2:4))];
+qnew = L1*q2;
+qnew = qnew/sqrt(qnew'*qnew);  % re-normalzie
 end
 
 end
