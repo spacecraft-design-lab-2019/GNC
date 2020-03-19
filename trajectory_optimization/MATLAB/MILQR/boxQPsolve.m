@@ -101,7 +101,8 @@ for iter = 1:maxIter
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
     deltaX(:) = 0;
-    deltaX(free) = -Luu\(Luu'\grad_clamped(free)) - u(free); % cholesky solver
+    deltaX(free) = -chol_solve(Luu, grad_clamped(free)) - u(free); % cholesky solver
+%     deltaX(free) = -Luu'\(Luu\grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);
@@ -158,7 +159,7 @@ function [L, fail] = chol_free(A)
 % Inputs:
 %===========
 % A - positive semi-definite matrix
-[L, fail] = chol(A);
+[L, fail] = chol(A, 'lower');
 
 end
 

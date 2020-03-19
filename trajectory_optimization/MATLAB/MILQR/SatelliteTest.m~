@@ -24,7 +24,7 @@ theta_g = pi;
 % rg = [5;1.4;3.7]/norm([5,1.4,3.7]);
 rg = [0;0;1];
 qg = [cos(theta_g/2); rg*sin(theta_g/2)];
-wg = [0; 0; 0];
+wg = [3.3; 0; 0];
 xg = [qg; wg];
 
 % Initial Control trajectory

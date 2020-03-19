@@ -21,7 +21,7 @@ end
 cost = quat_cost + (1/2)*(x(5:7)-xg(5:7))'*Qw*(x(5:7)-xg(5:7)) + (1/2)*u'*R*u;
 
 % State cost Hessian
-cxx = [sign*eye(3)*(xg(1:4)'*x(1:4)), zeros(3,3);
+cxx = [-sign*eye(3)*(xg(1:4)'*x(1:4)), zeros(3,3);
        zeros(3,3), Qw];
 
 % State cost Jacobian

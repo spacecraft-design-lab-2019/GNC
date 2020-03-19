@@ -1,7 +1,7 @@
 
 Immediate
 ================
-- Autocode is using QR to check rank at one stage. (might need to replace back slash with self written cholesky solver)
+- Autocode is using QR to check rank at one stage, check with new cholesky solver
 
 - Check floats/singles work okay (instead of doubles) -> ensure all numbers are in floating point range
 - Try to remove large constants from Autocoded code -> force single precision
