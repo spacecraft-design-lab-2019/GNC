@@ -18,13 +18,13 @@ Nu = 3;
 
 % Initial State
 theta = pi/2;  % [rad]
-q0 = [cos(theta/2); 0; 0; sin(theta/2)]  % 90 degree rotation about z-axis
+q0 = [cos(theta/2); 0; 0; sin(theta/2)];  % 90 degree rotation about z-axis
 w0 = [0; 0; 0];  % [rad/s]
 x0 = [q0; w0];
 
 % Goal state
 theta_g = 3*pi/2;
-qg = [cos(theta_g/2); 0; 0; sin(theta_g/2)]
+qg = [cos(theta_g/2); 0; 0; sin(theta_g/2)];
 wg = [0; 0; 0];
 xg = [qg; wg];
 

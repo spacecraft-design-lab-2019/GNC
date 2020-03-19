@@ -12,7 +12,9 @@ Nu = 3;
 
 % Initial State
 theta = pi/2;  % [rad]
-q0 = [cos(theta/2); 0; 0; sin(theta/2)];  % 90 degree rotation about z-axis
+% q0 = [cos(theta/2); 0; 0; sin(theta/2)];  % 90 degree rotation about z-axis
+r = [1;-2;3]/norm([1,-2, 3]);
+q0 = [cos(theta/2); r*sin(theta/2)];
 w0 = [0; 0; 0];  % [rad/s]
 x0 = zeros(Nx, N);
 x0(:,1) = [q0; w0];
@@ -54,6 +56,7 @@ hold on
 plot(x(2,:))
 plot(x(3,:))
 plot(x(4,:))
+legend('q1','q2','q3','q4');
 
 % Control torques
 subplot(2,1,2)
@@ -61,5 +64,6 @@ plot(u(1,:))
 hold on
 plot(u(2,:))
 plot(u(3,:))
+legend('u1','u2','u3');
 
 

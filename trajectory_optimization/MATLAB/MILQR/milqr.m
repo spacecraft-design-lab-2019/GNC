@@ -22,7 +22,7 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 %
 % K - Feedback control gains (n-1, m, N-1) 
 %
-% result - Indicates convergence (boolean 0 or 1)
+% result - Indicates convergence (boolean)
 
 
 % Options (pass in as array)
@@ -35,7 +35,6 @@ z_min = 0;            % minimum accepted cost reduction ratio
 lambda_max = 1e10;    % maximum regularization parameter
 lambda_min = 1e-6;    % set lambda = 0 below this value
 lambda_scaling = 1.6; % amount to scale dlambda by
-
 
 % CONSTANTS
 Alphas = 10.^linspace(0, -3, 11);  % line search param
@@ -87,7 +86,7 @@ for iter = 1:max_iters
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < grad_tol && lambda < lambda_tol
         fprintf("\n---Success: Gradient decreased below grad_tol---\n");
-        result = 1;
+        result = true;
         break;
     end
    
@@ -106,6 +105,7 @@ for iter = 1:max_iters
             end
             if z > z_min
                 fwdPassDone = true;
+                fprintf("\n---Forward Pass done---\n");
                 break;
             end
         end
@@ -132,7 +132,7 @@ for iter = 1:max_iters
         
         % Terminate ?
         if dcost < exit_tol
-            result = 1;
+            result = true;
             fprintf('\n---Success cost change < tolerance---\n');
             break;
         end
@@ -145,7 +145,7 @@ for iter = 1:max_iters
         
         if lambda > lambda_max
             % Lambda too large - solver diverged
-            result = 0;
+            result = false;
             fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
         end
@@ -155,7 +155,7 @@ end
 
 if iter == max_iters
     % Ddin't converge completely
-    result = 0;
+    result = false;
     fprintf("\n---Warning: Max iterations exceeded---\n");
 end
     
@@ -187,12 +187,12 @@ cost = 0;
 
 xnew(:,1) = x(:,1);
 terminal = 0;
+dx = zeros(6,1);
 for k = 1:(N-1)
+    
     % Find the state error vector dx
-    dx = zeros(6,1);
     dx(4:6) = xnew(5:7,k) - x(5:7,k);
-    quat_error = calc_quat_error(xnew(1:4,k), x(1:4,k));
-    dx(1:3) = quat_error(2:4) / quat_error(1);  % inverse Cayley Map
+    dx(1:3) = quat_error(xnew(1:4,k), x(1:4,k));
     
     % Find the new control and ensure it is within the limits
     unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*dx;
@@ -212,17 +212,15 @@ u_temp = zeros(Nu,1);
 [c,cx(:,N),~,cxx(:,:,N),~] = satellite_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
-function [q_error] = calc_quat_error(q1, q2)
-% Calculate error between q1 and q2
-% Defined as conj(q1)*q2
-q1 = [1;-1;-1;-1].*q1;  % conjugate
+function [dq] = quat_error(qnew, q_nom)
+% Calculate error between qnew and q_nom
+% Defined as conj(q_nom)*qnew
 
-L1 = [q1(1), -q1(2:4)';
-      q1(2:4), q1(1)*eye(3) + skew_mat(q1(2:4))];
-q_error = L1*q2;
-q_error = q_error/sqrt(q_error'*q_error);  % re-normalzie
+q_inv = [1;-1;-1;-1].*q_nom;  % conjugate
+q_error = L_mult(q_inv)*qnew;
+q_error = q_error/sqrt(q_error'*q_error);  % re-normalize
+dq = q_error(2:4) / q_error(1);  % inverse Cayley Map
 end
-
 end
 
 
@@ -275,6 +273,7 @@ for k=(N-1):-1:1
 
     if result < 1
         diverge = true;
+        fprintf('\nlambda: %f\n',lambda);
         return;
     end
     

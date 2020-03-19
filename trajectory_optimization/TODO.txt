@@ -1,16 +1,13 @@
 
 Immediate
 ================
-- Fix boxQP for car autocode (check if still works in C)
+- Autocode is using QR to check rank at one stage. (might need to replace back slash with self written cholesky solver)
 
-- Consider removing cost calculation function -> hard code (pass matrices as params), pass u and x to backward pass
+- Check floats/singles work okay (instead of doubles) -> ensure all numbers are in floating point range
+- Try to remove large constants from Autocoded code -> force single precision
 
-- Check floats work okay (instead of doubles) -> ensure all numbers in floating point range
-- Try to remove large/small constants in auto generated code (maybe include NaN types)
+- !!! Try to run MILQR in circuitpython !!!
 
-- !!! Try to run iLQR in circuitpython !!!
-
-- Check boolean type circuit python (needs boolean header)
 - Check variable sized arrays (needs C99 compiler)
 - Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
 	> Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
@@ -18,7 +15,7 @@ Immediate
 // Pass parameters
 ==================
 - Inertia and it's inverse
-- Solver Options.
+- Solver Options (including timestep)
 - Magnetic field trajectory (pass in time sequence of B vectors) calls IGRF & sgp4
 - Cost function matrices (Maybe?)
 

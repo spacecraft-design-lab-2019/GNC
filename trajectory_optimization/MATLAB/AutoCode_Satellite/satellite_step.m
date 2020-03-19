@@ -1,5 +1,5 @@
-function [x, fx, fu] = satellite_step(x0,u0,dt)
-    % Steps the dynamics forward using an rk method
+function [x, fx, fu] = satellite_step(x0,u0,dt) %#codegen
+    % Steps the dynamics forward using a 2nd order rk-method
     % Returns: new state, discrete time Jacobians
     
     Nx = length(x0);
@@ -15,22 +15,28 @@ function [x, fx, fu] = satellite_step(x0,u0,dt)
     q1 = x1(1:4);
     x = [q1/sqrt(q1'*q1); x1(5:7)];
     
-    dqnorm = eye(4)/sqrt(q1'*q1) - (q1*q1')/((q1'*q1)^(3/2));
-    Nk = [dqnorm, zeros(4, 3);
-        zeros(3, 4), eye(3)];
-    
+    % Continuous time Jacobians
     A1 = dxdot1(:,(1:Nx));
     B1 = dxdot1(:,Nx+(1:Nu));
-    
     A2 = dxdot2(:,(1:Nx));
     B2 = dxdot2(:,Nx+(1:Nu));
     
-    fx = Nk*(eye(Nx) + dt*A2 + 0.5*dt*dt*A2*A1);
-    fu = Nk*(dt*B2 + 0.5*dt*dt*A2*B1);
+    % Discrete time Jacobians
+    % First form the state error Jacobians E(x_k) & E(x_k+1)
+    E0 = [-x0(2:4)', zeros(1,3);
+          x0(1)*eye(3) + skew_mat(x0(2:4)), zeros(3,3);
+          zeros(3,3), eye(3)];
+    E1 = [-x1(2:4)', zeros(1,3);
+          x1(1)*eye(3) + skew_mat(x1(2:4)), zeros(3,3);
+          zeros(3,3), eye(3)];
+     
+    fx = E1'*(eye(Nx) + dt*A2 + 0.5*dt*dt*A2*A1)*E0;
+    fu = E1'*(dt*B2 + 0.5*dt*dt*A2*B1);
+    
 end
 
 
-function [xdot, dxdot] = satellite_dynamics(x,u)
+function [xdot, dxdot] = satellite_dynamics(x,u) %#codegen
 % Calculates the continuous time state derivative and Jacobians
 
 J = 0.01*eye(3); % kgm^2
@@ -48,22 +54,14 @@ qdot = 0.5*[-v'; s*eye(3) + skew_mat(v)]*w;
 wdot = Jinv*(u - skew_mat(w)*J*w);
 xdot = [qdot; wdot];
 
-% Jacobians
+% Jacobians 
 A = 0.5*[0, -w', -v';
          w, -skew_mat(w), s*eye(3)+skew_mat(v);
          zeros(3,4), -2*Jinv*(skew_mat(w)*J - skew_mat(J*w))];
 
 B = [zeros(4,3);
-    Jinv];
+     Jinv];   %!!!!! This changes slightly with magnetorquers !!!!
 
 dxdot = [A, B];
-
-
-function [x_skew] = skew_mat(x)
-% Returns skew symmetric - cross porduct matrix of a vector
-
-x_skew = [0 -x(3) x(2); x(3) 0 -x(1); -x(2) x(1) 0];
-
-end
 
 end

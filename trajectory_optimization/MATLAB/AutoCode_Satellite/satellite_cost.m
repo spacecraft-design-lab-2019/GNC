@@ -1,4 +1,4 @@
-function [cost, cx, cu, cxx, cuu] = satellite_cost(x, xg, u, terminal)
+function [cost, cx, cu, cxx, cuu] = satellite_cost(x, xg, u, terminal) %#codegen
 % Calculates the cost contribution of a given state and control 
 % Also calculates the 2nd order expansion of the cost function
 
@@ -12,7 +12,7 @@ function [cost, cx, cu, cxx, cuu] = satellite_cost(x, xg, u, terminal)
 R = 0.05*eye(3);   % control hessian
 
 if terminal
-    Qw = 1.0*eye(3);  % terminal angular velocity hessian 
+    Qw = 1*eye(3);  % terminal angular velocity hessian 
 else
     Qw = 0.01*eye(3);  % angular velocity hessian
 end
@@ -21,7 +21,7 @@ end
 cost = quat_cost + (1/2)*(x(5:7)-xg(5:7))'*Qw*(x(5:7)-xg(5:7)) + (1/2)*u'*R*u;
 
 % State cost Hessian
-cxx = [-sign*eye(3)*(xg(1:4)'*x(1:4)), zeros(3,3);
+cxx = [sign*eye(3)*(xg(1:4)'*x(1:4)), zeros(3,3);
        zeros(3,3), Qw];
 
 % State cost Jacobian
@@ -36,7 +36,7 @@ cu = R*u;
 end
 
 
-function [quat_cost, sign] = calc_quat_cost(x, xg)
+function [quat_cost, sign] = calc_quat_cost(x, xg) %#codegen
     % Find the linear quaternion-error cost (qcost = min(1+qg'q, 1-qg'q))
     % Also record the sign for use in the backward pass
     

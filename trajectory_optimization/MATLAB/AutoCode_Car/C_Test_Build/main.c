@@ -16,7 +16,7 @@ static void writeToFile(const char* filename, const double x[2004], const int nS
 
 static void initULims(double uLims[4])
 {
-  // Need to check the order of these is correct
+  // The order of these is important
   uLims[0] = -0.5;
   uLims[1] = -2;
   uLims[2] = 0.5;
@@ -53,17 +53,19 @@ static void initX0(double x0[2004])
   int idx0;
   int idx1;
 
-  /* Loop over the array to initialize each element to zero. */
+  // Set the inital state
+  double x_init[4] = {1, 1, 4.712385, 0};
+  // x_init[0] = 1;
+  // x_init[1] = 1;
+  // x_init[2] = 4.712385;  // 3*pi/2
+  // x_init[3] = 0;
+
+  /* Loop over the array to initialize each timestep to x_init. */
   for (idx0 = 0; idx0 < 4; idx0++) {
     for (idx1 = 0; idx1 < 501; idx1++) {
-      x0[idx0 + (idx1 << 2)] = 0.0;
+      x0[idx0 + (idx1 << 2)] = x_init[idx0];
     }
   }
-  // Set the inital state
-  x0[0] = 1;
-  x0[1] = 1;
-  x0[2] = 4.712385;  // 3*pi/2
-  x0[3] = 0;
 }
 
 

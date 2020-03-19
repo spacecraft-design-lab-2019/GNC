@@ -14,8 +14,6 @@
 /* Include Files */
 #include <stddef.h>
 #include <stdlib.h>
-// #include "rtwtypes.h"
-// #include "ilqrCar_types.h"
 
 #include <stdbool.h>
 
@@ -25,9 +23,3 @@ void ilqrCar(const double x0[2004], const double xg[4], const double u0[1000],
              [4000], bool *result);
 
 #endif
-
-/*
- * File trailer for ilqrCar.h
- *
- * [EOF]
- */

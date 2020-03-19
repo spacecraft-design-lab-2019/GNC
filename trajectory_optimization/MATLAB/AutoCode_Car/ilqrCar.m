@@ -46,7 +46,7 @@ N = size(u0, 2) + 1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
 
-% Init matrices for update
+% Init matrices for update (otherwise MATLAB coder throws an error)
 x_n = zeros(Nx,N);
 u_n = zeros(Nu,N-1);
 fx_n = zeros(Nx,Nx,N-1);
@@ -272,7 +272,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk(:,:) = 0;
     if any(free)
-        Kk(free, :) = -Luu(free,free)\(Luu(free,free)'\Qux(free,:));
+        Kk(free, :) = -Luu\(Luu'\Qux(free,:));
     end
     
     % Update Cost to Go

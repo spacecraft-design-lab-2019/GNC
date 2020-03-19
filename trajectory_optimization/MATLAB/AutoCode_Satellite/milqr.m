@@ -1,4 +1,4 @@
-function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
+function [x,u,K,result] = milqr(x0, xg, u0, u_lims) %#codegen
 % Solves finite horizon optimal control problem using a
 % multiplicative iterative linear quadratic regulator
 
@@ -22,7 +22,7 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 %
 % K - Feedback control gains (n-1, m, N-1) 
 %
-% result - Indicates convergence (boolean 0 or 1)
+% result - Indicates convergence (boolean)
 
 
 % Options (pass in as array)
@@ -36,7 +36,6 @@ lambda_max = 1e10;    % maximum regularization parameter
 lambda_min = 1e-6;    % set lambda = 0 below this value
 lambda_scaling = 1.6; % amount to scale dlambda by
 
-
 % CONSTANTS
 Alphas = 10.^linspace(0, -3, 11);  % line search param
 lambda = 1;
@@ -45,6 +44,17 @@ N = size(u0, 2)+1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
 Ne = Nx-1;  % error state size (3 param. error representation for attitude)
+
+% Init matrices for update (otherwise MATLAB coder throws an error)
+x_n = zeros(Nx,N);
+u_n = zeros(Nu,N-1);
+fx_n = zeros(Ne,Ne,N-1);
+fu_n = zeros(Ne,Nu,N-1);
+cx_n = zeros(Ne,N);
+cu_n = zeros(Nu,N-1);
+cxx_n = zeros(Ne,Ne,N);
+cuu_n = zeros(Nu,Nu,N-1);
+cost_n = 0;
 
 % Initial Forward rollout
 l = zeros(Nu, N-1);
@@ -58,9 +68,7 @@ expectedChange = 0; % Expected cost change
 z = 0;              % Ratio of cost change to expected cost change
 result = false;
 
-fprintf("\n==================Begin iLQR================\n");
 for iter = 1:max_iters
-    fprintf("\n---New Iteration---\n");
     
     % Backward Pass
     %=======================================
@@ -69,8 +77,6 @@ for iter = 1:max_iters
         [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         
         if diverge
-            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
-            
             % Increase regularization parameter (lambda)
             dlambda = max(lambda_scaling * dlambda, lambda_scaling);
             lambda = max(lambda * dlambda, lambda_min);
@@ -86,8 +92,7 @@ for iter = 1:max_iters
     % Terminate if sufficiently small (success)
     g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
     if g_norm < grad_tol && lambda < lambda_tol
-        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
-        result = 1;
+        result = true;
         break;
     end
    
@@ -102,7 +107,6 @@ for iter = 1:max_iters
                 z = (cost - cost_n)/expectedChange;
             else
                 z = sign(cost - cost_n);
-                fprintf("\n---Warning: non positive expected reduction---\n");
             end
             if z > z_min
                 fwdPassDone = true;
@@ -132,11 +136,9 @@ for iter = 1:max_iters
         
         % Terminate ?
         if dcost < exit_tol
-            result = 1;
-            fprintf('\n---Success cost change < tolerance---\n');
+            result = true;
             break;
         end
-        
     else
         % No cost reduction (based on z-value)
         % Increase lambda
@@ -145,8 +147,7 @@ for iter = 1:max_iters
         
         if lambda > lambda_max
             % Lambda too large - solver diverged
-            result = 0;
-            fprintf("\n---Diverged: new lambda > lambda_max---\n");
+            result = false;
             break;
         end
         
@@ -155,13 +156,12 @@ end
 
 if iter == max_iters
     % Ddin't converge completely
-    result = 0;
-    fprintf("\n---Warning: Max iterations exceeded---\n");
+    result = false;
 end
     
 end
 
-function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt)
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt) %#codegen
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -187,12 +187,12 @@ cost = 0;
 
 xnew(:,1) = x(:,1);
 terminal = 0;
+dx = zeros(6,1);
 for k = 1:(N-1)
+    
     % Find the state error vector dx
-    dx = zeros(6,1);
     dx(4:6) = xnew(5:7,k) - x(5:7,k);
-    quat_error = calc_quat_error(xnew(1:4,k), x(1:4,k));
-    dx(1:3) = quat_error(2:4) / quat_error(1);  % inverse Cayley Map
+    dx(1:3) = quat_error(xnew(1:4,k), x(1:4,k));
     
     % Find the new control and ensure it is within the limits
     unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*dx;
@@ -212,21 +212,20 @@ u_temp = zeros(Nu,1);
 [c,cx(:,N),~,cxx(:,:,N),~] = satellite_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
-function [qnew] = calc_quat_error(q1, q2)
-% Calculate error between q1 and q2
-% Defined as inv(q1)*q2
-q1_inv = q1
+function [dq] = quat_error(qnew, q_nom)
+% Calculate error between qnew and q_nom
+% Defined as conj(q_nom)*qnew
 
-L1 = [q1(1), -q1(2:4)';
-     -q1(2:4), q1(1)*eye(3) + skew_mat(q1(2:4))];
-qnew = L1*q2;
-qnew = qnew/sqrt(qnew'*qnew);  % re-normalzie
+q_inv = [1;-1;-1;-1].*q_nom;  % conjugate
+q_error = L_mult(q_inv)*qnew;
+q_error = q_error/sqrt(q_error'*q_error);  % re-normalize
+dq = q_error(2:4) / q_error(1);  % inverse Cayley Map
 end
 
 end
 
 
-function [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u)
+function [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u) %#codegen
 % Perfoms the LQR backward pass to find the optimal controls
 % Solves a quadratic program (QP) at each timestep for the optimal
 % controls given the control limits

@@ -55,12 +55,12 @@ wdot = Jinv*(u - skew_mat(w)*J*w);
 xdot = [qdot; wdot];
 
 % Jacobians 
-A = [0, -w', -v';
-    w, -skew_mat(w), s*eye(3)+skew_mat(v);
-    zeros(3,4), -Jinv*(skew_mat(w)*J - skew_mat(J*w))];
+A = 0.5*[0, -w', -v';
+         w, -skew_mat(w), s*eye(3)+skew_mat(v);
+         zeros(3,4), -2*Jinv*(skew_mat(w)*J - skew_mat(J*w))];
 
 B = [zeros(4,3);
-    Jinv];   %!!!!! This changes slightly with magnetorquers !!!!
+     Jinv];   %!!!!! This changes slightly with magnetorquers !!!!
 
 dxdot = [A, B];
 

@@ -213,6 +213,12 @@ u_temp = zeros(Nu,1);
 [c,cx(:,N),~,cxx(:,:,N),~] = COST(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
+function [x_skew] = skew_mat(x)
+% Returns skew symmetric - cross porduct matrix of a vector
+
+x_skew = [0 -x(3) x(2); x(3) 0 -x(1); -x(2) x(1) 0];
+
+end
 end
 
 
