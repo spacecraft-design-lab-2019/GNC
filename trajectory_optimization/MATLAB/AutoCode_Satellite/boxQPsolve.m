@@ -101,7 +101,7 @@ for iter = 1:maxIter
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
     deltaX(:) = 0;
-    deltaX(free) = -Luu\(Luu'\grad_clamped(free)) - u(free); % cholesky solver
+    deltaX(free) = -chol_solve(Luu, grad_clamped(free)) - u(free); % cholesky solver
     
     % check for descent direction
     sdotg = sum(deltaX.*grad);

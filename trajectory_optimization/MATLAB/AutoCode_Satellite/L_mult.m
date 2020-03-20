@@ -1,4 +1,4 @@
-function [L] = L_mult(q)
+function [L] = L_mult(q) %#codegen
 % Forms the "left matrix" for quaternion multiplication
 % where q*q1 = L(q)q1
 

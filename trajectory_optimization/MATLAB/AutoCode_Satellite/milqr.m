@@ -134,7 +134,7 @@ for iter = 1:max_iters
         cuu = cuu_n;
         cost = cost_n;
         
-        % Terminate ?
+        % Terminate if cost change sufficiently small
         if dcost < exit_tol
             result = true;
             break;
@@ -281,7 +281,7 @@ for k=(N-1):-1:1
     % (using cholesky factor of Quu)
     Kk(:,:) = 0;
     if any(free)
-        Kk(free, :) = -Luu\(Luu'\Qux(free,:));
+        Kk(free, :) = -chol_solve(Luu, Qux(free,:));
     end
     
     % Update Cost to Go

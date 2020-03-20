@@ -1,0 +1,9 @@
+c99 main.c milqr.c -o milqrTest.run -Wall -ggdb -lm
+
+chmod +X milqrTest.run
+
+./milqrTest.run
+
+
+
+// -lm is needed for linking the math library <math.h> (it is not part of standard c)

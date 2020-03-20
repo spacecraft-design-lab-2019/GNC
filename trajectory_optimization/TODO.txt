@@ -1,16 +1,20 @@
 
 Immediate
 ================
-- Autocode is using QR to check rank at one stage, check with new cholesky solver
+- Fix floating point issue...
 
-- Check floats/singles work okay (instead of doubles) -> ensure all numbers are in floating point range
-- Try to remove large constants from Autocoded code -> force single precision
+- Write body2ECI in MATLAB. Called at each timestep of forward pass (maybe inside step function), uses current attitude -> one line
+- Change Satellite_Step() to include earth magnetic field (passed in as param)
+- Add Param for B vector to milqr() function
+- Auto code
+
+- Write controllability grammian solver in python (needs SGP4)
+
+- Write script to test all the above together. 
+
 
 - !!! Try to run MILQR in circuitpython !!!
 
-- Check variable sized arrays (needs C99 compiler)
-- Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
-	> Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
 
 // Pass parameters
 ==================
@@ -30,13 +34,34 @@ Add functionality for different length trajectories (just pass N as parameter)
 
  Python
  ===================
--Add check after solver runs that final attitude and velocity are within an acceptable tolerance of
-	the desired values. If not don't run the control sequence.
--Call to SGP4 to find a time series of future satellite states
--Call to IGRF and ECEF2Body -> create a time series of B vectors (in body frame)
--Call MILQR
--Main control loop
-	- Interpolate controls based on state measurement
+
+-Call controllability algorithm {
+	loop:
+		until controllabiltiy found or max time surpassed
+		-Call SGP4 (starting a few minutes in the future) to find a future satellite state (in ECI)
+		-Call IGRF to get the Earth magnetic field (B vector) in ECEF for that state.
+		-Convert the B vector to ECI
+		-Add new B vector to the controllability grammian
+		-Check for controllability
+		-Add the B-vector to an array
+	}
+
+-If failed ??
+-If succeeded:
+	-Call MILQR with the B-vector array
+		-Add check after solver runs that final attitude and velocity are within an acceptable tolerance (can do in MATLAB)
+
+-If MILQR succeeds, wait until start time
+-Call main control loop
+	-Measure
+	-Interpolate controls based on state measurement
+	-Actuate
+
+
+Misc
+====================
+- Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
+	> Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
 
 
 
