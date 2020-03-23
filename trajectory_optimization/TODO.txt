@@ -5,8 +5,13 @@ Immediate
 
 - Write body2ECI in MATLAB. Called at each timestep of forward pass (maybe inside step function), uses current attitude -> one line
 - Change Satellite_Step() to include earth magnetic field (passed in as param)
-- Add Param for B vector to milqr() function
-- Auto code
+- Add argument for B vector to milqr() function
+
+Add magnetorquer control / magnetic field model (Change Jacobian in satelite_step function)
+	Should pre-compute orbit and magnetic field in ECI or ECEF
+	Pass in time series of B vectors to iLQR
+	Convert the B vector to Body frame for calculating torque at each step
+
 
 - Write controllability grammian solver in python (needs SGP4)
 
@@ -23,13 +28,7 @@ Immediate
 - Magnetic field trajectory (pass in time sequence of B vectors) calls IGRF & sgp4
 - Cost function matrices (Maybe?)
 
-
-Add magnetorquer control / magnetic field model (Change Jacobian in satelite_step function)
-	Should pre-compute orbit and magnetic field in ECI or ECEF
-	Pass in time series of B vectors to iLQR
-	Convert the B vector to Body frame for calculating torque at each step
-	
-Add functionality for different length trajectories (just pass N as parameter)
+- Add functionality for different length trajectories (just pass N as parameter)
 
 
  Python
