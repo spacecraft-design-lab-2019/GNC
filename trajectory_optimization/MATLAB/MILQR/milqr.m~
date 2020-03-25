@@ -202,7 +202,7 @@ for k = 1:(N-1)
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt, B_ECI(:,k));
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt);
     
     % Calculate the cost
     [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = satellite_cost(xnew(:,k), xg, unew(:,k), terminal); 

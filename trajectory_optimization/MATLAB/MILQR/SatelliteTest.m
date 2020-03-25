@@ -6,7 +6,7 @@ clc
 
 % Parameters
 % Sim Params
-N = 500;  % num steps
+N = 5000;  % num steps
 Nx = 7;
 Nu = 3;
 
@@ -29,12 +29,17 @@ xg = [qg; wg];
 
 % Initial Control trajectory
 u0 = zeros(Nu, N-1);
-u_lims = [-.1 .1;           % torque limits
-          -.1 .1;
-          -.1 .1];
+u_lims = [-10 10;           % magnetic moment limits
+          -10 10;
+          -10 10];
+      
+% magnetic field (ECI)
+% to test, let's just get some sinusoids out here
+B_ECI = zeros(Nu,N-1);
+B_ECI = [40E-6*sin(.004*(1:N)); 60E-6*sin(.004*(1:N)); 60E-6*cos(.004*(1:N))];
 
 % Run iLQR
-[x,u,K,result] = milqr(x0, xg, u0, u_lims);
+[x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI);
 
 % Plot results
 figure(1)
