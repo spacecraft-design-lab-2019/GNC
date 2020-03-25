@@ -53,7 +53,13 @@ l = zeros(Nu, N-1);
 K = zeros(Nu, Ne, N-1);
 dV = zeros(1, 2);
 alpha = 0;
+<<<<<<< HEAD
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,B,l,K,alpha,u_lims,dt);
+||||||| merged common ancestors
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt);
+=======
 [x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt,B_ECI);
+>>>>>>> 3a1eef5d072698bd405eaecef6206ab2d11a160c
 
 % Convergence check params
 expected_change = 0;      % Expected cost change
@@ -93,14 +99,32 @@ for iter = 1:max_iters
    
     % Forward Line-Search
     %===========================================
+<<<<<<< HEAD
     lineSearchCheck = false;
     if backPassCheck
         for alpha = alphas
-            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = ...
-                forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI);
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,B,l,K,alpha,u_lims,dt);
             expected_change = alpha*dV(1) + (alpha^2)*dV(2);
             if expected_change < 0
                 c_ratio = (cost_n - cost)/expected_change;
+||||||| merged common ancestors
+    fwdPassDone = false;
+    if backPassDone
+        for alpha = Alphas
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt);
+            expectedChange = -alpha*(dV(1) + alpha*dV(2));
+            if expectedChange > 0
+                z = (cost - cost_n)/expectedChange;
+=======
+    fwdPassDone = false;
+    if backPassDone
+        for alpha = Alphas
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = ...
+                forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI);
+            expectedChange = -alpha*(dV(1) + alpha*dV(2));
+            if expectedChange > 0
+                z = (cost - cost_n)/expectedChange;
+>>>>>>> 3a1eef5d072698bd405eaecef6206ab2d11a160c
             else
                 % Non-positive expected cost reduction
                 % actual cost change must be negative to accept the step
@@ -173,9 +197,14 @@ end
     
 end
 
-
+<<<<<<< HEAD
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,B,l,K,alpha,u_lims,dt)
+||||||| merged common ancestors
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt)
+=======
 function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = ...
     forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI)
+>>>>>>> 3a1eef5d072698bd405eaecef6206ab2d11a160c
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -212,7 +241,13 @@ for k = 1:(N-1)
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1),unew(:,k)));
 
     % Step the dynamics forward
+<<<<<<< HEAD
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k),unew(:,k),B(:,k),dt);
+||||||| merged common ancestors
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt);
+=======
     [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt, B_ECI(:,k));
+>>>>>>> 3a1eef5d072698bd405eaecef6206ab2d11a160c
     
     % Calculate the cost
     [c, cx(:,k),cu(:,k),cxx(:,:,k),cuu(:,:,k)] = satellite_cost(xnew(:,k),xg,unew(:,k),terminal); 
@@ -262,7 +297,7 @@ result = 0;
 % Change in cost
 dV = [0 0];
 
-% Set cost-to-go Jacobian and Hessian equal to final costs
+% Set cost-to-go Jacobain and Hessian equal to final costs
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
 

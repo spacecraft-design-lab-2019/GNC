@@ -11,8 +11,8 @@ close all;
 % Sim Params
 N = 5000;  % num steps
 dt = 0.01;
-tol = 1e-3;
-max_iters = 1000;
+tol = 1e-5;
+max_iters = 1E5;
 Nx = 7;
 Nu = 3;
 
@@ -33,10 +33,10 @@ utraj0 = zeros(Nu, N-1);
 
 % Cost matrices
 % Cumulative
-Q = zeros(Nx, Nx);
+Q = eye(Nx);
 Qw = 0.1*eye(3);
 Q(5:7, 5:7) = Qw;
-R = 0.5*eye(3);
+R = 5*eye(3);
 
 % Terminal
 Qf= zeros(Nx, Nx);
@@ -81,10 +81,10 @@ plot(xtraj(6, :))
 subplot(3,1,3)
 plot(xtraj(7,:))
 
-%plot the cost(
+%plot the cost
 figure(4)
-sgtitle("Cost")
-plot(Jhist)
+sgtitle("Total Cost")
+semilogy(Jhist)
 
 
 

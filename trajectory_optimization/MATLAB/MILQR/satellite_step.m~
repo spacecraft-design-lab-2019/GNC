@@ -57,6 +57,7 @@ q = x(1:4);  % Quaternion
 % Magnetic field section 
 % given B_ECI (ECI magnetic field at the time step)
 B_B = qrot(x(1:4),B_ECI);
+B_x = skew_mat(B_B);
 
 % Non-linear dynamics
 qdot = 0.5*[-q(2:4)'; q(1)*eye(3) + skew_mat(q(2:4))]*w;
