@@ -1,77 +1,89 @@
-function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower,upper,u0) %#codegen
-% Finds the optimal control with limits to minimize a quadratic cost
-% Minimize 0.5*u'*Quu*u + u'*Qu  s.t. lower <= u <= upper
+function [u,result,Luu,free] = boxQPsolve(Quu,Qu,lower_lim,upper_lim,u0)
+% Finds the optimal control within limits to minimize a quadratic cost
+% Minimizes 0.5*u'*Quu*u + u'*Qu  s.t. lower_lim <= u <= upper_lim
 %
-%  inputs:
-%     Quu       - positive definite matrix              (m * m)
-%     Qu        - bias vector                           (m)
-%     lower     - lower bounds                          (m)
-%     upper     - upper bounds                          (m)
-%     u0        - initial control input for warm-start  (m)
+% Inputs:
+% ==========================================
+% Quu       - control cost Hessian (positive definite)   (m, m)
+% Qu        - control cost Jacobian                      (m)
+% lower     - control lower limit                        (m)
+% upper     - control upper limit                        (m)
+% u0        - initial control input for warm-start       (m)
 %
-%  outputs:
-%     u         - solution                   (m)
-%     result    - result type (roughly, higher is better, see below)
-%     Luu       - cholesky factor            (m * m)
-%     free      - set of free dimensions     (m)
+% Outputs:
+% =====================================
+% u         - optimal feed-forward control                (m)
+% result    - gives exit criterion (explained below)         
+% Luu       - cholesky factor                             (m, m)
+% free      - set of free dimensions                      (m)
+
+% Results
+% ===========================
+%  0: No descent direction found
+%  1: Hessian is not positive definite
+%  2: Maximum main iterations exceeded       
+%  3: Maximum line-search iterations exceeded 
+%
+%  4: Cost reduction smaller than tolerance     
+%  5: Gradient smaller than tolerance    
+%  6: All controls are clamped 
 
 m = size(Quu,1);
 
 % Initialize arrays
-clamped      = false(m,1);
+clamped = false(m,1);      % Indicies of clamped controls
 prev_clamped = false(m,1);
-free         = true(m,1);
-deltaX       = zeros(m, 1);
-grad         = zeros(m, 1);
+free = true(m,1);
+delta_u = zeros(m, 1);
+grad = zeros(m, 1);
 grad_clamped = zeros(m, 1);
-uc           = zeros(m, 1);
-Luu          = zeros(m, m);  % Placeholder to return if Luu not assigned
+u_c = zeros(m, 1);
+Luu = zeros(m, m);         % Placeholder to return if Luu not assigned
 
 % Initialize scalars
-oldvalue     = 0;
-result       = 0;
+old_cost = 0;
+result = 0;
 
-% options
-maxIter        = 100;       % maximum number of iterations
-minGrad        = 1e-8;      % minimum norm of non-fixed gradient
-minRelImprove  = 1e-8;      % minimum relative improvement
-stepDec        = 0.6;       % factor for decreasing stepsize
-minStep        = 1e-20;     % minimal stepsize for linesearch
-Armijo         = 0.1;   	% Armijo parameter (fraction of linear improvement required)
+% Solver Options
+max_iters = 100;          % max iterations
+min_grad = 1e-8;          % min norm of non-clamped gradient
+min_rel_improve = 1e-8;   % min relative improvement
+step_dec = 0.6;           % factor for decreasing stepsize
+min_step = 1e-20;         % min stepsize for linesearch
+armijo_tol = 0.1;   	  % Armijo tolerance (fraction of linear improvement required)
 
-% initial state
-u = clamp(u0(:), lower, upper);
+% Initial controls
+u = clamp(u0(:), lower_lim, upper_lim);
 
-% initial objective value
-value = u'*Qu + 0.5*u'*Quu*u;
+% Initial cost value
+cost = u'*Qu + 0.5*u'*Quu*u;
 
-% main loop
-for iter = 1:maxIter
-    
+% Start optimisation
+for iter = 1:max_iters
     if result ~=0
         break;
     end
     
-    % check relative improvement
-    if( iter>1 && (oldvalue - value) < minRelImprove*abs(oldvalue) )
-        result = 3;
+    % Check relative cost change for convergence
+    if(iter > 1 && (old_cost - cost) < min_rel_improve*abs(old_cost))
+        result = 4;
         break;
     end
-    oldvalue = value;
+    old_cost = cost;
     
-    % get gradient
+    % Gradient of cost function
     grad = Qu + Quu*u;
     
-    % find clamped dimensions
-    prev_clamped(:)                 = clamped;
-    clamped(:, 1)                   = false;
-    clamped((u == lower)&(grad>0))  = true;
-    clamped((u == upper)&(grad<0))  = true;
-    free(:)                         = ~clamped;
+    % Find clamped controls
+    prev_clamped(:) = clamped;
+    clamped(:, 1) = false;
+    clamped((u == lower_lim) & (grad > 0)) = true;
+    clamped((u == upper_lim) & (grad < 0)) = true;
+    free(:) = ~clamped;
     
-    % check for all clamped
+    % Check if all controls clamped
     if all(clamped)
-        result = 5;
+        result = 6;
         break;
     end
     
@@ -82,68 +94,56 @@ for iter = 1:maxIter
         factorize = any(prev_clamped ~= clamped);
     end
     
-     % Cholesky (check for non PD)
+     % Cholesky (check for non-PD)
     if factorize
         [Luu, indef] = chol_free(Quu(free,free));
         if indef
-            result = -1;
+            result = 1;
             break
         end
     end
     
-    % check gradient norm
-    gnorm = norm(grad(free));
-    if gnorm < minGrad
-        result = 4;
+    % check gradient-norm of free controls
+    grad_norm = norm(grad(free));
+    if grad_norm < min_grad
+        result = 5;
         break;
     end
     
     % get search direction
     grad_clamped = Qu  + Quu*(u.*clamped);
-    deltaX(:) = 0;
-    deltaX(free) = -chol_solve(Luu, grad_clamped(free)) - u(free); % cholesky solver
-%     deltaX(free) = -Luu'\(Luu\grad_clamped(free)) - u(free); % cholesky solver
+    delta_u(:) = 0;
+    delta_u(free) = -chol_solve(Luu, grad_clamped(free)) - u(free); % cholesky solver
     
-    % check for descent direction
-    sdotg = sum(deltaX.*grad);
-    if sdotg >= 0 % (should not happen)
+    % check projected change in cost is a reduction
+    expected_change = sum(delta_u.*grad);
+    if expected_change >= 0 % (should not happen)
         result = 0;
         break
     end
     
     % Armijo linesearch
-    step  = 1;
-	uc = clamp(u + step*deltaX, lower, upper);
-    vc = uc'*Qu + 0.5*uc'*Quu*uc;
-    while (vc - oldvalue)/(step*sdotg) < Armijo
-        step  = step*stepDec;
-		uc = clamp(u + step*deltaX, lower, upper);
-        vc = uc'*Qu + 0.5*uc'*Quu*uc;
-        if step < minStep
-            result = 2;
+    step = 1;
+	u_c = clamp(u + step*delta_u, lower_lim, upper_lim);
+    cost_c = u_c'*Qu + 0.5*u_c'*Quu*u_c;
+    while (cost_c - old_cost)/(step*expected_change) < armijo_tol
+        step  = step*step_dec;
+		u_c = clamp(u + step*delta_u, lower_lim, upper_lim);
+        cost_c = u_c'*Qu + 0.5*u_c'*Quu*u_c;
+        if step < min_step
+            result = 3;
             break
         end
     end
     
-    % accept candidate
-    u = uc;
-    value = vc;
+    % Update the control
+    u = u_c;
+    cost = cost_c;
 end
 
-if iter >= maxIter
-    result = 1;
+if iter >= max_iters
+    result = 2;
 end
-
-% Results
-% ===========================
-% -1: Hessian is not positive definite
-%  0: No descent direction found          (SHOULD NOT OCCUR)
-%  1: Maximum main iterations exceeded       
-%  2: Maximum line-search iterations exceeded  
-%  3: Improvement smaller than tolerance     
-%  4: Gradient norm smaller than tolerance    
-%  5: All dimensions are clamped 
-
 end
 
 function [clampedVals] = clamp(x, lower, upper)

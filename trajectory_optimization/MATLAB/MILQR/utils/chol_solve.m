@@ -7,7 +7,7 @@ function [X] = chol_solve(L,B)
 % This implementation only works for lower triangular factorisations
 
 n = size(L,1);
-m = size(B, 2);
+m = size(B,2);
 
 % Check sizes match and L is lower-triangular
 assert(size(L,2)==n,'L must be square');

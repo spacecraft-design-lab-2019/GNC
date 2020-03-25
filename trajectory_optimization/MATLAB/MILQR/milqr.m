@@ -1,4 +1,4 @@
-function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
+function [x,u,K,result] = milqr(x0, xg, u0, u_lims, B)
 % Solves finite horizon optimal control problem using a
 % multiplicative iterative linear quadratic regulator
 
@@ -13,6 +13,8 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 % u0 - The initial control sequeunce (m, N-1)
 %
 % u_lims - The control limits (m, 2) (lower, upper)
+%
+% B - A time sequence of Earth magnetic field vectors in ECI (3, N)
 
 % Outputs
 % ===========================================
@@ -27,19 +29,19 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims)
 
 % Options (pass in as array)
 dt = 0.03;            % Timestep (Should be highest we can get away with)
-max_iters = 500;      % maximum iterations
-exit_tol = 1e-7;      % cost reduction exit tolerance
-grad_tol = 1e-4;      % gradient exit criterion
-lambda_tol = 1e-5;    % lambda criterion for gradient exit
-z_min = 0;            % minimum accepted cost reduction ratio
+max_iters = 300;      % maximum iterations
+cost_tol = 1e-7;      % cost reduction exit tolerance
+contr_tol = 1e-4;     % feedforward control change exit criterion
+lambda_tol = 1e-5;    % max regularizaion param allowed for exit
+c_ratio_min = 0;      % minimum accepted cost reduction ratio
 lambda_max = 1e10;    % maximum regularization parameter
 lambda_min = 1e-6;    % set lambda = 0 below this value
-lambda_scaling = 1.6; % amount to scale dlambda by
+lambda_scale = 1.6;   % amount to scale dlambda by
 
-% CONSTANTS
-Alphas = 10.^linspace(0, -3, 11);  % line search param
+% Init optimisation params
+alphas = 10.^linspace(0,-3,11);  % line search param vector
 lambda = 1;
-dlambda = 1;
+d_lambda = 1;
 N = size(u0, 2)+1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
@@ -50,61 +52,60 @@ l = zeros(Nu, N-1);
 K = zeros(Nu, Ne, N-1);
 dV = zeros(1, 2);
 alpha = 0;
-[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt);
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,B,l,K,alpha,u_lims,dt);
 
 % Convergence check params
-expectedChange = 0; % Expected cost change
-z = 0;              % Ratio of cost change to expected cost change
+expected_change = 0;      % Expected cost change
+c_ratio = 0;              % Ratio of cost change to expected cost change
 result = false;
 
-fprintf("\n==================Begin iLQR================\n");
+fprintf("\n=====Running MILQR Optimisation====\n");
 for iter = 1:max_iters
     fprintf("\n---New Iteration---\n");
     
     % Backward Pass
     %=======================================
-    backPassDone = false;
-    while ~backPassDone
-        [l,K,dV,diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
-        
-        if diverge
-            fprintf("---Cholesky factorizaton failed at timestep %d---\n",diverge);
+    backPassCheck = false;
+    while ~backPassCheck
+        [l,K,dV,diverged] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
+        if diverged
+            fprintf("---Warning: Cholesky factorizaton failed---\n");
             
             % Increase regularization parameter (lambda)
-            dlambda = max(lambda_scaling * dlambda, lambda_scaling);
-            lambda = max(lambda * dlambda, lambda_min);
+            lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
             if lambda > lambda_max
                 break;
             end
             continue;  % Retry with larger lambda
         end
-        backPassDone = true;
+        backPassCheck = true;
     end
     
-    % Check gradient of control, defined as l/u
+    % Check relative change of feedforward control
     % Terminate if sufficiently small (success)
-    g_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg of max grad at each time step
-    if g_norm < grad_tol && lambda < lambda_tol
-        fprintf("\n---Success: Gradient decreased below grad_tol---\n");
+    c_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg over time of max change
+    if  lambda < lambda_tol && c_norm < contr_tol
+        fprintf("\n---Success: Control change decreased below tolerance---\n");
         result = true;
         break;
     end
    
     % Forward Line-Search
     %===========================================
-    fwdPassDone = false;
-    if backPassDone
-        for alpha = Alphas
-            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt);
-            expectedChange = -alpha*(dV(1) + alpha*dV(2));
-            if expectedChange > 0
-                z = (cost - cost_n)/expectedChange;
+    lineSearchCheck = false;
+    if backPassCheck
+        for alpha = alphas
+            [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = forwardRollout(x,xg,u,B,l,K,alpha,u_lims,dt);
+            expected_change = alpha*dV(1) + (alpha^2)*dV(2);
+            if expected_change < 0
+                c_ratio = (cost_n - cost)/expected_change;
             else
-                z = sign(cost - cost_n);
-                fprintf("\n---Warning: non positive expected reduction---\n");
+                % Non-positive expected cost reduction
+                % actual cost change must be negative to accept the step
+                c_ratio = -sign(cost_n - cost);
             end
-            if z > z_min
-                fwdPassDone = true;
+            if c_ratio > c_ratio_min
+                lineSearchCheck = true;
                 break;
             end
         end
@@ -112,13 +113,12 @@ for iter = 1:max_iters
     
     % Parameter Updates
     %=============================================
-    if fwdPassDone
+    if lineSearchCheck
         % Decrease Lambda
-        dlambda = min(dlambda/lambda_scaling, 1/lambda_scaling);
-        lambda = lambda * dlambda * (lambda > lambda_min);  % set = 0 if lambda too small
+        lambda = updateLambda(lambda,-1,d_lambda,lambda_scale,lambda_min);
         dcost = cost - cost_n;
         
-        % Update trajectory and controls
+        % Update the trajectory and controls
         x = x_n;
         u = u_n;
         fx = fx_n;
@@ -129,21 +129,18 @@ for iter = 1:max_iters
         cuu = cuu_n;
         cost = cost_n;
         
-        % Terminate ?
-        if dcost < exit_tol
+        % Change in cost small enough to terminate?
+        if dcost < cost_tol
             result = true;
-            fprintf('\n---Success cost change < tolerance---\n');
+            fprintf('\n---Success: cost change < tolerance---\n');
             break;
         end
         
     else
-        % No cost reduction (based on z-value)
+        % No cost reduction (based on cost change ratio)
         % Increase lambda
-        dlambda = max(lambda_scaling * dlambda, lambda_scaling);
-        lambda = max(lambda * dlambda, lambda_min);
-        
+        lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
         if lambda > lambda_max
-            % Lambda too large - solver diverged
             result = false;
             fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
@@ -157,10 +154,24 @@ if iter == max_iters
     result = false;
     fprintf("\n---Warning: Max iterations exceeded---\n");
 end
+
+function [lambda] = updateLambda(lambda, direction, delta, l_scale, l_min)
+    % Increases or decreases the regularization parameter according
+    % to a non-linear scaling regime.
+    
+    if (direction == 1)  % increase lambda
+        delta = max(l_scale * delta, l_scale);
+        lambda = max(lambda * delta, l_min);
+        
+    elseif (direction == -1) % decrease lambda
+        delta = min(delta/l_scale, 1/l_scale);
+        lambda = lambda * delta * (lambda > l_min);  % set = 0 if lambda too small
+    end
+end
     
 end
 
-function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,l,K,alpha,u_lims,dt)
+function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x,xg,u,B,l,K,alpha,u_lims,dt)
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -188,20 +199,19 @@ xnew(:,1) = x(:,1);
 terminal = 0;
 dx = zeros(6,1);
 for k = 1:(N-1)
-    
     % Find the state error vector dx
     dx(4:6) = xnew(5:7,k) - x(5:7,k);
-    dx(1:3) = quat_error(xnew(1:4,k), x(1:4,k));
+    dx(1:3) = quat_error(xnew(1:4,k),x(1:4,k));
     
     % Find the new control and ensure it is within the limits
     unew(:,k) = u(:,k) - alpha*l(:,k) - K(:,:,k)*dx;
-    unew(:,k) = min(u_lims(:,2), max(u_lims(:,1), unew(:,k)));
+    unew(:,k) = min(u_lims(:,2), max(u_lims(:,1),unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt);
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k),unew(:,k),B(:,k),dt);
     
     % Calculate the cost
-    [c, cx(:,k),cu(:,k), cxx(:,:,k), cuu(:,:,k)] = satellite_cost(xnew(:,k), xg, unew(:,k), terminal); 
+    [c, cx(:,k),cu(:,k),cxx(:,:,k),cuu(:,:,k)] = satellite_cost(xnew(:,k),xg,unew(:,k),terminal); 
     cost = cost + c;
 end
 
@@ -211,19 +221,20 @@ u_temp = zeros(Nu,1);
 [c,cx(:,N),~,cxx(:,:,N),~] = satellite_cost(xnew(:,N), xg, u_temp, terminal); 
 cost = cost + c;
 
-function [dq] = quat_error(qnew, q_nom)
-% Calculate error between qnew and q_nom
+function [dq] = quat_error(qk, q_nom)
+% Calculate error between qk and q_nom
 % Defined as conj(q_nom)*qnew
+% Returns error as Rodrigues parameters (3x1)
 
-q_inv = [1;-1;-1;-1].*q_nom;  % conjugate
-q_error = L_mult(q_inv)*qnew;
+q_inv = [1;-1;-1;-1].*q_nom;               % conjugate
+q_error = L_mult(q_inv)*qk;
 q_error = q_error/sqrt(q_error'*q_error);  % re-normalize
-dq = q_error(2:4) / q_error(1);  % inverse Cayley Map
+dq = q_error(2:4) / q_error(1);            % inverse Cayley Map
 end
 end
 
 
-function [l, K, dV, diverge] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u)
+function [l,K,dV,diverged] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u)
 % Perfoms the LQR backward pass to find the optimal controls
 % Solves a quadratic program (QP) at each timestep for the optimal
 % controls given the control limits
@@ -232,7 +243,7 @@ N = size(u, 2) + 1;
 Ne = size(fx,1);
 Nu = size(u,1);
 
-% Initialize matrices (for C)
+% Initialize matrices (for C code, not needed in MATLAB)
 l = zeros(Nu,N-1);
 K = zeros(Nu,Ne,N-1);
 Qx = zeros(Ne,1);
@@ -251,10 +262,10 @@ dV = [0 0];
 Vx = cx(:, N);
 Vxx = cxx(:,:,N);
 
-diverge = false;
+diverged = false;
 for k=(N-1):-1:1
     
-    % Define cost gradients
+    % Define cost gradients and hessians
     Qx = cx(:,k) + fx(:,:,k)'*Vx;
     Qu = cu(:,k) + fu(:,:,k)'*Vx;
     Qxx = cxx(:,:,k) + fx(:,:,k)'*Vxx*fx(:,:,k);
@@ -262,17 +273,17 @@ for k=(N-1):-1:1
     Qux = fu(:,:,k)'*Vxx*fx(:,:,k);
     
     % Regularization (for Cholesky positive definiteness)
-    QuuF = Quu + eye(Nu)*lambda;
+    QuuR = Quu + eye(Nu)*lambda;
     
     % Solve the Quadratic program with control limits
-    upper = u_lims(:,2) - u(:,k);
-    lower = u_lims(:,1) - u(:,k);
+    upper_lim = u_lims(:,2) - u(:,k);
+    lower_lim = u_lims(:,1) - u(:,k);
     l_idx = min(N-1, k+1);
-    [lk,result,Luu,free] = boxQPsolve(QuuF,Qu,lower,upper,-1*l(:,l_idx));
+    [lk,result,Luu,free] = boxQPsolve(QuuR,Qu,lower_lim,upper_lim,-1*l(:,l_idx));
 
-    if result < 1
-        diverge = true;
-        fprintf('\nlambda: %f\n',lambda);
+    if result < 2
+        diverged = true;
+        fprintf('\nDiverged with lambda = %f\n',lambda);
         return;
     end
     
@@ -283,11 +294,13 @@ for k=(N-1):-1:1
         Kk(free, :) = -chol_solve(Luu, Qux(free,:));
     end
     
-    % Update Cost to Go
-    dV  = dV + [lk'*Qu  (1/2)*lk'*Quu*lk];
+    % Update Cost to Go Jacobian and Hessian
     Vx  = Qx  + Kk'*Quu*lk + Kk'*Qu  + Qux'*lk;
     Vxx = Qxx + Kk'*Quu*Kk + Kk'*Qux + Qux'*Kk;
-    Vxx = (1/2)*(Vxx + Vxx');  % Make sure Hessian is symmetric
+    Vxx = (1/2)*(Vxx + Vxx');  % Ensure Hessian is symmetric
+    
+    % Record control cost change to check convergence
+    dV  = dV + [lk'*Qu  (1/2)*lk'*Quu*lk];  
     
     % Update Control Vectors
     l(:, k) = -lk;

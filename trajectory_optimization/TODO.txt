@@ -1,38 +1,35 @@
 
 Immediate
 ================
-- Fix floating point issue...
-
-- Write body2ECI in MATLAB. Called at each timestep of forward pass (maybe inside step function), uses current attitude -> one line
-- Change Satellite_Step() to include earth magnetic field (passed in as param)
-- Add argument for B vector to milqr() function
-
-Add magnetorquer control / magnetic field model (Change Jacobian in satelite_step function)
-	Should pre-compute orbit and magnetic field in ECI or ECEF
-	Pass in time series of B vectors to iLQR
-	Convert the B vector to Body frame for calculating torque at each step
-
+- Fix floating point issue in single precision C code...Doesn't converge/work at all
+	Works exactly the same as MATLAB when coded with double precision
 
 - Write controllability grammian solver in python (needs SGP4)
 
-- Write script to test all the above together. 
+- Write script to test magnetorquer control (possibly use python and call C code with ctypes library)
+
+- Tune cost params
+
+- !!! Try to run MILQR in circuitpython on the board!!!
 
 
-- !!! Try to run MILQR in circuitpython !!!
-
-
-// Pass parameters
+Pass parameters
 ==================
 - Inertia and it's inverse
-- Solver Options (including timestep)
-- Magnetic field trajectory (pass in time sequence of B vectors) calls IGRF & sgp4
+- Solver Options - need to decide which ones to hardcode (if any)
 - Cost function matrices (Maybe?)
 
 - Add functionality for different length trajectories (just pass N as parameter)
 
 
+Hardware
+====================
+-Write magentorquer inversion code that converts a magnetic moment vector
+ in the body frame to commands for each of the 6 coils on the satellite
+
  Python
  ===================
+Main control loop:
 
 -Call controllability algorithm {
 	loop:
@@ -48,7 +45,7 @@ Add magnetorquer control / magnetic field model (Change Jacobian in satelite_ste
 -If failed ??
 -If succeeded:
 	-Call MILQR with the B-vector array
-		-Add check after solver runs that final attitude and velocity are within an acceptable tolerance (can do in MATLAB)
+		-Add check after solver runs that final attitude and velocity are within an acceptable tolerance (can do in MATLAB/C)
 
 -If MILQR succeeds, wait until start time
 -Call main control loop
