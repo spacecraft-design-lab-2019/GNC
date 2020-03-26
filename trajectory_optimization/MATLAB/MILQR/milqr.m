@@ -62,7 +62,16 @@ result = false;
 
 fprintf("\n=====Running MILQR Optimisation====\n");
 for iter = 1:max_iters
-    fprintf("\n---New Iteration---\n");
+    fprintf("\n---New Iteration---");
+    fprintf("\n lambda: ");
+    fprintf(string(lambda));
+    if exist('dcost')
+        fprintf("\n cost change: ");
+        fprintf(string(dcost));
+    end
+    fprintf("\n");
+
+    
     
     % Backward Pass
     %=======================================

@@ -26,13 +26,13 @@ xg = [qg; wg];
 
 % Initial Control trajectory
 u0 = zeros(Nu, N-1);
-u_lims = [-10 10;           % magnetic moment limits
-          -10 10;
-          -10 10];
+u_lims = [-100 100;           % magnetic moment limits
+          -100 100;
+          -100 100];
       
 % magnetic field (ECI)
 % to test, let's just get some sinusoids out here
-B_ECI = [40E-6*sin(.004*(1:N)); 60E-6*sin(.004*(1:N)); 60E-6*cos(.004*(1:N))];
+B_ECI = [40E-6*sin(.04*(1:N)); 60E-6*sin(.04*(1:N)); 60E-6*cos(.04*(1:N))];
 
 % Run MILQR
 [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI);
