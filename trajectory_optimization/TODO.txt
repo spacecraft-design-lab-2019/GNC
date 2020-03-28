@@ -1,22 +1,73 @@
 
-Draw block diagram for control system -> python and C interfaces
+Immediate
+================
+- Fix floating point issue in single precision C code...Doesn't converge/work at all
+	Works exactly the same as MATLAB when coded with double precision
+
+- Write controllability grammian solver in python (needs SGP4)
+
+- Write script to test magnetorquer control (possibly use python and call C code with ctypes library)
+
+- Tune cost params
+
+- !!! Try to run MILQR in circuitpython on the board!!!
 
 
-MATLAB
-===============
-Read paper - add control limits, regularization
+Pass parameters
+==================
+- Inertia and it's inverse
+- Solver Options - need to decide which ones to hardcode (if any)
+- Cost function matrices (Maybe?)
 
-Add check / failure condition for if max iterations exceeded
-Re-write satelltie dynamics in simplest way (expand matrices)
+- Add functionality for different length trajectories (just pass N as parameter)
 
-Change backslash to Cholesky (if needed)
-Add control limits
-Add magnetorquer control / magnetic field model
 
-C
-===========
-compile pendulum iLQR
-write Linear algebra functions for iLQR and MEKF
+Hardware
+====================
+-Write magentorquer inversion code that converts a magnetic moment vector
+ in the body frame to commands for each of the 6 coils on the satellite
+
+ Python
+ ===================
+Main control loop:
+
+-Call controllability algorithm {
+	loop:
+		until controllabiltiy found or max time surpassed
+		-Call SGP4 (starting a few minutes in the future) to find a future satellite state (in ECI)
+		-Call IGRF to get the Earth magnetic field (B vector) in ECEF for that state.
+		-Convert the B vector to ECI
+		-Add new B vector to the controllability grammian
+		-Check for controllability
+		-Add the B-vector to an array
+	}
+
+-If failed ??
+-If succeeded:
+	-Call MILQR with the B-vector array
+		-Add check after solver runs that final attitude and velocity are within an acceptable tolerance (can do in MATLAB/C)
+
+-If MILQR succeeds, wait until start time
+-Call main control loop
+	-Measure
+	-Interpolate controls based on state measurement
+	-Actuate
+
+
+Misc
+====================
+- Linker script (with stack size): /home/nick/Documents/AA236/circuitpython/ports/atmel-samd/asf4/samd51/gcc/gcc
+	> Default: 0xC000 = 44 KB (1000 = 4 KB, C-1 = 11, 11*4 = 44 KB)
+
+
+
+
+
+
+
+
+
+
 
 
 

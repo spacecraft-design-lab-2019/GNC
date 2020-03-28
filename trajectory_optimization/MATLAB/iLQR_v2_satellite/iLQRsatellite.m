@@ -1,5 +1,6 @@
-function [xtraj, utraj, K, Jhist] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters)
+function [xtraj, utraj, K, Jhist, success] = iLQRsatellite(x0, xg, utraj0, Q, R, Qf, Qqf, dt, tol, max_iters)
 %iLQR Trajectory Optimization for Satellite
+success = 0;
 
 Nx = length(x0);
 Nu = size(utraj0,1);
@@ -22,7 +23,7 @@ for k = 1:(N-1)
     quat_cost_sign(k) = sign;
     
     % Cumulative Cost
-    J = J + quat_cost + (1/2)*(xtraj(:,k)-xg)'*Q*(xtraj(:,k)-xg) + (1/2)*utraj(:,k)'*R*utraj(:,k);
+    J = J + 5*quat_cost + (1/2)*(xtraj(:,k)-xg)'*Q*(xtraj(:,k)-xg) + (1/2)*utraj(:,k)'*R*utraj(:,k);
     [xtraj(:,k+1), A(:,:,k), B(:,:,k)] = rkstep(xtraj(:,k),utraj(:,k), dt);
 end
 % Terminal cost
@@ -46,10 +47,15 @@ xnew = zeros(Nx,N);
 
 % Backward Pass
 iter = 0;
-while max(abs(l)) > tol
-
+absL = abs(l);
+while max(absL) > tol
+    
     iter = iter + 1;
-    % Add failure condition if max_iters exceeded
+    % Fail if max_iters exceeded
+    if iter > max_iters
+        success = 0;
+        return;
+    end
     
     %Set up backwards LQR pass
     S = Qf;
@@ -90,7 +96,7 @@ while max(abs(l)) > tol
             quat_cost_sign(k) = sign;
             
             % Cumulative Cost
-            Jnew = Jnew + quat_cost + (1/2)*(xnew(:,k)-xg)'*Q*(xnew(:,k)-xg) + (1/2)*utraj(:,k)'*R*utraj(:,k);
+            Jnew = Jnew + 5*quat_cost + (1/2)*(xnew(:,k)-xg)'*Q*(xnew(:,k)-xg) + (1/2)*unew(:,k)'*R*unew(:,k);
         end
         % Terminal cost
         [quat_cost_final, sign] = calc_quat_cost(xnew(:,N), xg);
@@ -102,11 +108,14 @@ while max(abs(l)) > tol
     utraj = unew;
     J = Jnew;
     Jhist(iter+1) = J;
+    absL = abs(l);
     
 %     disp([max(abs(l)) 2*alpha])
 end
+success = 1;
 
 end
+
 
 function [x, A, B] = rkstep(x0,u0, dt)
     %Explicit midpoint step from x_k to x_{k+1}
@@ -114,8 +123,8 @@ function [x, A, B] = rkstep(x0,u0, dt)
     Nx = length(x0);
     Nu = length(u0);
 
-    [xdot1, dxdot1] = satellite_dynamics(0,x0,u0);
-    [xdot2, dxdot2] = satellite_dynamics(0,x0+.5*dt*xdot1,u0);
+    [xdot1, dxdot1] = satellite_dynamics(x0,u0);
+    [xdot2, dxdot2] = satellite_dynamics(x0+.5*dt*xdot1,u0);
     x1 = x0 + dt*xdot2;
     
     % Normalize the quaternion
