@@ -32,7 +32,8 @@ u_lims = [-10 10;           % magnetic moment limits
       
 % magnetic field (ECI)
 % to test, let's just get some sinusoids out here
-B_ECI = [40E-6*sin(.004*(1:N)); 60E-6*sin(.004*(1:N)); 60E-6*cos(.004*(1:N))];
+% B_ECI = [40E-6*sin(.004*(1:N)); 60E-6*sin(.004*(1:N)); 60E-6*cos(.004*(1:N))];
+B_ECI = rand(3, N)*0.1;
 
 % Run MILQR
 [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI);
