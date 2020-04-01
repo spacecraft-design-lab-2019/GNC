@@ -4,6 +4,8 @@ clear
 close all
 clc
 
+addpath('utils')
+
 % Sim Params
 N = 5000;  % num steps
 Nx = 7;
