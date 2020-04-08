@@ -25,12 +25,13 @@ close all
 clc
 
 addpath('utils')
+addpath('sgp4') % not needed but just in case ;)
 
 % Sim Params
 N = 5000;  % num steps
 Nx = 7;
 Nu = 3;
-dt = 0.2;
+dt = 1;
 t = 0:dt:N*dt;
 
 % Initialize Parameters
@@ -39,12 +40,13 @@ Earth = InitializeEarth();
 % Initial State trajectory
 theta = pi/2;  % [rad] 
 axis = [0;0;1];
-r0 = [0;0;1]; % Earth radii
-v0 = 
+r0 = [5.7198;-0.7556;4.1212]*1E3; % km
+v0 = [-4.4390;-1.0905;5.945]; % km/s
 q0 = [cos(theta/2); axis*sin(theta/2)];  % 90 degree rotation about z-axis
 w0 = [0; 0; 0];  % [rad/s]
-x0 = [q0; w0];
-x0 = x0(:,ones(N,1));
+x0 = [r0;v0;q0; w0];
+MJD0 = 58947.77014; % modified julian date on April 8, 2020
+t_MJD = t/60/60/24+MJD0;
 
 % Goal state
 theta_g = pi;
@@ -53,19 +55,26 @@ qg = [cos(theta_g/2); rg*sin(theta_g/2)];
 wg = [0; 0; 0];
 xg = [qg; wg];
 
+% magnetic field (ECI)
+
+% 2-body approximation with Runge-Kutta
+X = two_body_position(x0,t);
+
+% IGRF magnetic field
+[B_eci] = get_magnetic_field_series(X,t_MJD);
+
+
+plot(B_eci');
+
 % Initial Control trajectory
 u0 = zeros(Nu, N-1);
 u_lims = [-100 100;           % magnetic moment limits
           -100 100;
           -100 100];
       
-% magnetic field (ECI)
-
-% IGRF magnetic field
-B_ECI = get_mag_field(x0,t);
-
 % Run MILQR
-[x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI);
+x0 = x0(:,ones(N,1)); % extend x0 to entire trajectory to fill
+[x,u,K,result] = milqr(x0, xg, u0, u_lims,B_eci);
 
 % Plot results
 figure(1)
