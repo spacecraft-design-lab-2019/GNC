@@ -16,14 +16,10 @@
 % AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 % LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-% SOFTWARE.
 
-function [x_skew] = skew_mat(x)
-% Returns skew symmetric - cross product matrix of a 3x1 vector
+function Earth = InitializeEarth()
 
-assert(size(x,1)==3);
-assert(size(x,2)==1);
-
-x_skew = [0 -x(3) x(2); x(3) 0 -x(1); -x(2) x(1) 0];
-
+    Earth.r = 6378; %km
+    Earth.mu = 3.986004418E14 / 1000^3; %km3/s2
+    
 end

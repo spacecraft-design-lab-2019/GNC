@@ -18,12 +18,4 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
-function [x_skew] = skew_mat(x)
-% Returns skew symmetric - cross product matrix of a 3x1 vector
-
-assert(size(x,1)==3);
-assert(size(x,2)==1);
-
-x_skew = [0 -x(3) x(2); x(3) 0 -x(1); -x(2) x(1) 0];
-
-end
+function B_ECI = get_mag_field(x0,t)
