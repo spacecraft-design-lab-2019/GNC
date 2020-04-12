@@ -28,7 +28,7 @@ addpath('utils')
 addpath('sgp4') % not needed but just in case ;)
 
 % Sim Params
-N = 5000;  % num steps
+N = 1E4;  % num steps
 Nx = 7;
 Nu = 3;
 dt = 1;
@@ -44,7 +44,7 @@ r0 = [5.7198;-0.7556;4.1212]*1E3; % km
 v0 = [-4.4390;-1.0905;5.945]; % km/s
 q0 = [cos(theta/2); axis*sin(theta/2)];  % 90 degree rotation about z-axis
 w0 = [0; 0; 0];  % [rad/s]
-x0 = [r0;v0;q0; w0];
+x0 = [q0; w0];
 MJD0 = 58947.77014; % modified julian date on April 8, 2020
 t_MJD = t/60/60/24+MJD0;
 
@@ -57,12 +57,10 @@ xg = [qg; wg];
 
 % magnetic field (ECI)
 
-% 2-body approximation with Runge-Kutta
-X = two_body_position(x0,t);
-
 % IGRF magnetic field
-[B_eci] = get_magnetic_field_series(X,t_MJD);
+[B_eci] = get_magnetic_field_series([r0;v0;x0],t_MJD);
 
+% B_eci = [40E-6*sin(.04*(1:N)); 60E-6*sin(.04*(1:N)); 60E-6*cos(.04*(1:N))];
 
 plot(B_eci');
 
@@ -74,7 +72,7 @@ u_lims = [-100 100;           % magnetic moment limits
       
 % Run MILQR
 x0 = x0(:,ones(N,1)); % extend x0 to entire trajectory to fill
-[x,u,K,result] = milqr(x0, xg, u0, u_lims,B_eci);
+[x,u,K,result] = milqr(x0, xg, u0, u_lims, B_eci);
 
 % Plot results
 figure(1)

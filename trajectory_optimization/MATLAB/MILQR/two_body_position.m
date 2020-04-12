@@ -36,6 +36,8 @@ function [X] = two_body_position(x0,t)
 %     r - position in Earth radii
 %     v - velocity in km/s
 
+days2sec = 24*60*60;
+
 % initialize empty array
 X = zeros(6,length(t));
 X(:,1) = x0(1:6);
@@ -43,7 +45,7 @@ X(:,1) = x0(1:6);
 % fill it
 for i = 1:length(t)-1
     
-    X(:,i+1) = rk4(X(:,i),@two_body,t(i+1)-t(i));
+    X(:,i+1) = rk4(X(:,i),@two_body,(t(i+1)-t(i))*days2sec);
     
 end
 

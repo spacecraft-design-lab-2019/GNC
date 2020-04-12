@@ -30,10 +30,17 @@ function [B_eci] = fake_IGRF(r,t)
 [lat,lon,alt] = convert_to_lat_lon_alt(r,t);
 
 % find B_NED
-B_ned = get_magnetic_field(lat,lon,alt,2015,5);
+B_ned = get_magnetic_field(lat,lon,alt,round(MJD2year(t)),5);
 
 % convert to eci
 B_eci = ned2eci(B_ned,lat*pi/180,lon*pi/180);
+
+end
+
+function year = MJD2year(t_MJD)
+% gets the year out of MJD
+
+year = t_MJD/365.25 + 1858 + 321/365;
 
 end
 
