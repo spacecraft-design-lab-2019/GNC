@@ -1,0 +1,9 @@
+c99 main.c ilqrCar.c -o ilqrTest.run -Wall -ggdb -lm
+
+chmod +X ilqrTest.run
+
+./ilqrTest.run
+
+
+
+// -lm is needed for linking the math library <math.h> (it is not part of standard c)
