@@ -15,10 +15,6 @@ Immediate
 
 Pass parameters
 ==================
-- Inertia and it's inverse
-- Solver Options - need to decide which ones to hardcode (if any)
-- Cost function matrices (Maybe?)
-
 - Add functionality for different length trajectories (just pass N as parameter)
 
 

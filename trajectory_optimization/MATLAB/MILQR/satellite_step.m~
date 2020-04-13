@@ -46,8 +46,8 @@ function [xdot, dxdot] = satellite_dynamics(x, u, B_ECI, Js)
 % B - Earth magnetic field vector in ECI co-ordinates (3x1)
 % Js - [Inertia, Inertia-inverse]
 
-J = Js(:,1:3);     % inertia tensor
-Jinv = Js(:,4:6);  % inverse inertia tensor
+J = Js(1:3, 1:3); 0.01*eye(3); % kgm^2
+Jinv = Js(: ,4:6. 
 
 w = x(5:7);  % Angular velocity
 q = x(1:4);  % Quaternion
