@@ -30,7 +30,8 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims, B_ECI, Js, options)
 % K - Feedback control gains (n-1, m, N-1) 
 %
 % result - Indicates convergence (boolean)
-%==============================================
+%
+%=============================================
 
 % Solver Options (passed in as array)
 N = options(1);             % Num simulation steps
@@ -44,7 +45,7 @@ lambda_max = options(8);    % maximum regularization parameter
 lambda_min = options(9);    % set lambda = 0 below this value
 lambda_scale = options(10);  % amount to scale dlambda by
 
-% Initialize optimisation params
+% Initialize optimization params
 alphas = 10.^linspace(0,-3,11);  % line search param vector
 lambda = 1;
 d_lambda = 1;
@@ -52,9 +53,21 @@ Nx = size(x0, 1);
 Nu = size(u0, 1);
 Ne = Nx-1;  % error state size (3 param. error representation for attitude)
 
+% Init matrices for update (otherwise MATLAB coder throws an error)
+p = size(x0, 2);
+x_n = zeros(Nx,p);
+u_n = zeros(Nu,p-1);
+fx_n = zeros(Ne,Ne,p-1);
+fu_n = zeros(Ne,Nu,p-1);
+cx_n = zeros(Ne,p);
+cu_n = zeros(Nu,p-1);
+cxx_n = zeros(Ne,Ne,p);
+cuu_n = zeros(Nu,Nu,p-1);
+cost_n = 0;
+
 % Initial Forward rollout
-l = zeros(Nu, N-1);
-K = zeros(Nu, Ne, N-1);
+l = zeros(Nu, p-1);
+K = zeros(Nu, Ne, p-1);
 dV = zeros(1, 2);
 alpha = 0;
 [x,u,fx,fu,cx,cu,cxx,cuu,cost] = ...
@@ -65,16 +78,8 @@ expected_change = 0;      % Expected cost change
 c_ratio = 0;              % Ratio of cost change to expected cost change
 result = false;
 
-fprintf("\n=====Running MILQR Optimisation====\n");
+% Run MILQR Optimisation
 for iter = 1:max_iters
-    fprintf("\n---New Iteration---");
-    fprintf("\n lambda: ");
-    fprintf(string(lambda));
-    if exist('dcost')
-        fprintf("\n cost change: ");
-        fprintf(string(dcost));
-    end
-    fprintf("\n");
 
     % Backward Pass
     %=======================================
@@ -82,7 +87,7 @@ for iter = 1:max_iters
     while ~backPassCheck
         [l,K,dV,diverged] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         if diverged
-            fprintf("---Warning: Cholesky factorizaton failed---\n");
+            % Warning: Cholesky factorizaton failed
             
             % Increase regularization parameter (lambda)
             lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
@@ -98,7 +103,7 @@ for iter = 1:max_iters
     % Terminate if sufficiently small (success)
     c_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg over time of max change
     if  lambda < lambda_tol && c_norm < contr_tol
-        fprintf("\n---Success: Control change decreased below tolerance---\n");
+        % Success: Control change decreased below tolerance
         result = true;
         break;
     end
@@ -146,8 +151,7 @@ for iter = 1:max_iters
         % Change in cost small enough to terminate?
         if dcost < cost_tol
             result = true;
-            fprintf('\n---Success: cost change < tolerance---\n');
-            break;
+            % Success: cost change < tolerance
         end
         
     else
@@ -156,7 +160,7 @@ for iter = 1:max_iters
         lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
         if lambda > lambda_max
             result = false;
-            fprintf("\n---Diverged: new lambda > lambda_max---\n");
+            % Diverged: new lambda > lambda_max
             break;
         end
         
@@ -166,7 +170,6 @@ end
 if iter == max_iters
     % Ddin't converge completely
     result = false;
-    fprintf("\n---Warning: Max iterations exceeded---\n");
 end
 
 function [lambda] = updateLambda(lambda, direction, delta, l_scale, l_min)
@@ -299,7 +302,6 @@ for k=(N-1):-1:1
 
     if result < 2
         diverged = true;
-        fprintf('\nDiverged with lambda = %f\n',lambda);
         return;
     end
     
@@ -323,7 +325,6 @@ for k=(N-1):-1:1
     K(:,:,k) = -Kk;
     
 end
-
 end
 
 

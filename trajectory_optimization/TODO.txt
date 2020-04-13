@@ -6,16 +6,9 @@ Immediate
 
 - Write controllability grammian solver in python (needs SGP4)
 
-- Write script to test magnetorquer control (possibly use python and call C code with ctypes library)
-
 - Tune cost params
 
 - !!! Try to run MILQR in circuitpython on the board!!!
-
-
-Pass parameters
-==================
-- Add functionality for different length trajectories (just pass N as parameter)
 
 
 Hardware

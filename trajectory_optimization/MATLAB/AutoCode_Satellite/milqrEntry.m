@@ -3,7 +3,6 @@
 clear
 close all
 clc
-addpath('utils')
 
 % Satellite Model Params
 Nx = 7;
