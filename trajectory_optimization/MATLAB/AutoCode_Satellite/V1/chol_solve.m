@@ -1,4 +1,4 @@
-function [X] = chol_solve(L,B)
+function [X] = chol_solve(L,B) %#codegen
 % Solves the linear system AX = B for the unknown X using the Cholesky
 % decomposition L of the matrix A. Where LL' = A
 % X can be a vector or a matrix of size n x m
@@ -7,13 +7,7 @@ function [X] = chol_solve(L,B)
 % This implementation only works for lower triangular factorisations
 
 n = size(L,1);
-m = size(B,2);
-
-% Check sizes match and L is lower-triangular
-assert(size(L,2)==n,'L must be square');
-assert(size(B,1)==n,'The first dimension of b must match the shape of L');
-assert(istril(L),'L must be lower triangular');
-
+m = size(B, 2);
 
 % Solve LY = B for Y
 %=======================

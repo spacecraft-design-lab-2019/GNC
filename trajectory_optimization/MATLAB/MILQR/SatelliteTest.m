@@ -18,19 +18,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-% Testing satllite attitude control
 
 clear
 close all
 clc
-
 addpath('utils')
 
-% Sim Params
-N = 5000;  % num steps
+% Satellite Model Params
 Nx = 7;
 Nu = 3;
+J = 0.01*eye(3); % Inertia kgm^2
+Js = [J, inv(J)];
 
+% Solver options
+N = 5000;             % num steps
+dt = 0.03;            % Timestep (Should be highest we can get away with)
+max_iters = 300;      % maximum iterations
+cost_tol = 1e-7;      % cost reduction exit tolerance
+contr_tol = 1e-4;     % feedforward control change exit criterion
+lambda_tol = 1e-5;    % max regularizaion param allowed for exit
+c_ratio_min = 0;      % minimum accepted cost reduction ratio
+lambda_max = 1e9;    % maximum regularization parameter
+lambda_min = 1e-6;    % set lambda = 0 below this value
+lambda_scale = 1.6;   % amount to scale dlambda by
+
+options = [N, dt, max_iters, cost_tol, contr_tol, lambda_tol, ...
+           c_ratio_min, lambda_max, lambda_min, lambda_scale];
+
+       
 % Initial State trajectory
 theta = pi/2;  % [rad] 
 r0 = [0;0;1];
@@ -51,15 +66,16 @@ u0 = zeros(Nu, N-1);
 u_lims = [-100 100;           % magnetic moment limits
           -100 100;
           -100 100];
-      
+
 % magnetic field (ECI)
 % to test, let's just get some sinusoids out here
 B_ECI = [40E-6*sin(.04*(1:N)); 60E-6*sin(.04*(1:N)); 60E-6*cos(.04*(1:N))];
 
 % Run MILQR
-[x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI);
+[x,u,K,result] = milqr(x0, xg, u0, u_lims, B_ECI, Js, options);
 
 % Plot results
+%==========================================================================
 figure(1)
 
 % Quaternion

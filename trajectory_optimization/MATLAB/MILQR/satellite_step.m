@@ -1,3 +1,5 @@
+function [x, fx, fu] = satellite_step(x0, u0, dt, B_ECI, Js)
+
 Copyright (c) 2020 Robotic Exploration Lab
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-function [x, fx, fu] = satellite_step(x0,u0,dt,B_ECI)
 % Steps the dynamics forward using a 2nd order rk-method
 % Returns: new state, discrete time Jacobians
 
@@ -27,8 +28,8 @@ Nu = length(u0);
 
 % Step dynamics
 % Explicit midpoint step from x_k to x_{k+1}
-[xdot1, dxdot1] = satellite_dynamics(x0,u0,B_ECI);
-[xdot2, dxdot2] = satellite_dynamics(x0+.5*dt*xdot1,u0,B_ECI);
+[xdot1, dxdot1] = satellite_dynamics(x0,u0,B_ECI,Js);
+[xdot2, dxdot2] = satellite_dynamics(x0+.5*dt*xdot1,u0,B_ECI,Js);
 x1 = x0 + dt*xdot2;
 
 % Re-normalize the quaternion
@@ -56,7 +57,7 @@ fu = E1'*(dt*B2 + 0.5*dt*dt*A2*B1);
 end
 
 
-function [xdot, dxdot] = satellite_dynamics(x,u,B_ECI)
+function [xdot, dxdot] = satellite_dynamics(x, u, B_ECI, Js)
 % Calculates the continuous time state derivative and Jacobians
 
 % Inputs
@@ -64,12 +65,10 @@ function [xdot, dxdot] = satellite_dynamics(x,u,B_ECI)
 % x - the current state
 % u - the current control (magentic moment vector)
 % B - Earth magnetic field vector in ECI co-ordinates (3x1)
+% Js - [Inertia, Inertia-inverse]
 
-% TODO: ideally, we'd like to pass in a B_B (body frame magnetic field
-% vector)
-
-J = 0.01*eye(3); % kgm^2
-Jinv = inv(J);
+J = Js(:,1:3);     % inertia tensor
+Jinv = Js(:,4:6);  % inverse inertia tensor
 
 w = x(5:7);  % Angular velocity
 q = x(1:4);  % Quaternion
@@ -99,18 +98,17 @@ dxdot = [A, B];
 
 end
 
-function output = qrot(q,vec)
-% this function multiplie s a vector by a quaternion rotation
+function output = qrot(q, vec)
+% Rotates a vector using a quaternion
 
 q_cross = [q(1);-q(2:4)];
-
 output = qmult(q_cross,qmult([0;vec],q));
 output = output(2:4);
 
 end
 
 function q_out = qmult(q1,q2)
-% this function multiplies quaternions
+% Multiplies quaternions
 
 q_out = [q1(1)*q2(1) - dot(q1(2:4),q2(2:4));...
     q1(1)*q2(2:4) + q2(1)*q1(2:4) + cross(q1(2:4),q2(2:4))];

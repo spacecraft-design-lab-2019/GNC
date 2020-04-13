@@ -1,3 +1,5 @@
+function [x,u,K,result] = milqr(x0, xg, u0, u_lims, B_ECI, Js, options)
+
 Copyright (c) 2020 Robotic Exploration Lab
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-function [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI)
 % Solves finite horizon optimal control problem using a
 % multiplicative iterative linear quadratic regulator
 
@@ -35,6 +36,10 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI)
 % u_lims - The control limits (m, 2) (lower, upper)
 %
 % B_ECI - A time sequence of Earth magnetic field vectors in ECI (3, N)
+%
+% Js - Inertia Tensor and its inverse [J, Jinv]
+%
+% options - Array of solver options
 
 
 % Outputs
@@ -46,24 +51,25 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI)
 % K - Feedback control gains (n-1, m, N-1) 
 %
 % result - Indicates convergence (boolean)
+%
+%=============================================
 
+% Solver Options (passed in as array)
+N = options(1);             % Num simulation steps
+dt = options(2);            % Timestep (Should be highest we can get away with)
+max_iters = options(3);     % maximum iterations
+cost_tol = options(4);      % cost reduction exit tolerance
+contr_tol = options(5);     % feedforward control change exit criterion
+lambda_tol = options(6);    % max regularizaion param allowed for exit
+c_ratio_min = options(7);      % minimum accepted cost reduction ratio
+lambda_max = options(8);    % maximum regularization parameter
+lambda_min = options(9);    % set lambda = 0 below this value
+lambda_scale = options(10);  % amount to scale dlambda by
 
-% Options (pass in as array)
-dt = 0.03;            % Timestep (Should be highest we can get away with)
-max_iters = 300;      % maximum iterations
-cost_tol = 1e-7;      % cost reduction exit tolerance
-contr_tol = 1e-4;     % feedforward control change exit criterion
-lambda_tol = 1e-5;    % max regularizaion param allowed for exit
-c_ratio_min = 0;      % minimum accepted cost reduction ratio
-lambda_max = 1e10;    % maximum regularization parameter
-lambda_min = 1e-6;    % set lambda = 0 below this value
-lambda_scale = 1.6;   % amount to scale dlambda by
-
-% Init optimisation params
+% Initialize optimization params
 alphas = 10.^linspace(0,-3,11);  % line search param vector
 lambda = 1;
 d_lambda = 1;
-N = size(u0, 2)+1;
 Nx = size(x0, 1);
 Nu = size(u0, 1);
 Ne = Nx-1;  % error state size (3 param. error representation for attitude)
@@ -73,7 +79,8 @@ l = zeros(Nu, N-1);
 K = zeros(Nu, Ne, N-1);
 dV = zeros(1, 2);
 alpha = 0;
-[x,u,fx,fu,cx,cu,cxx,cuu,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt,B_ECI);
+[x,u,fx,fu,cx,cu,cxx,cuu,cost] = ...
+    forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt,B_ECI,Js);
 
 % Convergence check params
 expected_change = 0;      % Expected cost change
@@ -91,8 +98,6 @@ for iter = 1:max_iters
     end
     fprintf("\n");
 
-    
-    
     % Backward Pass
     %=======================================
     backPassCheck = false;
@@ -126,7 +131,7 @@ for iter = 1:max_iters
     if backPassCheck
         for alpha = alphas
             [x_n,u_n,fx_n,fu_n,cx_n,cu_n,cxx_n,cuu_n,cost_n] = ...
-                forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI);
+                forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI,Js);
             expected_change = alpha*dV(1) + (alpha^2)*dV(2);
             if expected_change < 0
                 c_ratio = (cost_n - cost)/expected_change;
@@ -204,7 +209,7 @@ end
 
 
 function [xnew,unew,fx,fu,cx,cu,cxx,cuu,cost] = ...
-    forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI)
+    forwardRollout(x,xg,u,l,K,alpha,u_lims,dt,B_ECI,Js)
 % Uses an rk method to roll out a trajectory
 % Returns the new trajectory, cost and the derivatives along the trajectory
 
@@ -241,7 +246,7 @@ for k = 1:(N-1)
     unew(:,k) = min(u_lims(:,2), max(u_lims(:,1),unew(:,k)));
 
     % Step the dynamics forward
-    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k), unew(:,k), dt, B_ECI(:,k));
+    [xnew(:,k+1),fx(:,:,k),fu(:,:,k)] = satellite_step(xnew(:,k),unew(:,k),dt,B_ECI(:,k),Js);
     
     % Calculate the cost
     [c, cx(:,k),cu(:,k),cxx(:,:,k),cuu(:,:,k)] = satellite_cost(xnew(:,k),xg,unew(:,k),terminal); 
