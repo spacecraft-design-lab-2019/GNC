@@ -28,7 +28,7 @@ addpath('utils')
 addpath('sgp4') % not needed but just in case ;)
 
 % Sim Params
-N = 1E4;  % num steps
+N = 1000;  % num steps
 Nx = 7;
 Nu = 3;
 dt = 1;
@@ -58,10 +58,10 @@ xg = [qg; wg];
 % magnetic field (ECI)
 
 % IGRF magnetic field
-[B_eci] = get_magnetic_field_series([r0;v0;x0],t_MJD);
+[B_eci,X] = get_magnetic_field_series([r0;v0],t_MJD);
 
 % B_eci = [40E-6*sin(.04*(1:N)); 60E-6*sin(.04*(1:N)); 60E-6*cos(.04*(1:N))];
-
+figure
 plot(B_eci');
 
 % Initial Control trajectory
@@ -71,8 +71,11 @@ u_lims = [-100 100;           % magnetic moment limits
           -100 100];
       
 % Run MILQR
-x0 = x0(:,ones(N,1)); % extend x0 to entire trajectory to fill
-[x,u,K,result] = milqr(x0, xg, u0, u_lims, B_eci);
+x0 = zeros(length(x0),N); % extend x0 to entire trajectory to fill
+for i = 1:N
+    x0(:,i) = [q0;w0];
+end
+[x,u,K,result] = milqr(x0, xg, u0, u_lims, B_eci*1e-9);
 
 % Plot results
 figure(1)

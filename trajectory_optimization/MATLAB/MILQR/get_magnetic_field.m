@@ -9,6 +9,7 @@ function B_NED = get_magnetic_field(lat, lon, alt, year, order)
 %     outputs B vector in NED
 %     */
 
+    order = min(order,10);
     deg2rad = pi / 180;
     lat = 90 - lat;
     lat = lat*deg2rad;
@@ -55,6 +56,7 @@ Pd = get_Pd_coefficients(P, cos(lat), order);
 
 
 %     // NED (North, East, Down) coordinate frame
+    B_vec = zeros(3,1);
     B_vec(1) = -B_lat;
     B_vec(2) = B_lon;
     B_vec(3) = -B_r;
@@ -133,8 +135,8 @@ function P = get_P_coefficients(x,order)
     P = zeros(order+2, order+2);
     P(1,1) = 1.0;
     P(2, 2) = sqrt(1 - power(x, 2));
-    for n = 1:order+2
-        for m = 0:order+2
+    for n = 1:order+1
+        for m = 0:order+1
             if (n ~= 1 || m ~= 1)
                 prev2 = n - 2;
                 if prev2 < 0
@@ -153,7 +155,7 @@ end
 
 function Pd = get_Pd_coefficients(P, x, order)
 
-    Pd = zeros(order+1, order+1);
+    Pd = zeros(order+2, order+2);
     Pd(2,2) = x;
     for n = 1:order+1
         for m = 0:order+1

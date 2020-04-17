@@ -54,7 +54,7 @@ U = [cos(lat)*cos(lon);cos(lat)*sin(lon);sin(lat)];
 
 R = [E N U];
 
-vec_eci = R*vec_ned';
+vec_eci = R*vec_ned;
 
 end
 

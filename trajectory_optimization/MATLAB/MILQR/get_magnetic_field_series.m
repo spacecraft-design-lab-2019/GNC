@@ -18,7 +18,7 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
-function [B_eci_vec] = get_magnetic_field_series(x0,t)
+function [B_eci_vec,X] = get_magnetic_field_series(x0,t)
 % This function takes in a series of positions in ECI (in km) as well as a 
 % time series in MJD and outputs a series of ECI magnetic field vectors
 
@@ -34,7 +34,7 @@ X = two_body_position(x0,t);
 B_eci_vec = zeros(3,length(t)-1);
 
 for i = 1:length(t)-1
-    B_eci_vec(:,i) = fake_IGRF(X(1:3,i),t(i))*1E-9;
+    B_eci_vec(:,i) = fake_IGRF(X(1:3,i),t(i));
 end
 
 

@@ -20,6 +20,6 @@
 function Earth = InitializeEarth()
 
     Earth.r = 6378; %km
-    Earth.mu = 3.986004418E14 / 1000^3; %km3/s2
+    Earth.mu = 3.986E5; %km3/s2
     
 end

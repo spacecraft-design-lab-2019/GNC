@@ -1,0 +1,4 @@
+get_magnetic_field.o
+get_magnetic_field_emxutil.o
+get_magnetic_field_initialize.o
+get_magnetic_field_terminate.o
