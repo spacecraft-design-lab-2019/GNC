@@ -5,7 +5,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 12-Apr-2020 18:36:30
+ * C/C++ source code generated on  : 22-Apr-2020 12:32:15
  */
 
 /*************************************************************************/
@@ -37,7 +37,7 @@
 #include "main.h"
 
 /* Function Declarations */
-static void argInit_500x1_real32_T(float result[500]);
+static void argInit_1x100_real32_T(float result[100]);
 static void argInit_6x1_real32_T(float result[6]);
 static float argInit_real32_T(void);
 static void main_get_magnetic_field_series(void);
@@ -45,18 +45,18 @@ static void main_get_magnetic_field_series(void);
 /* Function Definitions */
 
 /*
- * Arguments    : float result[500]
+ * Arguments    : float result[100]
  * Return Type  : void
  */
-static void argInit_500x1_real32_T(float result[500])
+static void argInit_1x100_real32_T(float result[100])
 {
-  int idx0;
+  int idx1;
 
   /* Loop over the array to initialize each element. */
-  for (idx0 = 0; idx0 < 500; idx0++) {
+  for (idx1 = 0; idx1 < 100; idx1++) {
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
-    result[idx0] = argInit_real32_T();
+    result[idx1] = argInit_real32_T();
   }
 }
 
@@ -92,16 +92,16 @@ static float argInit_real32_T(void)
 static void main_get_magnetic_field_series(void)
 {
   float fv1[6];
-  float fv2[500];
-  float B_eci_vec[1497];
-  static float X[3000];
+  float fv2[100];
+  float B_eci_vec[297];
+  float X[600];
 
   /* Initialize function 'get_magnetic_field_series' input arguments. */
   /* Initialize function input argument 'x0'. */
   /* Initialize function input argument 't'. */
   /* Call the entry-point 'get_magnetic_field_series'. */
   argInit_6x1_real32_T(fv1);
-  argInit_500x1_real32_T(fv2);
+  argInit_1x100_real32_T(fv2);
   get_magnetic_field_series(fv1, fv2, B_eci_vec, X);
 }
 

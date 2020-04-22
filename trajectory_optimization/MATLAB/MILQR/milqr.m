@@ -18,7 +18,7 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
-function [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI)
+function [x,u,K,result] = milqr(x0, xg, u0, u_lims,dt, B_ECI)
 % Solves finite horizon optimal control problem using a
 % multiplicative iterative linear quadratic regulator
 
@@ -49,8 +49,8 @@ function [x,u,K,result] = milqr(x0, xg, u0, u_lims,B_ECI)
 
 
 % Options (pass in as array)
-dt = 0.03;            % Timestep (Should be highest we can get away with)
-max_iters = 300;      % maximum iterations
+% dt = .2;            % Timestep (Should be highest we can get away with)
+max_iters = 50;      % maximum iterations
 cost_tol = 1e-7;      % cost reduction exit tolerance
 contr_tol = 1e-4;     % feedforward control change exit criterion
 lambda_tol = 1e-5;    % max regularizaion param allowed for exit
@@ -68,6 +68,17 @@ Nx = size(x0, 1);
 Nu = size(u0, 1);
 Ne = Nx-1;  % error state size (3 param. error representation for attitude)
 
+cost = 0;
+cost_n = 0;
+x_n = x0;
+u_n = u0;
+fx_n = zeros(Ne,Ne,N-1);
+fu_n = zeros(Ne,Nu,N-1);
+cx_n = zeros(Ne,N);
+cu_n = zeros(Nu,N-1);
+cxx_n = zeros(Ne,Ne,N);
+cuu_n = zeros(Nu,Nu,N-1);
+
 % Initial Forward rollout
 l = zeros(Nu, N-1);
 K = zeros(Nu, Ne, N-1);
@@ -80,28 +91,16 @@ expected_change = 0;      % Expected cost change
 c_ratio = 0;              % Ratio of cost change to expected cost change
 result = false;
 
-% variable initialization
-cost = 0;
-cost_n = 0;
-x_n = x0;
-u_n = u0;
-fx_n = zeros(Ne,Ne,N-1);
-fu_n = zeros(Ne,Nu,N-1);
-cx_n = zeros(Ne,N);
-cu_n = zeros(Nu,N-1);
-cxx_n = zeros(Ne,Ne,N);
-cuu_n = zeros(Nu,Nu,N-1);
-
-% fprintf("\n=====Running MILQR Optimisation====\n");
+fprintf("\n=====Running MILQR Optimisation====\n");
 for iter = 1:max_iters
-%     fprintf("\n---New Iteration---");
-%     fprintf("\n lambda: ");
-%     fprintf(string(lambda));
-%     if exist('dcost')
-%         fprintf("\n cost change: ");
-%         fprintf(string(dcost));
-%     end
-%     fprintf("\n");
+    fprintf("\n---New Iteration---");
+    fprintf("\n lambda: ");
+    fprintf(string(lambda));
+    if exist('dcost')
+        fprintf("\n cost change: ");
+        fprintf(string(dcost));
+    end
+    fprintf("\n");
 
     
     
@@ -111,7 +110,7 @@ for iter = 1:max_iters
     while ~backPassCheck
         [l,K,dV,diverged] = backwardPass(fx,fu,cx,cu,cxx,cuu,lambda,u_lims,u);
         if diverged
-            % fprintf("---Warning: Cholesky factorizaton failed---\n");
+            fprintf("---Warning: Cholesky factorizaton failed---\n");
             
             % Increase regularization parameter (lambda)
             lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
@@ -127,7 +126,7 @@ for iter = 1:max_iters
     % Terminate if sufficiently small (success)
     c_norm = mean(max(abs(l)./(abs(u)+1),[],1)); % Avg over time of max change
     if  lambda < lambda_tol && c_norm < contr_tol
-        % fprintf("\n---Success: Control change decreased below tolerance---\n");
+        fprintf("\n---Success: Control change decreased below tolerance---\n");
         result = true;
         break;
     end
@@ -175,7 +174,7 @@ for iter = 1:max_iters
         % Change in cost small enough to terminate?
         if dcost < cost_tol
             result = true;
-            % fprintf('\n---Success: cost change < tolerance---\n');
+            fprintf('\n---Success: cost change < tolerance---\n');
             break;
         end
         
@@ -185,7 +184,7 @@ for iter = 1:max_iters
         lambda = updateLambda(lambda,1,d_lambda,lambda_scale,lambda_min);
         if lambda > lambda_max
             result = false;
-            % fprintf("\n---Diverged: new lambda > lambda_max---\n");
+            fprintf("\n---Diverged: new lambda > lambda_max---\n");
             break;
         end
         
@@ -195,7 +194,7 @@ end
 if iter == max_iters
     % Ddin't converge completely
     result = false;
-%     % fprintf("\n---Warning: Max iterations exceeded---\n");
+    fprintf("\n---Warning: Max iterations exceeded---\n");
 end
 
 function [lambda] = updateLambda(lambda, direction, delta, l_scale, l_min)
@@ -328,7 +327,7 @@ for k=(N-1):-1:1
 
     if result < 2
         diverged = true;
-        % fprintf('\nDiverged with lambda = %f\n',lambda);
+        fprintf('\nDiverged with lambda = %f\n',lambda);
         return;
     end
     

@@ -763,8 +763,6 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
-      <item>get_magnetic_field_series([r0;v0],t_MJD(1:500)')</item>
-      <item>get_magnetic_field_series([r0;v0],t_MJD[1:500]')</item>
       <item>get_magnetic_field_series([r0;v0],t_MJD)</item>
     </param.TestSnippets>
     <param.DefaultImportExportVariable>config</param.DefaultImportExportVariable>
@@ -785,7 +783,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>146878536</param.AnnotationChecksum>
+    <param.AnnotationChecksum>790480340</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -796,8 +794,8 @@
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
     <var.gc.preBuildChecksum>800979595</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/get_magnetic_field_series</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>57484442</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>get_magnetic_field_series([r0;v0],t_MJD(1:500)')</var.lastCfiTestSnippet>
+    <var.cfi.preBuildChecksum>3494405886</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>get_magnetic_field_series([r0;v0],t_MJD)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/InitializeEarth.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/fake_IGRF.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/get_magnetic_field.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/get_magnetic_field_series.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/two_body_position.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;312531164&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/InitializeEarth.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/fake_IGRF.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/get_magnetic_field.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/get_magnetic_field_series.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/two_body_position.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
@@ -830,8 +828,8 @@
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.hideTensorRT>false</var.hideTensorRT>
-    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>1</param.tensorrt.NumCalibrationBatches>
@@ -973,8 +971,6 @@
       <var.isDeepLearningForMatlabCoderEnabled />
       <param.deeplearning.TargetLib />
       <var.hideTensorRT />
-      <var.hasMatlabDeepLearningSupportPackage />
-      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -1024,7 +1020,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/get_magnetic_field_series.m">
-        <Marker>1586741479619</Marker>
+        <Marker>1587583737723</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1044,7 +1040,7 @@
             </type>
             <type typeId="1">
               <Class>single</Class>
-              <Size>500 x 1</Size>
+              <Size>1 x 100</Size>
               <Value />
               <InitialValue />
               <UserDefined>true</UserDefined>

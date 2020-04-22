@@ -20,19 +20,25 @@
 
 % Testing satllite attitude control
 
+% game plan:
+% 1) redo all of the derivative functions and compare to known answers
+% 2) stretch out dt and figure out how long you can manage
+% 3) Implement rk4 if needed 
+
 clear
 close all
 clc
 
+tic
 addpath('utils')
 addpath('sgp4') % not needed but just in case ;)
 
 % Sim Params
-N = 1000;  % num steps
+N = 100;  % num steps
 Nx = 7;
 Nu = 3;
 dt = 1;
-t = 0:dt:N*dt;
+t = 0:dt:(N-1)*dt;
 
 % Initialize Parameters
 Earth = InitializeEarth();
@@ -61,21 +67,19 @@ xg = [qg; wg];
 [B_eci,X] = get_magnetic_field_series([r0;v0],t_MJD);
 
 % B_eci = [40E-6*sin(.04*(1:N)); 60E-6*sin(.04*(1:N)); 60E-6*cos(.04*(1:N))];
-figure
-plot(B_eci');
+% figure
+% plot(B_eci');
 
 % Initial Control trajectory
 u0 = zeros(Nu, N-1);
-u_lims = [-100 100;           % magnetic moment limits
-          -100 100;
-          -100 100];
+lim = 10;
+u_lims = [-lim lim;           % magnetic moment limits
+          -lim lim;
+          -lim lim];
       
 % Run MILQR
-x0 = zeros(length(x0),N); % extend x0 to entire trajectory to fill
-for i = 1:N
-    x0(:,i) = [q0;w0];
-end
-[x,u,K,result] = milqr(x0, xg, u0, u_lims, B_eci*1e-9);
+x0 = x0(:,ones(N,1)); % extend x0 to entire trajectory to fill
+[x,u,K,result] = milqr_efficient(x0, xg, u0, u_lims, dt, B_eci*1e-9);
 
 % Plot results
 figure(1)
@@ -104,5 +108,6 @@ hold on
 plot(u(2,:))
 plot(u(3,:))
 legend('u1','u2','u3');
+toc
 
 

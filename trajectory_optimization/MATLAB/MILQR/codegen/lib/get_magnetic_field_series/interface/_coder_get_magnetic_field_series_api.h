@@ -5,7 +5,7 @@
  * File: _coder_get_magnetic_field_series_api.h
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 12-Apr-2020 18:36:30
+ * C/C++ source code generated on  : 22-Apr-2020 12:32:15
  */
 
 #ifndef _CODER_GET_MAGNETIC_FIELD_SERIES_API_H
@@ -24,8 +24,8 @@ extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
 /* Function Declarations */
-void get_magnetic_field_series(real32_T x0[6], real32_T t[500], real32_T
-  B_eci_vec[1497], real32_T X[3000]);
+void get_magnetic_field_series(real32_T x0[6], real32_T t[100], real32_T
+  B_eci_vec[297], real32_T X[600]);
 void get_magnetic_field_series_api(const mxArray * const prhs[2], int32_T nlhs,
   const mxArray *plhs[2]);
 void get_magnetic_field_series_atexit(void);

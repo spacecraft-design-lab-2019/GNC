@@ -5,7 +5,7 @@
  * File: _coder_get_magnetic_field_series_api.c
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 12-Apr-2020 18:36:30
+ * C/C++ source code generated on  : 22-Apr-2020 12:32:15
  */
 
 /* Include Files */
@@ -29,18 +29,18 @@ emlrtContext emlrtContextGlobal = { true,/* bFirstTime */
 /* Function Declarations */
 static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
   emlrtMsgIdentifier *parentId, real32_T y[6]);
-static const mxArray *b_emlrt_marshallOut(const real32_T u[3000]);
+static const mxArray *b_emlrt_marshallOut(const real32_T u[600]);
 static void c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *t, const
-  char_T *identifier, real32_T y[500]);
+  char_T *identifier, real32_T y[100]);
 static void d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
-  emlrtMsgIdentifier *parentId, real32_T y[500]);
+  emlrtMsgIdentifier *parentId, real32_T y[100]);
 static void e_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
   emlrtMsgIdentifier *msgId, real32_T ret[6]);
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *x0, const
   char_T *identifier, real32_T y[6]);
-static const mxArray *emlrt_marshallOut(const real32_T u[1497]);
+static const mxArray *emlrt_marshallOut(const real32_T u[297]);
 static void f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
-  emlrtMsgIdentifier *msgId, real32_T ret[500]);
+  emlrtMsgIdentifier *msgId, real32_T ret[100]);
 
 /* Function Definitions */
 
@@ -59,14 +59,14 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
 }
 
 /*
- * Arguments    : const real32_T u[3000]
+ * Arguments    : const real32_T u[600]
  * Return Type  : const mxArray *
  */
-static const mxArray *b_emlrt_marshallOut(const real32_T u[3000])
+static const mxArray *b_emlrt_marshallOut(const real32_T u[600])
 {
   const mxArray *y;
   const mxArray *m1;
-  static const int32_T iv1[2] = { 6, 500 };
+  static const int32_T iv1[2] = { 6, 100 };
 
   real32_T *pData;
   int32_T i1;
@@ -76,7 +76,7 @@ static const mxArray *b_emlrt_marshallOut(const real32_T u[3000])
   m1 = emlrtCreateNumericArray(2, iv1, mxSINGLE_CLASS, mxREAL);
   pData = (real32_T *)emlrtMxGetData(m1);
   i1 = 0;
-  for (i = 0; i < 500; i++) {
+  for (i = 0; i < 100; i++) {
     for (b_i = 0; b_i < 6; b_i++) {
       pData[i1] = u[b_i + 6 * i];
       i1++;
@@ -91,11 +91,11 @@ static const mxArray *b_emlrt_marshallOut(const real32_T u[3000])
  * Arguments    : const emlrtStack *sp
  *                const mxArray *t
  *                const char_T *identifier
- *                real32_T y[500]
+ *                real32_T y[100]
  * Return Type  : void
  */
 static void c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *t, const
-  char_T *identifier, real32_T y[500])
+  char_T *identifier, real32_T y[100])
 {
   emlrtMsgIdentifier thisId;
   thisId.fIdentifier = (const char *)identifier;
@@ -109,11 +109,11 @@ static void c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *t, const
  * Arguments    : const emlrtStack *sp
  *                const mxArray *u
  *                const emlrtMsgIdentifier *parentId
- *                real32_T y[500]
+ *                real32_T y[100]
  * Return Type  : void
  */
 static void d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
-  emlrtMsgIdentifier *parentId, real32_T y[500])
+  emlrtMsgIdentifier *parentId, real32_T y[100])
 {
   f_emlrt_marshallIn(sp, emlrtAlias(u), parentId, y);
   emlrtDestroyArray(&u);
@@ -155,14 +155,14 @@ static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *x0, const
 }
 
 /*
- * Arguments    : const real32_T u[1497]
+ * Arguments    : const real32_T u[297]
  * Return Type  : const mxArray *
  */
-static const mxArray *emlrt_marshallOut(const real32_T u[1497])
+static const mxArray *emlrt_marshallOut(const real32_T u[297])
 {
   const mxArray *y;
   const mxArray *m0;
-  static const int32_T iv0[2] = { 3, 499 };
+  static const int32_T iv0[2] = { 3, 99 };
 
   real32_T *pData;
   int32_T i0;
@@ -171,7 +171,7 @@ static const mxArray *emlrt_marshallOut(const real32_T u[1497])
   m0 = emlrtCreateNumericArray(2, iv0, mxSINGLE_CLASS, mxREAL);
   pData = (real32_T *)emlrtMxGetData(m0);
   i0 = 0;
-  for (i = 0; i < 499; i++) {
+  for (i = 0; i < 99; i++) {
     pData[i0] = u[3 * i];
     i0++;
     pData[i0] = u[1 + 3 * i];
@@ -188,15 +188,15 @@ static const mxArray *emlrt_marshallOut(const real32_T u[1497])
  * Arguments    : const emlrtStack *sp
  *                const mxArray *src
  *                const emlrtMsgIdentifier *msgId
- *                real32_T ret[500]
+ *                real32_T ret[100]
  * Return Type  : void
  */
 static void f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
-  emlrtMsgIdentifier *msgId, real32_T ret[500])
+  emlrtMsgIdentifier *msgId, real32_T ret[100])
 {
-  static const int32_T dims[1] = { 500 };
+  static const int32_T dims[2] = { 1, 100 };
 
-  emlrtCheckBuiltInR2012b(sp, msgId, src, "single|double", false, 1U, dims);
+  emlrtCheckBuiltInR2012b(sp, msgId, src, "single|double", false, 2U, dims);
   emlrtImportArrayR2015b(sp, src, ret, 4, false);
   emlrtDestroyArray(&src);
 }
@@ -211,9 +211,9 @@ void get_magnetic_field_series_api(const mxArray * const prhs[2], int32_T nlhs,
   const mxArray *plhs[2])
 {
   real32_T x0[6];
-  real32_T t[500];
-  real32_T B_eci_vec[1497];
-  static real32_T X[3000];
+  real32_T t[100];
+  real32_T B_eci_vec[297];
+  real32_T X[600];
   emlrtStack st = { NULL,              /* site */
     NULL,                              /* tls */
     NULL                               /* prev */

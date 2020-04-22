@@ -31,13 +31,13 @@ function [cost, cx, cu, cxx, cuu] = satellite_cost(x, xg, u, terminal)
 % terminal - integer 0 or 1
 %---------------------------------------------------
 
-R = 0.05*eye(3);   % control hessian
+R = 0.001*eye(3);   % control hessian
 
 if terminal
     Qw = 1.0*eye(3);  % terminal angular velocity cost hessian
     w = 10;           % terminal geodesic cost weight
 else
-    Qw = 0.01*eye(3);  % cumulative angular velocity cost hessian
+    Qw = 0.1*eye(3);  % cumulative angular velocity cost hessian
     w = 1;             % cumulative geodesic cost weighting
 end
 

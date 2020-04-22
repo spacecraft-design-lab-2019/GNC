@@ -1,4 +1,4 @@
-c99 main.c milqr.c -o milqrTest.run -Wall -ggdb -lm
+Gcc main.c milqr_efficient.c get_magnetic_field_series.c -o milqrTest.run -Wall -ggdb -lm
 
 chmod +X milqrTest.run
 
