@@ -2789,6 +2789,7 @@ static void updateLambda(float *lambda, float direction)
 
     /*  set = 0 if lambda too small */
   }
+}
 
 /*
  * Arguments    : const float x0[700]

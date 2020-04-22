@@ -37,6 +37,7 @@
 #include "main.h"
 #include "get_magnetic_field_series.h"
 #include <stdio.h>
+#include "rtwtypes.h"
 
 /* Function Declarations */
 static void main_milqr_efficient(int * retval);
