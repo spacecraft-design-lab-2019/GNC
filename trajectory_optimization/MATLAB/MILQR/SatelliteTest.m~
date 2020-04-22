@@ -78,6 +78,7 @@ u_lims = [-lim lim;           % magnetic moment limits
           -lim lim];
       
 % Run MILQR
+x0 = x0(:,ones(N,1)); % extend x0 to entire trajectory to fill
 [x,u,K,result] = milqr_efficient(x0, xg, u0, u_lims, dt, B_eci*1e-9);
 
 % Plot results

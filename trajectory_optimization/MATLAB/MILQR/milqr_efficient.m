@@ -8,7 +8,7 @@ function [x,u,K,result] = milqr_efficient(x0, xg, u0, u_lims,dt,B_ECI)
 
 % Inputs
 % ===========================================
-% x0 - The intial trajectory (n, N)
+% x0 - The intial state (n, 1)
 %
 % xg - The goal state (n, 1)
 %
@@ -53,7 +53,13 @@ Ne = Nx-1;  % error state size (3 param. error representation for attitude)
 % variable initialization
 cost = 0;
 cost_n = 0;
-x_n = x0;
+
+% initialize x and u
+x = zeros(Nx,N);
+u = zeros(Nu,N-1);
+
+% initialize the "next" variables
+x_n = x0(:,ones(N,1));
 u_n = u0;
 fx_n = zeros(Ne,Ne,N-1);
 fu_n = zeros(Ne,Nu,N-1);
@@ -62,14 +68,15 @@ cu_n = zeros(Nu,N-1);
 cxx_n = zeros(Ne,Ne,N);
 cuu_n = zeros(Nu,Nu,N-1);
 
-% Initial Forward rollout
+% Initialize Forward rollout
 l = zeros(Nu, N-1);
 K = zeros(Nu, Ne, N-1);
 dV = zeros(1, 2);
 alpha = 0;
+
 % Throw out everything after x and u, then in backward pass evalute on the
 % spot
-[x,u,cost] = forwardRollout(x0,xg,u0,l,K,alpha,u_lims,dt,B_ECI);
+[x,u,cost] = forwardRollout(x0(:,ones(N,1)),xg,u0,l,K,alpha,u_lims,dt,B_ECI);
 
 % Convergence check params
 expected_change = 0;      % Expected cost change
