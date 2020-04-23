@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="3971317555" file="/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/milqr_efficient.prj" location="/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR" name="milqr_efficient" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="1609436465" file="/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/milqr_efficient.prj" location="/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR" name="milqr_efficient" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -171,7 +171,7 @@
       <param.GenerateCodeReplacementReport>false</param.GenerateCodeReplacementReport>
       <param.HighlightPotentialDataTypeIssues>true</param.HighlightPotentialDataTypeIssues>
       <param.LaunchReport>false</param.LaunchReport>
-      <param.ReportPotentialDifferences>true</param.ReportPotentialDifferences>
+      <param.ReportPotentialDifferences>false</param.ReportPotentialDifferences>
       <param.SILDebugging>false</param.SILDebugging>
       <param.SILPILCheckConstantInputs>true</param.SILPILCheckConstantInputs>
       <param.SILPILSyncGlobalData>true</param.SILPILSyncGlobalData>
@@ -197,50 +197,50 @@
       <param.BuildConfiguration>Faster Runs</param.BuildConfiguration>
       <param.CustomToolchainOptions />
       <var.ToolchainSettingsVisible>true</var.ToolchainSettingsVisible>
-      <param.target.Data />
-      <param.target.ActiveType>option.target.TargetType.MatlabHost</param.target.ActiveType>
-      <param.target.ActiveTarget />
-      <param.HardwareVendor.Production>Generic</param.HardwareVendor.Production>
-      <param.HardwareType.Production>MATLAB Host Computer</param.HardwareType.Production>
-      <param.HWDeviceType.Production>Generic-&gt;MATLAB Host Computer</param.HWDeviceType.Production>
+      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware&gt;&lt;hardware version="1.0"&gt;&lt;name&gt;ARM Cortex-M3 (QEMU)&lt;/name&gt;&lt;customValues/&gt;&lt;/hardware&gt;&lt;/configuredHardware&gt;&lt;/ctdata&gt;</param.target.Data>
+      <param.target.ActiveType>option.target.TargetType.Target</param.target.ActiveType>
+      <param.target.ActiveTarget>ARM Cortex-M3 (QEMU)</param.target.ActiveTarget>
+      <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
+      <param.HardwareType.Production>ARM Cortex</param.HardwareType.Production>
+      <param.HWDeviceType.Production>ARM Compatible-&gt;ARM Cortex</param.HWDeviceType.Production>
       <var.instance.enabled.Production>true</var.instance.enabled.Production>
       <param.HardwareSizeChar.Production>8</param.HardwareSizeChar.Production>
       <param.HardwareSizeShort.Production>16</param.HardwareSizeShort.Production>
       <param.HardwareSizeInt.Production>32</param.HardwareSizeInt.Production>
-      <param.HardwareSizeLong.Production>64</param.HardwareSizeLong.Production>
+      <param.HardwareSizeLong.Production>32</param.HardwareSizeLong.Production>
       <param.HardwareSizeLongLong.Production>64</param.HardwareSizeLongLong.Production>
       <param.HardwareSizeFloat.Production>32</param.HardwareSizeFloat.Production>
       <param.HardwareSizeDouble.Production>64</param.HardwareSizeDouble.Production>
-      <param.HardwareSizeWord.Production>64</param.HardwareSizeWord.Production>
-      <param.HardwareSizePointer.Production>64</param.HardwareSizePointer.Production>
-      <param.HardwareSizeSizeT.Production>64</param.HardwareSizeSizeT.Production>
-      <param.HardwareSizePtrDiffT.Production>64</param.HardwareSizePtrDiffT.Production>
+      <param.HardwareSizeWord.Production>32</param.HardwareSizeWord.Production>
+      <param.HardwareSizePointer.Production>32</param.HardwareSizePointer.Production>
+      <param.HardwareSizeSizeT.Production>32</param.HardwareSizeSizeT.Production>
+      <param.HardwareSizePtrDiffT.Production>32</param.HardwareSizePtrDiffT.Production>
       <param.HardwareEndianness.Production>option.HardwareEndianness.Little</param.HardwareEndianness.Production>
       <param.HardwareArithmeticRightShift.Production>true</param.HardwareArithmeticRightShift.Production>
-      <param.HardwareLongLongMode.Production>true</param.HardwareLongLongMode.Production>
-      <param.HardwareAtomicIntegerSize.Production>option.HardwareAtomicIntegerSize.Char</param.HardwareAtomicIntegerSize.Production>
-      <param.HardwareAtomicFloatSize.Production>option.HardwareAtomicFloatSize.None</param.HardwareAtomicFloatSize.Production>
+      <param.HardwareLongLongMode.Production>false</param.HardwareLongLongMode.Production>
+      <param.HardwareAtomicIntegerSize.Production>option.HardwareAtomicIntegerSize.Long</param.HardwareAtomicIntegerSize.Production>
+      <param.HardwareAtomicFloatSize.Production>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Production>
       <param.HardwareDivisionRounding.Production>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Production>
-      <param.HardwareVendor.Target>Generic</param.HardwareVendor.Target>
-      <param.HardwareType.Target>MATLAB Host Computer</param.HardwareType.Target>
-      <param.HWDeviceType.Target>Generic-&gt;MATLAB Host Computer</param.HWDeviceType.Target>
+      <param.HardwareVendor.Target>ARM Compatible</param.HardwareVendor.Target>
+      <param.HardwareType.Target>ARM Cortex</param.HardwareType.Target>
+      <param.HWDeviceType.Target>ARM Compatible-&gt;ARM Cortex</param.HWDeviceType.Target>
       <var.instance.enabled.Target>false</var.instance.enabled.Target>
       <param.HardwareSizeChar.Target>8</param.HardwareSizeChar.Target>
       <param.HardwareSizeShort.Target>16</param.HardwareSizeShort.Target>
       <param.HardwareSizeInt.Target>32</param.HardwareSizeInt.Target>
-      <param.HardwareSizeLong.Target>64</param.HardwareSizeLong.Target>
+      <param.HardwareSizeLong.Target>32</param.HardwareSizeLong.Target>
       <param.HardwareSizeLongLong.Target>64</param.HardwareSizeLongLong.Target>
       <param.HardwareSizeFloat.Target>32</param.HardwareSizeFloat.Target>
       <param.HardwareSizeDouble.Target>64</param.HardwareSizeDouble.Target>
-      <param.HardwareSizeWord.Target>64</param.HardwareSizeWord.Target>
-      <param.HardwareSizePointer.Target>64</param.HardwareSizePointer.Target>
-      <param.HardwareSizeSizeT.Target>64</param.HardwareSizeSizeT.Target>
-      <param.HardwareSizePtrDiffT.Target>64</param.HardwareSizePtrDiffT.Target>
+      <param.HardwareSizeWord.Target>32</param.HardwareSizeWord.Target>
+      <param.HardwareSizePointer.Target>32</param.HardwareSizePointer.Target>
+      <param.HardwareSizeSizeT.Target>32</param.HardwareSizeSizeT.Target>
+      <param.HardwareSizePtrDiffT.Target>32</param.HardwareSizePtrDiffT.Target>
       <param.HardwareEndianness.Target>option.HardwareEndianness.Little</param.HardwareEndianness.Target>
       <param.HardwareArithmeticRightShift.Target>true</param.HardwareArithmeticRightShift.Target>
-      <param.HardwareLongLongMode.Target>true</param.HardwareLongLongMode.Target>
-      <param.HardwareAtomicIntegerSize.Target>option.HardwareAtomicIntegerSize.Char</param.HardwareAtomicIntegerSize.Target>
-      <param.HardwareAtomicFloatSize.Target>option.HardwareAtomicFloatSize.None</param.HardwareAtomicFloatSize.Target>
+      <param.HardwareLongLongMode.Target>false</param.HardwareLongLongMode.Target>
+      <param.HardwareAtomicIntegerSize.Target>option.HardwareAtomicIntegerSize.Long</param.HardwareAtomicIntegerSize.Target>
+      <param.HardwareAtomicFloatSize.Target>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Target>
       <param.HardwareDivisionRounding.Target>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Target>
       <param.CastingMode>option.CastingMode.Nominal</param.CastingMode>
       <param.IndentStyle>option.IndentStyle.K&amp;R</param.IndentStyle>
@@ -323,6 +323,7 @@
         <param.GenerateCodeMetricsReport />
         <param.GenerateCodeReplacementReport />
         <param.LaunchReport />
+        <param.ReportPotentialDifferences />
         <param.SILDebugging />
         <param.SILPILCheckConstantInputs />
         <param.SILPILSyncGlobalData />
@@ -346,35 +347,36 @@
         <param.SameHardware />
         <param.CustomToolchainOptions />
         <var.ToolchainSettingsVisible />
-        <param.target.Data />
-        <param.target.ActiveType />
-        <param.target.ActiveTarget />
-        <param.HardwareVendor.Production />
-        <param.HardwareType.Production />
         <param.HWDeviceType.Production />
         <var.instance.enabled.Production />
         <param.HardwareSizeChar.Production />
         <param.HardwareSizeShort.Production />
         <param.HardwareSizeInt.Production />
+        <param.HardwareSizeLong.Production />
         <param.HardwareSizeLongLong.Production />
         <param.HardwareSizeFloat.Production />
         <param.HardwareSizeDouble.Production />
+        <param.HardwareSizeWord.Production />
+        <param.HardwareSizePointer.Production />
+        <param.HardwareSizeSizeT.Production />
+        <param.HardwareSizePtrDiffT.Production />
         <param.HardwareEndianness.Production />
-        <param.HardwareAtomicIntegerSize.Production />
-        <param.HardwareAtomicFloatSize.Production />
-        <param.HardwareVendor.Target />
-        <param.HardwareType.Target />
+        <param.HardwareLongLongMode.Production />
         <param.HWDeviceType.Target />
         <var.instance.enabled.Target />
         <param.HardwareSizeChar.Target />
         <param.HardwareSizeShort.Target />
         <param.HardwareSizeInt.Target />
+        <param.HardwareSizeLong.Target />
         <param.HardwareSizeLongLong.Target />
         <param.HardwareSizeFloat.Target />
         <param.HardwareSizeDouble.Target />
+        <param.HardwareSizeWord.Target />
+        <param.HardwareSizePointer.Target />
+        <param.HardwareSizeSizeT.Target />
+        <param.HardwareSizePtrDiffT.Target />
         <param.HardwareEndianness.Target />
-        <param.HardwareAtomicIntegerSize.Target />
-        <param.HardwareAtomicFloatSize.Target />
+        <param.HardwareLongLongMode.Target />
         <param.CastingMode />
         <param.IndentStyle />
         <param.IndentSize />
@@ -761,14 +763,14 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
+    <param.WorkflowStep>inputTypes</param.WorkflowStep>
     <param.TestSnippets>
       <item>milqr_efficient(x0, xg, u0, u_lims, dt, B_eci*1e-9)</item>
     </param.TestSnippets>
     <param.DefaultImportExportVariable>config</param.DefaultImportExportVariable>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/milqr_efficient/milqr_efficient.a</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/codegen/lib/get_magnetic_field_series/get_magnetic_field_series.a</param.outputfile>
     <param.version>R2012a</param.version>
     <param.HasECoderFeatures>true</param.HasECoderFeatures>
     <param.HasGpuCoder>false</param.HasGpuCoder>
@@ -783,7 +785,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>3603859213</param.AnnotationChecksum>
+    <param.AnnotationChecksum>301568488</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -792,23 +794,23 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen/lib/milqr_efficient</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3971317555</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>1609436465</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/milqr_efficient</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>2945375820</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>646001588</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>milqr_efficient(x0, xg, u0, u_lims, dt, B_eci*1e-9)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/boxQPsolve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/milqr_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_step_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/L_mult.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/chol_solve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/skew_mat.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;505475697&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/boxQPsolve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/milqr_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_step_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/L_mult.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/chol_solve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/skew_mat.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/boxQPsolve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/milqr_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_cost_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_derivatives.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/satellite_step_efficient.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/L_mult.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/chol_solve.m&lt;/file&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/utils/skew_mat.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;131266116&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/get_magnetic_field_series.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
     <param.configImportActive>false</param.configImportActive>
     <var.isGpuCoder>false</var.isGpuCoder>
     <var.notGpuCoder>true</var.notGpuCoder>
     <var.boundToGui>true</var.boundToGui>
-    <param.mex.outputfile>milqr_efficient_mex</param.mex.outputfile>
-    <param.grt.outputfile>milqr_efficient</param.grt.outputfile>
+    <param.mex.outputfile>get_magnetic_field_series_mex</param.mex.outputfile>
+    <param.grt.outputfile>get_magnetic_field_series</param.grt.outputfile>
     <param.artifact>option.target.artifact.lib</param.artifact>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/milqr_efficient/milqr_efficient.a</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/codegen/lib/get_magnetic_field_series/get_magnetic_field_series.a</param.outputfile>
     <param.gpu.Enabled>false</param.gpu.Enabled>
     <param.gpu.KernelNamePrefix />
     <param.gpu.SelectCudaDevice>-1</param.gpu.SelectCudaDevice>
@@ -828,8 +830,8 @@
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.hideTensorRT>false</var.hideTensorRT>
-    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>1</param.tensorrt.NumCalibrationBatches>
@@ -838,7 +840,7 @@
     <param.EnableAutoExtrinsicCalls>true</param.EnableAutoExtrinsicCalls>
     <param.UsePreconditions>false</param.UsePreconditions>
     <param.FeatureFlags />
-    <param.FixedPointMode>option.FixedPointMode.Singles</param.FixedPointMode>
+    <param.FixedPointMode>option.FixedPointMode.None</param.FixedPointMode>
     <param.AutoScaleLoopIndexVariables>false</param.AutoScaleLoopIndexVariables>
     <param.ComputedFixedPointData>
       <ComputedEntities />
@@ -972,6 +974,8 @@
       <var.isDeepLearningForMatlabCoderEnabled />
       <param.deeplearning.TargetLib />
       <var.hideTensorRT />
+      <var.hasMatlabDeepLearningSupportPackage />
+      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -980,6 +984,7 @@
       <param.EnableAutoExtrinsicCalls />
       <param.UsePreconditions />
       <param.FeatureFlags />
+      <param.FixedPointMode />
       <param.AutoScaleLoopIndexVariables />
       <param.DefaultWordLength />
       <param.DefaultFractionLength />
@@ -1020,75 +1025,14 @@
       <param.FixedPointUseDesignRanges />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}/milqr_efficient.m">
-        <Marker>1587446748492</Marker>
-      </file>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/get_magnetic_field_series.m" />
     </fileset.entrypoints>
     <fileset.testbench />
     <fileset.inputtypes>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}/milqr_efficient.m">
-        <Inputs fileName="milqr_efficient.m" functionName="milqr_efficient" nargout="4">
-          <Input Name="x0" typeId="0" />
-          <Input Name="xg" typeId="1" />
-          <Input Name="u0" typeId="2" />
-          <Input Name="u_lims" typeId="3" />
-          <Input Name="dt" typeId="4" />
-          <Input Name="B_ECI" typeId="5" />
-          <idpTable>
-            <type typeId="0">
-              <Class>single</Class>
-              <Size>7 x 100</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="1">
-              <Class>single</Class>
-              <Size>7 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="2">
-              <Class>single</Class>
-              <Size>3 x 99</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="3">
-              <Class>single</Class>
-              <Size>3 x 2</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="4">
-              <Class>single</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="5">
-              <Class>single</Class>
-              <Size>3 x 100</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-            </type>
-          </idpTable>
-        </Inputs>
-      </file>
+      <file>${PROJECT_ROOT}/get_magnetic_field_series.m</file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}/codegen/lib/milqr_efficient" name="milqr_efficient.a" optional="false">/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/codegen/lib/milqr_efficient/milqr_efficient.a</file>
+      <file location="${PROJECT_ROOT}/codegen/lib/get_magnetic_field_series" name="get_magnetic_field_series.a" optional="false">/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR/codegen/lib/get_magnetic_field_series/get_magnetic_field_series.a</file>
     </build-deliverables>
     <workflow />
     <matlab>

@@ -83,16 +83,16 @@ expected_change = 0;      % Expected cost change
 c_ratio = 0;              % Ratio of cost change to expected cost change
 result = false;
 
-% fprintf("\n=====Running MILQR Optimisation====\n");
+fprintf("\n=====Running MILQR Optimisation====\n");
 for iter = 1:max_iters
-%     fprintf("\n---New Iteration---");
-%     fprintf("\n lambda: ");
-%     fprintf(string(lambda));
-%     if exist('dcost')
-%         fprintf("\n cost change: ");
-%         fprintf(string(dcost));
-%     end
-%     fprintf("\n");
+    fprintf("\n---New Iteration---");
+    fprintf("\n lambda: ");
+    fprintf(string(lambda));
+    if exist('dcost')
+        fprintf("\n cost change: ");
+        fprintf(string(dcost));
+    end
+    fprintf("\n");
 
     
     

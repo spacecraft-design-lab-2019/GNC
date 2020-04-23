@@ -5,7 +5,7 @@
  * File: get_magnetic_field_series.c
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 22-Apr-2020 12:32:15
+ * C/C++ source code generated on  : 22-Apr-2020 16:22:38
  */
 
 /* Include Files */
@@ -14,233 +14,76 @@
 #include "get_magnetic_field_series.h"
 
 /* Function Declarations */
-static float b_norm(const float x[3]);
-static void fake_IGRF(const float r[3], float t, float B_eci[3]);
+static double b_norm(const double x[3]);
+static void get_P_coefficients(double x, double P[49]);
+static void get_Pd_coefficients(const double P[49], double x, double Pd[49]);
+static void get_magnetic_field(double lat, double lon, double alt, double year,
+  double B_NED[3]);
+static double rt_roundd(double u);
+static void two_body(const double x[6], double xdot[6]);
 
 /* Function Definitions */
 
 /*
- * Arguments    : const float x[3]
- * Return Type  : float
+ * Arguments    : const double x[3]
+ * Return Type  : double
  */
-static float b_norm(const float x[3])
+static double b_norm(const double x[3])
 {
-  float y;
-  float scale;
-  float absxk;
-  float t;
-  scale = 1.29246971E-26F;
-  absxk = fabsf(x[0]);
-  if (absxk > 1.29246971E-26F) {
-    y = 1.0F;
+  double y;
+  double scale;
+  double absxk;
+  double t;
+  scale = 3.3121686421112381E-170;
+  absxk = fabs(x[0]);
+  if (absxk > 3.3121686421112381E-170) {
+    y = 1.0;
     scale = absxk;
   } else {
-    t = absxk / 1.29246971E-26F;
+    t = absxk / 3.3121686421112381E-170;
     y = t * t;
   }
 
-  absxk = fabsf(x[1]);
+  absxk = fabs(x[1]);
   if (absxk > scale) {
     t = scale / absxk;
-    y = 1.0F + y * t * t;
+    y = 1.0 + y * t * t;
     scale = absxk;
   } else {
     t = absxk / scale;
     y += t * t;
   }
 
-  absxk = fabsf(x[2]);
+  absxk = fabs(x[2]);
   if (absxk > scale) {
     t = scale / absxk;
-    y = 1.0F + y * t * t;
+    y = 1.0 + y * t * t;
     scale = absxk;
   } else {
     t = absxk / scale;
     y += t * t;
   }
 
-  return scale * sqrtf(y);
+  return scale * sqrt(y);
 }
 
 /*
- * Arguments    : const float r[3]
- *                float t
- *                float B_eci[3]
+ * Arguments    : double x
+ *                double P[49]
  * Return Type  : void
  */
-static void fake_IGRF(const float r[3], float t, float B_eci[3])
+static void get_P_coefficients(double x, double P[49])
 {
-  float theta;
-  float f0;
-  float fv0[9];
-  float P_tmp;
-  int b_P_tmp;
-  float r_ecef[3];
-  float lon;
-  float lat_tmp;
-  float lat;
-  float out_tmp;
-  float b_lat;
-  float b_lon;
-  float B_r;
-  float B_lat;
-  float B_lon;
-  float x_tmp;
-  float P[49];
+  double P_tmp;
   int n;
-  float Pd[49];
   int m;
   int prev2;
-  float coef_tmp;
-  float b_coef_tmp;
-  static const float h[121] = { 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 4797.1F, -2845.6F, -115.3F, 283.3F, 47.3F, -20.8F,
-    -54.1F, 10.1F, -21.6F, 3.2F, 0.0F, 0.0F, -641.9F, 244.9F, -188.7F, 197.0F,
-    33.2F, -19.5F, -18.3F, 10.8F, -0.4F, 0.0F, 0.0F, 0.0F, -538.4F, 180.9F,
-    -119.3F, 58.9F, 5.7F, 13.3F, 11.8F, 4.6F, 0.0F, 0.0F, 0.0F, 0.0F, -329.5F,
-    16.0F, -66.7F, 24.4F, -14.6F, -6.8F, 4.4F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    100.2F, 7.3F, 3.4F, 16.2F, -6.9F, -7.9F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    62.6F, -27.4F, 5.7F, 7.8F, -0.6F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    -2.2F, -9.1F, 1.0F, -4.2F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    2.1F, -4.0F, -2.8F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    8.4F, -1.2F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    -8.7F };
-
-  static const float h_sv[121] = { 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -26.6F, -27.4F, 8.2F, -1.3F, 0.6F, 0.0F, 0.8F,
-    -0.3F, 0.0F, 0.0F, 0.0F, 0.0F, -14.1F, -0.4F, 5.3F, 1.7F, -2.1F, 0.4F, 0.3F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.8F, 2.9F, -1.2F, -0.7F, -0.2F, 0.1F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -5.2F, 3.4F, 0.2F, -0.3F, 0.5F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.9F, -0.6F, -0.2F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.1F, -0.3F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.2F, 0.3F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F };
-
-  float coef;
-  static const float g[121] = { 0.0F, -29442.0F, -2445.1F, 1350.7F, 907.6F,
-    -232.6F, 70.0F, 81.6F, 24.2F, 5.4F, -1.9F, 0.0F, -1501.0F, 3012.9F, -2352.3F,
-    813.7F, 360.1F, 67.7F, -76.1F, 8.8F, 8.8F, -6.3F, 0.0F, 0.0F, 1676.7F,
-    1225.6F, 120.4F, 192.4F, 72.7F, -6.8F, -16.9F, 3.1F, 0.1F, 0.0F, 0.0F, 0.0F,
-    582.0F, -334.9F, -140.9F, -129.9F, 51.8F, -3.2F, -3.3F, 0.5F, 0.0F, 0.0F,
-    0.0F, 0.0F, 70.4F, -157.5F, -28.9F, 15.0F, -20.6F, 0.7F, -0.5F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 4.1F, 13.2F, 9.4F, 13.4F, -13.3F, 1.8F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, -70.9F, -2.8F, 11.7F, -0.1F, -0.7F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 6.8F, -15.9F, 8.7F, 2.1F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, -2.0F, 9.1F, 2.4F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, -10.5F, -1.8F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, -3.6F };
-
-  static const float g_sv[121] = { 0.0F, 10.3F, -8.7F, 3.4F, -0.7F, -0.2F, -0.3F,
-    0.3F, 0.2F, 0.0F, 0.0F, 0.0F, 18.1F, -3.3F, -5.5F, 0.2F, 0.5F, -0.1F, -0.2F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 2.1F, -0.7F, -9.1F, -1.3F, -0.7F, -0.5F, -0.6F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -10.1F, 4.1F, -0.1F, 2.1F, 1.3F, 0.5F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -4.3F, 1.4F, -1.2F, 0.1F, -0.2F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 3.9F, 0.3F, -0.6F, 0.4F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.6F, -0.8F, 0.1F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.2F, -0.4F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
-    0.0F, 0.0F, 0.0F, 0.0F };
-
-  int i1;
-
-  /*  Copyright (c) 2020 Robotic Exploration Lab */
-  /*   */
-  /*  Permission is hereby granted, free of charge, to any person obtaining a copy */
-  /*  of this software and associated documentation files (the "Software"), to deal */
-  /*  in the Software without restriction, including without limitation the rights */
-  /*  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell */
-  /*  copies of the Software, and to permit persons to whom the Software is */
-  /*  furnished to do so, subject to the following conditions: */
-  /*   */
-  /*  The above copyright notice and this permission notice shall be included in all */
-  /*  copies or substantial portions of the Software. */
-  /*   */
-  /*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR */
-  /*  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, */
-  /*  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE */
-  /*  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER */
-  /*  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, */
-  /*  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE */
-  /*  SOFTWARE. */
-  /*  This function takes in a position in ECI (in km) and outputs */
-  /*  a B vector in teslas that's in the ECI frame */
-  /*  INPUTS: */
-  /*    r - position in km */
-  /*    t - time in MJD */
-  /*  first, translate the position into a lat and long */
-  /*  this function converts between position in ECI and time to lat, lon and */
-  /*  alt */
-  /*  INPUTS: */
-  /*    r - position in km */
-  /*    t - time in MJD */
-  /*  OUTPUTS: */
-  /*    lat - latitude in deg */
-  /*    lon - longitude in deg */
-  /*    alt - altitude in km */
-  /*  convert to ecef */
-  /*  converts a position from eci to ecef */
-  /*  find days since 1/1/2000 at 12h */
-  /*  converts between MJD and J2000 (days since 1/1/2000 at 12h) */
-  /*  MJD epoch: 0h Nov 17, 1858 */
-  /*  J2000 epoch: 12h Jan 1, 2000 */
-  theta = (280.460602F + 360.985657F * (t - 51544.5F)) * 3.14159274F / 180.0F;
-
-  /*  creates a z axis rotation matrix (rad) */
-  /*  get the rotation matrix */
-  f0 = cosf(theta);
-  fv0[0] = f0;
-  P_tmp = sinf(theta);
-  fv0[3] = P_tmp;
-  fv0[6] = 0.0F;
-  fv0[1] = -P_tmp;
-  fv0[4] = f0;
-  fv0[7] = 0.0F;
-  fv0[2] = 0.0F;
-  fv0[5] = 0.0F;
-  fv0[8] = 1.0F;
-  for (b_P_tmp = 0; b_P_tmp < 3; b_P_tmp++) {
-    r_ecef[b_P_tmp] = 0.0F;
-    r_ecef[b_P_tmp] = (fv0[b_P_tmp] * r[0] + fv0[b_P_tmp + 3] * r[1]) +
-      fv0[b_P_tmp + 6] * r[2];
-  }
-
-  /*  get lat and lon */
-  lon = atan2f(r_ecef[1], r_ecef[0]) * 180.0F / 3.14159274F;
-  lat_tmp = b_norm(r_ecef);
-  lat = asinf(r_ecef[2] / lat_tmp) * 180.0F / 3.14159274F;
-
-  /*  find B_NED */
-  /*  gets the year out of MJD */
-  out_tmp = roundf((t / 365.25F + 1858.0F) + 0.87945205F);
-
-  /*      /$ */
-  /*      lat is geocentric latitude in degrees */
-  /*      lon is longitude in degrees */
-  /*      alt is altitude in km */
-  /*      year is the fractional year (include months/days essentially) */
-  /*   */
-  /*      outputs B vector in NED */
-  /*      $/ */
-  b_lat = (90.0F - lat) * 0.0174532924F;
-  b_lon = lon * 0.0174532924F;
-
-  /*      // radius of earth */
-  /*      // year since 2015 for secular variation */
-  /*      // magnetic field components */
-  B_r = 0.0F;
-  B_lat = 0.0F;
-  B_lon = 0.0F;
-
-  /*      // IGRF model B field calculation, n/m sets order (5) */
-  /*  get coefficients */
-  x_tmp = cosf(b_lat);
-  memset(&P[0], 0, 49U * sizeof(float));
-  P[0] = 1.0F;
-  theta = sqrtf(1.0F - x_tmp * x_tmp);
-  P[8] = theta;
+  int b_P_tmp;
+  double c_P_tmp;
+  memset(&P[0], 0, 49U * sizeof(double));
+  P[0] = 1.0;
+  P_tmp = sqrt(1.0 - x * x);
+  P[8] = P_tmp;
   for (n = 0; n < 6; n++) {
     for (m = 0; m < 7; m++) {
       if ((1 + n != 1) || (m != 1)) {
@@ -251,20 +94,34 @@ static void fake_IGRF(const float r[3], float t, float B_eci[3])
 
         if (m < 1 + n) {
           b_P_tmp = m * m;
-          P_tmp = (float)((1 + n) * (1 + n) - b_P_tmp);
-          P[(n + 7 * m) + 1] = (2.0F * (1.0F + (float)n) - 1.0F) / sqrtf(P_tmp) *
-            x_tmp * P[n + 7 * m] - sqrtf((float)(n * n - b_P_tmp) / P_tmp) *
+          c_P_tmp = (1 + n) * (1 + n) - b_P_tmp;
+          P[(n + 7 * m) + 1] = (2.0 * (1.0 + (double)n) - 1.0) / sqrt(c_P_tmp) *
+            x * P[n + 7 * m] - sqrt((double)(n * n - b_P_tmp) / c_P_tmp) *
             P[prev2 + 7 * m];
         } else {
-          P[(n + 7 * m) + 1] = sqrtf(1.0F - 1.0F / (2.0F * (float)m)) * theta *
-            P[n + 7 * (m - 1)];
+          P[(n + 7 * m) + 1] = sqrt(1.0 - 1.0 / (2.0 * (double)m)) * P_tmp * P[n
+            + 7 * (m - 1)];
         }
       }
     }
   }
+}
 
-  memset(&Pd[0], 0, 49U * sizeof(float));
-  Pd[8] = x_tmp;
+/*
+ * Arguments    : const double P[49]
+ *                double x
+ *                double Pd[49]
+ * Return Type  : void
+ */
+static void get_Pd_coefficients(const double P[49], double x, double Pd[49])
+{
+  int n;
+  int m;
+  int Pd_tmp;
+  int prev2;
+  double b_Pd_tmp;
+  memset(&Pd[0], 0, 49U * sizeof(double));
+  Pd[8] = x;
   for (n = 0; n < 6; n++) {
     for (m = 0; m < 7; m++) {
       if ((1 + n != 1) || (m != 1)) {
@@ -274,96 +131,220 @@ static void fake_IGRF(const float r[3], float t, float B_eci[3])
             prev2 = 0;
           }
 
-          b_P_tmp = m * m;
-          theta = (float)((1 + n) * (1 + n) - b_P_tmp);
-          Pd[(n + 7 * m) + 1] = (2.0F * (1.0F + (float)n) - 1.0F) / sqrtf(theta)
-            * (x_tmp * Pd[n + 7 * m] - sqrtf(1.0F - x_tmp * x_tmp) * P[n + 7 * m])
-            - sqrtf((float)(n * n - b_P_tmp) / theta) * Pd[prev2 + 7 * m];
+          Pd_tmp = m * m;
+          b_Pd_tmp = (1 + n) * (1 + n) - Pd_tmp;
+          Pd[(n + 7 * m) + 1] = (2.0 * (1.0 + (double)n) - 1.0) / sqrt(b_Pd_tmp)
+            * (x * Pd[n + 7 * m] - sqrt(1.0 - x * x) * P[n + 7 * m]) - sqrt
+            ((double)(n * n - Pd_tmp) / b_Pd_tmp) * Pd[prev2 + 7 * m];
         } else {
-          b_P_tmp = n + 7 * (m - 1);
-          Pd[(n + 7 * m) + 1] = sqrtf(1.0F - 1.0F / (2.0F * (float)m)) * (sqrtf
-            (1.0F - x_tmp * x_tmp) * Pd[b_P_tmp] + x_tmp * P[b_P_tmp]);
+          Pd_tmp = n + 7 * (m - 1);
+          Pd[(n + 7 * m) + 1] = sqrt(1.0 - 1.0 / (2.0 * (double)m)) * (sqrt(1.0
+            - x * x) * Pd[Pd_tmp] + x * P[Pd_tmp]);
         }
       }
+    }
+  }
+}
 
-      b_P_tmp = (n + 11 * m) + 1;
-      theta = (float)m * b_lon;
-      coef_tmp = powf(6371.2F / (6371.2F + (lat_tmp - 6378.0F)), (1.0F + (float)
-        n) + 2.0F);
-      P_tmp = sinf(theta);
-      b_coef_tmp = h[b_P_tmp] + (out_tmp - 2015.0F) * h_sv[b_P_tmp];
-      theta = cosf(theta);
-      coef = coef_tmp * ((g[b_P_tmp] + (out_tmp - 2015.0F) * g_sv[b_P_tmp]) *
-                         theta + b_coef_tmp * P_tmp);
+/*
+ * Arguments    : double lat
+ *                double lon
+ *                double alt
+ *                double year
+ *                double B_NED[3]
+ * Return Type  : void
+ */
+static void get_magnetic_field(double lat, double lon, double alt, double year,
+  double B_NED[3])
+{
+  double B_r;
+  double B_lat;
+  double B_lon;
+  double P_tmp;
+  double P[49];
+  double Pd[49];
+  int n;
+  int m;
+  int i0;
+  double coef_tmp;
+  double b_coef_tmp;
+  double c_coef_tmp;
+  static const double g[121] = { 0.0, -29442.0, -2445.1, 1350.7, 907.6, -232.6,
+    70.0, 81.6, 24.2, 5.4, -1.9, 0.0, -1501.0, 3012.9, -2352.3, 813.7, 360.1,
+    67.7, -76.1, 8.8, 8.8, -6.3, 0.0, 0.0, 1676.7, 1225.6, 120.4, 192.4, 72.7,
+    -6.8, -16.9, 3.1, 0.1, 0.0, 0.0, 0.0, 582.0, -334.9, -140.9, -129.9, 51.8,
+    -3.2, -3.3, 0.5, 0.0, 0.0, 0.0, 0.0, 70.4, -157.5, -28.9, 15.0, -20.6, 0.7,
+    -0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 4.1, 13.2, 9.4, 13.4, -13.3, 1.8, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, -70.9, -2.8, 11.7, -0.1, -0.7, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 6.8, -15.9, 8.7, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -2.0,
+    9.1, 2.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -10.5, -1.8, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -3.6 };
+
+  static const double g_sv[121] = { 0.0, 10.3, -8.7, 3.4, -0.7, -0.2, -0.3, 0.3,
+    0.2, 0.0, 0.0, 0.0, 18.1, -3.3, -5.5, 0.2, 0.5, -0.1, -0.2, 0.0, 0.0, 0.0,
+    0.0, 0.0, 2.1, -0.7, -9.1, -1.3, -0.7, -0.5, -0.6, 0.0, 0.0, 0.0, 0.0, 0.0,
+    -10.1, 4.1, -0.1, 2.1, 1.3, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -4.3, 1.4,
+    -1.2, 0.1, -0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.9, 0.3, -0.6, 0.4, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.6, -0.8, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.2, -0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+  double d_coef_tmp;
+  double e_coef_tmp;
+  static const double h[121] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 4797.1, -2845.6, -115.3, 283.3, 47.3, -20.8, -54.1, 10.1,
+    -21.6, 3.2, 0.0, 0.0, -641.9, 244.9, -188.7, 197.0, 33.2, -19.5, -18.3, 10.8,
+    -0.4, 0.0, 0.0, 0.0, -538.4, 180.9, -119.3, 58.9, 5.7, 13.3, 11.8, 4.6, 0.0,
+    0.0, 0.0, 0.0, -329.5, 16.0, -66.7, 24.4, -14.6, -6.8, 4.4, 0.0, 0.0, 0.0,
+    0.0, 0.0, 100.2, 7.3, 3.4, 16.2, -6.9, -7.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    62.6, -27.4, 5.7, 7.8, -0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -2.2, -9.1,
+    1.0, -4.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.1, -4.0, -2.8, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.4, -1.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, -8.7 };
+
+  static const double h_sv[121] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, -26.6, -27.4, 8.2, -1.3, 0.6, 0.0, 0.8, -0.3, 0.0, 0.0, 0.0,
+    0.0, -14.1, -0.4, 5.3, 1.7, -2.1, 0.4, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 1.8,
+    2.9, -1.2, -0.7, -0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -5.2, 3.4, 0.2,
+    -0.3, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.9, -0.6, -0.2, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, -0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, -0.2, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+  double coef;
+  int i1;
+  double d3;
+
+  /*      /$ */
+  /*      lat is geocentric latitude in degrees */
+  /*      lon is longitude in degrees */
+  /*      alt is altitude in km */
+  /*      year is the fractional year (include months/days essentially) */
+  /*   */
+  /*      outputs B vector in NED */
+  /*      $/ */
+  lat = 90.0 - lat;
+  lat *= 0.017453292519943295;
+  lon *= 0.017453292519943295;
+
+  /*      // radius of earth */
+  /*      // year since 2015 for secular variation */
+  /*      // magnetic field components */
+  B_r = 0.0;
+  B_lat = 0.0;
+  B_lon = 0.0;
+
+  /*      // IGRF model B field calculation, n/m sets order (5) */
+  /*  get coefficients */
+  P_tmp = cos(lat);
+  get_P_coefficients(P_tmp, P);
+  get_Pd_coefficients(P, P_tmp, Pd);
+  for (n = 0; n < 6; n++) {
+    for (m = 0; m < 7; m++) {
+      i0 = (n + 11 * m) + 1;
+      coef_tmp = (double)m * lon;
+      b_coef_tmp = pow(6371.2 / (6371.2 + alt), (1.0 + (double)n) + 2.0);
+      c_coef_tmp = g[i0] + (year - 2015.0) * g_sv[i0];
+      d_coef_tmp = sin(coef_tmp);
+      e_coef_tmp = h[i0] + (year - 2015.0) * h_sv[i0];
+      coef_tmp = cos(coef_tmp);
+      coef = b_coef_tmp * (c_coef_tmp * coef_tmp + e_coef_tmp * d_coef_tmp);
 
       /*              // Radial component */
       i1 = (n + 7 * m) + 1;
-      B_r += ((1.0F + (float)n) + 1.0F) * coef * P[i1];
+      B_r += ((1.0 + (double)n) + 1.0) * coef * P[i1];
 
       /*              // Colatitudinal component */
-      B_lat -= coef * Pd[(n + 7 * m) + 1];
+      B_lat -= coef * Pd[i1];
 
       /*              // Address singularity at colatitude of 0 */
-      f0 = sinf(b_lat);
-      if (f0 == 0.0F) {
+      d3 = sin(lat);
+      if (d3 == 0.0) {
         /*                  // Longitudinal component */
-        B_lon += -x_tmp * coef_tmp * (-(g[b_P_tmp] + (out_tmp - 2015.0F) *
-          g_sv[b_P_tmp]) * sinf((float)m * b_lon) + (h[b_P_tmp] + (out_tmp -
-          2015.0F) * h_sv[b_P_tmp]) * cosf((float)m * b_lon)) * Pd[(n + 7 * m) +
-          1];
+        B_lon += -P_tmp * b_coef_tmp * (-(g[i0] + (year - 2015.0) * g_sv[i0]) *
+          sin((double)m * lon) + (h[i0] + (year - 2015.0) * h_sv[i0]) * cos
+          ((double)m * lon)) * Pd[i1];
       } else {
-        B_lon += -1.0F / f0 * coef_tmp * (float)m * (-(g[b_P_tmp] + (out_tmp -
-          2015.0F) * g_sv[b_P_tmp]) * P_tmp + b_coef_tmp * theta) * P[i1];
+        B_lon += -1.0 / d3 * b_coef_tmp * (double)m * (-c_coef_tmp * d_coef_tmp
+          + e_coef_tmp * coef_tmp) * P[i1];
       }
     }
   }
 
   /*      // NED (North, East, Down) coordinate frame */
-  /*  convert to eci */
-  lat = lat * 3.14159274F / 180.0F;
-  lon = lon * 3.14159274F / 180.0F;
-
-  /*  this function converts a vector from ned to eci */
-  /*  first find ENU */
-  f0 = sinf(lon);
-  fv0[0] = -f0;
-  P_tmp = cosf(lon);
-  fv0[1] = P_tmp;
-  fv0[2] = 0.0F;
-  coef_tmp = sinf(lat);
-  fv0[3] = -coef_tmp * P_tmp;
-  fv0[4] = -coef_tmp * f0;
-  theta = cosf(lat);
-  fv0[5] = theta;
-  fv0[6] = theta * P_tmp;
-  fv0[7] = theta * f0;
-  fv0[8] = coef_tmp;
-  for (b_P_tmp = 0; b_P_tmp < 3; b_P_tmp++) {
-    B_eci[b_P_tmp] = 0.0F;
-    B_eci[b_P_tmp] = (fv0[b_P_tmp] * -B_lat + fv0[b_P_tmp + 3] * B_lon) +
-      fv0[b_P_tmp + 6] * -B_r;
-  }
+  B_NED[0] = -B_lat;
+  B_NED[1] = B_lon;
+  B_NED[2] = -B_r;
 }
 
 /*
- * Arguments    : const float x0[6]
- *                const float t[100]
- *                float B_eci_vec[297]
- *                float X[600]
+ * Arguments    : double u
+ * Return Type  : double
+ */
+static double rt_roundd(double u)
+{
+  double y;
+  if (fabs(u) < 4.503599627370496E+15) {
+    if (u >= 0.5) {
+      y = floor(u + 0.5);
+    } else if (u > -0.5) {
+      y = 0.0;
+    } else {
+      y = ceil(u - 0.5);
+    }
+  } else {
+    y = u;
+  }
+
+  return y;
+}
+
+/*
+ * Arguments    : const double x[6]
+ *                double xdot[6]
  * Return Type  : void
  */
-void get_magnetic_field_series(const float x0[6], const float t[100], float
-  B_eci_vec[297], float X[600])
+static void two_body(const double x[6], double xdot[6])
 {
-  int i0;
+  double c;
+  c = pow(b_norm(*(double (*)[3])&x[0]), 3.0);
+  xdot[0] = x[3];
+  xdot[3] = -398600.0 * x[0] / c;
+  xdot[1] = x[4];
+  xdot[4] = -398600.0 * x[1] / c;
+  xdot[2] = x[5];
+  xdot[5] = -398600.0 * x[2] / c;
+}
+
+/*
+ * Arguments    : const double x0[6]
+ *                const double t[100]
+ *                double B_eci_vec[297]
+ *                double X[600]
+ * Return Type  : void
+ */
+void get_magnetic_field_series(const double x0[6], const double t[100], double
+  B_eci_vec[297], double X[600])
+{
   int i;
-  float dt;
-  float y;
-  float k1[6];
-  float c[6];
-  float k2[6];
-  float k3[6];
-  float b_dt[6];
+  int b_i;
+  double dt;
+  double b_X[6];
+  double c_X[6];
+  double d0;
+  double k1[6];
+  double k2[6];
+  double k3[6];
+  double dv0[9];
+  double d1;
+  double r_ecef[3];
+  double lon;
+  double lat;
+  double vec_ned[3];
+  double d2;
+  int B_eci_vec_tmp;
 
   /*  Copyright (c) 2020 Robotic Exploration Lab */
   /*   */
@@ -425,66 +406,144 @@ void get_magnetic_field_series(const float x0[6], const float t[100], float
   /*      r - position in Earth radii */
   /*      v - velocity in km/s */
   /*  initialize empty array */
-  memset(&X[0], 0, 600U * sizeof(float));
-  for (i0 = 0; i0 < 6; i0++) {
-    X[i0] = x0[i0];
+  memset(&X[0], 0, 600U * sizeof(double));
+  for (i = 0; i < 6; i++) {
+    X[i] = x0[i];
   }
 
   /*  fill it */
-  for (i = 0; i < 99; i++) {
-    dt = (t[i + 1] - t[i]) * 86400.0F;
-    y = powf(b_norm(*(float (*)[3])&(*(float (*)[6])&X[6 * i])[0]), 3.0F);
-    k1[0] = dt * X[6 * i + 3];
-    k1[3] = dt * (-398600.0F * X[6 * i] / y);
-    k1[1] = dt * X[6 * i + 4];
-    k1[4] = dt * (-398600.0F * X[1 + 6 * i] / y);
-    k1[2] = dt * X[6 * i + 5];
-    k1[5] = dt * (-398600.0F * X[2 + 6 * i] / y);
-    for (i0 = 0; i0 < 6; i0++) {
-      c[i0] = X[i0 + 6 * i] + k1[i0] / 2.0F;
+  for (b_i = 0; b_i < 99; b_i++) {
+    dt = (t[b_i + 1] - t[b_i]) * 86400.0;
+    two_body(*(double (*)[6])&X[6 * b_i], b_X);
+    for (i = 0; i < 6; i++) {
+      d0 = dt * b_X[i];
+      k1[i] = d0;
+      c_X[i] = X[i + 6 * b_i] + d0 / 2.0;
     }
 
-    y = powf(b_norm(*(float (*)[3])&c[0]), 3.0F);
-    k2[0] = dt * c[3];
-    k2[3] = dt * (-398600.0F * c[0] / y);
-    k2[1] = dt * c[4];
-    k2[4] = dt * (-398600.0F * c[1] / y);
-    k2[2] = dt * c[5];
-    k2[5] = dt * (-398600.0F * c[2] / y);
-    for (i0 = 0; i0 < 6; i0++) {
-      c[i0] = X[i0 + 6 * i] + k2[i0] / 2.0F;
+    two_body(c_X, b_X);
+    for (i = 0; i < 6; i++) {
+      d0 = dt * b_X[i];
+      k2[i] = d0;
+      c_X[i] = X[i + 6 * b_i] + d0 / 2.0;
     }
 
-    y = powf(b_norm(*(float (*)[3])&c[0]), 3.0F);
-    k3[0] = dt * c[3];
-    k3[3] = dt * (-398600.0F * c[0] / y);
-    k3[1] = dt * c[4];
-    k3[4] = dt * (-398600.0F * c[1] / y);
-    k3[2] = dt * c[5];
-    k3[5] = dt * (-398600.0F * c[2] / y);
-    for (i0 = 0; i0 < 6; i0++) {
-      c[i0] = X[i0 + 6 * i] + k3[i0];
+    two_body(c_X, b_X);
+    for (i = 0; i < 6; i++) {
+      d0 = dt * b_X[i];
+      k3[i] = d0;
+      c_X[i] = X[i + 6 * b_i] + d0;
     }
 
-    y = powf(b_norm(*(float (*)[3])&c[0]), 3.0F);
-    b_dt[0] = dt * c[3];
-    b_dt[3] = dt * (-398600.0F * c[0] / y);
-    b_dt[1] = dt * c[4];
-    b_dt[4] = dt * (-398600.0F * c[1] / y);
-    b_dt[2] = dt * c[5];
-    b_dt[5] = dt * (-398600.0F * c[2] / y);
-    for (i0 = 0; i0 < 6; i0++) {
-      b_dt[i0] = X[i0 + 6 * i] + 0.166666672F * (((k1[i0] + 2.0F * k2[i0]) +
-        2.0F * k3[i0]) + b_dt[i0]);
+    two_body(c_X, b_X);
+    for (i = 0; i < 6; i++) {
+      b_X[i] = X[i + 6 * b_i] + 0.16666666666666666 * (((k1[i] + 2.0 * k2[i]) +
+        2.0 * k3[i]) + dt * b_X[i]);
     }
 
-    for (i0 = 0; i0 < 6; i0++) {
-      X[i0 + 6 * (i + 1)] = b_dt[i0];
+    for (i = 0; i < 6; i++) {
+      X[i + 6 * (b_i + 1)] = b_X[i];
     }
   }
 
-  for (i = 0; i < 99; i++) {
-    fake_IGRF(*(float (*)[3])&X[6 * i], t[i], *(float (*)[3])&B_eci_vec[3 * i]);
+  for (b_i = 0; b_i < 99; b_i++) {
+    /*  Copyright (c) 2020 Robotic Exploration Lab */
+    /*   */
+    /*  Permission is hereby granted, free of charge, to any person obtaining a copy */
+    /*  of this software and associated documentation files (the "Software"), to deal */
+    /*  in the Software without restriction, including without limitation the rights */
+    /*  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell */
+    /*  copies of the Software, and to permit persons to whom the Software is */
+    /*  furnished to do so, subject to the following conditions: */
+    /*   */
+    /*  The above copyright notice and this permission notice shall be included in all */
+    /*  copies or substantial portions of the Software. */
+    /*   */
+    /*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR */
+    /*  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, */
+    /*  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE */
+    /*  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER */
+    /*  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, */
+    /*  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE */
+    /*  SOFTWARE. */
+    /*  This function takes in a position in ECI (in km) and outputs */
+    /*  a B vector in teslas that's in the ECI frame */
+    /*  INPUTS: */
+    /*    r - position in km */
+    /*    t - time in MJD */
+    /*  first, translate the position into a lat and long */
+    /*  this function converts between position in ECI and time to lat, lon and */
+    /*  alt */
+    /*  INPUTS: */
+    /*    r - position in km */
+    /*    t - time in MJD */
+    /*  OUTPUTS: */
+    /*    lat - latitude in deg */
+    /*    lon - longitude in deg */
+    /*    alt - altitude in km */
+    /*  convert to ecef */
+    /*  converts a position from eci to ecef */
+    /*  find days since 1/1/2000 at 12h */
+    /*  converts between MJD and J2000 (days since 1/1/2000 at 12h) */
+    /*  MJD epoch: 0h Nov 17, 1858 */
+    /*  J2000 epoch: 12h Jan 1, 2000 */
+    dt = (280.4606 + 360.9856473 * (t[b_i] - 51544.5)) * 3.1415926535897931 /
+      180.0;
+
+    /*  creates a z axis rotation matrix (rad) */
+    /*  get the rotation matrix */
+    d0 = cos(dt);
+    dv0[0] = d0;
+    d1 = sin(dt);
+    dv0[3] = d1;
+    dv0[6] = 0.0;
+    dv0[1] = -d1;
+    dv0[4] = d0;
+    dv0[7] = 0.0;
+    dv0[2] = 0.0;
+    dv0[5] = 0.0;
+    dv0[8] = 1.0;
+    for (i = 0; i < 3; i++) {
+      r_ecef[i] = 0.0;
+      r_ecef[i] = (dv0[i] * X[6 * b_i] + dv0[i + 3] * X[1 + 6 * b_i]) + dv0[i +
+        6] * X[2 + 6 * b_i];
+    }
+
+    /*  get lat and lon */
+    lon = atan2(r_ecef[1], r_ecef[0]) * 180.0 / 3.1415926535897931;
+    dt = b_norm(r_ecef);
+    lat = asin(r_ecef[2] / dt) * 180.0 / 3.1415926535897931;
+
+    /*  find B_NED */
+    /*  gets the year out of MJD */
+    get_magnetic_field(lat, lon, dt - 6378.0, rt_roundd((t[b_i] / 365.25 +
+      1858.0) + 0.8794520547945206), vec_ned);
+
+    /*  convert to eci */
+    lat = lat * 3.1415926535897931 / 180.0;
+    lon = lon * 3.1415926535897931 / 180.0;
+
+    /*  this function converts a vector from ned to eci */
+    /*  first find ENU */
+    d0 = sin(lon);
+    dv0[0] = -d0;
+    d1 = cos(lon);
+    dv0[1] = d1;
+    dv0[2] = 0.0;
+    d2 = sin(lat);
+    dv0[3] = -d2 * d1;
+    dv0[4] = -d2 * d0;
+    dt = cos(lat);
+    dv0[5] = dt;
+    dv0[6] = dt * d1;
+    dv0[7] = dt * d0;
+    dv0[8] = d2;
+    for (i = 0; i < 3; i++) {
+      B_eci_vec_tmp = i + 3 * b_i;
+      B_eci_vec[B_eci_vec_tmp] = 0.0;
+      B_eci_vec[B_eci_vec_tmp] = (dv0[i] * vec_ned[0] + dv0[i + 3] * vec_ned[1])
+        + dv0[i + 6] * vec_ned[2];
+    }
   }
 }
 

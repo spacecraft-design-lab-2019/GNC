@@ -5,7 +5,7 @@
  * File: milqr_efficient_types.h
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 20-Apr-2020 22:26:32
+ * C/C++ source code generated on  : 22-Apr-2020 16:18:57
  */
 
 #ifndef MILQR_EFFICIENT_TYPES_H

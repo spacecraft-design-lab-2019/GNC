@@ -40,26 +40,26 @@
 #include "rtwtypes.h"
 
 /* Function Declarations */
-static void main_milqr_efficient(int * retval);
+static void main_milqr_efficient(bool * retval);
 
-static void main_milqr_efficient(int * retval)
+static void main_milqr_efficient(bool * retval)
 {
   static int N = 100;
   static int Nx = 7;
   static int Nu = 3;
-  static float dt = 1;
-  float t[N];
+  static double dt = 1;
+  double t[N];
   for (int i = 0;i < N; i++) {
     t[i] = dt*i + 58947.77014;
   }
 
-  float x0[] = {.7071,0,.7071,0,0,0,0};
-  float xg[] = {0,0,0,1,0,0,0};
+  double x0[] = {.7071,0,.7071,0,0,0,0};
+  double xg[] = {0,0,0,1,0,0,0};
 
-  float r0[] = {5719.8, -755.6, 4121.2, -4.4390, -1.0905, 5.945};
+  double r0[] = {5719.8, -755.6, 4121.2, -4.4390, -1.0905, 5.945};
 
-  float B_eci_vec[3*(N-1)];
-  float X[6*N];
+  double B_eci_vec[3*(N-1)];
+  double X[6*N];
 
   get_magnetic_field_series(r0, t, B_eci_vec, X);
 
@@ -69,7 +69,7 @@ static void main_milqr_efficient(int * retval)
 
   printf("The first values of mag_field are: %f \n", B_eci_vec[0]);
 
-  float X0[7*N];
+  double X0[7*N];
   for (int i = 0; i < N; i++) {
     for (int i0 = 0; i0 < 7; i0++) {
       X0[7*i+i0] = x0[i0];
@@ -78,16 +78,62 @@ static void main_milqr_efficient(int * retval)
 
   printf("The first value of X0 is: %f \n", X0[0]);
 
-  float u_lims[6] = {-100.0, 100.0, -100.0, 100.0, -100.0, 100.0};
-  float x[7*N];
-  float u[3*(N-1)];
-  float u0[3*(N-1)];
-  float K[18*(N-1)];
+  double u_lims[6] = {-100.0, -100.0, -100.0, 100.0, 100.0, 100.0};
+  double x[7*N];
+  double u[3*(N-1)];
+  double u0[3*(N-1)];
+  double K[18*(N-1)];
 
-  boolean_T *result;
-  milqr_efficient(x0,xg,u0,u_lims,dt,B_eci_vec,x,u,K,result);
+  bool result;
 
-  *retval = 1;
+  //printf("%d\n", *result);
+  printf("Stepping into MILQR\n");
+
+  printf("INPUTS:\n");
+  printf("x0 = ");
+  for (int i = 0;i < 7;i++) {
+    printf("%f ",x0[i]);
+  }
+  printf("\n");
+
+  printf("xg = ");
+  for (int i = 0;i < 7;i++) {
+    printf("%f ",xg[i]);
+  }
+  printf("\n");
+
+  printf("u0 = ");
+  for (int i = 0;i < 3;i++) {
+    printf("%f ",u0[i]);
+  }
+  printf("\n");
+
+  printf("u_lims = ");
+  for (int i = 0;i < 6;i++) {
+    printf("%f ",u_lims[i]);
+  }
+  printf("\n");
+
+  printf("B_eci_vec = ");
+  for (int i = 0;i < 3;i++) {
+    printf("%f ",B_eci_vec[i]);
+  }
+  printf("\n");  
+
+
+  milqr_efficient(x0,xg,u0,u_lims,dt,B_eci_vec,x,u,K,&result);
+  // printf("%d\n", result);
+
+  printf("The last value of x is: %f %f %f %f %f %f %f \n", 
+    x[7*N-6],
+    x[7*N-5],
+    x[7*N-4],
+    x[7*N-3],
+    x[7*N-2],
+    x[7*N-1],
+    x[7*N]);
+
+  *retval = result;
 
 }
 
@@ -101,10 +147,11 @@ int main(int argc, const char * const argv[])
 
   /* Invoke the entry-point functions.
      You can call entry-point functions multiple times. */
-  int retval = 0; 
+  bool retval = 0; 
   main_milqr_efficient(&retval);
 
-  printf("The result is: %d\n",retval);
+  printf("did the algorithm converge?:\n");
+  printf(retval ? "true" : "false");
 
   return 0;
 }

@@ -761,7 +761,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>get_magnetic_field_series([r0;v0],t_MJD)</item>
     </param.TestSnippets>
@@ -783,7 +783,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>790480340</param.AnnotationChecksum>
+    <param.AnnotationChecksum>1842657139</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -828,8 +828,8 @@
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.hideTensorRT>false</var.hideTensorRT>
-    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>1</param.tensorrt.NumCalibrationBatches>
@@ -838,14 +838,10 @@
     <param.EnableAutoExtrinsicCalls>true</param.EnableAutoExtrinsicCalls>
     <param.UsePreconditions>false</param.UsePreconditions>
     <param.FeatureFlags />
-    <param.FixedPointMode>option.FixedPointMode.Singles</param.FixedPointMode>
+    <param.FixedPointMode>option.FixedPointMode.None</param.FixedPointMode>
     <param.AutoScaleLoopIndexVariables>false</param.AutoScaleLoopIndexVariables>
-    <param.ComputedFixedPointData>
-      <ComputedEntities />
-    </param.ComputedFixedPointData>
-    <param.UserFixedPointData>
-      <UserEntities />
-    </param.UserFixedPointData>
+    <param.ComputedFixedPointData />
+    <param.UserFixedPointData />
     <param.DefaultWordLength>16</param.DefaultWordLength>
     <param.DefaultFractionLength>4</param.DefaultFractionLength>
     <param.FixedPointSafetyMargin>0</param.FixedPointSafetyMargin>
@@ -864,41 +860,7 @@
     <param.InstrumentedMexFile />
     <param.FixedPointValidationChecksum />
     <param.FixedPointSourceCodeChecksum />
-    <param.FixedPointFunctionReplacements>
-      <FunctionReplacements>
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-        <Replacement />
-      </FunctionReplacements>
-    </param.FixedPointFunctionReplacements>
+    <param.FixedPointFunctionReplacements />
     <param.OptimizeWholeNumbers>true</param.OptimizeWholeNumbers>
     <param.ContainerTypes>false</param.ContainerTypes>
     <param.GeneratedFixedPointFileSuffix>_fixpt</param.GeneratedFixedPointFileSuffix>
@@ -971,8 +933,6 @@
       <var.isDeepLearningForMatlabCoderEnabled />
       <param.deeplearning.TargetLib />
       <var.hideTensorRT />
-      <var.hasMatlabDeepLearningSupportPackage />
-      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -981,7 +941,10 @@
       <param.EnableAutoExtrinsicCalls />
       <param.UsePreconditions />
       <param.FeatureFlags />
+      <param.FixedPointMode />
       <param.AutoScaleLoopIndexVariables />
+      <param.ComputedFixedPointData />
+      <param.UserFixedPointData />
       <param.DefaultWordLength />
       <param.DefaultFractionLength />
       <param.FixedPointSafetyMargin />
@@ -1000,6 +963,7 @@
       <param.InstrumentedMexFile />
       <param.FixedPointValidationChecksum />
       <param.FixedPointSourceCodeChecksum />
+      <param.FixedPointFunctionReplacements />
       <param.OptimizeWholeNumbers />
       <param.ContainerTypes />
       <param.GeneratedFixedPointFileSuffix />
@@ -1022,7 +986,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/get_magnetic_field_series.m">
-        <Marker>1587583737723</Marker>
+        <Marker>1587597696168</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1033,20 +997,22 @@
           <Input Name="t" typeId="1" />
           <idpTable>
             <type typeId="0">
-              <Class>single</Class>
+              <Class>double</Class>
               <Size>6 x 1</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
+              <Sparse>false</Sparse>
             </type>
             <type typeId="1">
-              <Class>single</Class>
+              <Class>double</Class>
               <Size>1 x 100</Size>
               <Value />
               <InitialValue />
-              <UserDefined>true</UserDefined>
+              <UserDefined>false</UserDefined>
               <Complex>false</Complex>
+              <Sparse>false</Sparse>
             </type>
           </idpTable>
         </Inputs>

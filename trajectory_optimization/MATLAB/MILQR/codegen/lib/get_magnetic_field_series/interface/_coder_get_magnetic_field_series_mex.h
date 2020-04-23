@@ -5,7 +5,7 @@
  * File: _coder_get_magnetic_field_series_mex.h
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 22-Apr-2020 12:32:15
+ * C/C++ source code generated on  : 22-Apr-2020 16:22:38
  */
 
 #ifndef _CODER_GET_MAGNETIC_FIELD_SERIES_MEX_H

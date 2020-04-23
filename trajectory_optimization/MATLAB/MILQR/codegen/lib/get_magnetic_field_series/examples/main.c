@@ -5,7 +5,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 22-Apr-2020 12:32:15
+ * C/C++ source code generated on  : 22-Apr-2020 16:22:38
  */
 
 /*************************************************************************/
@@ -37,18 +37,18 @@
 #include "main.h"
 
 /* Function Declarations */
-static void argInit_1x100_real32_T(float result[100]);
-static void argInit_6x1_real32_T(float result[6]);
-static float argInit_real32_T(void);
+static void argInit_1x100_real_T(double result[100]);
+static void argInit_6x1_real_T(double result[6]);
+static double argInit_real_T(void);
 static void main_get_magnetic_field_series(void);
 
 /* Function Definitions */
 
 /*
- * Arguments    : float result[100]
+ * Arguments    : double result[100]
  * Return Type  : void
  */
-static void argInit_1x100_real32_T(float result[100])
+static void argInit_1x100_real_T(double result[100])
 {
   int idx1;
 
@@ -56,15 +56,15 @@ static void argInit_1x100_real32_T(float result[100])
   for (idx1 = 0; idx1 < 100; idx1++) {
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
-    result[idx1] = argInit_real32_T();
+    result[idx1] = argInit_real_T();
   }
 }
 
 /*
- * Arguments    : float result[6]
+ * Arguments    : double result[6]
  * Return Type  : void
  */
-static void argInit_6x1_real32_T(float result[6])
+static void argInit_6x1_real_T(double result[6])
 {
   int idx0;
 
@@ -72,17 +72,17 @@ static void argInit_6x1_real32_T(float result[6])
   for (idx0 = 0; idx0 < 6; idx0++) {
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
-    result[idx0] = argInit_real32_T();
+    result[idx0] = argInit_real_T();
   }
 }
 
 /*
  * Arguments    : void
- * Return Type  : float
+ * Return Type  : double
  */
-static float argInit_real32_T(void)
+static double argInit_real_T(void)
 {
-  return 0.0F;
+  return 0.0;
 }
 
 /*
@@ -91,18 +91,18 @@ static float argInit_real32_T(void)
  */
 static void main_get_magnetic_field_series(void)
 {
-  float fv1[6];
-  float fv2[100];
-  float B_eci_vec[297];
-  float X[600];
+  double dv1[6];
+  double dv2[100];
+  double B_eci_vec[297];
+  double X[600];
 
   /* Initialize function 'get_magnetic_field_series' input arguments. */
   /* Initialize function input argument 'x0'. */
   /* Initialize function input argument 't'. */
   /* Call the entry-point 'get_magnetic_field_series'. */
-  argInit_6x1_real32_T(fv1);
-  argInit_1x100_real32_T(fv2);
-  get_magnetic_field_series(fv1, fv2, B_eci_vec, X);
+  argInit_6x1_real_T(dv1);
+  argInit_1x100_real_T(dv2);
+  get_magnetic_field_series(dv1, dv2, B_eci_vec, X);
 }
 
 /*

@@ -2,7 +2,7 @@
 ## Makefile generated for MATLAB file/project 'milqr_efficient'. 
 ## 
 ## Makefile     : milqr_efficient_rtw.mk
-## Generated on : Mon Apr 20 22:26:50 2020
+## Generated on : Wed Apr 22 15:48:43 2020
 ## MATLAB Coder version: 4.1 (R2018b)
 ## 
 ## Build Info:
@@ -230,7 +230,7 @@ BUILD_TYPE = "Static Library"
 ## INCLUDE PATHS
 ###########################################################################
 
-INCLUDES_BUILDINFO = -I$(START_DIR) -I/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert
+INCLUDES_BUILDINFO = -I$(START_DIR) -I/Users/agatherer/Desktop/GNC/trajectory_optimization/MATLAB/MILQR -I/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/3P.instrset/cmsis.instrset/CMSIS/Include -I/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/arm_cortex_m/include -I/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/armcortexmbase/scheduler/include -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert
 
 INCLUDES = $(INCLUDES_BUILDINFO)
 
@@ -238,9 +238,11 @@ INCLUDES = $(INCLUDES_BUILDINFO)
 ## DEFINES
 ###########################################################################
 
+DEFINES_ = -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__ -DNULL=0 -D__NO_SYSTEM_INIT -DARM_MATH_CM3=1 -D__NVIC_PRIO_BITS=3 -DEXIT_FAILURE=1 -DEXTMODE_DISABLEPRINTF -DEXTMODE_DISABLETESTING -DEXTMODE_DISABLE_ARGS_PROCESSING=1 -DSTACK_SIZE=15000 -DMODEL=milqr_efficient -DHAVESTDIO -DUSE_RTMODEL -DUNIX
+DEFINES_SKIPFORSIL = -DNULL=0 -D__NO_SYSTEM_INIT -DARM_MATH_CM3=1 -D__NVIC_PRIO_BITS=3 -DEXIT_FAILURE=1 -DEXTMODE_DISABLEPRINTF -DEXTMODE_DISABLETESTING -DEXTMODE_DISABLE_ARGS_PROCESSING=1 -DSTACK_SIZE=15000
 DEFINES_STANDARD = -DMODEL=milqr_efficient -DHAVESTDIO -DUSE_RTMODEL -DUNIX
 
-DEFINES = $(DEFINES_STANDARD)
+DEFINES = $(DEFINES_) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD)
 
 ###########################################################################
 ## SOURCE FILES
@@ -284,17 +286,43 @@ SYSTEM_LIBS =
 # C Compiler
 #---------------
 
+CFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork
 CFLAGS_BASIC = $(DEFINES) $(INCLUDES) @$(COMPILER_COMMAND_FILE)
 
-CFLAGS += $(CFLAGS_BASIC)
+CFLAGS += $(CFLAGS_SKIPFORSIL) $(CFLAGS_BASIC)
 
 #-----------------
 # C++ Compiler
 #-----------------
 
+CPPFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork
 CPPFLAGS_BASIC = $(DEFINES) $(INCLUDES) @$(COMPILER_COMMAND_FILE)
 
-CPPFLAGS += $(CPPFLAGS_BASIC)
+CPPFLAGS += $(CPPFLAGS_SKIPFORSIL) $(CPPFLAGS_BASIC)
+
+#---------------
+# C++ Linker
+#---------------
+
+CPP_LDFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork -nostartfiles -T "/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/arm_cortex_m/registry/../src/arm_cortex_m3_qemu_gcc.ld"
+
+CPP_LDFLAGS += $(CPP_LDFLAGS_SKIPFORSIL)
+
+#------------------------------
+# C++ Shared Library Linker
+#------------------------------
+
+CPP_SHAREDLIB_LDFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork -nostartfiles -T "/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/arm_cortex_m/registry/../src/arm_cortex_m3_qemu_gcc.ld"
+
+CPP_SHAREDLIB_LDFLAGS += $(CPP_SHAREDLIB_LDFLAGS_SKIPFORSIL)
+
+#-----------
+# Linker
+#-----------
+
+LDFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork -nostartfiles -T "/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/arm_cortex_m/registry/../src/arm_cortex_m3_qemu_gcc.ld"
+
+LDFLAGS += $(LDFLAGS_SKIPFORSIL)
 
 #---------------------
 # MEX C++ Compiler
@@ -311,6 +339,14 @@ MEX_CPPFLAGS += $(MEX_CPP_Compiler_BASIC)
 MEX_Compiler_BASIC =  @$(COMPILER_COMMAND_FILE)
 
 MEX_CFLAGS += $(MEX_Compiler_BASIC)
+
+#--------------------------
+# Shared Library Linker
+#--------------------------
+
+SHAREDLIB_LDFLAGS_SKIPFORSIL = -mcpu=cortex-m3 -mthumb -mlittle-endian -mthumb-interwork -nostartfiles -T "/Users/agatherer/Documents/MATLAB/SupportPackages/R2018b/toolbox/target/supportpackages/arm_cortex_m/registry/../src/arm_cortex_m3_qemu_gcc.ld"
+
+SHAREDLIB_LDFLAGS += $(SHAREDLIB_LDFLAGS_SKIPFORSIL)
 
 ###########################################################################
 ## INLINED COMMANDS
